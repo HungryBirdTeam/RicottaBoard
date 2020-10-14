@@ -1,0 +1,9 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: earlyBird10Team@gmail.com
+    password: earlybird5959!
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
