@@ -205,7 +205,7 @@
 
         <div class="kanban" @click.right="deleteAction('kanban', $event)">
           <Kanban
-            v-if="!!board.isKanban"
+            v-if="!!board.kanban.left"
             :style="{ left: board.kanban.left, top: board.kanban.top }"
           />
         </div>
@@ -225,7 +225,7 @@
         >
           <Poll
             :id="poll.pollId"
-            :ppoll="poll"
+            :poll="poll"
             :idx="idx"
             :style="{ left: poll.left, top: poll.top }"
           />
@@ -265,7 +265,6 @@ export default {
   watch: {
     updateOccur: function () {
       this.sendMessage();
-      alert('하하하');
     },
   },
   data() {
@@ -283,11 +282,9 @@ export default {
         //   moduleObject: Object,
         // },
         postitList: [],
-        isKanban: false,
-        kanban: this.$store.state.Kanban,
+        kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
         scheduler: { id: null, left: null, top: null },
         poll: [],
-        isDelete: false,
         delete: {
           moduleName: "",
           id: -1,
@@ -434,9 +431,9 @@ export default {
           this.board.delete = { moduleName: "", id: -1 };
           if (response.data.kanban.left !== null) {
             this.board.kanban.states = response.data.kanban.states;
-            this.$store.state.Kanban.states = response.data.kanban.states;
+            this.$store.state.kanban.states = response.data.kanban.states;
           } else {
-            this.board.kanban.states = this.$store.state.Kanban.states;
+            this.board.kanban.states = this.$store.state.kanban.states;
           }
           if (!response.data.poll) {
             this.board.poll = [];
@@ -457,10 +454,6 @@ export default {
       );
     },
     sendMessage: function (type) {
-      if (this.board.isKanban == true) {
-        //칸반 상태 동기화
-        this.board.kanban.states = this.$store.state.Kanban.states;
-      }
       this.ws.send(
         "/pub/board/message",
         { token: this.token },
@@ -472,17 +465,12 @@ export default {
       this.userCount = recv.userCount;
       this.board.idCount = recv.idCount;
       this.board.postitList = recv.postitList;
-      this.board.isDelete = false;
-      if (!!recv.scheduler) {
-        this.board.scheduler = recv.scheduler;
-        this.$store.state.scheduler.events = recv.scheduler.events;
-      }
+      this.board.scheduler = recv.scheduler;
+      this.$store.state.scheduler.events = recv.scheduler.events;
       this.board.poll = recv.poll;
       this.$store.state.poll = recv.poll;
-      this.board.isKanban = recv.isKanban;
       this.board.kanban = recv.kanban;
-      this.$store.state.Kanban.states = recv.kanban.states;
-      // this.$store.state.Kanban = recv.kanban;
+      this.$store.state.kanban.states = recv.kanban.states;
       //crudModule 초기화
       // this.board.crudModule = {
       //   modulType: "",
@@ -490,7 +478,6 @@ export default {
       //   moduleObject: null,
       // };
       this.board.memberList = recv.memberList;
-      console.log("memberList[] : " + this.board.memberList);
     },
     createPostit(
       left = this.boardX - 120 + "px",
@@ -519,15 +506,13 @@ export default {
     },
 
     createKanban(left = "500px", top = "170px") {
-      if (this.board.isKanban == true) {
+      if (!!this.board.kanban.left) {
         this.createSnackbar("보드가 이미 생성되어 있습니다", 3000, "error");
         return;
       }
-      this.board.isKanban = true;
-      this.board.kanban.states = this.$store.state.Kanban.states;
+      this.board.kanban.states = this.$store.state.kanban.states;
       this.board.kanban.left = this.moduleXP + "px";
       this.board.kanban.top = this.moduleYP + "px";
-      console.log(this.$store.state.Kanban);
       // this.crudMethod("KANBAN", "CREATE", this.board.kanban);
       this.sendMessage();
       this.createSnackbar("보드가 생성되었습니다", 1500, "success");
@@ -538,9 +523,8 @@ export default {
       if (confirm("요소를 삭제하시겠습니까?") === true) {
         target.remove();
         this.cloakMoveable();
-        this.board.isKanban = false;
         // this.crudMethod("KANBAN", "DELETE", this.board.kanban);
-        this.$store.state.Kanban.states = [
+        this.$store.state.kanban.states = [
           {
             columnTitle: "TO DO",
             tasks: [],
@@ -722,7 +706,6 @@ export default {
     },
     deleteTargetAction(idx, moduleName, { target }) {
       if (confirm("요소를 삭제하시겠습니까?") === true) {
-        this.board.isDelete = true;
         if (moduleName === "postit") {
           this.board.delete.moduleName = "postit";
           this.board.delete.id = this.board.postitList[idx].frontPostitId;
@@ -814,8 +797,7 @@ export default {
           this.board.scheduler = { id: null, left: null, top: null };
         } else if (moduleName == "kanban") {
           // this.crudMethod("KANBAN", "DELETE", this.board.kanban);
-          this.board.isKanban = false;
-          this.$store.state.Kanban.states = [
+          this.$store.state.kanban.states = [
             {
               columnTitle: "TO DO",
               tasks: [],
