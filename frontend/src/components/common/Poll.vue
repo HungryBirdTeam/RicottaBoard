@@ -131,7 +131,7 @@ export default {
     }
   },
   props: {
-    ppoll: Object,
+    poll: Object,
     idx: Number,
   },
   data() {

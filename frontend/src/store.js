@@ -33,18 +33,6 @@ export const store = new Vuex.Store({
         accessData:'',
         accessToken:'',
         modal:false,
-        // 카카오맵 
-        map: {
-          isPresent: false, 
-          isSearched: false,
-          left: '0px',
-          top: '0px',
-          coord: {
-            place_name: '멀티캠퍼스',
-            x: 127.0396,
-            y: 37.5013,
-          },
-        },
         // 캘린더
         scheduler: {
           left: '600px',
@@ -68,7 +56,7 @@ export const store = new Vuex.Store({
         finding:{
             status:"",
         },
-        Kanban:{
+        kanban:{
             left: '200px',
             top: '200px',
             kanbanName: 'kanban',
@@ -92,11 +80,6 @@ export const store = new Vuex.Store({
               },
             ],
         },
-        // kanban: {
-        //     frontKanbanId:'', 
-        //     kanban: {}, 
-        //     channel:"",
-        // },
         poll: [],
         inviteModal: false,
         withdrawalModal: false,
@@ -106,18 +89,13 @@ export const store = new Vuex.Store({
         async REQUEST_ADD_EVENT(context, event) {
             try {
                 console.log(event);
-                // const response = await requestAddEvent(scheduler);
-                // const addedEvent = makeEvent(response.data);
                 const addedEvent = makeEvent(event);
                 context.commit('ADD_EVENT', addedEvent);
-                // store.commit('SET_SNACKBAR', setSnackBarInfo('일정이 추가 되었습니다.', 'info', 'top'))
             } catch (e) {
                 console.log('일정 추가 에러' + e);
             }
 
             function makeEvent(event) {
-                // const start = new Date(`${event.startDate}T${event.startTime}:00`);
-                // const end = new Date(`${event.endDate}T${event.endTime}:00`);
                 const start = `${event.startDate}T${event.startTime}:00`;
                 const end = `${event.endDate}T${event.endTime}:00`;
                 return {
@@ -125,8 +103,6 @@ export const store = new Vuex.Store({
                     content: event.content,
                     start: start,
                     end: end,
-                    // start: event.startDate + getTime(event.startTime),
-                    // end: event.endDate + getTime(event.endTime),
                     // color: colors[Math.floor(Math.random() * 6)]
                 }
             }

@@ -4,7 +4,7 @@
       <div class="d-flex">
 
         <div
-          v-for="column in this.$store.state.Kanban.states"
+          v-for="column in this.$store.state.kanban.states"
           :key="column.columnTitle"
           @click="kanbanClickEvent"
           class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
@@ -137,7 +137,7 @@ export default {
       this.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.splice(index, 1);
-      this.$store.state.Kanban.states
+      this.$store.state.kanban.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.splice(index, 1);
       this.$store.commit('toggleUpdate');
@@ -153,7 +153,7 @@ export default {
     },
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
-      this.$store.state.Kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
       this.dialog = false;
       this.newTask = {
         taskTitle : "",
