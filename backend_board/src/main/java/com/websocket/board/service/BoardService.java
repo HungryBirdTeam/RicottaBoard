@@ -27,8 +27,7 @@ public class BoardService {
     }
 
     /**
-     * 보드 상태 동기화
-     * Client 로 부터 받은 메시지를 Redis로 보내는 코드
+     * 보드 상태 발송
      */
     public void syncSocketBoardStatus(SocketBoardMessage boardMessage) {
         boardMessage.setUserCount(channelRedisRepository.getUserCount(boardMessage.getChannelId()));

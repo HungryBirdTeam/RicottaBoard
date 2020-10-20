@@ -20,7 +20,7 @@ public class BoardClientService {
     //private final ApiService<UserInfoResponse> userInfoResponseApiService;
 
     public LoginResponse callPostExternalServer(LoginRequest request) {
-        return apiService.post("http://i3a510.p.ssafy.io:9004/api/auth/login", HttpHeaders.EMPTY, request, LoginResponse.class).getBody();
+        return apiService.post("http://localhost:9004/api/auth/login", HttpHeaders.EMPTY, request, LoginResponse.class).getBody();
     }
 
     // 토큰 유효성 확인
@@ -32,7 +32,7 @@ public class BoardClientService {
 
         return tokenApiService
                 .post(
-                        "http://i3a510.p.ssafy.io:9004/api/auth/verifyToken",
+                        "http://localhost:9004/api/auth/verifyToken",
                         HttpHeaders.EMPTY,
                         validTokenRequest,
                         ValidTokenResponse.class)

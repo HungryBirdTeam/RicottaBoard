@@ -385,10 +385,9 @@ export default {
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
       var _this = this;
-      http.get("/board/user").then((response) => {
-        _this.token = response.data.token;
+      
         ws.connect(
-          { token: _this.token },
+          {},
           function (frame) {
             ws.subscribe(
               "/sub/board/channel/" + _this.board.channelId,
@@ -403,7 +402,6 @@ export default {
             location.href = "/";
           }
         );
-      });
     },
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
