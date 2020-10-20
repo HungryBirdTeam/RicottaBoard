@@ -8,6 +8,6 @@ public class WebsocketBoardApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebsocketBoardApplication.class, args);
-    }
+    } 
 
 }
