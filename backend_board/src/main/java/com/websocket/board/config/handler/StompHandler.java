@@ -1,6 +1,5 @@
 package com.websocket.board.config.handler;
 
-import com.websocket.board.config.JwtTokenProvider;
 import com.websocket.board.repo.ChannelRedisRepository;
 import com.websocket.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +19,15 @@ import java.util.Optional;
 @Component
 public class StompHandler implements ChannelInterceptor {
 
-    private final JwtTokenProvider jwtTokenProvider;
     private final ChannelRedisRepository channelRedisRepository;
     private final BoardService boardService;
 
-    // websocket을 통해 들어온 요청이 처리 되기전 실행된다.
+    // WebSocket 을 통해 들어온 요청이 처리 되기전 실행된다.
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         if (StompCommand.CONNECT == accessor.getCommand()) { // websocket 연결요청
-            String jwtToken = accessor.getFirstNativeHeader("token");
-            log.info("CONNECT {}", jwtToken);
-            // Header의 jwt token 검증
-            jwtTokenProvider.validateToken(jwtToken);
+
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) { // 해당 채널 구독요청
             // header정보에서 구독 destination정보를 얻고, 채널id 추출한다.
             String channelId = boardService.getChannelId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidChannelId"));

@@ -1,8 +1,0 @@
-#spring:
-#  profiles:
-#    active: local
-#  redis:
-#    host: localhost
-#    port: 6378
-#    database: 0
-#    password: redis
