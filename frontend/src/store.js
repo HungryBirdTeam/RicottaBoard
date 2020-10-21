@@ -84,6 +84,7 @@ export const store = new Vuex.Store({
         inviteModal: false,
         withdrawalModal: false,
         updateOccur: false,
+        memberList: [],
     },
     actions: {
         async REQUEST_ADD_EVENT(context, event) {

@@ -385,10 +385,8 @@ export default {
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
       var _this = this;
-      http.get("/board/user").then((response) => {
-        _this.token = response.data.token;
         ws.connect(
-          { token: _this.token },
+          {},
           function (frame) {
             ws.subscribe(
               "/sub/board/channel/" + _this.board.channelId,
@@ -403,7 +401,6 @@ export default {
             location.href = "/";
           }
         );
-      });
     },
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
@@ -441,6 +438,7 @@ export default {
           if (!!response.data.scheduler.left) {
             this.$store.state.scheduler.events = response.data.scheduler.events;
           }
+          this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
         })
         .catch((e) => {
@@ -478,6 +476,7 @@ export default {
       //   moduleObject: null,
       // };
       this.board.memberList = recv.memberList;
+      this.$store.state.memberList = recv.memberList;
     },
     createPostit(
       left = this.boardX - 120 + "px",

@@ -34,7 +34,7 @@
                     style="word-break:keep-all; "
                     
                   >
-                  {{task.taskTitle}}
+                  {{ task.taskTitle }}
                   </p>
                  
 
@@ -51,6 +51,7 @@
       </div>
     </div>
     
+    <!-- 클릭시 나오는 dialog -->
     <v-dialog max-width="600px" persistent v-model="dialog">
       <v-card>
         <v-card-title>
@@ -63,6 +64,36 @@
               prepend-icon="mdi-subtitles"
               v-model="newTask.taskTitle"
             ></v-text-field>
+            <div class="d-flex justify-content-between">
+              <!-- 할당된 멤버 -->
+              <div class="member-modal">
+                <v-icon>mdi-account</v-icon>
+                <span>멤버</span><br>
+                <div>
+                  <div  
+                  v-for="(member, idx) in newTask.taskAssigner" 
+                  :key="idx"
+                  class="assigner"
+                  >
+                    <div>
+                      {{ member }}
+                      <!-- <v-icon @click="deleteMember(idx)" color="rgba(0,0,0,0.7)">mdi-close</v-icon> -->
+                    </div>
+                  </div>
+                  <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
+                </div>
+                <memberModal 
+                  v-if="isMemberModal"
+                  :assigners="newTask.taskAssigner"
+                  @add-member="addAssigner"
+                  @close-member="isMemberModal=false"/>
+              </div>
+              <!-- Due date 설정 -->
+              <div class="date-modal">
+                <dateModal
+                />
+              </div>
+            </div>
             <v-textarea
               label="내용"
               prepend-icon="mdi-pencil"
@@ -81,20 +112,23 @@
 
 <script>
 import draggable from "vuedraggable";
+import memberModal from "./kanban/memberModal";
+import dateModal from "./kanban/dateModal";
 
 export default {
   name: "App",
   components: {
     draggable,
+    memberModal,
+    dateModal,
   },
-  props:{kanban:Object}
-  ,
+  props:{kanban:Object},
   data() {
     return {
       task: {
         taskTitle:"",
         taskContents:"",
-        taskAssigner:"",
+        taskAssigner:[],
       },
       states: [
         {
@@ -115,9 +149,10 @@ export default {
       newTask: {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
       },
       newColumnTitle: '',
+      isMemberModal: false,
     };
   },
   methods: {
@@ -158,7 +193,7 @@ export default {
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
       }
       this.$store.commit('toggleUpdate');
     },
@@ -167,13 +202,20 @@ export default {
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
       }
     },
     kanbanClickEvent({target}){
-      console.log(target);
       target.focus();
     },
+    showMember() {
+      this.isMemberModal = true 
+    },
+    addAssigner(assigners) {
+      this.newTask.assigners = assigners
+      console.log(assigners)
+      this.isMemberModal = false
+    }
   },
 };
 </script>
@@ -225,4 +267,20 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
   min-height: 50px;
   border: dashed 2px #d6d6d6;
 }
+
+.assigner {
+  display: inline-block;
+  background: #eeeeee;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+
+.add-member{
+  background: #ddddee;
+  border-radius: 16px;
+  padding: 4px;
+  margin-left: 8px;
+}
+
 </style>
