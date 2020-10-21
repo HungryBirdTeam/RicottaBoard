@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
               content: '',
               title: '',
           },
-          events: [{ "name": "오프라인", "content": "hello", "start": "2020-08-05T12:30:00", "end": "2020-08-05T18:00:00" }],
+          events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
           dialog: false,
           eventDetail: false,
         },

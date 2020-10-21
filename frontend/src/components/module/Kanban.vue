@@ -64,35 +64,34 @@
               prepend-icon="mdi-subtitles"
               v-model="newTask.taskTitle"
             ></v-text-field>
-            <div class="d-flex justify-content-between">
-              <!-- 할당된 멤버 -->
-              <div class="member-modal">
-                <v-icon>mdi-account</v-icon>
-                <span>멤버</span><br>
-                <div>
-                  <div  
-                  v-for="(member, idx) in newTask.taskAssigner" 
-                  :key="idx"
-                  class="assigner"
-                  >
-                    <div>
-                      {{ member }}
-                      <!-- <v-icon @click="deleteMember(idx)" color="rgba(0,0,0,0.7)">mdi-close</v-icon> -->
-                    </div>
+            <!-- assign 멤버 -->
+            <div class="member-modal">
+              <v-icon>mdi-account</v-icon>
+              <span>멤버</span><br>
+              <div>
+                <div  
+                v-for="(member, idx) in newTask.taskAssigner" 
+                :key="idx"
+                class="assigner"
+                >
+                  <div>
+                    {{ member }}
+                    <!-- <v-icon @click="deleteMember(idx)" color="rgba(0,0,0,0.7)">mdi-close</v-icon> -->
                   </div>
-                  <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
                 </div>
-                <memberModal 
-                  v-if="isMemberModal"
-                  :assigners="newTask.taskAssigner"
-                  @add-member="addAssigner"
-                  @close-member="isMemberModal=false"/>
+                <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
               </div>
-              <!-- Due date 설정 -->
-              <div class="date-modal">
-                <dateModal
-                />
-              </div>
+              <memberModal 
+                v-if="isMemberModal"
+                :assigners="newTask.taskAssigner"
+                @add-member="addAssigner"
+                @close-member="isMemberModal=false"/>
+            </div>
+            <!-- Due date 설정 -->
+            <div class="date-modal">
+              <dateModal
+              @add-dates="addDates"
+              />
             </div>
             <v-textarea
               label="내용"
@@ -150,6 +149,7 @@ export default {
         taskTitle : "",
         taskContents : "",
         taskAssigner : [],
+        taskDates : [],
       },
       newColumnTitle: '',
       isMemberModal: false,
@@ -189,6 +189,13 @@ export default {
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
       this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      var event = {
+        "name": this.newTask.taskTitle, 
+        "content": this.newTask.taskContents, 
+        "start": this.newTask.taskDates[0]+'T:00', 
+        "end": this.newTask.taskDates[1]+'T:00',
+      }
+      this.$store.state.scheduler.events.push(event)
       this.dialog = false;
       this.newTask = {
         taskTitle : "",
@@ -215,7 +222,10 @@ export default {
       this.newTask.assigners = assigners
       console.log(assigners)
       this.isMemberModal = false
-    }
+    },
+    addDates(dates) {
+      this.newTask.taskDates = dates
+    },
   },
 };
 </script>
