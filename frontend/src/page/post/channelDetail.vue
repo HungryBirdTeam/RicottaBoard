@@ -687,7 +687,7 @@ export default {
 
       if (target.getAttribute("class") != null) {
         var clas = target.getAttribute("class").split(" ");
-        console.log(clas);
+        // console.log(clas);
         for (var cla in clas) {
           // console.log(clas[cla]);
           if (clas[cla] == "MoveableBox") {

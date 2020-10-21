@@ -64,35 +64,33 @@
               prepend-icon="mdi-subtitles"
               v-model="newTask.taskTitle"
             ></v-text-field>
-            <!-- assign 멤버 -->
-            <div class="member-modal">
-              <v-icon>mdi-account</v-icon>
-              <span>멤버</span><br>
-              <div>
-                <div  
-                v-for="(member, idx) in newTask.taskAssigner" 
-                :key="idx"
-                class="assigner"
-                >
-                  <div>
+            <v-row>
+              <!-- assign 멤버 -->
+              <v-col cols="6" class="member-modal py-0">
+                <div>
+                  <v-icon>mdi-account</v-icon>
+                  <span>멤버</span><br>
+                  <div  
+                    v-for="(member, idx) in newTask.taskAssigner" 
+                    :key="idx"
+                    class="assigner">
                     {{ member }}
-                    <!-- <v-icon @click="deleteMember(idx)" color="rgba(0,0,0,0.7)">mdi-close</v-icon> -->
                   </div>
+                  <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
                 </div>
-                <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
-              </div>
-              <memberModal 
-                v-if="isMemberModal"
-                :assigners="newTask.taskAssigner"
-                @add-member="addAssigner"
-                @close-member="isMemberModal=false"/>
-            </div>
-            <!-- Due date 설정 -->
-            <div class="date-modal">
-              <dateModal
-              @add-dates="addDates"
-              />
-            </div>
+                <memberModal 
+                  v-if="isMemberModal"
+                  :assigners="newTask.taskAssigner"
+                  @add-member="addAssigner"
+                  @close-member="isMemberModal=false"/>
+              </v-col>
+              <!-- Due date 설정 -->
+              <v-col cols="6" class="date-modal py-0">
+                <dateModal
+                @add-dates="addDates"
+                />
+              </v-col>
+            </v-row>
             <v-textarea
               label="내용"
               prepend-icon="mdi-pencil"
