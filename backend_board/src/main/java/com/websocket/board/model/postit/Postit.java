@@ -3,11 +3,13 @@ package com.websocket.board.model.postit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.websocket.board.model.Channel;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+//@Entity
+@Document
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -16,21 +18,21 @@ import java.io.Serializable;
 public class Postit implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, name = "postit_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(nullable = false, name = "postit_id")
     private Long id;
 
     private String title;
     private String contents;
-    @Column(name = "\"left\"")
+//    @Column(name = "\"left\"")
     private String left;
-    @Column(name = "top")
+//    @Column(name = "top")
     private String top;
-    @Column(name = "front_postit_id")
+//    @Column(name = "front_postit_id")
     private Long frontPostitId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
-    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "channel_id")
+//    @JsonBackReference
     private Channel channel;
 }
