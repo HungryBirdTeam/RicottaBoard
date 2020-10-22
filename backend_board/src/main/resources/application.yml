@@ -3,8 +3,8 @@ spring:
   profiles:
     active: local
 
-  jwt:
-    secret: hungrybird@$&
+#  jwt:
+#    secret: hungrybird@$&
 
   jpa:
     hibernate:

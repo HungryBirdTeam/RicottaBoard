@@ -11,3 +11,7 @@ spring:
     password: mariadb
     initialization-mode: always
     data: classpath:board-schema.sql
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/board
