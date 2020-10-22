@@ -1,10 +1,17 @@
 <template>
     <div id="markdown">
         <div class="d-flex justify-content-between changer">
-            <h3>문서</h3>
+            <input type="text" placeholder="제목" v-model="title">
             <button type="button" class="btn btn-dark" @click="MarkChange" v-if="isMark">편집하기</button>
             <button type="button" class="btn btn-dark" @click="MarkChange" v-if="!isMark">문서보기</button>
         </div>
+        <!-- <div class="input-group changer">
+            <input type="text" v-model="title" class="form-control col-9" placeholder="제목" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <span class="input-group-text col-3" id="basic-addon2" @click="MarkChange" v-if="isMark">편집하기</span>
+                <span class="input-group-text col-3" id="basic-addon2" @click="MarkChange" v-if="!isMark">문서보기</span>
+            </div>
+        </div> -->
         <div class="d-flex">
             <textarea v-if="!isMark" :value="text" @input="update"></textarea>
             <div class="editor" v-if="isMark" v-html="compiledMarkdown"></div>
@@ -16,9 +23,9 @@
 <script src="https://unpkg.com/lodash@4.16.0"></script>
 <script>
 export default {
-    el: '#markdown',
     data() {
-        return { 
+        return {
+            title: '', 
             text: '',
             isMark: false,
         }
@@ -53,9 +60,11 @@ html, body, #markdown {
 .changer {
     width: 600px;
     height: 50px;
+    border: 1px solid #ccc;
 }
 
-textarea, #markdown div {
+textarea, .editor {
+    border: 1px solid #ccc;
     display: inline-block;
     vertical-align: top;
     box-sizing: border-box;
@@ -66,6 +75,7 @@ textarea, #markdown div {
 textarea {
     border: none;
     border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     resize: none;
     outline: none;
     background-color: #f6f6f6;
@@ -74,7 +84,7 @@ textarea {
 }
 
 .editor {
-    font-family: 'Helvetica Neue', Arial, sans-serif !important;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 code {
