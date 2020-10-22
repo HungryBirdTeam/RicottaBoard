@@ -157,16 +157,16 @@ export default {
       var passwordExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
       if (nickName.value == "") {
         alert("닉네임을 입력해주세요");
-      } else if (exptext.test(email[0].value) == false) {
+      } else if (exptext.test(email.value) == false) {
         //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
         alert("이메일형식이 올바르지 않습니다.");
       } else if (realName.value == "") {
         alert("이름을 입력해주세요");
-      } else if (password[0].value == "") {
+      } else if (password.value == "") {
         alert("비밀번호를 입력해주세요");
-      } else if (passwordExp.test(password[0].value) == false) {
+      } else if (passwordExp.test(password.value) == false) {
         alert("비밀번호 형식이 잘못되었습니다.");
-      } else if (password[0].value != passwordConfirm.value) {
+      } else if (password.value != passwordConfirm.value) {
         alert("비밀번호가 동일하지않습니다. 다시 입력해주세요.");
       } else if (!this.isTerm) {
         alert("약관을 읽어보시고, 동의란에 체크해주세요.");

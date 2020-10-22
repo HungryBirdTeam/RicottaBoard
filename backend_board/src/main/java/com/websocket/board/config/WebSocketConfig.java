@@ -29,7 +29,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
-    // 웹 소켓 클라이언트로부터 들어오는 메시지에 대한 채널을 설정해주는.-> 핸들러를 통해 분기
+    // 웹 소켓 클라이언트로부터 들어오는 메시지에 대한 채널을 설정해주는 -> 핸들러를 통해 분기
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(stompHandler);
     }

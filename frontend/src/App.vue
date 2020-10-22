@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-main id="bg">
+      <v-main id="bg">
         <Header v-if="!isBoard"/>
       <!-- <Sidebar :isSidebar="isSidebar"/> -->
       <!-- <Sidebar> </Sidebar> -->
