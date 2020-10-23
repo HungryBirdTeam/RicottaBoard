@@ -28,7 +28,6 @@ import Poll from '../components/common/Poll.vue'
 import Kanban from '../components/module/Kanban.vue'
 import Scheduler from '../components/module/Scheduler.vue'
 import InviteModal from '../components/common/InviteModal.vue'
-import Markdown from '../components/module/Markdown.vue'
 
 Vue.use(Router) 
 Vue.use(Vuex)
@@ -51,11 +50,6 @@ export default new Router({
       // name: constants.URL_TYPE.POST.TEST_BOARD,
       // component: ChannelDetail  ,
       props: route => ({channelId: Number(route.params.ChannelId)})
-    },
-    { 
-      path: '/Mark',
-      name: 'markdown',
-      component: Markdown,
     },
     // 로그인/가입
     { 
