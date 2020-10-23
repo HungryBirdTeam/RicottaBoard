@@ -6,13 +6,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.websocket.board.model.Channel;
 import com.websocket.board.model.postit.Postit;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+//@Entity
+@Document
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -24,19 +26,19 @@ public class Poll implements Serializable {
     @Id
     private String pollId;
 
-    @Column(name = "\"left\"")
+//    @Column(name = "\"left\"")
     private String left;
     private String top;
     private String question;
 
-    @OneToMany(mappedBy = "poll")
-    @JsonManagedReference
-    @Builder.Default
+//    @OneToMany(mappedBy = "poll")
+//    @JsonManagedReference
+//    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
-    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "channel_id")
+//    @JsonBackReference
     private Channel channel;
 
     private boolean multipleVotes;
@@ -45,7 +47,7 @@ public class Poll implements Serializable {
     //@OneToMany(mappedBy = "poll")
     //@JsonManagedReference
     //@Builder.Default
-    @Transient
+//    @Transient
     private List<String> userVoted = new ArrayList<>();
 
     private boolean isSetAll;

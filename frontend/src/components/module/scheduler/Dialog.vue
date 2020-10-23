@@ -102,7 +102,7 @@ export default {
     return {
       startTimer: false,
       endTimer: false
-    };F
+    }
   },
   computed: {
     dialog() {

@@ -37,22 +37,22 @@ export const store = new Vuex.Store({
         modal: false,
         // 캘린더
         scheduler: {
-            left: '600px',
-            top: '270px',
-            event: {
-                startDate: '',
-                startTime: '',
-                endDate: '',
-                endTime: '',
-                content: '',
-                title: '',
-            },
-            events: [{ "name": "오프라인", "content": "hello", "start": "2020-08-05T12:30:00", "end": "2020-08-05T18:00:00" }],
-            dialog: false,
-            eventDetail: false,
+          left: '600px',
+          top: '270px',
+          event: {
+              startDate: '',
+              startTime: '',
+              endDate: '',
+              endTime: '',
+              content: '',
+              title: '',
+          },
+          events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
+          dialog: false,
+          eventDetail: false,
         },
-        joining: {
-            canIUseIt: "",
+        joining:{
+            canIUseIt:"",
         },
 
         finding: {
@@ -85,6 +85,7 @@ export const store = new Vuex.Store({
         inviteModal: false,
         withdrawalModal: false,
         updateOccur: false,
+        memberList: [],
     },
     actions: {
         async REQUEST_ADD_EVENT(context, event) {

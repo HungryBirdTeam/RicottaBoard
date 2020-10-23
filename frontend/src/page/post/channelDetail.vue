@@ -385,7 +385,6 @@ export default {
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
       var _this = this;
-      
         ws.connect(
           {},
           function (frame) {
@@ -439,6 +438,7 @@ export default {
           if (!!response.data.scheduler.left) {
             this.$store.state.scheduler.events = response.data.scheduler.events;
           }
+          this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
         })
         .catch((e) => {
@@ -476,6 +476,7 @@ export default {
       //   moduleObject: null,
       // };
       this.board.memberList = recv.memberList;
+      this.$store.state.memberList = recv.memberList;
     },
     createPostit(
       left = this.boardX - 120 + "px",
@@ -686,7 +687,7 @@ export default {
 
       if (target.getAttribute("class") != null) {
         var clas = target.getAttribute("class").split(" ");
-        console.log(clas);
+        // console.log(clas);
         for (var cla in clas) {
           // console.log(clas[cla]);
           if (clas[cla] == "MoveableBox") {

@@ -34,7 +34,7 @@
                     style="word-break:keep-all; "
                     
                   >
-                  {{task.taskTitle}}
+                  {{ task.taskTitle }}
                   </p>
                  
 
@@ -51,6 +51,7 @@
       </div>
     </div>
     
+    <!-- 클릭시 나오는 dialog -->
     <v-dialog max-width="600px" persistent v-model="dialog">
       <v-card>
         <v-card-title>
@@ -63,6 +64,33 @@
               prepend-icon="mdi-subtitles"
               v-model="newTask.taskTitle"
             ></v-text-field>
+            <v-row>
+              <!-- assign 멤버 -->
+              <v-col cols="6" class="member-modal py-0">
+                <div>
+                  <v-icon>mdi-account</v-icon>
+                  <span>멤버</span><br>
+                  <div  
+                    v-for="(member, idx) in newTask.taskAssigner" 
+                    :key="idx"
+                    class="assigner">
+                    {{ member }}
+                  </div>
+                  <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
+                </div>
+                <memberModal 
+                  v-if="isMemberModal"
+                  :assigners="newTask.taskAssigner"
+                  @add-member="addAssigner"
+                  @close-member="isMemberModal=false"/>
+              </v-col>
+              <!-- Due date 설정 -->
+              <v-col cols="6" class="date-modal py-0">
+                <dateModal
+                @add-dates="addDates"
+                />
+              </v-col>
+            </v-row>
             <v-textarea
               label="내용"
               prepend-icon="mdi-pencil"
@@ -81,20 +109,23 @@
 
 <script>
 import draggable from "vuedraggable";
+import memberModal from "./kanban/memberModal";
+import dateModal from "./kanban/dateModal";
 
 export default {
   name: "App",
   components: {
     draggable,
+    memberModal,
+    dateModal,
   },
-  props:{kanban:Object}
-  ,
+  props:{kanban:Object},
   data() {
     return {
       task: {
         taskTitle:"",
         taskContents:"",
-        taskAssigner:"",
+        taskAssigner:[],
       },
       states: [
         {
@@ -115,9 +146,11 @@ export default {
       newTask: {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
+        taskDates : [],
       },
       newColumnTitle: '',
+      isMemberModal: false,
     };
   },
   methods: {
@@ -154,11 +187,18 @@ export default {
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
       this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      var event = {
+        "name": this.newTask.taskTitle, 
+        "content": this.newTask.taskContents, 
+        "start": this.newTask.taskDates[0]+'T:00', 
+        "end": this.newTask.taskDates[1]+'T:00',
+      }
+      this.$store.state.scheduler.events.push(event)
       this.dialog = false;
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
       }
       this.$store.commit('toggleUpdate');
     },
@@ -167,12 +207,22 @@ export default {
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
       }
     },
     kanbanClickEvent({target}){
-      console.log(target);
       target.focus();
+    },
+    showMember() {
+      this.isMemberModal = true 
+    },
+    addAssigner(assigners) {
+      this.newTask.assigners = assigners
+      console.log(assigners)
+      this.isMemberModal = false
+    },
+    addDates(dates) {
+      this.newTask.taskDates = dates
     },
   },
 };
@@ -225,4 +275,20 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
   min-height: 50px;
   border: dashed 2px #d6d6d6;
 }
+
+.assigner {
+  display: inline-block;
+  background: #eeeeee;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+
+.add-member{
+  background: #ddddee;
+  border-radius: 16px;
+  padding: 4px;
+  margin-left: 8px;
+}
+
 </style>

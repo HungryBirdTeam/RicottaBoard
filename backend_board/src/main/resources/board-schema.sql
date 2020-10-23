@@ -11,6 +11,6 @@
 #   UNIQUE KEY `user_idx_unique_email` (`email`)
 # ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-insert into channel(channel_id, channel_name, id_count, user_count) values('earlyBird10TeamTestChannel1', 'Tutorial Channel s2', null, null);
+insert into channel(channel_id, channel_name) values('earlyBird10TeamTestChannel1', 'Tutorial Channel s2');
 
 
