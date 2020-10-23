@@ -1,18 +1,11 @@
 <template>
-    <div id="markdown">
-        <div class="d-flex justify-content-between changer">
-            <input type="text" placeholder="제목" v-model="title">
-            <button type="button" class="btn btn-dark" @click="MarkChange" v-if="isMark">편집하기</button>
-            <button type="button" class="btn btn-dark" @click="MarkChange" v-if="!isMark">문서보기</button>
+    <div id="markdown" class="MoveableBox">
+        <div class="row changer d-flex justify-content-between">
+            <input type="text" placeholder="제목" class="col-10" v-model="title">
+            <button type="button" class="btn btn-dark col-2" @click="MarkChange" v-if="isMark">편집하기</button>
+            <button type="button" class="btn btn-dark c0l-2" @click="MarkChange" v-if="!isMark">문서보기</button>
         </div>
-        <!-- <div class="input-group changer">
-            <input type="text" v-model="title" class="form-control col-9" placeholder="제목" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <span class="input-group-text col-3" id="basic-addon2" @click="MarkChange" v-if="isMark">편집하기</span>
-                <span class="input-group-text col-3" id="basic-addon2" @click="MarkChange" v-if="!isMark">문서보기</span>
-            </div>
-        </div> -->
-        <div class="d-flex">
+        <div class="row">
             <textarea v-if="!isMark" :value="text" @input="update"></textarea>
             <div class="editor" v-if="isMark" v-html="compiledMarkdown"></div>
         </div>
