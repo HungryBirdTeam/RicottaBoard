@@ -3,6 +3,7 @@ package com.hungrybird.backend.oauth.service;
 import com.hungrybird.backend.oauth.model.User;
 import com.hungrybird.backend.oauth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -40,6 +41,10 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    //public Optional<User> getUserId(String email){
+    public Optional<User> getUserId(String email){
+        return userRepository.findByEmail(email);
+    }
 
     public boolean deleteUser(Long id){
         final Optional<User> fetchedUser = userRepository.findById(id);
