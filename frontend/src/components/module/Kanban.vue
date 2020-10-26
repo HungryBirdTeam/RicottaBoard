@@ -199,6 +199,7 @@ export default {
         taskTitle : "",
         taskContents : "",
         taskAssigner : [],
+        taskDates: [],
       }
       this.$store.commit('toggleUpdate');
     },
@@ -208,7 +209,9 @@ export default {
         taskTitle : "",
         taskContents : "",
         taskAssigner : [],
+        taskDates: [],
       }
+      this.$store.commit('toggleUpdate');
     },
     kanbanClickEvent({target}){
       target.focus();
