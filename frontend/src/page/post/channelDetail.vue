@@ -78,6 +78,23 @@
             </template>
             <span>Poll</span>
           </v-tooltip>
+
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn
+                  icon
+                  color="orange"
+                  @click="pleaseDrag"
+                  draggable="true"
+                  @dragend="moduleDragEnd('markdown', $event)"
+                >
+                  <v-icon>mdi-language-markdown</v-icon>
+                </v-btn>
+              </div>
+            </template>
+            <span>Markdown</span>
+          </v-tooltip>
           <v-divider> </v-divider>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -231,6 +248,19 @@
           />
         </div>
 
+        <div
+          class="markdown"
+          v-for="(md, idx) in this.board.markdownList"
+          :key="md.MdId"
+          @click.right="deleteTargetAction(idx, 'markdown', $event)"
+        >
+          <Markdown
+            :id="md.MdId"
+            :markdown="md"
+            :style="{ left: md.left, top: md.top }"
+          />
+        </div>
+
         <InviteModal v-model="$store.state.inviteModal" />
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
@@ -249,6 +279,7 @@ import Scheduler from "../../components/module/Scheduler";
 import Chat from "../../components/common/Chat";
 import Poll from "../../components/common/Poll";
 import Kanban from "../../components/module/Kanban";
+import Markdown from "../../components/module/Markdown";
 import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
@@ -285,6 +316,7 @@ export default {
         kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
         scheduler: { id: null, left: null, top: null },
         poll: [],
+        markdownList: [],
         delete: {
           moduleName: "",
           id: -1,
@@ -440,10 +472,15 @@ export default {
           }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
+          // 지워야할 것
+          console.log("this.board before", this.board)
+          this.board.markdownList = [];
+          console.log("this.board", this.board)
         })
         .catch((e) => {
           console.log("initRecv 실패");
           console.log(e);
+          console.log("this.board", this.board)
         });
       this.createSnackbar(
         `'${this.channelName}' 채널에 입장하였습니다!`,
@@ -586,6 +623,28 @@ export default {
       }
     },
 
+    createMarkdown() {
+      console.log("markdown", this.board)
+      if (this.board.markdownList.length > 3) {
+        this.createSnackbar("마크다운 문서 수가 최대입니다!", 3000, "error");
+      } else {
+        const idc = this.board.idCount++;
+        const newMarkdown = {
+          MdId: idc,
+          left: this.moduleXP + "px",
+          top: this.moduleYP + "px",
+          title: "",
+          text: "",
+          isMark: false,
+        };
+        console.log(newMarkdown);
+        this.board.markdownList.push(newMarkdown);
+        this.sendMessage();
+        // snackbar
+        this.createSnackbar("마크다운이 생성되었습니다!", 1500, "success");
+      }
+    },
+
     createSnackbar(text, timeout, color) {
       this.snackbar.isPresent = true;
       this.snackbar.text = text;
@@ -715,6 +774,10 @@ export default {
           this.board.delete.id = this.board.poll[idx].pollId;
           // this.crudMethod("POLL", "DELETE", this.board.poll[idx]);
           this.board.poll.splice(idx, 1);
+        } else if (moduleName === "markdown") {
+          this.board.delete.moduleName = "markdown";
+          this.board.delete.id = this.board.markdownList[idx].MdId;
+          this.board.markdownList.splice(idx, 1);
         }
         this.sendMessage();
         this.cloakMoveable();
@@ -836,6 +899,10 @@ export default {
         case "kanban":
           this.createKanban(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
+        case "markdown":
+          console.log("markdownbefore", this.board)
+          this.createMarkdown();
+          break;
       }
       console.log("drag end at : ", event);
     },
@@ -919,6 +986,7 @@ export default {
     Poll,
     InviteModal,
     WithdrawalModal,
+    Markdown
   },
 };
 
