@@ -13,8 +13,10 @@
 </template>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://unpkg.com/lodash@4.16.0"></script>
+<script src="lodash.js"></script>
 <script>
+import _ from "lodash"
+
 export default {
     data() {
         return {
@@ -22,6 +24,9 @@ export default {
             text: '',
             isMark: false,
         }
+    },
+    props: {
+        markdown: Object,
     },
     computed: {
         compiledMarkdown: function () {
@@ -48,21 +53,24 @@ html, body, #markdown {
     height: 900px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
+    background-color: #f6f6f6;
 }
 
 .changer {
     width: 600px;
     height: 50px;
     border: 1px solid #ccc;
+    background-color: #f6f6f6;
 }
 
-textarea, .editor {
+.editor {
     border: 1px solid #ccc;
     display: inline-block;
     vertical-align: top;
     box-sizing: border-box;
     width: 600px;
     height: 850px;
+    background-color: #f6f6f6;
 }
 
 textarea {
@@ -73,6 +81,11 @@ textarea {
     outline: none;
     background-color: #f6f6f6;
     font-size: 14px;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    width: 600px;
+    height: 850px;
     font-family: 'Monaco', courier, monospace;
 }
 
