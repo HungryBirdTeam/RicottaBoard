@@ -36,11 +36,6 @@ public class Poll implements Serializable {
 //    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "channel_id")
-//    @JsonBackReference
-    private Channel channel;
-
     private boolean multipleVotes;
     private int totalVotes;
 

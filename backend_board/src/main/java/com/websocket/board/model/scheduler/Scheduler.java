@@ -32,9 +32,4 @@ public class Scheduler implements Serializable {
 //    @JsonManagedReference
 //    @Builder.Default
     private List<Event> events = new ArrayList<>();
-
-//    @OneToOne
-//    @JoinColumn(name = "channel_id")
-//    @JsonBackReference
-    private Channel channel;
 }
