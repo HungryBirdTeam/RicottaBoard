@@ -58,7 +58,7 @@ public class ChannelRedisRepository {
     private void createBoard(String channelId) {
         SocketBoardMessage board = new SocketBoardMessage()
                 .builder()
-                .channelId(channelId)
+                .id(channelId)
                 .postitList(new ArrayList<>())
                 .kanban(new Kanban())
                 .scheduler(new Scheduler())
@@ -73,7 +73,7 @@ public class ChannelRedisRepository {
     }
 
     public SocketBoardMessage updateBoard(SocketBoardMessage board) {
-        hashOpsBoard.put(BOARD, board.getChannelId(), board);
+        hashOpsBoard.put(BOARD, board.getId(), board);
         return board;
     }
 
