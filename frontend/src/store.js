@@ -65,7 +65,8 @@ export const store = new Vuex.Store({
             task: {
                 taskTitle: '',
                 taskContents: '',
-                taskAssigner: '',
+                taskAssigner: [],
+                taskDates: [],
             },
             states: [{
                     columnTitle: 'TO DO',
