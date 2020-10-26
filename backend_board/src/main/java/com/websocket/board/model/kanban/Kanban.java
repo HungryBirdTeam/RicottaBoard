@@ -19,4 +19,6 @@ public class Kanban implements Serializable {
     private String kanbanName;
     private String left;
     private String top;
+    
+    private List<State> states = new ArrayList<>();
 }
