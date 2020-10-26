@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
               endDate: '',
               endTime: '',
               content: '',
-              title: '',
+              name: '',
           },
           events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
           dialog: false,
@@ -444,7 +444,7 @@ export const store = new Vuex.Store({
                 endDate: payload.eventParsed.end.date,
                 endTime: payload.eventParsed.end.time,
                 content: payload.event.content,
-                title: payload.event.name,
+                name: payload.event.name,
             }
             state.scheduler.eventDetail = true;
         },

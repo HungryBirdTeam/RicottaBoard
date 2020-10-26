@@ -102,7 +102,34 @@ export default {
       this.$store.commit("OPEN_SCHEDULER_DIALOG", date);
     },
     showEvent(event) {
+      event.event.id=1;
       this.$store.commit("OPEN_SCHEDULER_EVENT", event);
+    },
+    prev() {
+      var strArray = this.start.split('-');
+      strArray[1] *= 1;
+      strArray[1] -= 1;
+      if(strArray[1] <= 0){
+        strArray[1] = "12";
+        strArray[0] *= 1;
+        strArray[0] -= 1;
+        strArray[0] += "";
+      }
+      else strArray[1] += ""
+      this.start = strArray.join('-')
+    },
+    next() {
+      var strArray = this.start.split('-');
+      strArray[1] *= 1;
+      strArray[1] += 1;
+      if(strArray[1] >= 13){
+        strArray[1] = "01";
+        strArray[0] *= 1;
+        strArray[0] += 1;
+        strArray[0] += "";
+      }
+      else strArray[1] += ""
+      this.start = strArray.join('-')
     },
   },
 };
