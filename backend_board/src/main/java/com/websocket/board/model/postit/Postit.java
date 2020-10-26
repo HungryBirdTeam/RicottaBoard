@@ -30,9 +30,4 @@ public class Postit implements Serializable {
     private String top;
 //    @Column(name = "front_postit_id")
     private Long frontPostitId;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "channel_id")
-//    @JsonBackReference
-    private Channel channel;
 }

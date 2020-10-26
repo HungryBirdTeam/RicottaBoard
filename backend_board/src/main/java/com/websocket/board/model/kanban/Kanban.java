@@ -33,9 +33,4 @@ public class Kanban implements Serializable {
 //    @JsonManagedReference
 //    @Builder.Default
     private List<State> states = new ArrayList<>();
-
-//    @OneToOne
-//    @JoinColumn(name = "channel_id")
-//    @JsonBackReference
-    private Channel channel;
 }
