@@ -21,7 +21,6 @@ import DeleteUser from '../page/user/ReallyDelete.vue'
 // 포스트
 import Enter from '../page/post/Enter.vue'
 import List from '../page/post/List.vue'
-import Board from '../page/post/Test_Board.vue'
 
 // test
 import Poll from '../components/common/Poll.vue'
@@ -102,11 +101,6 @@ export default new Router({
       path: '/main',
       name: constants.URL_TYPE.POST.MAIN,
       component: List,
-    },
-    { 
-      path: '/main/board',
-      name: constants.URL_TYPE.POST.TEST_BOARD,
-      component: Board,
     },
     { 
       path: '/error',

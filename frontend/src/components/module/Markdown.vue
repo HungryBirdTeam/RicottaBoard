@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 html, body, #markdown {
     margin: 0;
     width: 600px;
