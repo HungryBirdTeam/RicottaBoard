@@ -1,6 +1,6 @@
 package com.websocket.board.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.websocket.board.model.Channel;
 import com.websocket.board.model.SocketBoardMessage;
 import com.websocket.board.repo.ChannelRedisRepository;
 import com.websocket.board.repo.ChannelRepository;
@@ -64,8 +64,23 @@ public class BoardController {
         SocketBoardMessage socketBoardMessage = channelRedisRepository.findBoardByChannelId(channelId);
 
         if (socketBoardMessage == null) {
-            channelRedisRepository.createChannel("Tutorial Channel s2", "earlyBird10TeamTestChannel1");
-            socketBoardMessage = channelRedisRepository.findBoardByChannelId(channelId);
+            System.out.println("레디스에 해당 채널에 대한 정보 없음");
+            System.out.println("DB에서 Redis로 보드 상태 올리기");
+            Optional<SocketBoardMessage> boardStatus = socketBoardMessageRepository.findById(channelId);
+            if(boardStatus.isPresent()) {
+                // 클라이언트에 전송할 보드 상태 세팅
+                socketBoardMessage = boardStatus.get();
+                // 레디스에 올려줄 보드 상태 세팅
+                String channelName = channelRepository.findByChannelId(channelId).get().getChannelName();
+                channelRedisRepository.createChannel(channelName, channelId);
+                channelRedisRepository.updateBoard(socketBoardMessage);
+
+//                List<Channel> list = channelRedisRepository.findAllChannel();
+//                System.out.println(list.toString());
+            } else {
+                channelRedisRepository.createChannel("Tutorial Channel s2", "earlyBird10TeamTestChannel1");
+                socketBoardMessage = channelRedisRepository.findBoardByChannelId(channelId);
+            }
         }
 
         if (channelId.equals("earlyBird10TeamTestChannel1")) {

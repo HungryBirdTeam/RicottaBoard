@@ -35,10 +35,10 @@ public class ChannelRedisRepository {
 //    @Resource(name = "redisTemplate")
 //    private HashOperations<String, String, User> hashOpsMember;
 
-    // 모든 채널 조회
-//    public List<Channel> findAllChannel() {
-//        return hashOpsChannel.values(CHANNEL);
-//    }
+//    모든 채널 조회
+    public List<Channel> findAllChannel() {
+        return hashOpsChannel.values(CHANNEL);
+    }
 
     // 채널 생성 : 서버간? 채널 공유를 위해 redis hash에 저장한다.
     // -> 현 단계에서는 굳이 채널의 부하를 줄이기 위해 서버를 나누어 채널 정보를 공유하는 것이 중요하지 않은 작업이므로 보류

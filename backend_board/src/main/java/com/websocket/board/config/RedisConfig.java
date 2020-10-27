@@ -1,6 +1,6 @@
 package com.websocket.board.config;
 
-import com.websocket.board.pubsub.RedisSubscriber;
+import com.websocket.board.pubsub.RedisReceiver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +27,7 @@ public class RedisConfig {
 
     /**
      * redis에 발행(publish)된 메시지 처리를 위한 리스너 설정
+     * 스프링 부트 실행시 컨테이너 객체가 메세지를 받아들일 수 있게
      */
     @Bean
     public RedisMessageListenerContainer redisMessageListener(RedisConnectionFactory connectionFactory,
@@ -43,12 +44,12 @@ public class RedisConfig {
      * 실제 메시지를 처리하는 subscriber 설정 추가
      */
     @Bean
-    public MessageListenerAdapter listenerAdapter(RedisSubscriber subscriber) {
-        return new MessageListenerAdapter(subscriber, "sendBoardStatus");
+    public MessageListenerAdapter listenerAdapter(RedisReceiver receiver) {
+        return new MessageListenerAdapter(receiver, "sendBoardStatus");
     }
 
     /**
-     * 어플리케이션에서 사용할 redisTemplate 설정
+     * 어플리케이션에서 메시지 발행시 사용할 redisTemplate 설정
      */
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {

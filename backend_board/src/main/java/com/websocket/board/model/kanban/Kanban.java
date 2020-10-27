@@ -1,9 +1,7 @@
 package com.websocket.board.model.kanban;
 
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
