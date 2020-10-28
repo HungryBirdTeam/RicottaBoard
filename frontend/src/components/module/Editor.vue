@@ -3,11 +3,11 @@
         <div class="title row m-0">
             <input type="text" placeholder="제목" class="col-10 p-0" v-model="title">
             <v-btn
-                :loading="loading3"
-                :disabled="loading3"
+                :loading="isLoading"
+                :disabled="isLoading"
                 color="blue-grey"
                 class="ma-2 white--text"
-                @click="loader = 'loading3'"
+                @click="saveEditor"
                 >
                 저장하기
                 <v-icon
@@ -36,12 +36,14 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 
 import { Editor } from '@toast-ui/vue-editor';
+import { saveAs } from 'file-saver';
 
 export default {
     data() {
         return {
             title: '', 
             text: '',
+            isLoading: false,
         }
     },
     components: {
@@ -55,6 +57,18 @@ export default {
             var content = this.$refs.toastuiEditor.invoke("getMarkdown");
             this.text = content
             console.log('editor text!', this.text)
+        },
+        saveEditor() {     
+            this.isLoading = true;
+            var FileSaver = require ('file-saver');
+            var blob = new Blob([this.text], { type : "text / plain; charset = utf-8" });
+            var name = "untitle";
+            if (this.title) {
+                name = this.title
+            };
+            console.log(name)
+            FileSaver.saveAs (blob, name+".md");
+            setTimeout(() => (this.isLoading = false), 1000);
         },
     }
 }
