@@ -283,6 +283,8 @@ import Editor from "../../components/module/Editor";
 import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
+import * as boardApi from "../../api/board.js"
+
 
 export default {
   computed: {
@@ -407,10 +409,7 @@ export default {
   },
   methods: {
     init() {
-      // var BASE_URL =  "http://i3a510.p.ssafy.io/api"
-      var BASE_URL = "http://localhost:8080";
-      // var BASE_URL = "http://218.146.39.122:8080";
-      var sock = new SockJS(BASE_URL + "/ws-stomp");
+      var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
 
@@ -437,19 +436,8 @@ export default {
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
       // 테스트 페이지인 경우와 아닌 경우로 분기
-      let url = "";
-      if (this.testPage) {
-        url = "/board/tutorial/earlyBird10TeamTestChannel1";
-      } else {
-        url = `/board/${this.board.channelId}`;
-      }
-
-      const config = {
-        headers: { Authorization: "Bearer " + this.$store.getters.accessToken },
-      };
-      http
-        .get(url, config)
-        .then((response) => {
+      boardApi.initialRecv(this.board.channelId, this.testPage, this.$store.getters.accessToken,
+        response => {
           console.log("initRecv@@@@");
           console.log(response.data);
           // this.board.postitList = response.data.postitList;
@@ -472,21 +460,22 @@ export default {
           }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
+          this.createSnackbar(
+            `'${this.channelName}' 채널에 입장하였습니다!`,
+            3000,
+            "info"
+          );
           // 지워야할 것
           console.log("this.board before", this.board)
           this.board.editorList = [];
           console.log("this.board", this.board)
-        })
-        .catch((e) => {
+        },
+        err => {
           console.log("initRecv 실패");
-          console.log(e);
+          console.log(err);
           console.log("this.board", this.board)
-        });
-      this.createSnackbar(
-        `'${this.channelName}' 채널에 입장하였습니다!`,
-        3000,
-        "info"
-      );
+        }
+      )
     },
     sendMessage: function (type) {
       this.ws.send(
