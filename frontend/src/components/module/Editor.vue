@@ -1,10 +1,9 @@
 <template>
     <div id="EditorMain" class="MoveableBox">
         <div class="title row m-0">
-            <input type="text" placeholder="제목" class="col-10 p-0" v-model="title">
+            <input type="text" placeholder="제목" class="col-10 p-0" v-model="editor.title">
             <v-btn
-                :loading="loading3"
-                :disabled="loading3"
+                
                 color="blue-grey"
                 class="ma-2 white--text"
                 @click="loader = 'loading3'"
@@ -20,7 +19,7 @@
         </div>
         <Editor        
             height="500px"
-            :initialValue="text"
+            :initialValue="editor.text"
             ref="toastuiEditor"
             @change = "onEditorChange"
             class="bg-white"
@@ -53,8 +52,8 @@ export default {
     methods: {
         onEditorChange() {
             var content = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.text = content
-            console.log('editor text!', this.text)
+            this.editor.text = content
+            console.log('editor text!', this.editor.text)
         },
     }
 }

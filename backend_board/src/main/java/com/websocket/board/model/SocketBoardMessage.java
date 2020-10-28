@@ -1,6 +1,7 @@
 package com.websocket.board.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.websocket.board.model.editor.Editor;
 import com.websocket.board.model.kanban.Kanban;
 import com.websocket.board.model.poll.Poll;
 import com.websocket.board.model.postit.Postit;
@@ -35,4 +36,5 @@ public class SocketBoardMessage implements Serializable {
     private Kanban kanban;          // 칸반 객체
     private Scheduler scheduler;    // 스케줄러 객체
     private List<Poll> poll;        // 투표 리스트 객체
+    private List<Editor> editorList;          //  에디터 객체
 }
