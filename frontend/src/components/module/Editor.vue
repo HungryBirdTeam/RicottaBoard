@@ -1,8 +1,26 @@
 <template>
-    <div id="markdown" class="MoveableBox">
-        <input type="text" placeholder="제목" class="title" v-model="title">
+    <div id="EditorMain" class="MoveableBox">
+        <div class="title row m-0">
+            <input type="text" placeholder="제목" class="col-10 p-0" v-model="title">
+            <v-btn
+                :loading="loading3"
+                :disabled="loading3"
+                color="blue-grey"
+                class="ma-2 white--text"
+                @click="loader = 'loading3'"
+                >
+                저장하기
+                <v-icon
+                    right
+                    dark
+                >
+                    mdi-cloud-download
+                </v-icon>
+            </v-btn>
+        </div>
         <Editor        
             height="500px"
+            :initialValue="text"
             ref="toastuiEditor"
             @change = "onEditorChange"
             class="bg-white"
@@ -30,7 +48,7 @@ export default {
         Editor
     },
     props: {
-        markdown: Object,
+        editor: Object,
     },
     methods: {
         onEditorChange() {
@@ -42,8 +60,8 @@ export default {
 }
 </script>
 
-<style>
-html, body, #markdown {
+<style scoped>
+html, body, #EditorMain {
     margin: 0;
     width: 860px;
     height: 610px;

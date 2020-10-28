@@ -87,13 +87,13 @@
                   color="orange"
                   @click="pleaseDrag"
                   draggable="true"
-                  @dragend="moduleDragEnd('markdown', $event)"
+                  @dragend="moduleDragEnd('editor', $event)"
                 >
                   <v-icon>mdi-language-markdown</v-icon>
                 </v-btn>
               </div>
             </template>
-            <span>Markdown</span>
+            <span>Editor</span>
           </v-tooltip>
           <v-divider> </v-divider>
           <v-tooltip right>
@@ -249,14 +249,14 @@
         </div>
 
         <div
-          class="markdown"
-          v-for="(md, idx) in this.board.markdownList"
+          class="editor"
+          v-for="(md, idx) in this.board.editorList"
           :key="md.MdId"
-          @click.right="deleteTargetAction(idx, 'markdown', $event)"
+          @click.right="deleteTargetAction(idx, 'editor', $event)"
         >
-          <Markdown
+          <Editor
             :id="md.MdId"
-            :markdown="md"
+            :editor="md"
             :style="{ left: md.left, top: md.top }"
           />
         </div>
@@ -279,7 +279,7 @@ import Scheduler from "../../components/module/Scheduler";
 import Chat from "../../components/common/Chat";
 import Poll from "../../components/common/Poll";
 import Kanban from "../../components/module/Kanban";
-import Markdown from "../../components/module/Markdown";
+import Editor from "../../components/module/Editor";
 import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
@@ -316,7 +316,7 @@ export default {
         kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
         scheduler: { id: null, left: null, top: null },
         poll: [],
-        markdownList: [],
+        editorList: [],
         delete: {
           moduleName: "",
           id: -1,
@@ -474,7 +474,7 @@ export default {
           // this.$store.state.scheduler.events = response.data.scheduler.events;
           // 지워야할 것
           console.log("this.board before", this.board)
-          this.board.markdownList = [];
+          this.board.editorList = [];
           console.log("this.board", this.board)
         })
         .catch((e) => {
@@ -623,13 +623,13 @@ export default {
       }
     },
 
-    createMarkdown() {
-      console.log("markdown", this.board)
-      if (this.board.markdownList.length > 3) {
-        this.createSnackbar("마크다운 문서 수가 최대입니다!", 3000, "error");
+    createEditor() {
+      console.log("editor", this.board)
+      if (this.board.editorList.length > 3) {
+        this.createSnackbar("마크다운 에디터 수가 최대입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;
-        const newMarkdown = {
+        const newEditor = {
           MdId: idc,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
@@ -637,8 +637,8 @@ export default {
           text: "",
           isMark: false,
         };
-        console.log(newMarkdown);
-        this.board.markdownList.push(newMarkdown);
+        console.log(newEditor);
+        this.board.editorList.push(newEditor);
         this.sendMessage();
         // snackbar
         this.createSnackbar("마크다운이 생성되었습니다!", 1500, "success");
@@ -774,10 +774,10 @@ export default {
           this.board.delete.id = this.board.poll[idx].pollId;
           // this.crudMethod("POLL", "DELETE", this.board.poll[idx]);
           this.board.poll.splice(idx, 1);
-        } else if (moduleName === "markdown") {
-          this.board.delete.moduleName = "markdown";
-          this.board.delete.id = this.board.markdownList[idx].MdId;
-          this.board.markdownList.splice(idx, 1);
+        } else if (moduleName === "editor") {
+          this.board.delete.moduleName = "editor";
+          this.board.delete.id = this.board.editorList[idx].MdId;
+          this.board.editorList.splice(idx, 1);
         }
         this.sendMessage();
         this.cloakMoveable();
@@ -899,9 +899,9 @@ export default {
         case "kanban":
           this.createKanban(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
-        case "markdown":
-          console.log("markdownbefore", this.board)
-          this.createMarkdown();
+        case "editor":
+          console.log("editorbefore", this.board)
+          this.createEditor();
           break;
       }
       console.log("drag end at : ", event);
@@ -986,7 +986,7 @@ export default {
     Poll,
     InviteModal,
     WithdrawalModal,
-    Markdown
+    Editor
   },
 };
 
