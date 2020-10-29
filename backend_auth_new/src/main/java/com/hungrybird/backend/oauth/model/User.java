@@ -17,9 +17,7 @@ public class User {
 
     @Id
     @Column(name = "USER_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @SequenceGenerator(name = "user_seq", allocationSize = 1)
+    @SequenceGenerator(name = "user_seq", allocationSize = 1)
     private Long id;
 
     @NaturalId
