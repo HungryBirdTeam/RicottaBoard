@@ -240,7 +240,7 @@
           class="Poll"
           @click.right="deleteTargetAction(idx, 'poll', $event)"
         >
-          <Polls
+          <Poll
             :id="poll.pollId"
             :poll="poll"
             :idx="idx"
@@ -316,7 +316,11 @@ export default {
         // },
         postitList: [],
         kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
-        scheduler: { id: null, left: null, top: null },
+        scheduler: {
+          left: "600px",
+          top: "270px",
+          events: this.$store.state.scheduler.events,
+        },
         poll: [],
         editorList: [],
         delete: {

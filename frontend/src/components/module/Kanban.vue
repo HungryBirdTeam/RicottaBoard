@@ -176,7 +176,7 @@ export default {
       this.$store.commit('toggleUpdate');
     },
     showTask(columnTitle, task) {
-       var index = this.states
+      var index = this.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.indexOf(task);
         this.newColumnTitle = columnTitle
@@ -187,11 +187,19 @@ export default {
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
       this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
-      var event = {
-        "name": this.newTask.taskTitle, 
-        "content": this.newTask.taskContents, 
-        "start": this.newTask.taskDates[0]+'T:00', 
-        "end": this.newTask.taskDates[1]+'T:00',
+      if(this.newTask.taskDates[0] === undefined) {
+        var event = {
+          "name": this.newTask.taskTitle, 
+          "content": this.newTask.taskContents, 
+        }
+      }
+      else {
+        var event = {
+          "name": this.newTask.taskTitle, 
+          "content": this.newTask.taskContents, 
+          "start": this.newTask.taskDates[0]+'T:00', 
+          "end": this.newTask.taskDates[1]+'T:00',
+        }
       }
       this.$store.state.scheduler.events.push(event)
       this.dialog = false;
