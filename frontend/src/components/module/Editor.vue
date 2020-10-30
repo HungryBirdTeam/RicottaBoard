@@ -98,8 +98,8 @@ export default {
     methods: {
         onEditorChange() {
             var content = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.text = content
-            console.log('editor text!', this.text)
+            this.editor.text = content
+            console.log('editor text!', this.editor.text)
         },
         saveEditor() {     
             this.isLoading = true;
@@ -136,10 +136,10 @@ html, body, #EditorMain {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
     background-color: #f6f6f6;
-    ::v-deep {
+    /* ::v-deep {
         margin: 0;
         font-family: 'Helvetica Neue', Arial, sans-serif;
-    }
+    } */
 }
 
 .title {
