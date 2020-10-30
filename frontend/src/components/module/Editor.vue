@@ -1,6 +1,6 @@
 <template>
-    <div id="EditorMain" class="MoveableBox">
-        <div v-if="isHidden">
+    <div id="EditorMain" class="MoveableBox editor">
+        <div v-if="editor.isHidden">
             <div class="row m-0">
                 <v-btn
                     color="blue-grey lighten-4"
@@ -14,11 +14,11 @@
                         mdi-arrow-up-drop-circle-outline
                     </v-icon>
                 </v-btn>
-                <div v-if="this.title" class="align-middle my-auto ml-1"> {{ title }} </div>
-                <div v-if="!this.title" class="align-middle my-auto ml-1"> 제목 없음 </div>                
+                <div v-if="editor.title" class="align-middle my-auto ml-1"> {{ editor.title }} </div>
+                <div v-if="!editor.title" class="align-middle my-auto ml-1"> 제목 없음 </div>                
             </div>
         </div>
-        <div v-if="!isHidden">
+        <div v-if="!editor.isHidden">
             <div class="title row m-0">
                 <div class="col-10 p-0 m-0">
                     <div class="semititle row m-0">
@@ -34,7 +34,7 @@
                                 mdi-arrow-down-drop-circle
                             </v-icon>
                         </v-btn>
-                        <input type="text" placeholder="제목" v-model="title" class="ml-1">
+                        <input type="text" placeholder="제목" v-model="editor.title" class="ml-1">
                     </div>
                 </div>
                 <v-btn
@@ -55,12 +55,11 @@
             </div>
             <Editor        
                 height="500px"
-                :initialValue="text"
+                :initialValue="editor.text"
                 ref="toastuiEditor"
                 @change = "onEditorChange"
                 class="bg-white"
             />
-            <input type="text" placeholder="테스트" class="col-12 p-0" v-model="text">
         </div>
     </div>
 </template>
@@ -78,10 +77,7 @@ import { saveAs } from 'file-saver';
 export default {
     data() {
         return {
-            title: '', 
-            text: '',
             isLoading: false,
-            isHidden: false,
         }
     },
     components: {
@@ -90,6 +86,9 @@ export default {
     props: {
         editor: Object,
     },
+    created() {
+        console.log("내부확인",this)
+    },
     watch: {
         text: function() {
             this.textChange()
@@ -97,32 +96,33 @@ export default {
     },
     methods: {
         onEditorChange() {
-            var content = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.editor.text = content
+            this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
             console.log('editor text!', this.editor.text)
         },
         saveEditor() {     
             this.isLoading = true;
             var FileSaver = require ('file-saver');
-            var blob = new Blob([this.text], { type : "text / plain; charset = utf-8" });
+            var blob = new Blob([this.editor.text], { type : "text / plain; charset = utf-8" });
             var name = "untitle";
-            if (this.title) {
-                name = this.title
+            if (this.editor.title) {
+                name = this.editor.title
             };
             console.log(name)
             FileSaver.saveAs (blob, name+".md");
             setTimeout(() => (this.isLoading = false), 1000);
         },
         textChange() {
-            if (this.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
-                this.$refs.toastuiEditor.invoke("setMarkdown", this.text)
-                console.log('text', this.text)
+            if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
+                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
+                console.log('text', this.editor.text)
                 console.log('editor', this.$refs.toastuiEditor.invoke("getMarkdown"))
             }
         },
         changeHidden() {
-            this.isHidden = !this.isHidden
-            consol.log(this.isHidden)
+            this.editor.isHidden = !this.editor.isHidden
+            console.log(this.editor.isHidden)
+            console.log(this)
+            console.log(this.editor, this._props.editor)
         }
     }
 }

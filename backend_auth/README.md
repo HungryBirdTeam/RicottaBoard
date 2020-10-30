@@ -54,10 +54,10 @@
     - Chrome store : https://chrome.google.com/webstore/search/websocket?hl=ko
 - 채팅룸 화면 접속
     - 실습2,3에서 구현하는 채팅 웹뷰 접속 주소
-    - http://localhost:8080/chat/room
+    - http://localhost:8081/chat/room
 - SpringSecurity 아이디/비번
     - 실습4에서 사용
-    - http://localhost:8080/chat/room
+    - http://localhost:8081/chat/room
     - happydaddy/1234 : ROLE_USER 
     - angrydaddy/1234 : ROLE_USER 
     - guest/1234 : ROLE_GUEST 

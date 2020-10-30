@@ -14,6 +14,7 @@ public class Editor implements Serializable{
     private String text;
     private String left;
     private String top;
+    private Boolean isHidden;
     private Long mdId;
 }
 
