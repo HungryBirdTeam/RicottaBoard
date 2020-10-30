@@ -125,6 +125,7 @@
 
 <script>
 export default {
+  name: "Poll",
   computed: {
     poll() {
       return this.$store.state.poll
