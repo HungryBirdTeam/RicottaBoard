@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/board")
 public class BoardController {
 
     private final ChannelRedisRepository channelRedisRepository;
@@ -25,7 +26,7 @@ public class BoardController {
     private final BoardClientService boardClientService;
 
     @CrossOrigin("*")
-    @GetMapping("/board/{channelId}")
+    @GetMapping("/{channelId}")
     public SocketBoardMessage getBoardStatusInit(
             @RequestHeader(name = "Authorization") String Authorization,
             @PathVariable("channelId") String channelId) {
@@ -57,7 +58,7 @@ public class BoardController {
     }
 
     @CrossOrigin("*")
-    @GetMapping("/board/tutorial/{channelId}")
+    @GetMapping("/tutorial/{channelId}")
     public SocketBoardMessage getBoardStatusInit(
             @PathVariable("channelId") String channelId) {
 

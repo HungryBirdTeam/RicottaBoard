@@ -251,11 +251,11 @@
         <div
           class="editor"
           v-for="(md, idx) in this.board.editorList"
-          :key="md.MdId"
+          :key="md.mdId"
           @click.right="deleteTargetAction(idx, 'editor', $event)"
         >
           <Editor
-            :id="md.MdId"
+            :id="md.mdId"
             :editor="md"
             :style="{ left: md.left, top: md.top }"
           />
@@ -316,7 +316,11 @@ export default {
         // },
         postitList: [],
         kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
-        scheduler: { id: null, left: null, top: null },
+        scheduler: {
+          left: "600px",
+          top: "270px",
+          events: this.$store.state.scheduler.events,
+        },
         poll: [],
         editorList: [],
         delete: {
@@ -459,6 +463,7 @@ export default {
             this.$store.state.scheduler.events = response.data.scheduler.events;
           }
           this.$store.state.memberList = response.data.memberList;
+          this.board.editorList = response.data.editorList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
           this.createSnackbar(
             `'${this.channelName}' 채널에 입장하였습니다!`,
@@ -467,7 +472,8 @@ export default {
           );
           // 지워야할 것
           console.log("this.board before", this.board)
-          this.board.editorList = [];
+          console.log("this.board onSocket", response.data.editorList)
+          // this.board.editorList = [];
           console.log("this.board", this.board)
         },
         err => {
@@ -503,6 +509,7 @@ export default {
       // };
       this.board.memberList = recv.memberList;
       this.$store.state.memberList = recv.memberList;
+      this.board.editorList=  recv.editorList;
     },
     createPostit(
       left = this.boardX - 120 + "px",
@@ -619,12 +626,11 @@ export default {
       } else {
         const idc = this.board.idCount++;
         const newEditor = {
-          MdId: idc,
+          mdId: idc,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           title: "",
           text: "",
-          isMark: false,
         };
         console.log(newEditor);
         this.board.editorList.push(newEditor);
@@ -765,7 +771,7 @@ export default {
           this.board.poll.splice(idx, 1);
         } else if (moduleName === "editor") {
           this.board.delete.moduleName = "editor";
-          this.board.delete.id = this.board.editorList[idx].MdId;
+          this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
         }
         this.sendMessage();
@@ -889,8 +895,7 @@ export default {
           this.createKanban(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
         case "editor":
-          console.log("editorbefore", this.board)
-          this.createEditor();
+          this.createEditor(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
       }
       console.log("drag end at : ", event);
