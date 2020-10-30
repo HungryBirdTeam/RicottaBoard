@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/board")
 public class ChannelController {
 
     private final ChannelRedisRepository channelRedisRepository;
