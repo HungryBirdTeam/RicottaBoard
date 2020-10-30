@@ -82,6 +82,7 @@ export const store = new Vuex.Store({
             ],
         },
         poll: [],
+        editorList: [],
         inviteModal: false,
         withdrawalModal: false,
         updateOccur: false,

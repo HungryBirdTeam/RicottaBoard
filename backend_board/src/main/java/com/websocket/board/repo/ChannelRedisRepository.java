@@ -63,6 +63,7 @@ public class ChannelRedisRepository {
                 .kanban(new Kanban())
                 .scheduler(new Scheduler())
                 .poll(new ArrayList<>())
+                .editorList(new ArrayList<>())
                 .build();
         hashOpsBoard.put(BOARD, channelId, board);
     }

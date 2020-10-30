@@ -458,19 +458,20 @@ export default {
           if (!!response.data.scheduler.left) {
             this.$store.state.scheduler.events = response.data.scheduler.events;
           }
+          if (!response.data.editorList) {            
+            this.board.editorList = [];
+            this.$store.state.editorList = [];
+          } else {            
+            this.board.editorList = response.data.editorList;
+            this.$store.state.editorList = response.data.editorList;
+          }
           this.$store.state.memberList = response.data.memberList;
-          this.board.editorList = response.data.editorList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
           this.createSnackbar(
             `'${this.channelName}' 채널에 입장하였습니다!`,
             3000,
             "info"
           );
-          // 지워야할 것
-          console.log("this.board before", this.board)
-          console.log("this.board onSocket", response.data.editorList)
-          // this.board.editorList = [];
-          console.log("this.board", this.board)
         },
         err => {
           console.log("initRecv 실패");
@@ -497,6 +498,8 @@ export default {
       this.$store.state.poll = recv.poll;
       this.board.kanban = recv.kanban;
       this.$store.state.kanban.states = recv.kanban.states;
+      this.board.editorList = recv.editorList;
+      this.$store.state.editorList = recv.editorList;
       //crudModule 초기화
       // this.board.crudModule = {
       //   modulType: "",
@@ -505,7 +508,6 @@ export default {
       // };
       this.board.memberList = recv.memberList;
       this.$store.state.memberList = recv.memberList;
-      this.board.editorList=  recv.editorList;
     },
     createPostit(
       left = this.boardX - 120 + "px",
@@ -617,7 +619,7 @@ export default {
 
     createEditor() {
       console.log("editor", this.board)
-      if (this.board.editorList.length > 3) {
+      if (this.board.editorList.length >= 3) {
         this.createSnackbar("마크다운 에디터 수가 최대입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;
@@ -627,8 +629,9 @@ export default {
           top: this.moduleYP + "px",
           title: "",
           text: "",
+          isHidden: false,
         };
-        console.log(newEditor);
+        console.log('그렇군', newEditor);
         this.board.editorList.push(newEditor);
         this.sendMessage();
         // snackbar
@@ -669,6 +672,12 @@ export default {
           } else if (clas[cla] == "kanban") {
             this.board.kanban.left = `${left}px`;
             this.board.kanban.top = `${top}px`;
+          } else if (clas[cla] == "editor") {
+            this.board.editorList.map((editor) => {
+              if (editor.mdId == target.id) {
+                (editor.left = `${left}px`), (editor.top = `${top}px`);
+              }
+            });
           } else if (clas[cla] == "realBoard") {
             this.lp = target.style.left.replace("px", "");
             this.tp = target.style.top.replace("px", "");
@@ -891,7 +900,7 @@ export default {
           this.createKanban(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
         case "editor":
-          this.createEditor(`${event.offsetX}px`, `${event.offsetY}px`);
+          this.createEditor();
           break;
       }
       console.log("drag end at : ", event);
