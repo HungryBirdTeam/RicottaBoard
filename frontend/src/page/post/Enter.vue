@@ -47,9 +47,11 @@
       >
         <h4 style=" font-size:30px; line-height:150%;">
           이거모임은 온라인 및 오프라인 모임을 지원하는 협업툴 플랫폼입니다 <br/>
-          <router-link to="channel/earlyBird10TeamTestChannel1" style="background-color:rgba(0,0,0,1); border:solid 0px; margin-top: 40px" class="btn white--text px-5 py-2">
-            Try It!
-          </router-link>
+          <div @click=localSave()>
+            <router-link to="channel/earlyBird10TeamTestChannel1" style="background-color:rgba(0,0,0,1); border:solid 0px; margin-top: 40px" class="btn white--text px-5 py-2">
+              Try It!
+            </router-link>
+          </div>
         </h4>
       </div>
       <div class style="width:50%; padding:20vh; padding:10vw; margin-top: auto; margin-bottom:auto; ">
@@ -231,6 +233,10 @@ export default {
       var Tlocation = document.querySelector("#Third").offsetTop;
       window.scrollTo({ top: Tlocation- Slocation , behavior: "smooth" });
     },
+    localSave(){
+      localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
+      localStorage.setItem("wsboard.channelName", "Tutorial Channel");
+    }
   },
 };
 </script>

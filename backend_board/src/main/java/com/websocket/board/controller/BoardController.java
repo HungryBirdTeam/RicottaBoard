@@ -1,6 +1,5 @@
 package com.websocket.board.controller;
 
-import com.websocket.board.model.Channel;
 import com.websocket.board.model.SocketBoardMessage;
 import com.websocket.board.repo.ChannelRedisRepository;
 import com.websocket.board.repo.ChannelRepository;
@@ -8,9 +7,14 @@ import com.websocket.board.repo.SocketBoardMessageRepository;
 import com.websocket.board.service.BoardClientService;
 import com.websocket.board.service.ChannelService;
 import lombok.RequiredArgsConstructor;
+import org.javers.core.Changes;
+import org.javers.core.Javers;
+import org.javers.core.metamodel.object.CdoSnapshot;
+import org.javers.repository.jql.QueryBuilder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,20 @@ public class BoardController {
     private final ChannelRepository channelRepository;
     private final ChannelService channelService;
     private final BoardClientService boardClientService;
+    private final Javers javers;
+
+    @GetMapping("/{channelId}/history")
+    @ResponseBody
+    public void getPersonChanges(@PathVariable("channelId") String channelId) {
+        QueryBuilder jqlQuery = QueryBuilder.byInstanceId(channelId, SocketBoardMessage.class)
+                .withNewObjectChanges();
+
+        List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
+//        System.out.println(changes.prettyPrint());
+        for (CdoSnapshot cs: snapshots) {
+            System.out.println(cs.toString());
+        }
+    }
 
     @CrossOrigin("*")
     @GetMapping("/{channelId}")
@@ -97,5 +115,7 @@ public class BoardController {
 
         return socketBoardMessage;
     }
+
+
 
 }

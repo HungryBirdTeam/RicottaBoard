@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 public class Event implements Serializable {
 
-    @Id
+//    @Id
     private String id;
     private String name;
     private String content;

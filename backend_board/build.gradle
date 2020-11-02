@@ -22,8 +22,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    compile 'org.javers:javers-spring-boot-starter-mongo:5.13.2'
-    compile 'org.javers:javers-spring-boot-starter-sql:5.13.2'
 
     //embedded-redis
     implementation 'it.ozimov:embedded-redis:0.7.2'
@@ -31,6 +29,7 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.21'
     compile 'org.mariadb.jdbc:mariadb-java-client:2.6.2'
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.10.1'
+    compile 'org.javers:javers-spring-boot-starter-sql:5.13.2'
 
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'javax.xml.bind:jaxb-api'
