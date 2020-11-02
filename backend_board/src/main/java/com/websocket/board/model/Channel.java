@@ -21,7 +21,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-//@JsonIgnoreProperties({"postitList", "scheduler", "kanban", "userList"})
 @JsonIgnoreProperties("userList")
 public class Channel implements Serializable {
 

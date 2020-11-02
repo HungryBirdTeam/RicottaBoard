@@ -9,7 +9,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
       use-new-id-generator-mappings: false
     generate-ddl: true
     show-sql: true
@@ -18,3 +18,14 @@ spring:
       hibernate:
         format_sql: true
 
+  main:
+    allow-bean-definition-overriding: true
+
+javers:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: board
+#    authentication-database: admin
+#    username: javers
+#    password: password

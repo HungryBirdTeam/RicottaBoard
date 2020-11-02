@@ -10,8 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
 import java.io.Serializable;
 
-//@Entity
-@Document(collection = "events")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,15 +17,9 @@ import java.io.Serializable;
 public class Event implements Serializable {
 
     @Id
-//    @Column(nullable = false, name = "event_id")
     private String id;
     private String name;
     private String content;
     private String start;
     private String end;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "scheduler_id")
-//    @JsonBackReference
-    private Scheduler scheduler;
 }

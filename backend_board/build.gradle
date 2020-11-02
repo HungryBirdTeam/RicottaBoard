@@ -21,6 +21,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    compile 'org.javers:javers-spring-boot-starter-mongo:5.13.2'
+    compile 'org.javers:javers-spring-boot-starter-sql:5.13.2'
+
     //embedded-redis
     implementation 'it.ozimov:embedded-redis:0.7.2'
 
