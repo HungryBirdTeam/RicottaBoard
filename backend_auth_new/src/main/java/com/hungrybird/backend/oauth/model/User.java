@@ -42,6 +42,10 @@ public class User {
     @Column(name = "IS_ACTIVE", nullable = false)
     private Boolean active;
 
+    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
+    private Boolean isEmailVerified;
+
+
     public User() { super(); }
 
     @Builder
@@ -125,8 +129,6 @@ public class User {
 //            @JoinColumn(name = "ROLE_ID", referencedColumnName = "ROLE_ID")})
 //    private Set<Role> roles = new HashSet<>();
 //
-    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
-    private Boolean isEmailVerified;
 //
 //    @OneToMany(mappedBy = "user")
 //    private List<Member> members = new ArrayList<>();

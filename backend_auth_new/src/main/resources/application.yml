@@ -11,3 +11,6 @@ spring:
 server:
   port: 9004
   address: localhost
+
+jwt:
+  secret: testSecretKeyforHungrybirdTeam121212111

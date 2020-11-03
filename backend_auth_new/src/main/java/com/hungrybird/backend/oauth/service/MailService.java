@@ -20,7 +20,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class MailService {
@@ -30,13 +29,16 @@ public class MailService {
     private final UserRepository userRepository;
 
 //    @Value("${app.velocity.templates.location}")
-    private String basePackagePath = "/template/";
+    private String basePackagePath = "/templates/";
 
     @Value("${spring.mail.username}")
     private String FROM_ADDRESS;
 
     @Value("${server.address}")
     private String baseUrl;
+
+    @Value("${server.port}")
+    private String port;
 
     @Autowired
     public MailService(JavaMailSender mailSender,
@@ -60,15 +62,21 @@ public class MailService {
         message.setTo(to);
         Optional<User> user = userRepository.findByEmail(to);
 
-        System.out.println("user name is : " + user.get().getUsername());
-        long tempId = user.get().getId();
-        Optional<UserAuthKey> data = userAuthKeyRepository.findById(tempId);
-        String temp = "nope";
+        long tempId = -1;
 
-        if(data.isPresent()){
-            temp = data.get().getAuthKey();
-        }
-        System.out.println("AuthKey is " + temp);
+
+
+        if(user.isPresent()){
+            tempId= user.get().getId();
+            Optional<UserAuthKey> data = userAuthKeyRepository.findById(tempId);
+            String temp = "nope";
+
+            if(data.isPresent()){
+                temp = data.get().getAuthKey();
+            }
+            System.out.println("AuthKey is " + temp);
+
+
 
         String authKey =
                 userAuthKeyRepository.findById(user.get().getId()).get().getAuthKey();
@@ -78,6 +86,7 @@ public class MailService {
         mail.getModel().put("userName", user.get().getUsername());
         mail.getModel().put("userEmailVerifyKey", authKey);
         mail.getModel().put("userEmail", user.get().getEmail());
+//        mail.getModel().put("baseUrl", baseUrl+":"+port);
         mail.getModel().put("baseUrl", baseUrl);
         mail.setTo(to);
         mail.setFrom(FROM_ADDRESS);
@@ -89,6 +98,7 @@ public class MailService {
 
         send(mail);
 
+        }
     }
 
     public void send(Mail mail) throws MessagingException {
