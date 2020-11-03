@@ -834,7 +834,7 @@ export default {
         } else if (modleName === "video") {
           var id = this.board.videoList[idx].vdId;
           if(id.substring(6, id.length) != this.$store.state.userDate.email) {
-            break;
+            return;
           }
           this.board.delete.moduleName = "video";
           this.board.delete.id = this.board.videoList[idx].vdId;
