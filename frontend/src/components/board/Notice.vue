@@ -187,17 +187,18 @@ export default {
     },
     createArticle() {
       if (this.checkException()) {
-        this.articleInfo.channelId = this.channelId,
-        this.articleInfo.writer = 'test writer',
+        this.articleInfo.channelId = this.channelId
+        this.articleInfo.writer = this.$store.state.userData.nickname
         boardApi.createNotice(this.articleInfo, false, this.$store.getters.accessToken,
-        (response) => {
-          this.isPost = false;
-          this.isDetail = true;
-          this.article = response.data;
-        },
-        (err) => {
-          console.log("notice 생성 err", err);
-        })
+          (response) => {
+            this.isPost = false;
+            this.isDetail = true;
+            this.article = response.data;
+          },
+          (err) => {
+            console.log("notice 생성 err", err);
+          }
+        );
       }
     },
     goArticleDetail(article) {
