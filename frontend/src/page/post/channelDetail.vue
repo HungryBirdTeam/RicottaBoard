@@ -95,6 +95,22 @@
             </template>
             <span>Editor</span>
           </v-tooltip>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn
+                  icon
+                  color="orange"
+                  @click="pleaseDrag"
+                  draggable="true"
+                  @dragend="moduleDragEnd('video', $event)"
+                >
+                  <v-icon>mdi-video-plus</v-icon>
+                </v-btn>
+              </div>
+            </template>
+            <span>Face Chat</span>
+          </v-tooltip>
           <v-divider> </v-divider>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -261,6 +277,19 @@
           />
         </div>
 
+        <div
+          class="video"
+          v-for="(vd, idx) in this.board.videoList"
+          :key="vd.vdId"
+          @click.right="deleteTargetAction(idx, 'video', $event)"
+        >
+          <video
+            :id="vd.vdId"
+            :style="{ left: vd.left, top: vd.top }"
+            autoplay playsinline
+          />
+        </div>
+
         <InviteModal v-model="$store.state.inviteModal" />
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
@@ -323,6 +352,8 @@ export default {
         },
         poll: [],
         editorList: [],
+        videoList: [],
+        videoOn: false,
         delete: {
           moduleName: "",
           id: -1,
@@ -643,6 +674,24 @@ export default {
       }
     },
 
+    createVideo() {
+      if (this.board.videoOn) {
+        this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
+      } else {
+        const newVideo = {
+          vdId: "video_"+this.$store.state.userDate.email,
+          left: this.moduleXP + "px",
+          top: this.moduleYP + "px",
+          isHidden: false,
+        };
+        console.dir(newVideo);
+        this.board.editorList.push(newVideo);
+        this.sendMessage();
+        // snackbar
+        this.createSnackbar("비디오가 실행되었습니다!", 1500, "success");
+      }
+    },
+
     createSnackbar(text, timeout, color) {
       this.snackbar.isPresent = true;
       this.snackbar.text = text;
@@ -782,6 +831,14 @@ export default {
           this.board.delete.moduleName = "editor";
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
+        } else if (modleName === "video") {
+          var id = this.board.videoList[idx].vdId;
+          if(id.substring(6, id.length) != this.$store.state.userDate.email) {
+            break;
+          }
+          this.board.delete.moduleName = "video";
+          this.board.delete.id = this.board.videoList[idx].vdId;
+          this.board.videoList.splice(idx, 1);
         }
         this.sendMessage();
         this.cloakMoveable();
@@ -905,6 +962,9 @@ export default {
           break;
         case "editor":
           this.createEditor();
+          break;
+        case "video":
+          this.createVideo();
           break;
       }
       console.log("drag end at : ", event);
