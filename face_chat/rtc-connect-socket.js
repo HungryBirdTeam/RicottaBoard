@@ -10,6 +10,7 @@ var app = http.createServer(function(req, res) {
 
 var io = socketIO.listen(app);
 
+console.log("rtc server socket on");
 io.sockets.on('connection', function(socket) {
 
     socket.on('add candidate', function(connect) {
@@ -33,10 +34,11 @@ io.sockets.on('connection', function(socket) {
     socket.on('join channel', function(channel) {
         socket.join(channel);
 
-        var clientsInRoom = io.sockets.adapter.rooms[channel];
-        var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
+        // var clientsInRoom = io.sockets.adapter.rooms[channel];
+        // var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
 
-        io.sockets.in(channel).emit('new member', numClients);
+        // io.sockets.in(channel).emit('new member', numClients);
+        io.sockets.in(channel).emit('new member');
     });
 
     socket.on('new member', channel => {

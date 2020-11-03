@@ -163,7 +163,7 @@ function loadChannelInfo(channel, email) {
 }
 
 //비디오 실행
-function onVideo() {
+async function onVideo() {
     const stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: true
@@ -343,3 +343,7 @@ function requestTurn(turnURL) {
 
 
 ////////////////////////////////////////////////// 함수 영역 //////////////////////////////////////////////////
+
+
+
+export { loadChannelInfo, onVideo }
