@@ -135,6 +135,7 @@ import Stomp from "stomp-websocket";
 import axios from "axios";
 import http from "../../http-common.js";
 import lodash from "lodash";
+import * as channelApi from "../../api/channel";
 
 export default {
   data: () => ({
@@ -158,23 +159,26 @@ export default {
     getRandomImage(idString) {
       return `https://picsum.photos/seed/${idString}/200/300`;
     },
-   findAllChannel: function () {
-      // if(this.$cookie.get('AccessToken') === null){
-      //   return
-      // }
-      http.post("/board/channels", {email: this.$store.state.userData.email}, {
-          headers: {
-            "Authorization" : "Bearer " + this.$store.getters.accessToken
-          }
-      })
-        .then((response) => {
+    findAllChannel() {
+      let data = {email: this.$store.state.userData.email}
+      let config = {
+        headers: {
+          "Authorization" : "Bearer " + this.$store.getters.accessToken
+        }
+      }
+      channelApi.findAllChannel(data, config, 
+        (response) => {
           console.log(response);
           // prevent html, allow json array
           if (
             Object.prototype.toString.call(response.data) === "[object Array]"
           )
             this.channels = response.data;
-        });
+        },
+        (err) => {
+          console.log(err)
+        }
+      );
     },
     createChannel: function (valid) {
       if(this.$cookie.get('AccessToken') === null){
@@ -184,29 +188,26 @@ export default {
         alert("모임 이름을 입력해 주십시오.");
         return;
       } else {
-        // var params = new URLSearchParams();
-        // params.append("channelName", this.channel_name);
         const params = {
           channelName: this.channel_name,
           email: this.$store.state.userData.email,
         };
         console.log(params);
-        // params.append("token", this.$store.getters.accessToken)
         const config = {
           headers: {
             Authorization: "Bearer " + this.$store.getters.accessToken,
           },
         };
-        http
-          .post("/board/channel", params, config)
-          .then((response) => {
+        channelApi.createChannel(params, config,
+          (response) => {
             alert(response.data.channelName + "채널 개설에 성공하였습니다.");
             this.channel_name = "";
             this.findAllChannel();
-          })
-          .catch((response) => {
+          },
+          (err) => {
             alert("채널 개설에 실패하였습니다.");
-          });
+          }
+        );
       }
       this.modal=false;
     },

@@ -1,11 +1,12 @@
 import { createInstance } from "./index.js";
+// 보드서버
 const API_BASE_URL = "http://localhost:8081";
 var channelId = localStorage.getItem("wsboard.channelId");
 
 const instance = createInstance(API_BASE_URL);
 
-function initialRecv(channelId, isTestPage, accessToken, success, fail){
-    var url = `/board/${channelId}`; 
+function initialRecv(isTestPage, accessToken, success, fail){
+    var url = `api/board/${channelId}`; 
     if(isTestPage) url = "/board/tutorial/earlyBird10TeamTestChannel1";
     instance
         .get(url, {

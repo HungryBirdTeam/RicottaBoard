@@ -445,8 +445,8 @@ export default {
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
       // 테스트 페이지인 경우와 아닌 경우로 분기
-      boardApi.initialRecv(this.board.channelId, this.testPage, this.$store.getters.accessToken,
-        response => {
+      boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
+        (response) => {
           console.log("initRecv@@@@");
           console.log(response.data);
           // this.board.postitList = response.data.postitList;
