@@ -1,14 +1,30 @@
 <template>
   <div>
-    <v-btn
-      class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
-      fab
-      dark
-      color="black"
-      @click="showNotice()"
-    >
-      Notice
-    </v-btn>
+    <v-reponsive>
+      <v-btn
+        class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
+        fab
+        dark
+        color="black"
+        @click="showNotice()"
+        @mouseover="isTopNoticeToggle=true"
+        @mouseout="isTopNoticeToggle=false"
+      >
+        <img
+            style="width: 36px; height:36px;"
+            src="../../assets/img/noticeIconW.png"
+          />
+      </v-btn>
+      <transition name="slide-fade">
+        <v-responsive
+          class="top-notice"
+          v-if="isTopNoticeToggle"
+          >
+          {{ topNotice }}
+        </v-responsive>
+      </transition>
+    </v-reponsive>
+
     <div v-if="isNotice" class="notice-modal">
       <div class="d-flex justify-content-between mb-4">
         <h1>게시판</h1>
@@ -24,8 +40,8 @@
         <thead>
           <tr class="row m-0" style="width: 100%">
             <th class="col-2" scope="col">#</th>
-            <th class="col-8" scope="col">제목</th>
-            <th class="col-2" scope="col">작성자</th>
+            <th class="col-7" scope="col">제목</th>
+            <th class="col-3" scope="col">작성자</th>
           </tr>
         </thead>
         <tbody>
@@ -38,10 +54,10 @@
             <th class="col-2" @click="goArticleDetail(article)">
               {{ idx + 1 }}
             </th>
-            <td class="col-8" @click="goArticleDetail(article)">
+            <td class="col-7" @click="goArticleDetail(article)">
               <div>{{ article.title }}</div>
             </td>
-            <td class="col-2">{{ article.writer }}</td>
+            <td class="col-3">{{ article.writer }}</td>
           </tr>
         </tbody>
       </table>
@@ -105,8 +121,6 @@
               <div class="pr-5"><v-icon >mdi-account</v-icon> {{ article.writer }}</div>
               <v-icon>mdi-calendar</v-icon> {{ article.createdAt.substr(0,10) }}  {{ article.createdAt.substr(11, 8)}}<br>
             </div><hr>
-      
-
           <div class="article-content">
             <p> {{ article.content }}</p>
           </div><hr>
@@ -133,12 +147,21 @@
 import * as boardApi from "../../api/board.js";
 
 export default {
+  computed: {
+    topNotice() {
+      if (this.articleList.lenth === 0) {
+        return ''
+      }
+      return this.articleList[0].title
+    }
+  },
   data() {
     return {
       articleList: [],
       isNotice: false,
       isPost: false,
       isDetail: false,
+      isTopNoticeToggle: false,
       channelId: "",
       articleInfo: {
         title: "",
@@ -160,7 +183,6 @@ export default {
     fetchNotice() {
       boardApi.getAllNotice(false, this.$store.getters.accessToken,
         (response) => {
-          console.log("NOTICE 데이터 전송완료", response.data);
           this.articleList = response.data;
         },
         (err) => {
@@ -233,7 +255,7 @@ export default {
 .notice-button {
   position: fixed;
   z-index: 3;
-  bottom: 150px;
+  bottom: 85px;
   left: 12px;
   border: solid black 1px;
   width: 50px;
@@ -268,6 +290,21 @@ i {
 }
 .article-content {
   min-height: 120px;
+}
+
+.top-notice{
+  background-color: white;
+  width: auto;
+  height: auto;
+  position: fixed;
+  z-index: 2;
+  bottom: 105px;
+  left: 95px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
+  
 }
 </style>
 

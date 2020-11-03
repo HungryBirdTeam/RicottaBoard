@@ -154,8 +154,9 @@
         class="userListBadge badge-info text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
         @mouseover="testIn"
         @mouseout="testOut"
+        style="background-color: black;"
       >
-        <v-img src="@/assets/img/team.png" style="color: white"
+        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 9px;"
           ><div v-if="userCount != 0">{{ userCount }}</div></v-img
         >
       </v-responsive>
@@ -1195,7 +1196,7 @@ export default {
   position: fixed;
   z-index: 2;
   bottom: 12px;
-  left: 30px;
+  left: 35px;
   text-align: right;
   padding-right: 1%;
   padding-left: 5%;
@@ -1231,7 +1232,7 @@ export default {
 .reset-button {
   position: fixed;
   z-index: 3;
-  bottom: 85px;
+  bottom: 150px;
   left: 12px;
   border: solid black 1px;
   width: 56px;

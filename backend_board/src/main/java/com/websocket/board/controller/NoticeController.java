@@ -3,6 +3,7 @@ package com.websocket.board.controller;
 import com.websocket.board.model.notice.Notice;
 import com.websocket.board.repo.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class NoticeController {
 
     @GetMapping("/board/{channelId}/notice")
     public List<Notice> getAllNotice(@PathVariable String channelId) {
-        return noticeRepository.findAllByChannelId(channelId);
+        return noticeRepository.findAllByChannelId(channelId, Sort.by("id").descending());
     }
 
     @PostMapping("/board/{channelId}/notice")
