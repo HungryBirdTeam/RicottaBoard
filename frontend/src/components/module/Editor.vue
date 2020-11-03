@@ -101,9 +101,20 @@ export default {
         }
     },
     methods: {
+        // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
             this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
+            console.log('test', this.$refs.toastuiEditor.getCurrentModeEditor.offsetLeft);
         },
+
+        // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
+        textChange() {
+            if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
+                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
+            }
+        },
+
+        // md 파일로 저장
         saveEditor() {     
             this.isLoading = true;
             var FileSaver = require ('file-saver');
@@ -115,11 +126,8 @@ export default {
             FileSaver.saveAs (blob, name+".md");
             setTimeout(() => (this.isLoading = false), 1000);
         },
-        textChange() {
-            if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
-                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
-            }
-        },
+
+        // 에디터 숨기기/펼치기
         changeHidden() {
             this.editor.isHidden = !this.editor.isHidden
             console.log(this.editor.isHidden)
