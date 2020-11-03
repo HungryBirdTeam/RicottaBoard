@@ -22,7 +22,7 @@ var sdpConstraints = {
     offerToReceiveVideo: true
 };
 
-var socket = io.connect('https://k3a204.p.ssafy.io:3031');
+var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat');
 
 //채널 접속
 var channel = "tryIt";
