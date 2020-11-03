@@ -22,7 +22,7 @@ var sdpConstraints = {
     offerToReceiveVideo: true
 };
 
-var socket = io.connect('https://k3a204.p.ssafy.io:3031');
+var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat');
 
 //채널 접속
 var channel = "tryIt";
@@ -163,7 +163,7 @@ function loadChannelInfo(channel, email) {
 }
 
 //비디오 실행
-function onVideo() {
+async function onVideo() {
     const stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: true

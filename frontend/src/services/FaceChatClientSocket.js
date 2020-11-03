@@ -22,7 +22,8 @@ var sdpConstraints = {
     offerToReceiveVideo: true
 };
 
-var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat');
+// var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat');
+var socket;
 
 //채널 접속
 var channel = "tryIt";
@@ -33,111 +34,109 @@ var channel = "tryIt";
 /////////////////////////////////////////////// 리스너 연결 구문 ///////////////////////////////////////////////
 // socket.emit('join channel', channel);
 
-socket.on('member', member => {
-    if (member != myInfo) {
-        if (!users.has(member)) {
-            console.log("새 멤버", member);
-            users.add(member);
-            createPeerConnection(member);
-        }
+// socket.on('member', member => {
+//     if (member != myInfo) {
+//         if (!users.has(member)) {
+//             console.log("새 멤버", member);
+//             users.add(member);
+//             createPeerConnection(member);
+//         }
 
-    }
-})
+//     }
+// })
 
-socket.on('alert', () => {
-    var info = { channel: channel, member: myInfo };
-    socket.emit('alert member', info);
-})
+// socket.on('alert', () => {
+//     var info = { channel: channel, member: myInfo };
+//     socket.emit('alert member', info);
+// })
 
-socket.on('new member', () => {
-    // if (myInfo == undefined) {
-    // myInfo = user;
-    // console.log("myInfo : ", user);
-    // } else {
-    // var info = { user: myInfo, channel: channel };
-    socket.emit('new member', channel);
-    // }
-})
+// socket.on('new member', () => {
+//     // if (myInfo == undefined) {
+//     // myInfo = user;
+//     // console.log("myInfo : ", user);
+//     // } else {
+//     // var info = { user: myInfo, channel: channel };
+//     socket.emit('new member', channel);
+//     // }
+// })
 
-socket.on('sender info', function(connect) {
-    if (connect.sender != myInfo && connect.receiver == myInfo) {
-        var sdp = connect.sdp;
-        var sender = connect.sender;
-        console.log(myInfo, "peer connect to remote", sender);
-        channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
-        console.dir(new RTCSessionDescription(sdp));
-        doAnswer(sender);
-    }
+// socket.on('sender info', function(connect) {
+//     if (connect.sender != myInfo && connect.receiver == myInfo) {
+//         var sdp = connect.sdp;
+//         var sender = connect.sender;
+//         console.log(myInfo, "peer connect to remote", sender);
+//         channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
+//         console.dir(new RTCSessionDescription(sdp));
+//         doAnswer(sender);
+//     }
 
-});
+// });
 
-socket.on('receiver info', function(connect) {
-    if (connect.sender != myInfo && connect.receiver == myInfo) {
-        console.log("receiver info", connect);
-        var sdp = connect.sdp;
-        var sender = connect.sender;
+// socket.on('receiver info', function(connect) {
+//     if (connect.sender != myInfo && connect.receiver == myInfo) {
+//         console.log("receiver info", connect);
+//         var sdp = connect.sdp;
+//         var sender = connect.sender;
 
-        console.log(myInfo, "peer connect to remote", sender);
-        channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
-        console.dir(new RTCSessionDescription(sdp));
-        console.dir(channelPeerConnectionsMap.get(sender))
+//         console.log(myInfo, "peer connect to remote", sender);
+//         channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
+//         console.dir(new RTCSessionDescription(sdp));
+//         console.dir(channelPeerConnectionsMap.get(sender))
 
-    }
+//     }
 
-});
+// });
 
-socket.on('candidate', function(connect) {
-    if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
-        // var candidate = new RTCIceCandidate({
-        //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
-        //     candidate: connect.candidate
-        // });
-        var candidate = new RTCIceCandidate(connect.candidate);
-        channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate,
-            (res) => {
-                console.log("SUCCESS!!!!!!!", res);
-            },
-            (err) => {
-                console.log("ERR!!!!!!!!!!!!", err);
-            });
-        isIceCandidate.set(connect.sender, true);
-    }
-});
+// socket.on('candidate', function(connect) {
+//     if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
+//         // var candidate = new RTCIceCandidate({
+//         //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
+//         //     candidate: connect.candidate
+//         // });
+//         var candidate = new RTCIceCandidate(connect.candidate);
+//         channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate,
+//             (res) => {
+//                 console.log("SUCCESS!!!!!!!", res);
+//             },
+//             (err) => {
+//                 console.log("ERR!!!!!!!!!!!!", err);
+//             });
+//         isIceCandidate.set(connect.sender, true);
+//     }
+// });
 
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
-var btn = document.querySelector('#btn');
-var show = document.querySelector('#show');
-var add = document.querySelector('#add');
 
-show.onclick = function() {
-    channelPeerConnectionsMap.forEach((value, key, mapObject) => {
-        console.log(key + ' , ' + value);
-        console.dir(value);
-    });
 
-}
+// show.onclick = function() {
+//     channelPeerConnectionsMap.forEach((value, key, mapObject) => {
+//         console.log(key + ' , ' + value);
+//         console.dir(value);
+//     });
 
-add.onclick = function() {
-    gotStream(localStream);
-}
+// }
 
-btn.onclick = async function() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true
-    });
-    // navigator.mediaDevices.getUserMedia({
-    //         audio: false,
-    //         video: true
-    //     })
-    //     .then(gotStream)
-    //     .catch(function(e) {
-    //         alert('getUserMedia() error: ' + e.name);
-    //         alert(e.toString());
-    //     });
-    gotStream(stream)
-};
+// add.onclick = function() {
+//     gotStream(localStream);
+// }
+
+// btn.onclick = async function() {
+//     const stream = await navigator.mediaDevices.getUserMedia({
+//         audio: false,
+//         video: true
+//     });
+//     // navigator.mediaDevices.getUserMedia({
+//     //         audio: false,
+//     //         video: true
+//     //     })
+//     //     .then(gotStream)
+//     //     .catch(function(e) {
+//     //         alert('getUserMedia() error: ' + e.name);
+//     //         alert(e.toString());
+//     //     });
+//     gotStream(stream)
+// };
 /////////////////////////////////////////////// 리스너 연결 구문 ///////////////////////////////////////////////
 
 
@@ -157,9 +156,82 @@ if (location.hostname !== 'localhost') {
 ////////////////////////////////////////////////// 함수 영역 //////////////////////////////////////////////////
 
 function loadChannelInfo(channel, email) {
+    socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
+
+    socket.on('member', member => {
+        if (member != myInfo) {
+            if (!users.has(member)) {
+                console.log("새 멤버", member);
+                users.add(member);
+                createPeerConnection(member);
+            }
+
+        }
+    })
+
+    socket.on('alert', () => {
+        var info = { channel: channel, member: myInfo };
+        socket.emit('alert member', info);
+    })
+
+    socket.on('new member', () => {
+        // if (myInfo == undefined) {
+        // myInfo = user;
+        // console.log("myInfo : ", user);
+        // } else {
+        // var info = { user: myInfo, channel: channel };
+        socket.emit('new member', channel);
+        // }
+    })
+
+    socket.on('sender info', function(connect) {
+        if (connect.sender != myInfo && connect.receiver == myInfo) {
+            var sdp = connect.sdp;
+            var sender = connect.sender;
+            console.log(myInfo, "peer connect to remote", sender);
+            channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
+            console.dir(new RTCSessionDescription(sdp));
+            doAnswer(sender);
+        }
+
+    });
+
+    socket.on('receiver info', function(connect) {
+        if (connect.sender != myInfo && connect.receiver == myInfo) {
+            console.log("receiver info", connect);
+            var sdp = connect.sdp;
+            var sender = connect.sender;
+
+            console.log(myInfo, "peer connect to remote", sender);
+            channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
+            console.dir(new RTCSessionDescription(sdp));
+            console.dir(channelPeerConnectionsMap.get(sender))
+
+        }
+
+    });
+
+    socket.on('candidate', function(connect) {
+        if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
+            // var candidate = new RTCIceCandidate({
+            //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
+            //     candidate: connect.candidate
+            // });
+            var candidate = new RTCIceCandidate(connect.candidate);
+            channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate,
+                (res) => {
+                    console.log("SUCCESS!!!!!!!", res);
+                },
+                (err) => {
+                    console.log("ERR!!!!!!!!!!!!", err);
+                });
+            isIceCandidate.set(connect.sender, true);
+        }
+    });
     this.channel = channel;
     this.myInfo = email;
     socket.emit('join channel', channel);
+
 }
 
 //비디오 실행
