@@ -12,6 +12,12 @@ var io = socketIO.listen(app);
 
 io.sockets.on('connection', function(socket) {
 
+    socket.on('add candidate', function(connect) {
+        var channel = connect.channel;
+
+        io.sockets.in(channel).emit('candidate', connect);
+    });
+
     socket.on('offer connect', function(connect) {
         var channel = connect.channel;
 
