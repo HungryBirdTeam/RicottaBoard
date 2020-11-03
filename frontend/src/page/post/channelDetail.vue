@@ -309,7 +309,7 @@
 </template>
 
 
-<script src="https://k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
+<script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 <script>

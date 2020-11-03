@@ -6,7 +6,7 @@ var fileServer = new(nodeStatic.Server)();
 
 var app = http.createServer(function(req, res) {
     fileServer.serve(req, res);
-}).listen(8080);
+}).listen(3031);
 
 var io = socketIO.listen(app);
 
