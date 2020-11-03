@@ -172,9 +172,17 @@
         </v-responsive>
       </transition>
     </v-responsive>
-
+    
+    <!-- <v-btn
+      class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
+      icon
+      color="dark">
+      Notice
+      <div v-if="isNotice"><Notice/></div>
+    </v-btn> -->
+    <Notice/>
     <v-btn
-      class="resetButton text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
+      class="reset-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
       icon
       color="black"
       @click="reset"
@@ -274,6 +282,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stomp-websocket";
 import http from "../../http-common.js";
 import Moveable from "vue-moveable";
+import Notice from "../../components/board/Notice";
 import Postit from "../../components/module/Postit";
 import Scheduler from "../../components/module/Scheduler";
 import Chat from "../../components/common/Chat";
@@ -309,11 +318,6 @@ export default {
         channelId: "",
         idCount: 1,
         memberList: [],
-        // crudModule: {
-        //   modulType: "",
-        //   crudType: "",
-        //   moduleObject: Object,
-        // },
         postitList: [],
         kanban: { left: null, top: null, kanbanName: null, states: [{"columnTitle":"TO DO","tasks":[]},{"columnTitle":"IN PROGRESS","tasks":[]},{"columnTitle":"DONE","tasks":[]}]},
         scheduler: {
@@ -365,6 +369,7 @@ export default {
       idc: 0,
       isPoll: false,
       testPage: false,
+      isNotice: false,
     };
   },
   created() {
@@ -501,12 +506,6 @@ export default {
       this.$store.state.poll = recv.poll;
       this.board.kanban = recv.kanban;
       this.$store.state.kanban.states = recv.kanban.states;
-      //crudModule 초기화
-      // this.board.crudModule = {
-      //   modulType: "",
-      //   crudType: "",
-      //   moduleObject: null,
-      // };
       this.board.memberList = recv.memberList;
       this.$store.state.memberList = recv.memberList;
       this.board.editorList=  recv.editorList;
@@ -531,7 +530,6 @@ export default {
         channel: this.board.channelId,
       };
       this.board.postitList.push(newPostit);
-      // this.crudMethod("POSTIT", "CREATE", newPostit);
       this.sendMessage();
       // snackbar
       this.createSnackbar("포스트잇이 생성되었습니다!", 1500, "success");
@@ -545,7 +543,6 @@ export default {
       this.board.kanban.states = this.$store.state.kanban.states;
       this.board.kanban.left = this.moduleXP + "px";
       this.board.kanban.top = this.moduleYP + "px";
-      // this.crudMethod("KANBAN", "CREATE", this.board.kanban);
       this.sendMessage();
       this.createSnackbar("보드가 생성되었습니다", 1500, "success");
     },
@@ -555,7 +552,6 @@ export default {
       if (confirm("요소를 삭제하시겠습니까?") === true) {
         target.remove();
         this.cloakMoveable();
-        // this.crudMethod("KANBAN", "DELETE", this.board.kanban);
         this.$store.state.kanban.states = [
           {
             columnTitle: "TO DO",
@@ -584,7 +580,6 @@ export default {
           events: this.$store.state.scheduler.events,
         };
         console.log("create Scheduler");
-        // this.crudMethod("SCHEDULER", "CREATE", this.board.scheduler);
         this.sendMessage();
         // snackbar
         this.createSnackbar("달력이 생성되었습니다!", 1500, "success");
@@ -700,9 +695,7 @@ export default {
 
             document.querySelector(".testerDot").style.top = event.offsetY + "px";
             document.querySelector(".testerDot").style.left = event.offsetX + "px";
-            // this.crudMethod(target.nodeName, "UPDATE", moduleObj);
             this.sendMessage();
-            // this.crudMethod("", "", null);
             console.log("ltp : ", this.lp, ",", this.tp);
             console.log(
               "bodyBox wh : ",
@@ -762,12 +755,10 @@ export default {
         if (moduleName === "postit") {
           this.board.delete.moduleName = "postit";
           this.board.delete.id = this.board.postitList[idx].frontPostitId;
-          // this.crudMethod("POSTIT", "DELETE", this.board.postitList[idx]);
           this.board.postitList.splice(idx, 1);
         } else if (moduleName === "poll") {
           this.board.delete.moduleName = "poll";
           this.board.delete.id = this.board.poll[idx].pollId;
-          // this.crudMethod("POLL", "DELETE", this.board.poll[idx]);
           this.board.poll.splice(idx, 1);
         } else if (moduleName === "editor") {
           this.board.delete.moduleName = "editor";
@@ -850,10 +841,8 @@ export default {
     deleteAction(moduleName, { target }) {
       if (confirm("요소를 삭제하시겠습니까?") === true) {
         if (moduleName == "scheduler") {
-          // this.crudMethod("SCHEDULER", "DELETE", this.board.scheduler);
           this.board.scheduler = { id: null, left: null, top: null };
         } else if (moduleName == "kanban") {
-          // this.crudMethod("KANBAN", "DELETE", this.board.kanban);
           this.$store.state.kanban.states = [
             {
               columnTitle: "TO DO",
@@ -903,14 +892,6 @@ export default {
     pleaseDrag() {
       this.createSnackbar("생성하고자 하는 위치로 드래그 해주세요!", 3000, "default");
     },
-    crudMethod(moduleType, crudType, moduleObject) {
-      this.board.crudModule = {
-        moduleType: moduleType,
-        crudType: crudType,
-        moduleObject: moduleObject,
-      };
-    },
-
     testIn() {
       if (!this.memberView) {
         this.memberView = true;
@@ -973,6 +954,7 @@ export default {
   },
   components: {
     Moveable,
+    Notice, 
     Postit,
     Scheduler,
     Chat,
@@ -1090,9 +1072,10 @@ export default {
   /* position: relative; */
   position: fixed;
   z-index: 3;
-  width: 64px;
+  width: 56px;
   top: 30%;
-  left: 2%;
+  left: 12px;
+  margin-left:12px;
   padding: 10px 0px;
   /* display: inline; */
   background-color: white;
@@ -1111,12 +1094,12 @@ export default {
   position: fixed;
   z-index: 3;
   bottom: 20px;
-  left: 20px;
-
+  left: 12px;
+  border: solid black 1px;
   background-color: white;
   /* border-radius: 50%; */
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
 }
 
 .vueBox {
@@ -1136,8 +1119,8 @@ export default {
   height: auto;
   position: fixed;
   z-index: 2;
-  bottom: 20px;
-  left: 50px;
+  bottom: 12px;
+  left: 30px;
   text-align: right;
   padding-right: 1%;
   padding-left: 5%;
@@ -1160,17 +1143,24 @@ export default {
   margin-top: 20px;
 }
 
-.resetButton {
+.notice-button {
   position: fixed;
   z-index: 3;
-  bottom: 100px;
-  left: 20px;
+  bottom: 150px;
+  left: 12px;
   border: solid black 1px;
+  width: 56px;
+  height: 56px;
+}
 
-  /* background-color: white; */
-  /* border-radius: 50%; */
-  width: 64px;
-  height: 64px;
+.reset-button {
+  position: fixed;
+  z-index: 3;
+  bottom: 85px;
+  left: 12px;
+  border: solid black 1px;
+  width: 56px;
+  height: 56px;
 }
 
 .member {

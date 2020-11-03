@@ -39,7 +39,6 @@ public class NoticeController {
         Optional<Notice> notice = noticeRepository.findById(id);
         notice.get().setTitle(updateNotice.getTitle());
         notice.get().setContent(updateNotice.getContent());
-        notice.get().setUpdatedAt(LocalDateTime.now());
         return notice.get();
     }
 
