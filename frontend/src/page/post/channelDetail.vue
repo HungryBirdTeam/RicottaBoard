@@ -295,6 +295,8 @@
             :id="vd.vdId"
             :style="{ left: vd.left, top: vd.top }"
             autoplay playsinline
+            width="300px"
+            height="300px"
           />
         </div>
 
@@ -305,6 +307,10 @@
     <Chat />
   </div>
 </template>
+
+
+<script src="https://k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
 <script>
 import SockJS from "sockjs-client";
@@ -322,6 +328,9 @@ import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js"
+import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
+
+
 
 
 export default {
@@ -455,6 +464,8 @@ export default {
 
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
+
+      loadChannelInfo(this.board.channelId, this.$store.state.userDate.email);
       var _this = this;
         ws.connect(
           {},
