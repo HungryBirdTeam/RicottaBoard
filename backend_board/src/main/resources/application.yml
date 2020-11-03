@@ -21,11 +21,12 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-javers:
-  mongodb:
-    host: localhost
-    port: 27017
-    database: board
+# By default JaVers uses the same database as application does, but you can point another database
+#javers:
+#  mongodb:
+#    host: localhost
+#    port: 27017
+#    database: board
 #    authentication-database: admin
-#    username: javers
+#    username: javers-username
 #    password: password
