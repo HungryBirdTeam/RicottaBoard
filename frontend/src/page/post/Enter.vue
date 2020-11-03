@@ -115,7 +115,6 @@
             </v-hover>
           </v-col>
         </v-row>
-        <!-- <router-link class="black--text" v-bind:to="{name:constants.URL_TYPE.POST.INTRODUCE}">더 알아보기</router-link> -->
       </div>
     </section>
   </div>

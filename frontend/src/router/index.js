@@ -6,7 +6,6 @@ import VueCookie from 'vue-cookie'
 import constants from '../lib/constants'
 // 서버
 import ChannelDetail from '../page/post/channelDetail.vue'
-import Server from '../page/post/server.vue'
 
 // 유저
 import Login from '../page/user/Login.vue'
@@ -34,13 +33,7 @@ Vue.use(VueCookie)
  
 export default new Router({
   mode: 'history',
-  routes: [   
-    // 서버 연결
-    { 
-      path: '/server',
-      name: 'server',
-      component: Server,
-    },
+  routes: [
     {
       path: '/channel/:channelId',
       name: 'channelDeatil',
