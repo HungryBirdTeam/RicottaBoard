@@ -163,6 +163,7 @@ export const store = new Vuex.Store({
         */
         [constants.METHODS.LOGIN_USER]: (_store, payload) => {
             // const url = "/api/auth/login";
+            console.log(payload)
             const data = {
                 "email": payload.email,
                 "password": payload.password
@@ -463,7 +464,7 @@ export const store = new Vuex.Store({
         },
         [constants.METHODS.LOGIN_USER]: (state, payload) => {
             // state.password = payload.password;
-            // console.log("In Store, payload is : ", payload);
+            console.log("In Store, payload is : ", payload);
             state.userData.email = payload[0].email;
             state.accessData = {
                 email: state.userData.email,

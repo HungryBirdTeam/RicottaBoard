@@ -48,8 +48,8 @@ public class MemberService {
 //                , HttpHeaders.EMPTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
         InviteChannelRequest inviteChannelRequest1 = inviteChannelRequest;
         System.out.println(inviteChannelRequest1.getChannelId()+"--------"+inviteChannelRequest1.getUser().getEmail());
-        return apiService.post("http://localhost:8081/board/channel/invitation"
-                , HttpHeaders.EMPTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
+        return apiService.post("http://localhost:8081/api/board/channel/invitation"
+                , HttpHeaders.EMgit PTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
     }
 
 }

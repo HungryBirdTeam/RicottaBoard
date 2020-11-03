@@ -1,4 +1,5 @@
 import { createInstance } from "./index.js";
+// auth 서버
 const API_BASE_URL = "http://localhost:9004";
 
 const instance = createInstance(API_BASE_URL);
