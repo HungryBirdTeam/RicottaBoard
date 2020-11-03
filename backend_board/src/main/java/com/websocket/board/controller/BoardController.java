@@ -1,15 +1,21 @@
 package com.websocket.board.controller;
 
-import com.websocket.board.model.Channel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.websocket.board.model.SocketBoardMessage;
+import com.websocket.board.model.history.SnapShot;
+import com.websocket.board.payload.HistoryResponse;
 import com.websocket.board.repo.ChannelRedisRepository;
 import com.websocket.board.repo.ChannelRepository;
 import com.websocket.board.repo.SocketBoardMessageRepository;
 import com.websocket.board.service.BoardClientService;
 import com.websocket.board.service.ChannelService;
 import lombok.RequiredArgsConstructor;
+import org.javers.core.Javers;
+import org.javers.core.metamodel.object.CdoSnapshot;
+import org.javers.repository.jql.QueryBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +30,31 @@ public class BoardController {
     private final ChannelRepository channelRepository;
     private final ChannelService channelService;
     private final BoardClientService boardClientService;
+    private final Javers javers;
+    private final ObjectMapper objectMapper;
+
+    @GetMapping("/{channelId}/history")
+    @ResponseBody
+    public List<HistoryResponse> getPersonChanges(@PathVariable("channelId") String channelId) throws IOException {
+        QueryBuilder jqlQuery = QueryBuilder.byInstanceId(channelId, SocketBoardMessage.class)
+                .withNewObjectChanges();
+
+        List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
+//        System.out.println(changes.prettyPrint());
+        List<HistoryResponse> historyResponsesList = new ArrayList<>();
+
+        for (CdoSnapshot cs: snapshots) {
+            String tmp = javers.getJsonConverter().toJson(cs);
+            SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
+            historyResponsesList.add(
+                    new HistoryResponse().builder()
+                            .editModule(snapShot.changedProperties)
+                            .editTime(snapShot.commitMetadata.commitDateInstant)
+                            .build());
+        }
+
+        return historyResponsesList;
+    }
 
     @CrossOrigin("*")
     @GetMapping("/{channelId}")
@@ -97,5 +128,7 @@ public class BoardController {
 
         return socketBoardMessage;
     }
+
+
 
 }

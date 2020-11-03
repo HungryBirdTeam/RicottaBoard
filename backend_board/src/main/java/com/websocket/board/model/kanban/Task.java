@@ -17,6 +17,4 @@ public class Task implements Serializable {
     private String taskContents;
     private List<String> taskAssigner;
     private List<String> taskDates;
-
-    private State state;
 }

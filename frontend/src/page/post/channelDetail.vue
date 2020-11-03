@@ -95,6 +95,22 @@
             </template>
             <span>Editor</span>
           </v-tooltip>
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn
+                  icon
+                  color="orange"
+                  @click="pleaseDrag"
+                  draggable="true"
+                  @dragend="moduleDragEnd('video', $event)"
+                >
+                  <v-icon>mdi-video-plus</v-icon>
+                </v-btn>
+              </div>
+            </template>
+            <span>Face Chat</span>
+          </v-tooltip>
           <v-divider> </v-divider>
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -269,6 +285,19 @@
           />
         </div>
 
+        <div
+          class="video"
+          v-for="(vd, idx) in this.board.videoList"
+          :key="vd.vdId"
+          @click.right="deleteTargetAction(idx, 'video', $event)"
+        >
+          <video
+            :id="vd.vdId"
+            :style="{ left: vd.left, top: vd.top }"
+            autoplay playsinline
+          />
+        </div>
+
         <InviteModal v-model="$store.state.inviteModal" />
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
@@ -327,6 +356,8 @@ export default {
         },
         poll: [],
         editorList: [],
+        videoList: [],
+        videoOn: false,
         delete: {
           moduleName: "",
           id: -1,
@@ -467,19 +498,20 @@ export default {
           if (!!response.data.scheduler.left) {
             this.$store.state.scheduler.events = response.data.scheduler.events;
           }
+          if (!response.data.editorList) {            
+            this.board.editorList = [];
+            this.$store.state.editorList = [];
+          } else {            
+            this.board.editorList = response.data.editorList;
+            this.$store.state.editorList = response.data.editorList;
+          }
           this.$store.state.memberList = response.data.memberList;
-          this.board.editorList = response.data.editorList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
           this.createSnackbar(
             `'${this.channelName}' 채널에 입장하였습니다!`,
             3000,
             "info"
           );
-          // 지워야할 것
-          console.log("this.board before", this.board)
-          console.log("this.board onSocket", response.data.editorList)
-          // this.board.editorList = [];
-          console.log("this.board", this.board)
         },
         err => {
           console.log("initRecv 실패");
@@ -506,9 +538,16 @@ export default {
       this.$store.state.poll = recv.poll;
       this.board.kanban = recv.kanban;
       this.$store.state.kanban.states = recv.kanban.states;
+      this.board.editorList = recv.editorList;
+      this.$store.state.editorList = recv.editorList;
+      //crudModule 초기화
+      // this.board.crudModule = {
+      //   modulType: "",
+      //   crudType: "",
+      //   moduleObject: null,
+      // };
       this.board.memberList = recv.memberList;
       this.$store.state.memberList = recv.memberList;
-      this.board.editorList=  recv.editorList;
     },
     createPostit(
       left = this.boardX - 120 + "px",
@@ -616,7 +655,7 @@ export default {
 
     createEditor() {
       console.log("editor", this.board)
-      if (this.board.editorList.length > 3) {
+      if (this.board.editorList.length >= 3) {
         this.createSnackbar("마크다운 에디터 수가 최대입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;
@@ -626,12 +665,31 @@ export default {
           top: this.moduleYP + "px",
           title: "",
           text: "",
+          isHidden: false,
         };
-        console.log(newEditor);
+        console.log('그렇군', newEditor);
         this.board.editorList.push(newEditor);
         this.sendMessage();
         // snackbar
         this.createSnackbar("마크다운이 생성되었습니다!", 1500, "success");
+      }
+    },
+
+    createVideo() {
+      if (this.board.videoOn) {
+        this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
+      } else {
+        const newVideo = {
+          vdId: "video_"+this.$store.state.userDate.email,
+          left: this.moduleXP + "px",
+          top: this.moduleYP + "px",
+          isHidden: false,
+        };
+        console.dir(newVideo);
+        this.board.editorList.push(newVideo);
+        this.sendMessage();
+        // snackbar
+        this.createSnackbar("비디오가 실행되었습니다!", 1500, "success");
       }
     },
 
@@ -668,6 +726,12 @@ export default {
           } else if (clas[cla] == "kanban") {
             this.board.kanban.left = `${left}px`;
             this.board.kanban.top = `${top}px`;
+          } else if (clas[cla] == "editor") {
+            this.board.editorList.map((editor) => {
+              if (editor.mdId == target.id) {
+                (editor.left = `${left}px`), (editor.top = `${top}px`);
+              }
+            });
           } else if (clas[cla] == "realBoard") {
             this.lp = target.style.left.replace("px", "");
             this.tp = target.style.top.replace("px", "");
@@ -764,6 +828,14 @@ export default {
           this.board.delete.moduleName = "editor";
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
+        } else if (modleName === "video") {
+          var id = this.board.videoList[idx].vdId;
+          if(id.substring(6, id.length) != this.$store.state.userDate.email) {
+            return;
+          }
+          this.board.delete.moduleName = "video";
+          this.board.delete.id = this.board.videoList[idx].vdId;
+          this.board.videoList.splice(idx, 1);
         }
         this.sendMessage();
         this.cloakMoveable();
@@ -884,7 +956,10 @@ export default {
           this.createKanban(`${event.offsetX}px`, `${event.offsetY}px`);
           break;
         case "editor":
-          this.createEditor(`${event.offsetX}px`, `${event.offsetY}px`);
+          this.createEditor();
+          break;
+        case "video":
+          this.createVideo();
           break;
       }
       console.log("drag end at : ", event);

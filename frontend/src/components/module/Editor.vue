@@ -1,7 +1,7 @@
 <template>
-    <div id="EditorMain" class="MoveableBox">
-        <div v-if="isHidden">
-            <div class="row m-0">
+    <div id="EditorMain" class="MoveableBox editor">
+        <div v-if="editor.isHidden">
+            <div class="row m-0 subtitle">
                 <v-btn
                     color="blue-grey lighten-4"
                     @click="changeHidden"
@@ -11,14 +11,14 @@
                         center
                         light
                     >
-                        mdi-arrow-up-drop-circle-outline
+                        mdi-arrow-down-drop-circle-outline
                     </v-icon>
                 </v-btn>
-                <div v-if="this.title" class="align-middle my-auto ml-1"> {{ title }} </div>
-                <div v-if="!this.title" class="align-middle my-auto ml-1"> 제목 없음 </div>                
+                <div v-if="editor.title" class="align-middle my-auto mx-1"> {{ subtitle }} </div>
+                <div v-if="!editor.title" class="align-middle my-auto mx-1"> 제목 없음 </div>                
             </div>
         </div>
-        <div v-if="!isHidden">
+        <div v-if="!editor.isHidden">
             <div class="title row m-0">
                 <div class="col-10 p-0 m-0">
                     <div class="semititle row m-0">
@@ -31,10 +31,10 @@
                                 center
                                 dark
                             >
-                                mdi-arrow-down-drop-circle
+                                mdi-arrow-up-drop-circle
                             </v-icon>
                         </v-btn>
-                        <input type="text" placeholder="제목" v-model="title" class="ml-1">
+                        <input type="text" placeholder="제목" v-model="editor.title" class="ml-1">
                     </div>
                 </div>
                 <v-btn
@@ -55,12 +55,11 @@
             </div>
             <Editor        
                 height="500px"
-                :initialValue="text"
+                :initialValue="editor.text"
                 ref="toastuiEditor"
                 @change = "onEditorChange"
                 class="bg-white"
             />
-            <input type="text" placeholder="테스트" class="col-12 p-0" v-model="text">
         </div>
     </div>
 </template>
@@ -78,10 +77,7 @@ import { saveAs } from 'file-saver';
 export default {
     data() {
         return {
-            title: '', 
-            text: '',
             isLoading: false,
-            isHidden: false,
         }
     },
     components: {
@@ -90,41 +86,53 @@ export default {
     props: {
         editor: Object,
     },
+    computed: {
+        subtitle() {
+            if (this.editor.title.length <= 8) {
+                return this.editor.title
+            } else {
+                return this.editor.title.slice(0, 8)
+            }
+        },
+    },
     watch: {
         text: function() {
             this.textChange()
         }
     },
     methods: {
+        // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
-            var content = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.editor.text = content
-            console.log('editor text!', this.editor.text)
+            this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
+            console.log('test', this.$refs.toastuiEditor.getCurrentModeEditor.offsetLeft);
         },
+
+        // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
+        textChange() {
+            if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
+                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
+            }
+        },
+
+        // md 파일로 저장
         saveEditor() {     
             this.isLoading = true;
             var FileSaver = require ('file-saver');
-            var blob = new Blob([this.text], { type : "text / plain; charset = utf-8" });
+            var blob = new Blob([this.editor.text], { type : "text / plain; charset = utf-8" });
             var name = "untitle";
-            if (this.title) {
-                name = this.title
+            if (this.editor.title) {
+                name = this.editor.title
             };
-            console.log(name)
             FileSaver.saveAs (blob, name+".md");
             setTimeout(() => (this.isLoading = false), 1000);
         },
-        textChange() {
-            if (this.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
-                this.$refs.toastuiEditor.invoke("setMarkdown", this.text)
-                console.log('text', this.text)
-                console.log('editor', this.$refs.toastuiEditor.invoke("getMarkdown"))
-            }
-        },
+
+        // 에디터 숨기기/펼치기
         changeHidden() {
-            this.isHidden = !this.isHidden
-            consol.log(this.isHidden)
+            this.editor.isHidden = !this.editor.isHidden
+            console.log(this.editor.isHidden)
         }
-    }
+    },
 }
 </script>
 
@@ -136,19 +144,21 @@ html, body, #EditorMain {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
     background-color: #f6f6f6;
-    /* ::v-deep {
-        margin: 0;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-    } */
 }
 
 .title {
     width: 800px;
     height: 50px;
     border: 1px solid #ccc;
+    border-radius: 5px 5px 0 0;
     background-color: #f6f6f6;
 }
-
+.subtitle {
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+}
 .semititle {
     width: 666.66px;
     height: 50px;
