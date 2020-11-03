@@ -1,10 +1,17 @@
 var nodeStatic = require('node-static')
-var http = require('http');
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/fullchain.pem')
+};
+
 var socketIO = require('socket.io');
 
 var fileServer = new(nodeStatic.Server)();
 
-var app = http.createServer(function(req, res) {
+var app = https.createServer(options, function(req, res) {
     fileServer.serve(req, res);
 }).listen(3031);
 

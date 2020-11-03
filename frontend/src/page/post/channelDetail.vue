@@ -328,7 +328,7 @@ import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js"
-// import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
+import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
 
 
 
@@ -464,8 +464,8 @@ export default {
 
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
-
-      // loadChannelInfo(this.board.channelId, this.$store.state.userDate.email);
+      // console.log("user email",this.$store.state.userData.email);
+      loadChannelInfo(this.board.channelId, this.$store.state.userData.email);
       var _this = this;
         ws.connect(
           {},
