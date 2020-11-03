@@ -465,7 +465,7 @@ export default {
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
 
-      loadChannelInfo(this.board.channelId, this.$store.state.userDate.email);
+      // loadChannelInfo(this.board.channelId, this.$store.state.userDate.email);
       var _this = this;
         ws.connect(
           {},
