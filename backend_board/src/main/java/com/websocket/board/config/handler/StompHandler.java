@@ -12,6 +12,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -27,7 +28,10 @@ public class StompHandler implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
         if (StompCommand.CONNECT == accessor.getCommand()) { // websocket 연결요청
-
+//            String name = Optional.ofNullable((Principal) message.getHeaders().get("nativeHeaders")).map(Principal::getName).orElse("UnknownUser");
+            List<String> nativeHeaders = accessor.getNativeHeader("userNickname");
+            String userNickname = nativeHeaders.get(0);
+            log.info("CONNECT {}", userNickname);
         } else if (StompCommand.SUBSCRIBE == accessor.getCommand()) { // 해당 채널 구독요청
             // header정보에서 구독 destination정보를 얻고, 채널id 추출한다.
             String channelId = boardService.getChannelId(Optional.ofNullable((String) message.getHeaders().get("simpDestination")).orElse("InvalidChannelId"));
@@ -37,9 +41,11 @@ public class StompHandler implements ChannelInterceptor {
             // 채널의 인원수를 +1한다.
             channelRedisRepository.plusUserCount(channelId);
             // 클라이언트 입장 메시지를 채널에 발송한다.(redis publish)
-            String name = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknownUser");
+//            String name = Optional.ofNullable((Principal) message.getHeaders().get("simpUser")).map(Principal::getName).orElse("UnknownUser");
             //boardService.syncBoardStatus(Board.builder().type(ChatMessage.MessageType.ENTER).roomId(roomId).sender(name).build());
-            log.info("SUBSCRIBED {}, {}", name, channelId);
+//            List<String> nativeHeaders = accessor.getNativeHeader("userNickname");
+//            String userNickname = nativeHeaders.get(0);
+//            log.info("SUBSCRIBED {}, {}", userNickname, channelId);
         } else if (StompCommand.DISCONNECT == accessor.getCommand()) { // Websocket 연결 종료
             // 연결이 종료된 클라이언트 sesssionId로 채널 id를 얻는다.
             String sessionId = (String) message.getHeaders().get("simpSessionId");

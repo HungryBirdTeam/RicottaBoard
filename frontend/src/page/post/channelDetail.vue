@@ -309,8 +309,7 @@
 </template>
 
 
-<script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script>
-<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
 
 <script>
 import SockJS from "sockjs-client";
@@ -371,6 +370,7 @@ export default {
           moduleName: "",
           id: -1,
         },
+        userNickname: this.$store.state.userData.nickname
       },
       token: "",
       userCount: 0,
@@ -458,6 +458,7 @@ export default {
   },
   methods: {
     init() {
+      console.log('init method start')
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
@@ -465,10 +466,10 @@ export default {
       this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
-      loadChannelInfo(this.board.channelId, this.$store.state.userData.email);
+      // loadChannelInfo(this.board.channelId, this.$store.state.userData.email);
       var _this = this;
         ws.connect(
-          {},
+          {userNickname:this.$store.state.userData.nickname},
           function (frame) {
             ws.subscribe(
               "/sub/board/channel/" + _this.board.channelId,
@@ -487,6 +488,7 @@ export default {
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
       // 테스트 페이지인 경우와 아닌 경우로 분기
+      console.log('init RECV start')
       boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
         (response) => {
           console.log("initRecv@@@@");
@@ -532,9 +534,10 @@ export default {
       )
     },
     sendMessage: function (type) {
+      this.board.userNickname = this.userNickname;
       this.ws.send(
         "/pub/board/message",
-        { token: this.token },
+        {},
         JSON.stringify(this.board)
       );
       this.createSnackbar("수정되었습니다", 1000, "warning");

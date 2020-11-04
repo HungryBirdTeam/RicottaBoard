@@ -13,6 +13,7 @@ import java.util.Map;
 public class State implements Serializable {
 
     public Module scheduler;
+    public String editUser;
     public List<Module> postitList;
     public List<String> memberList;
     public Integer idCount;
