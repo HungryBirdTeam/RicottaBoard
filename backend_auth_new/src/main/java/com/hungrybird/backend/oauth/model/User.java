@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @Column(name = "USER_ID")
-    @SequenceGenerator(name = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NaturalId
@@ -46,7 +46,10 @@ public class User {
     private Boolean isEmailVerified;
 
 
-    public User() { super(); }
+    public User() { super();
+        active = false;
+        isEmailVerified = false;
+    }
 
     @Builder
     public User(User user) {

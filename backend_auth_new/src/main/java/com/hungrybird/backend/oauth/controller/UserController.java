@@ -3,6 +3,7 @@ package com.hungrybird.backend.oauth.controller;
 import com.hungrybird.backend.oauth.model.User;
 import com.hungrybird.backend.oauth.model.payload.ApiResponce;
 import com.hungrybird.backend.oauth.model.payload.LoginRequest;
+import com.hungrybird.backend.oauth.model.payload.SignupRequest;
 import com.hungrybird.backend.oauth.service.MailService;
 import com.hungrybird.backend.oauth.service.UserService;
 import com.hungrybird.backend.oauth.util.JwtUtil;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -43,7 +45,13 @@ public class UserController {
 
     @ApiOperation("Create User Info")
     @PostMapping("/user")
-    public ResponseEntity createUser(@RequestBody User user, UriComponentsBuilder builder) throws IOException, TemplateException, MessagingException {
+    public ResponseEntity createUser(@RequestBody SignupRequest signupRequest, UriComponentsBuilder builder) throws IOException, TemplateException, MessagingException {
+        User user = new User();
+        user.setEmail(signupRequest.getEmail());
+        user.setNickname(signupRequest.getNickname());
+        user.setUsername(signupRequest.getUsername());
+        user.setPassword(signupRequest.getPassword());
+
 
         boolean flag = userService.createUser(user);
         if (!flag) {
@@ -137,5 +145,20 @@ public class UserController {
                                               @RequestParam("email") String email) {
         Boolean emailExists = userService.emailAlreadyExists(email);
         return ResponseEntity.ok(new ApiResponce(true, emailExists.toString()));
+    }
+
+    @ApiOperation(value = "Checks if the given Nickname is in use")
+    @GetMapping("/checkNicknameInUse")
+    public ResponseEntity checkNicknameInUse(@ApiParam(value = "Nickname to check against")
+                                          @RequestParam("nickname") String nickname) {
+        Boolean emailExists = userService.nicknameAlreadyExists(nickname);
+        return ResponseEntity.ok(new ApiResponce(true, emailExists.toString()));
+    }
+
+    @GetMapping("/userInfo")
+    @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "Returns the current user profile")
+    public ResponseEntity getUserInfo(@RequestParam String email) {
+        return new ResponseEntity<>(userService.getUser(email), HttpStatus.OK);
     }
 }

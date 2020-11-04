@@ -86,6 +86,10 @@ public class UserService {
         return userRepository.findById(id);
     }
     public Optional<User> getUser(String email) { return userRepository.findByEmail(email);}
+
+    public Optional<User> getUserbyNickname(String nickname){
+        return userRepository.findByNickname(nickname);
+    }
     //public Optional<User> getUserId(String email){
     public long getUserId(String email){
         Optional<User> user = userRepository.findByEmail(email);
@@ -169,6 +173,14 @@ public class UserService {
 
         if(user.isPresent()) return true;
 
+        else return false;
+    }
+
+    public Boolean nicknameAlreadyExists(String nickname) {
+
+        Optional<User> user = getUserbyNickname(nickname);
+
+        if(user.isPresent()) return true;
         else return false;
     }
 }
