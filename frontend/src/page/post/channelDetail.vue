@@ -10,6 +10,7 @@
         >{{ snackbar.text }}</v-snackbar
       >
       <div>
+        <History style="position: fixed; right: 12px;"/>
         <div class="toolBox">
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -148,7 +149,6 @@
       </div>
     </div>
 
-    <div class="testerDot"></div>
     <v-responsive>
       <v-responsive
         class="userListBadge badge-info text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
@@ -303,7 +303,7 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <Chat />
+    <!-- <Chat /> -->
   </div>
 </template>
 
@@ -313,6 +313,7 @@ import Stomp from "stomp-websocket";
 import http from "../../http-common.js";
 import Moveable from "vue-moveable";
 import Notice from "../../components/board/Notice";
+import History from "../../components/board/History";
 import Postit from "../../components/module/Postit";
 import Scheduler from "../../components/module/Scheduler";
 import Chat from "../../components/common/Chat";
@@ -458,7 +459,7 @@ export default {
       this.channelName = localStorage.getItem("wsboard.channelName");
       var _this = this;
         ws.connect(
-          {},
+          {'userId': this.$store.state.userData.nickname},
           function (frame) {
             ws.subscribe(
               "/sub/board/channel/" + _this.board.channelId,
@@ -757,9 +758,6 @@ export default {
             document.querySelector(
               ".realBoard"
             ).style.transformOrigin = `${event.offsetX}px ${event.offsetY}px`;
-
-            document.querySelector(".testerDot").style.top = event.offsetY + "px";
-            document.querySelector(".testerDot").style.left = event.offsetX + "px";
             this.sendMessage();
             console.log("ltp : ", this.lp, ",", this.tp);
             console.log(
@@ -883,9 +881,6 @@ export default {
       document.querySelector(
         ".realBoard"
       ).style.transformOrigin = `${event.offsetX}px ${event.offsetY}px`;
-
-      document.querySelector(".testerDot").style.top = event.offsetY + "px";
-      document.querySelector(".testerDot").style.left = event.offsetX + "px";
 
       let leftPoint =
         document.querySelector(".realBoard").style.left.replace("px", "") * 1;
@@ -1038,7 +1033,8 @@ export default {
     Poll,
     InviteModal,
     WithdrawalModal,
-    Editor
+    Editor,
+    History,
   },
 };
 
@@ -1204,15 +1200,6 @@ export default {
 
 .moimimg {
   border-radius: 50%;
-}
-
-.testerDot {
-  height: 4px;
-  width: 4px;
-  background-color: black;
-  position: fixed;
-  z-index: 4;
-  display: none;
 }
 
 .invite-mem {

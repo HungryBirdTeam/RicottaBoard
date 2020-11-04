@@ -8,9 +8,9 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/board?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: root
-    password: mariadb
+    password: ssafy
     initialization-mode: always
-    data: classpath:board-schema.sql
+#    data: classpath:board-schema.sql
 
   data:
     mongodb:

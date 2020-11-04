@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-reponsive>
+    <v-responsive>
       <v-btn
         class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
         fab
@@ -20,10 +20,10 @@
           class="top-notice"
           v-if="isTopNoticeToggle"
           >
-          {{ topNotice }}
+          공지 | {{ topNotice }}
         </v-responsive>
       </transition>
-    </v-reponsive>
+    </v-responsive>
 
     <div v-if="isNotice" class="notice-modal">
       <div class="d-flex justify-content-between mb-4">
@@ -149,8 +149,8 @@ import * as boardApi from "../../api/board.js";
 export default {
   computed: {
     topNotice() {
-      if (this.articleList.lenth === 0) {
-        return ''
+      if (this.articleList.length === 0) {
+        return '공지가 없습니다'
       }
       return this.articleList[0].title
     }

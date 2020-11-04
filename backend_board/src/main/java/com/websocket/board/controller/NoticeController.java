@@ -12,29 +12,30 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/board")
 public class NoticeController {
     private final NoticeRepository noticeRepository;
 
-    @GetMapping("/board/{channelId}/notice")
+    @GetMapping("/{channelId}/notice")
     public List<Notice> getAllNotice(@PathVariable String channelId) {
         return noticeRepository.findAllByChannelId(channelId, Sort.by("id").descending());
     }
 
-    @PostMapping("/board/{channelId}/notice")
+    @PostMapping("/{channelId}/notice")
     public Notice createNotice(@PathVariable String channelId, @RequestBody Notice newNotice) {
         newNotice.setChannelId(channelId);
         noticeRepository.save(newNotice);
         return newNotice;
     }
 
-    @GetMapping("/board/{channelId}/notice/{noticeId}")
+    @GetMapping("/{channelId}/notice/{noticeId}")
     public Notice getNotice(@PathVariable String noticeId) {
         Long id = Long.parseLong(noticeId);
         Optional<Notice> notice = noticeRepository.findById(id);
         return notice.get();
     }
 
-    @PutMapping("/board/{channelId}/notice/{noticeId}")
+    @PutMapping("/{channelId}/notice/{noticeId}")
     public Notice putNotice(@PathVariable String noticeId, @RequestBody Notice updateNotice) {
         Long id = Long.parseLong(noticeId);
         Optional<Notice> notice = noticeRepository.findById(id);
@@ -43,7 +44,7 @@ public class NoticeController {
         return notice.get();
     }
 
-    @DeleteMapping("/board/{channelId}/notice/{noticeId}")
+    @DeleteMapping("/{channelId}/notice/{noticeId}")
     public String deleteNotice(@PathVariable String noticeId) {
         Long id = Long.parseLong(noticeId);
         Optional<Notice> notice;
