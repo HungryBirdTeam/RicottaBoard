@@ -162,7 +162,7 @@ function loadChannelInfo(mChannel, email) {
     channel = mChannel;
     myInfo = email;
     console.log('#video_' + myInfo);
-    console.log(this.channel);
+    console.log(channel);
 
     socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
     socket.on('member', member => {

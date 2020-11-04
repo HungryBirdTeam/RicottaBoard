@@ -284,6 +284,7 @@
             :style="{ left: md.left, top: md.top }"
           />
         </div>
+        
 
         <div
           class="video"
@@ -291,15 +292,12 @@
           :key="vd.vdId"
           @click.right="deleteTargetAction(idx, 'video', $event)"
         >
-          <video
-            :id="vd.vdId"
+          <FaceChat
+            :videoInfo="vd"
+            :channelId="board.channelId"
+            :userEmail="vd.user"
+            :myEmail="userEmail"
             :style="{ left: vd.left, top: vd.top }"
-            :click="clickVd(vd.vdId)"
-            autoplay playsinline
-            class="MoveableBox"
-            width="300px"
-            height="300px"
-             style="border: 1px solid black;"
           />
         </div>
 
@@ -326,6 +324,7 @@ import Chat from "../../components/common/Chat";
 import Poll from "../../components/common/Poll";
 import Kanban from "../../components/module/Kanban";
 import Editor from "../../components/module/Editor";
+import FaceChat from "../../components/module/FaceChat";
 import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
@@ -353,9 +352,10 @@ export default {
     return {
       ws: null,
       channelName: "",
+      userEmail : this.$store.state.userData.email,
       // 소켓 서버 전송
       board: {
-        channelId: "",
+        channelId: localStorage.getItem("wsboard.channelId"),
         idCount: 1,
         memberList: [],
         postitList: [],
@@ -471,7 +471,7 @@ export default {
       var ws = Stomp.over(sock);
       this.ws = ws;
 
-      this.board.channelId = localStorage.getItem("wsboard.channelId");
+      // this.board.channelId = localStorage.getItem("wsboard.channelId");
       this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
       // loadChannelInfo(this.board.channelId, this.$store.state.userData.email);
@@ -703,6 +703,7 @@ export default {
       } else {
         const newVideo = {
           vdId: "video_"+this.$store.state.userData.email,
+          user: this.$store.state.userData.email,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
@@ -1060,7 +1061,8 @@ export default {
     Poll,
     InviteModal,
     WithdrawalModal,
-    Editor
+    Editor,
+    FaceChat
   },
 };
 
