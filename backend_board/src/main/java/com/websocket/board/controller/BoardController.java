@@ -46,6 +46,7 @@ public class BoardController {
         for (CdoSnapshot cs: snapshots) {
             String tmp = javers.getJsonConverter().toJson(cs);
             SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
+            System.out.println(snapShot);
             historyResponsesList.add(
                     new HistoryResponse().builder()
                             .editModule(snapShot.changedProperties)
