@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////// 초기화 구문 /////////////////////////////////////////////////
 var localStream = new MediaStream();
-var remoteStream = new MediaStream();
+// var remoteStream = new MediaStream();
 const channelPeerConnectionsMap = new Map();
+const streamMap = new Map();
 var isConnect = new Map();
 var isIceCandidate = new Map();
 
@@ -105,7 +106,7 @@ var channel = "tryIt";
 //     }
 // });
 
-var localVideo = document.querySelector('#localVideo');
+var localVideo;
 var remoteVideo = document.querySelector('#remoteVideo');
 
 
@@ -155,9 +156,15 @@ if (location.hostname !== 'localhost') {
 
 ////////////////////////////////////////////////// 함수 영역 //////////////////////////////////////////////////
 
-function loadChannelInfo(channel, email) {
-    socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
+function loadChannelInfo(mChannel, email) {
 
+
+    channel = mChannel;
+    myInfo = email;
+    console.log('#video_' + myInfo);
+    console.log(this.channel);
+
+    socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
     socket.on('member', member => {
         if (member != myInfo) {
             if (!users.has(member)) {
@@ -228,14 +235,18 @@ function loadChannelInfo(channel, email) {
             isIceCandidate.set(connect.sender, true);
         }
     });
-    this.channel = channel;
-    this.myInfo = email;
+
+
+
     socket.emit('join channel', channel);
 
 }
 
 //비디오 실행
-async function onVideo() {
+async function onVideo(vdId) {
+    console.log("email", myInfo);
+    localVideo = document.getElementById(vdId);
+    // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
         audio: false,
         video: true
@@ -283,9 +294,14 @@ function createPeerConnection(member) {
             // pc.onaddstream = handleRemoteStreamAdded;
             pc.onremovestream = handleRemoteStreamRemoved;
 
-            pc.ontrack = handleTrack;
+            pc.ontrack = event => {
+                handleTrack(event, member);
+            }
+            handleTrack;
 
             channelPeerConnectionsMap.set(member, pc);
+
+            streamMap.set(member, null);
             isConnect.set(member, false);
             isIceCandidate.set(member, false);
             console.log(member, "와의 커넥션 객체 생성");
@@ -298,9 +314,18 @@ function createPeerConnection(member) {
     }
 }
 
-function handleTrack(event) {
-    remoteStream = event.streams[0];
-    remoteVideo.srcObject = remoteStream;
+function handleTrack(event, member) {
+    // remoteStream = event.streams[0];
+    // remoteVideo.srcObject = remoteStream;
+    streamMap.set(member, event.streams[0]);
+
+    var videoComponent = document.getElementById("video_" + member);
+    if (videoComponent != undefined) {
+        console.log("src added");
+        videoComponent.srcObject = streamMap.get(member);
+    } else {
+        console.log("no component");
+    }
 }
 
 //peer listener//
@@ -379,7 +404,7 @@ function handleCreateOfferError(event) {
 
 
 function gotStream(stream) {
-    console.log('Adding local stream.');
+    console.log('Adding local stream.', localVideo);
     localStream = stream;
     localVideo.srcObject = stream;
 
