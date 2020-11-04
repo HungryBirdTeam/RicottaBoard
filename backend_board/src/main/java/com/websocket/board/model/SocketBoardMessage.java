@@ -27,6 +27,8 @@ public class SocketBoardMessage implements Serializable {
     @Id
     @JsonProperty(value = "channelId")
     private String id;       // 채널 아이디
+    @JsonProperty(value = "userNickname")
+    private String editUser;    // 수정한 사용자
     private Long userCount;         // 현재 참여하고 있는 사용자 수
     private List<String> memberList;// 채널 참여 멤버 닉네임 리스트
 

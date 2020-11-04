@@ -22,7 +22,6 @@ public class ChannelController {
     private final BoardClientService boardClientService;
 
     @PostMapping("/channels")
-    @ResponseBody
     public List<Channel> myChannel(
             @RequestHeader(name = "Authorization") String Authorization,
             @RequestBody UserInfoRequest userInfoRequest) {
@@ -38,7 +37,6 @@ public class ChannelController {
     }
 
     @PostMapping("/channel")
-    @ResponseBody
     public Channel createChannel(
             @RequestHeader(name = "Authorization") String Authorization,
             @RequestBody CreateChannelRequest createChannelRequest) {
@@ -57,7 +55,6 @@ public class ChannelController {
     }
 
     @PostMapping("/channel/invitation")
-    @ResponseBody
     public InviteChannelResponse enterInvitedChannel(@RequestBody InviteChannelRequest inviteChannelRequest) {
         String channelId = inviteChannelRequest.getChannelId();
         // save channel in mariadb
@@ -72,7 +69,6 @@ public class ChannelController {
     }
 
     @DeleteMapping("/channel/withdrawal")
-    @ResponseBody
     public WithdrawalResponse channelInfo(@RequestBody WithdrawalRequest request) {
         //channelRedisRepository.removeUserEnterInfo(request.getChannelId());
 
