@@ -294,9 +294,12 @@
           <video
             :id="vd.vdId"
             :style="{ left: vd.left, top: vd.top }"
+            :click="clickVd(vd.vdId)"
             autoplay playsinline
+            class="MoveableBox"
             width="300px"
             height="300px"
+             style="border: 1px solid black;"
           />
         </div>
 
@@ -457,6 +460,11 @@ export default {
     });
   },
   methods: {
+    clickVd(vdId) {
+      var vd = document.getElementById(vdId);
+      console.dir(vd);
+      onVideo(vdId);
+    },
     init() {
       console.log('init method start')
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
@@ -700,7 +708,8 @@ export default {
           isHidden: false,
         };
         console.dir(newVideo);
-        this.board.editorList.push(newVideo);
+        this.board.videoList.push(newVideo);
+        this.board.videoOn = true;
         this.sendMessage();
         // snackbar
         this.createSnackbar("비디오가 실행되었습니다!", 1500, "success");
