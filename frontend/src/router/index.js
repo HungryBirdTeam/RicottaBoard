@@ -19,6 +19,7 @@ import DeleteUser from '../page/user/ReallyDelete.vue'
 
 // 포스트
 import Enter from '../page/post/Enter.vue'
+import EnterTest from '../page/post/EnterTest.vue'
 import List from '../page/post/List.vue'
 
 // test
@@ -91,10 +92,15 @@ export default new Router({
       component: Enter,
     },
     { 
+      path: '/Enter',
+      component: EnterTest,
+    },
+    { 
       path: '/main',
       name: constants.URL_TYPE.POST.MAIN,
       component: List,
     },
+    
     { 
       path: '/error',
       name: constants.ERROR.FRONT_ERROR,
