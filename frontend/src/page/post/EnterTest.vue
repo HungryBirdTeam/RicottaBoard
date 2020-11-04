@@ -1,6 +1,6 @@
 <template>
     <div style=" padding:0px; margin:0px;">
-        // transition을 하나로 하면 leave-active 효과가 나타나지 않음
+        <!-- transition을 하나로 하면 leave-active 효과가 나타나지 않음 -->
         <transition name="loader" >
             <div
                 class="Loading"
@@ -19,49 +19,67 @@
             </div>  
         </transition>
         <transition name="starter">
-            <div>
-                <v-toolbar dark color="#0d875C">
-                    <v-app-bar-nav-icon></v-app-bar-nav-icon>
-                    <v-toolbar-title>                        
-                        <img
-                            style="position:absolute;top:0px;  margin-top:7px; width:auto;height:50px;"
-                            src="../../assets/img/Logo.png"
-                        />
-                    </v-toolbar-title>
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn color="#0d875C" border="white">
-                        Login
-                    </v-btn>
-                </v-toolbar>
-
-                <div
-                    class="Main"
-                >
-                    <Main v-if="isMain" />
-                    <Guide v-if="isGuide" />
-                    <button @click="changeComponent"> click </button>
+            <div class="main">
+                <h4 style=" font-size:30px; line-height:150%;">
+                리코타보드는 온라인 및 오프라인 모임을 지원하는 협업툴 플랫폼입니다
+                </h4>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <h4 style=" font-size:24px; line-height:130%;">
+                            계정이 있으신가요?
+                            <br>
+                            지금 로그인하세요!
+                            <br />
+                            <v-btn class="allbtn px-5 py-2" color="#0d875C">
+                                <LoginModal />
+                            </v-btn>
+                            <br>
+                            없다면 가입하고 이용해보세요!
+                            <br>
+                            <router-link to="user/signup">
+                                <v-btn class="allbtn px-5 py-2" color="#0d875C">가입하기</v-btn>
+                            </router-link>
+                        </h4>
+                    </div>
+                    
+                    <div class="col-4">
+                        <h4 class="comment">
+                            체험해보시고 싶으신가요?
+                            <br>
+                            아래 버튼을 눌러보세요!
+                            <br>
+                            <router-link to="channel/earlyBird10TeamTestChannel1">
+                                <v-btn class="allbtn px-5 py-2" color="#0d875C">체험하기</v-btn>
+                            </router-link>
+                        </h4>                                
+                    </div>
+                    
+                    <div class="col-4">
+                        <h4 class="comment">
+                            저희 서비스가 궁금하신가요?
+                            <br>
+                            가이드를 받아보세요!
+                            <br>
+                            <router-link to="/guide">
+                                <v-btn class="allbtn px-5 py-2" color="#0d875C">Guide</v-btn>
+                            </router-link>
+                        </h4>
+                    </div>
                 </div>
-            </div>    
+            </div>
         </transition>  
     </div>
 </template>
 
 <script>
-import Main from "../../components/enter/Main"
-import Guide from "../../components/enter/Guide"
+import LoginModal from "../../components/common/LoginModal";
 
 export default {
-    components: {
-        Main,
-        Guide,
-    },
+    components: { LoginModal },
     data() {
         return {
             isStarting: false,
-            isMain: true,
-            isGuide: false,
         };
     },
     methods: {
@@ -69,15 +87,6 @@ export default {
             this.isStarting = true;
             console.log('after', this.isStarting);
         },
-        changeComponent() {        
-            if (this.isMain) {
-                this.isMain = false;
-                this.isGuide = true;
-            } else {
-                this.isMain = true;
-                this.isGuide = false; 
-            };
-        }
     },
     created() {
         this.isStarting = false;
@@ -90,7 +99,7 @@ export default {
 <style scoped>
 .Loading {
     width:100%;
-    height:100%;
+    height:100vh;
     left:0px;
     top:0px;
     background: #0d875C;
@@ -98,13 +107,31 @@ export default {
     z-index: 1;
 }
 
-.Main {
+.main {
     width:100%;
-    height:100%;
+    height:100vh;
     left:0px;
     top:0px;
     background: #f5f5ec;
     text-align: center;
+    padding:20vh;
+    padding:5vw;
+}
+
+.comment {
+    font-size:24px;
+    line-height:130%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.allbtn {
+    min-width: 25%;
+    text-align: center;
+    color: white;
+    margin: 1.5rem;
 }
 
 .loader-leave, .loader-leave-to {
