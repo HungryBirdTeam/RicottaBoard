@@ -1,6 +1,6 @@
-import { createInstance } from "./index.js";
+import { BOARD_BASE_URL, createInstance } from "./index.js";
 // 보드서버
-const API_BASE_URL = "http://localhost:8081";
+const API_BASE_URL = BOARD_BASE_URL;
 var channelId = localStorage.getItem("wsboard.channelId");
 
 const instance = createInstance(API_BASE_URL);
@@ -18,7 +18,7 @@ function initialRecv(isTestPage, accessToken, success, fail){
 
 // 공지사항 REST API 
 function getAllNotice(isTestPage, accessToken, success, fail){
-    var url = `/board/${channelId}/notice`; 
+    var url = `api/board/${channelId}/notice`; 
     if(isTestPage) url = "/board/tutorial/earlyBird10TeamTestChannel1/notice";
     instance
         .get(url, {
@@ -30,7 +30,7 @@ function getAllNotice(isTestPage, accessToken, success, fail){
 
 function createNotice(notice, isTestPage, accessToken, success, fail){
     console.log
-    var url = `/board/${channelId}/notice`; 
+    var url = `api/board/${channelId}/notice`; 
     if(isTestPage) url = "/board/tutorial/earlyBird10TeamTestChannel1/notice";
     instance
         .post(url, notice, {
@@ -42,7 +42,7 @@ function createNotice(notice, isTestPage, accessToken, success, fail){
 
 
 function getNotice(channelId, noticeId, isTestPage, accessToken, success, fail){
-    var url = `/board/${channelId}/notice/${noticeId}`; 
+    var url = `api/board/${channelId}/notice/${noticeId}`; 
     if(isTestPage) url = `/board/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
     instance
         .get(url, {
@@ -53,7 +53,7 @@ function getNotice(channelId, noticeId, isTestPage, accessToken, success, fail){
 }
 
 function updateNotice(notice, channelId, noticeId, isTestPage, accessToken, success, fail){
-    var url = `/board/${channelId}/notice/${noticeId}`; 
+    var url = `api/board/${channelId}/notice/${noticeId}`; 
     if(isTestPage) url = `/board/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
     instance
         .put(url, notice, {
@@ -64,7 +64,7 @@ function updateNotice(notice, channelId, noticeId, isTestPage, accessToken, succ
 }
 
 function deleteNotice(noticeId, isTestPage, accessToken, success, fail){
-    var url = `/board/${channelId}/notice/${noticeId}`; 
+    var url = `api/board/${channelId}/notice/${noticeId}`; 
     if(isTestPage) url = `/board/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
     instance
         .delete(url, {
