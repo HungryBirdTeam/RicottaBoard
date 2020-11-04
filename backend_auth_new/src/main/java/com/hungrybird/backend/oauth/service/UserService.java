@@ -3,6 +3,7 @@ package com.hungrybird.backend.oauth.service;
 import com.hungrybird.backend.oauth.model.User;
 import com.hungrybird.backend.oauth.model.UserAuthKey;
 import com.hungrybird.backend.oauth.model.payload.ApiResponce;
+import com.hungrybird.backend.oauth.model.payload.TokenResponce;
 import com.hungrybird.backend.oauth.repository.UserAuthKeyRepository;
 import com.hungrybird.backend.oauth.repository.UserRepository;
 import com.hungrybird.backend.oauth.util.JwtUtil;
@@ -150,7 +151,7 @@ public class UserService {
 
             String accessToken = jwtUtil.createToken(id,name);
             System.out.println("AccessToken is : " + accessToken);
-            return ResponseEntity.ok(new ApiResponce(true, "Login Success. : " + accessToken));
+            return ResponseEntity.ok(new TokenResponce(accessToken, "bearer"));
         }
 
         return new ResponseEntity(HttpStatus.UNAUTHORIZED);
@@ -162,4 +163,12 @@ public class UserService {
     }
 
 
+    public Boolean emailAlreadyExists(String email) {
+
+        Optional<User> user = getUser(email);
+
+        if(user.isPresent()) return true;
+
+        else return false;
+    }
 }

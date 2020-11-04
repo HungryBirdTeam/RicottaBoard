@@ -9,6 +9,7 @@ import com.hungrybird.backend.oauth.util.JwtUtil;
 import freemarker.template.TemplateException;
 import io.jsonwebtoken.Jwt;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,7 +112,6 @@ public class UserController {
 
 
 
-
         return userService.testLogin(email, password);
 
 //        return new ResponseEntity.ok().body;
@@ -131,4 +131,11 @@ public class UserController {
 //    }
 
 
+    @ApiOperation(value = "Checks if the given email is in use")
+    @GetMapping("/checkEmailInUse")
+    public ResponseEntity checkEmailInUse(@ApiParam(value = "Email id to check against")
+                                              @RequestParam("email") String email) {
+        Boolean emailExists = userService.emailAlreadyExists(email);
+        return ResponseEntity.ok(new ApiResponce(true, emailExists.toString()));
+    }
 }
