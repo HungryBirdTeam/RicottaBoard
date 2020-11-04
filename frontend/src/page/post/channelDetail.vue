@@ -691,7 +691,7 @@ export default {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
         const newVideo = {
-          vdId: "video_"+this.$store.state.userDate.email,
+          vdId: "video_"+this.$store.state.userData.email,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
