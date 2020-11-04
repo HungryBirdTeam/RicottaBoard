@@ -10,6 +10,7 @@
         >{{ snackbar.text }}</v-snackbar
       >
       <div>
+        <History style="position: fixed; right: 12px;"/>
         <div class="toolBox">
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -148,14 +149,14 @@
       </div>
     </div>
 
-    <div class="testerDot"></div>
     <v-responsive>
       <v-responsive
         class="userListBadge badge-info text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
         @mouseover="testIn"
         @mouseout="testOut"
+        style="background-color: black;"
       >
-        <v-img src="@/assets/img/team.png" style="color: white"
+        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 9px;"
           ><div v-if="userCount != 0">{{ userCount }}</div></v-img
         >
       </v-responsive>
@@ -305,7 +306,7 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <Chat />
+    <!-- <Chat /> -->
   </div>
 </template>
 
@@ -318,6 +319,7 @@ import Stomp from "stomp-websocket";
 import http from "../../http-common.js";
 import Moveable from "vue-moveable";
 import Notice from "../../components/board/Notice";
+import History from "../../components/board/History";
 import Postit from "../../components/module/Postit";
 import Scheduler from "../../components/module/Scheduler";
 import Chat from "../../components/common/Chat";
@@ -780,9 +782,6 @@ export default {
             document.querySelector(
               ".realBoard"
             ).style.transformOrigin = `${event.offsetX}px ${event.offsetY}px`;
-
-            document.querySelector(".testerDot").style.top = event.offsetY + "px";
-            document.querySelector(".testerDot").style.left = event.offsetX + "px";
             this.sendMessage();
             console.log("ltp : ", this.lp, ",", this.tp);
             console.log(
@@ -906,9 +905,6 @@ export default {
       document.querySelector(
         ".realBoard"
       ).style.transformOrigin = `${event.offsetX}px ${event.offsetY}px`;
-
-      document.querySelector(".testerDot").style.top = event.offsetY + "px";
-      document.querySelector(".testerDot").style.left = event.offsetX + "px";
 
       let leftPoint =
         document.querySelector(".realBoard").style.left.replace("px", "") * 1;
@@ -1062,7 +1058,8 @@ export default {
     InviteModal,
     WithdrawalModal,
     Editor,
-    FaceChat
+    FaceChat,
+    History,
   },
 };
 
@@ -1220,7 +1217,7 @@ export default {
   position: fixed;
   z-index: 2;
   bottom: 12px;
-  left: 30px;
+  left: 35px;
   text-align: right;
   padding-right: 1%;
   padding-left: 5%;
@@ -1228,15 +1225,6 @@ export default {
 
 .moimimg {
   border-radius: 50%;
-}
-
-.testerDot {
-  height: 4px;
-  width: 4px;
-  background-color: black;
-  position: fixed;
-  z-index: 4;
-  display: none;
 }
 
 .invite-mem {
@@ -1256,7 +1244,7 @@ export default {
 .reset-button {
   position: fixed;
   z-index: 3;
-  bottom: 85px;
+  bottom: 150px;
   left: 12px;
   border: solid black 1px;
   width: 56px;
