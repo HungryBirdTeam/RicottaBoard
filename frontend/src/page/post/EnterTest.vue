@@ -38,7 +38,7 @@
                             없다면 가입하고 이용해보세요!
                             <br>
                             <router-link to="user/signup">
-                                <v-btn class="allbtn px-5 py-2" color="#0d875C">가입하기</v-btn>
+                                <v-btn class="allbtn px-5 py-2" color="#0d875C">Sign up</v-btn>
                             </router-link>
                         </h4>
                     </div>
@@ -50,7 +50,7 @@
                             아래 버튼을 눌러보세요!
                             <br>
                             <router-link to="channel/earlyBird10TeamTestChannel1">
-                                <v-btn class="allbtn px-5 py-2" color="#0d875C">체험하기</v-btn>
+                                <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
                             </router-link>
                         </h4>                                
                     </div>
