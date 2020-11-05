@@ -8,7 +8,6 @@ import constants from '../lib/constants'
 import ChannelDetail from '../page/post/channelDetail.vue'
 
 // 유저
-import Login from '../page/user/Login.vue'
 import Join from '../page/user/Join.vue'
 import JoinDone from '../page/user/JoinDone.vue'
 import MyPage from '../page/user/MyPage.vue'
@@ -46,11 +45,6 @@ export default new Router({
       props: route => ({channelId: Number(route.params.ChannelId)})
     },
     // 로그인/가입
-    { 
-      path: '/user/login',
-      name: constants.URL_TYPE.USER.LOGIN,
-      component: Login
-    },
     {
       path: '/user/signup',
       name: constants.URL_TYPE.USER.JOIN,

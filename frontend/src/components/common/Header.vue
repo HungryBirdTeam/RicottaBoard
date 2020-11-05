@@ -1,6 +1,5 @@
 <template>
-  <div id="header" style="background: rgb(0,0,0); border:solid 0px;
-">
+  <div id="header">
     <h1>
       <router-link 
         class="white--text"
@@ -135,6 +134,16 @@ export default {
 };
 </script>
 <style>
+#header {
+  background:#0d875C;
+  border:solid 0px;
+}
+
+.toolbar {
+  background:#0d875C;
+  width: 100vw;
+}
+
 .headBox{
   color:rgba(255, 255, 255, 0.75);
   line-height: 25px;

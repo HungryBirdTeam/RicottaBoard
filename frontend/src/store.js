@@ -23,7 +23,6 @@ export const store = new Vuex.Store({
         host: 'http://127.0.0.1:3000',
         token: '',
         role: '',
-        isLogged: false,
         userData: {
             email: '',
             name: '',
@@ -180,8 +179,6 @@ export const store = new Vuex.Store({
                             });
                             console.log("In store, state is : ", store.state);
                             cookies.set('AccessData', _store.getters.userDataStr);
-                            store.commit('toggleLogin');
-
                             router.push("/main");
                             return true;
                         }
@@ -208,7 +205,6 @@ export const store = new Vuex.Store({
                 //             console.log("In store, state is : ", store.state);
                 //             // const userDataString = _store.userData
                 //             cookies.set('AccessData', _store.getters.userDataStr);
-                //             store.commit('toggleLogin');
 
             //             router.push("/main");
             //             // router.go(0);
@@ -230,7 +226,6 @@ export const store = new Vuex.Store({
         [constants.METHODS.LOGOUT_USER]: (store) => {
             store.commit(constants.METHODS.LOGOUT_USER);
             state.commit("reSetAll");
-            this.$store.state.isLogged = false;
             this.$router.go(0);
         },
 
@@ -546,9 +541,6 @@ export const store = new Vuex.Store({
         toggleModal: (state) => {
             state.modal = !state.modal;
         },
-        toggleLogin: (state) => {
-            state.isLogged = !state.isLogged;
-        },
         toggleUpdate: (state) => {
             console.log('update Occured')
             state.updateOccur = !state.updateOccur;
@@ -575,9 +567,6 @@ export const store = new Vuex.Store({
         },
         modal: function(state) {
             return state.modal;
-        },
-        isLogged: function(state) {
-            return state.isLogged;
         },
     },
 });
