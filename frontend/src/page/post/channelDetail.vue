@@ -472,7 +472,7 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
-      // loadChannelInfo(this.board.channelId, this.userEmail);
+      loadChannelInfo(this.board.channelId, this.userEmail);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
@@ -700,7 +700,7 @@ export default {
       if (this.board.videoOn) {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
-        loadChannelInfo(this.board.channelId, this.userEmail);
+        // loadChannelInfo(this.board.channelId, this.userEmail);
         const newVideo = {
           vdId: "video_"+this.userEmail,
           userEmail: this.userEmail,
