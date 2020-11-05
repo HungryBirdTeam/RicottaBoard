@@ -191,6 +191,7 @@ function loadChannelInfo(channelId, email, _socket) {
         // console.log("myInfo : ", user);
         // } else {
         // var info = { user: myInfo, channel: channel };
+        console.log("new member!!!!!!!!!");
         socket.emit('new member', channel);
         // }
     });
