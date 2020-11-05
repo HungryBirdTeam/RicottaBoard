@@ -560,6 +560,7 @@ export default {
       this.$store.state.kanban.states = recv.kanban.states;
       this.board.editorList = recv.editorList;
       this.$store.state.editorList = recv.editorList;
+      this.board.videoList = recv.videoList;
       //crudModule 초기화
       // this.board.crudModule = {
       //   modulType: "",
