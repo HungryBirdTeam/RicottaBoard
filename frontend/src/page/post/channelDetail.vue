@@ -697,7 +697,6 @@ export default {
       if (this.board.videoOn) {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
-        loadChannelInfo(this.board.channelId, this.userEmail);
         const newVideo = {
           vdId: "video_"+this.userEmail,
           userEmail: this.userEmail,
