@@ -854,7 +854,7 @@ export default {
           this.board.editorList.splice(idx, 1);
         } else if (moduleName === "video") {
           var id = this.board.videoList[idx].vdId;
-          if(id.substring(6, id.length) != this.$store.state.userDate.email) {
+          if(id.substring(6, id.length) != this.$store.state.userData.email) {
             return;
           }
           this.board.delete.moduleName = "video";
