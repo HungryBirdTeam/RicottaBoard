@@ -128,7 +128,6 @@ import Stomp from "stomp-websocket";
 import axios from "axios";
 import http from "../../http-common.js";
 import LoginModal from "../../components/common/LoginModal";
-import Login from "../user/Login";
 import img1 from "../../assets/img/developer1.jpg";
 import img2 from "../../assets/img/developer2.jpg";
 import img3 from "../../assets/img/developer3.jpg";
@@ -141,7 +140,7 @@ import example3 from "../../assets/img/example3.png";
 import example4 from "../../assets/img/example4.png";
 
 export default {
-  components: { LoginModal, Login },
+  components: { LoginModal },
 
   data: () => ({
     isLoggin: false,
