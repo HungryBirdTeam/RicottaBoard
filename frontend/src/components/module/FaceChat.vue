@@ -28,11 +28,10 @@ export default {
   },
   methods: {
     onClickVideo() {
-      onVideo(videoInfo.vdId);
+      this.onVideo(videoInfo.vdId);
     }
   },
   created() {
-    // loadChannelInfo(channelId, myEmail);
   },
 };
 </script>
