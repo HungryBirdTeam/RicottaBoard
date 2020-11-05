@@ -9,6 +9,8 @@ var isIceCandidate = new Map();
 var myInfo;
 var users = new Set();
 
+var isVideoOn = false;
+
 var pcConfig = {
     'iceServers': [{
             'urls': 'stun:stun.l.google.com:19302'
@@ -156,10 +158,10 @@ if (location.hostname !== 'localhost') {
 
 ////////////////////////////////////////////////// 함수 영역 //////////////////////////////////////////////////
 
-function loadChannelInfo(mChannel, email) {
+function loadChannelInfo(channelId, email) {
 
 
-    channel = mChannel;
+    channel = channelId;
     myInfo = email;
     console.log('#video_' + myInfo);
     console.log(channel);
@@ -179,7 +181,7 @@ function loadChannelInfo(mChannel, email) {
     socket.on('alert', () => {
         var info = { channel: channel, member: myInfo };
         socket.emit('alert member', info);
-    })
+    });
 
     socket.on('new member', () => {
         // if (myInfo == undefined) {
@@ -189,7 +191,7 @@ function loadChannelInfo(mChannel, email) {
         // var info = { user: myInfo, channel: channel };
         socket.emit('new member', channel);
         // }
-    })
+    });
 
     socket.on('sender info', function(connect) {
         if (connect.sender != myInfo && connect.receiver == myInfo) {
@@ -244,7 +246,6 @@ function loadChannelInfo(mChannel, email) {
 
 //비디오 실행
 async function onVideo(vdId) {
-    console.log("email", myInfo);
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -271,7 +272,9 @@ function createOffer() {
                 );
             isConnect.set(key, true);
         }
-    })
+    });
+
+    isVideoOn = true;
 }
 
 function doAnswer(sender) {
@@ -287,6 +290,10 @@ function createPeerConnection(member) {
     try {
 
         if (!channelPeerConnectionsMap.has(member)) {
+            streamMap.set(member, null);
+            isConnect.set(member, false);
+            isIceCandidate.set(member, false);
+            console.log(member, "와의 커넥션 객체 생성");
             var pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = (event) => {
                 handleIceCandidate(event, member);
@@ -297,14 +304,12 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             }
-            handleTrack;
 
             channelPeerConnectionsMap.set(member, pc);
 
-            streamMap.set(member, null);
-            isConnect.set(member, false);
-            isIceCandidate.set(member, false);
-            console.log(member, "와의 커넥션 객체 생성");
+            if (isVideoOn) {
+                createOffer();
+            }
         }
 
     } catch (e) {
