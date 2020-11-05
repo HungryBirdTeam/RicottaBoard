@@ -8,15 +8,15 @@
             id="email"
             placeholder="이메일을 입력해주세요"
             type="text"
-            style="width:100%; margin-bottom:0px"
+            class="input-border"
           />
         </div>
         <div class="input-wrap">
-          <input v-model="password" type="password" style="margin-bottom:0px" id="password" placeholder="영문, 숫자 혼용 8자 이상" />
+          <input class="input-border" v-model="password" type="password" id="password" placeholder="영문, 숫자 혼용 8자 이상" />
         </div>
        
 
-        <div class="add-option">
+        <div class="add-option mb-4">
           <div class="wrap" >
             <p style="margin-bottom:0%">아직 회원이 아니신가요?</p>
             <router-link 
@@ -37,8 +37,8 @@
             <p style="margin-bottom:0%">비밀번호를 잊으셨나요?</p>
           </div>
         </div>
-        
-         <button @click="login(email, password)" style="margin-top:20px; font-size:15px " class="btn">로그인 하기</button>
+
+        <v-btn dark depressed block class="allbtn mt-3" color="#0d875C" @click="login(email, password)">로그인 하기</v-btn>
       </div>
     </div>
   </div>
@@ -75,9 +75,6 @@ export default {
         console.log(this.userData);
         this.modal = !this.modal;
       }
-
-      // this.email = '';
-      // this.password = '';
     },
   },
   data: () => {
@@ -92,4 +89,20 @@ export default {
 </script>
 
 
-// <style lang="scss" scoped>
+<style lang="scss" scoped>
+</style>
+
+<style scoped>
+.input-border {
+  border:solid 1px;
+  border-color: #0d875C;
+  width:100%;
+  margin-bottom:0px;
+}
+
+.allbtn {
+    text-align: center;
+    margin-top:20px;
+    font-size:15px;
+}
+</style>

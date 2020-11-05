@@ -31,9 +31,25 @@
           <router-link style="margin-left: 20px; padding-top:5px"
             v-bind:to="{name:constants.URL_TYPE.USER.MYPAGE}"
             class="btn--text"
-          >{{(this.$store.getters.userData.nickname)}}</router-link>
+          >
+          {{(this.$store.getters.userData.nickname)}}
+          </router-link>
 
-          <button @click="logout">로그아웃</button>
+          <v-btn dark class="allbtn" outlined color="white" @click="logout">Logout</v-btn>
+        </div>
+      </template>
+      <template v-if="this.$store.getters.accessToken == ''">
+        <div class="headBox mt-1">
+          <router-link style="margin-left: 20px; padding-top:5px"
+            v-bind:to="{name:constants.URL_TYPE.USER.JOIN}"
+          >
+          <v-btn dark class="allbtn" outlined color="white">Sign up</v-btn>
+          </router-link>
+
+          <v-btn dark class="allbtn" outlined color="white">
+            <LoginModal />
+          </v-btn>
+          
         </div>
       </template>
 
@@ -137,11 +153,17 @@ export default {
 #header {
   background:#0d875C;
   border:solid 0px;
+  height: 70px;
 }
 
 .toolbar {
   background:#0d875C;
   width: 100vw;
+}
+
+.allbtn {
+  text-align: center;
+  color: white;
 }
 
 .headBox{
