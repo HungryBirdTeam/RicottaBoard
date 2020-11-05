@@ -7,7 +7,7 @@ const instance = createInstance(API_BASE_URL);
 
 function initialRecv(isTestPage, accessToken, success, fail) {
   var url = `api/board/${channelId}`;
-  if (isTestPage) url = "/board/tutorial/earlyBird10TeamTestChannel1";
+  if (isTestPage) url = "api/board/tutorial/earlyBird10TeamTestChannel1";
   instance
     .get(url, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -52,7 +52,7 @@ function createNotice(notice, isTestPage, accessToken, success, fail) {
 
 function getNotice(channelId, noticeId, isTestPage, accessToken, success, fail) {
   var url = `api//board/${channelId}/notice/${noticeId}`;
-  if (isTestPage) url = `/api/board/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
+  if (isTestPage) url = `api/board/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
   instance
     .get(url, {
       headers: { Authorization: "Bearer " + accessToken }

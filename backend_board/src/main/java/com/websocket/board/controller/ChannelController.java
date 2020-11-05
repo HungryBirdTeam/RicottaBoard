@@ -3,6 +3,7 @@ package com.websocket.board.controller;
 import com.websocket.board.model.Channel;
 import com.websocket.board.payload.*;
 import com.websocket.board.repo.ChannelRedisRepository;
+import com.websocket.board.repo.ChannelRepository;
 import com.websocket.board.service.BoardClientService;
 import com.websocket.board.service.ChannelService;
 import com.websocket.board.service.UserService;
@@ -17,9 +18,16 @@ import java.util.List;
 public class ChannelController {
 
     private final ChannelRedisRepository channelRedisRepository;
+    private final ChannelRepository channelRepository;
     private final ChannelService channelService;
     private final UserService userService;
     private final BoardClientService boardClientService;
+
+    @GetMapping("/channels")
+    public List<Channel> findAllChannels() {
+        List<Channel> channels = channelRepository.findAll();
+        return channels;
+    }
 
     @PostMapping("/channels")
     public List<Channel> myChannel(
