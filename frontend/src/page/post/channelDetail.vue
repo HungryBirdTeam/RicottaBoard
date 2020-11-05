@@ -311,8 +311,7 @@
   </div>
 </template>
 
-
-
+<script src="/socket.io/socket.io.js"></script>  
 
 <script>
 import SockJS from "sockjs-client";
@@ -472,7 +471,7 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
-      loadChannelInfo(this.board.channelId, this.userEmail);
+      // loadChannelInfo(this.board.channelId, this.userEmail);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
