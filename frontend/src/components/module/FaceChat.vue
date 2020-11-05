@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     onClickVideo() {
+      console.log("onClick");
       onVideo(this.videoInfo.vdId);
     }
   },

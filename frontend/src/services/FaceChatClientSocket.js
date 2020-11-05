@@ -246,6 +246,7 @@ function loadChannelInfo(channelId, email) {
 
 //비디오 실행
 async function onVideo(vdId) {
+    console.log("onVideo");
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
