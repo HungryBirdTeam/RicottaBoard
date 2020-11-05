@@ -10,7 +10,7 @@
       autoplay playsinline></video>
       <button 
       v-show="userEmail==myEmail"
-      id="videoOn" onclick="onClickVideo()">on</button>
+      id="videoOn" :click="onClickVideo">on</button>
   </div>
 </template>
 
