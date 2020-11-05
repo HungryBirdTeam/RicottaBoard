@@ -472,7 +472,7 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
-      // loadChannelInfo(this.board.channelId, this.userEmail);
+      loadChannelInfo(this.board.channelId, this.userEmail);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
@@ -754,6 +754,12 @@ export default {
             this.board.editorList.map((editor) => {
               if (editor.mdId == target.id) {
                 (editor.left = `${left}px`), (editor.top = `${top}px`);
+              }
+            });
+          } else if (clas[cla] == "video") {
+            this.board.videoList.map((video) => {
+              if (video.vdId == target.id) {
+                (video.left = `${left}px`), (video.top = `${top}px`);
               }
             });
           } else if (clas[cla] == "realBoard") {
