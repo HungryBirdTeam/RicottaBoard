@@ -6,6 +6,7 @@ import com.websocket.board.model.kanban.Kanban;
 import com.websocket.board.model.poll.Poll;
 import com.websocket.board.model.postit.Postit;
 import com.websocket.board.model.scheduler.Scheduler;
+import com.websocket.board.model.video.Video;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,4 +40,5 @@ public class SocketBoardMessage implements Serializable {
     private Scheduler scheduler;    // 스케줄러 객체
     private List<Poll> poll;        // 투표 리스트 객체
     private List<Editor> editorList;          //  에디터 객체
+    private List<Video> videoList;  // 화상 채팅 리스트 객체
 }
