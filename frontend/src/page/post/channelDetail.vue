@@ -852,7 +852,7 @@ export default {
           this.board.delete.moduleName = "editor";
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
-        } else if (modleName === "video") {
+        } else if (moduleName === "video") {
           var id = this.board.videoList[idx].vdId;
           if(id.substring(6, id.length) != this.$store.state.userDate.email) {
             return;
