@@ -158,7 +158,7 @@ if (location.hostname !== 'localhost') {
 
 ////////////////////////////////////////////////// 함수 영역 //////////////////////////////////////////////////
 
-function loadChannelInfo(channelId, email) {
+function loadChannelInfo(channelId, email, _socket) {
 
 
     channel = channelId;
@@ -167,7 +167,8 @@ function loadChannelInfo(channelId, email) {
     console.log(channel);
 
     // socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
-    socket = io('https://k3a204.p.ssafy.io/api/facechat');
+    socket = _socket;
+    console.log(socket);
     socket.on('member', member => {
         if (member != myInfo) {
             if (!users.has(member)) {
