@@ -8,7 +8,8 @@
     </v-main>
   </v-app>
 </template>
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>  
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script>  
 <script>
 import './assets/css/style.scss' 
 import Header from './components/common/Header.vue'
