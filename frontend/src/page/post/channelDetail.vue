@@ -311,7 +311,7 @@
   </div>
 </template>
 
-<script src="/socket.io/socket.io.js"></script>  
+<script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script>  
 
 <script>
 import SockJS from "sockjs-client";
