@@ -468,8 +468,8 @@ export default {
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
-      // var socket = io('https://k3a204.p.ssafy.io/api/facechat');
-      loadChannelInfo(this.board.channelId, this.userEmail);
+      var socket = io('https://k3a204.p.ssafy.io/api/facechat');
+      loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
