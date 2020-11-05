@@ -311,7 +311,7 @@
   </div>
 </template>
 
-
+<script src="http://localhost:3031/socket.io/socket.io.js"></script>
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "stomp-websocket";
@@ -469,7 +469,8 @@ export default {
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
-      var socket = io('https://k3a204.p.ssafy.io/api/facechat');
+      // var socket = io('https://k3a204.p.ssafy.io/api/facechat');
+      var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
@@ -864,9 +865,9 @@ export default {
           this.board.editorList.splice(idx, 1);
         } else if (moduleName === "video") {
           var id = this.board.videoList[idx].vdId;
-          if(id.substring(6, id.length) != this.$store.state.userData.email) {
-            return;
-          }
+          // if(id.substring(6, id.length) != this.$store.state.userData.email) {
+          //   return;
+          // }
           this.board.delete.moduleName = "video";
           this.board.delete.id = this.board.videoList[idx].vdId;
           this.board.videoList.splice(idx, 1);
