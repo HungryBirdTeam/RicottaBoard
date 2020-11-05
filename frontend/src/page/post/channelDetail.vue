@@ -311,7 +311,7 @@
   </div>
 </template>
 
-<script src="k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
+<script src="https://k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "stomp-websocket";
@@ -469,7 +469,7 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // var socket = io('https://k3a204.p.ssafy.io/api/facechat');
-      var socket = io.connect('https://k3a204.p.ssafy.io:3031',{secure:true});
+      var socket = io.connect('https://k3a204.p.ssafy.io:3031',{secure:true})
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
