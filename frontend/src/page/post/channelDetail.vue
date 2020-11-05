@@ -467,7 +467,8 @@ export default {
       var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
-
+      var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
+      console.dir(socket);
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
