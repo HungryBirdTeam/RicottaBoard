@@ -467,7 +467,6 @@ export default {
       var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
-      console.log("io",io);
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
