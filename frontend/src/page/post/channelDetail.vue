@@ -296,7 +296,8 @@
           <FaceChat
             :videoInfo="vd"
             :channelId="board.channelId"
-            :userEmail="vd.user"
+            :userEmail="vd.userEmail"
+            :userNickname="vd.userNickname"
             :myEmail="userEmail"
             :style="{ left: vd.left, top: vd.top }"
           />
@@ -353,7 +354,7 @@ export default {
   data() {
     return {
       ws: null,
-      channelName: "",
+      channelName: localStorage.getItem("wsboard.channelName"),
       userEmail : this.$store.state.userData.email,
       // 소켓 서버 전송
       board: {
@@ -462,11 +463,6 @@ export default {
     });
   },
   methods: {
-    clickVd(vdId) {
-      var vd = document.getElementById(vdId);
-      console.dir(vd);
-      onVideo(vdId);
-    },
     init() {
       console.log('init method start')
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
@@ -474,9 +470,9 @@ export default {
       this.ws = ws;
 
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
-      this.channelName = localStorage.getItem("wsboard.channelName");
+      // this.channelName = localStorage.getItem("wsboard.channelName");
       // console.log("user email",this.$store.state.userData.email);
-      // loadChannelInfo(this.board.channelId, this.$store.state.userData.email);
+      loadChannelInfo(this.board.channelId, this.userEmail);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
@@ -704,8 +700,9 @@ export default {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
         const newVideo = {
-          vdId: "video_"+this.$store.state.userData.email,
-          user: this.$store.state.userData.email,
+          vdId: "video_"+this.userEmail,
+          userEmail: this.userEmail,
+          userNickname: this.board.userNickname,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
