@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     onClickVideo() {
-      this.onVideo(videoInfo.vdId);
+      onVideo(this.videoInfo.vdId);
     }
   },
   created() {
