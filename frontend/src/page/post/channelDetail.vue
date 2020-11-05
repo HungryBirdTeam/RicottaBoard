@@ -311,7 +311,7 @@
   </div>
 </template>
 
-<script src="/socket.io/socket.io.js"></script>
+<script src="k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "stomp-websocket";
