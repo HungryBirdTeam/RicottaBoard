@@ -331,7 +331,6 @@ import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js"
 import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
-import io from 'socket.io-client';
 
 
 
