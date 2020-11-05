@@ -167,7 +167,7 @@ function loadChannelInfo(channelId, email) {
     console.log('#video_' + myInfo);
     console.log(channel);
 
-    socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
+    socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
     socket.on('member', member => {
         if (member != myInfo) {
             if (!users.has(member)) {
