@@ -32,6 +32,11 @@
                 <h4 style=" font-size:30px; line-height:150%;">{{ explain }}</h4>
             </div>
         </div>
+        <footer
+          class="footer"
+        >
+          <p>ⓒHungryBird</p>
+        </footer>
     </div>
 </template>
 
@@ -115,5 +120,12 @@ export default {
     margin: auto;
     padding:2rem;
     padding-left: 0;
+}
+
+.footer {
+    width:100vw;
+    text-align: center;
+    position:absolute;
+    bottom:10px;
 }
 </style>

@@ -122,7 +122,16 @@
                 </v-dialog>
               
             </div>
-      
+              <!-- <v-btn
+                dark
+                depressed
+                block
+                class="allbtn mt-3"
+                color="#0d875C"
+                @click="createUserRequest"
+              >
+                확인
+              </v-btn> -->
               <button
                 style="margin-top:40px; background-color:rgb(128,128,128); border:solid 0px;"
                 @click="createUserRequest"
@@ -203,3 +212,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.allbtn {
+  margin-top: 40px;
+  border: solid 0px;
+}
+</style>

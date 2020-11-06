@@ -161,7 +161,6 @@ export const store = new Vuex.Store({
             회원 로그인 메소드
         */
         [constants.METHODS.LOGIN_USER]: (_store, payload) => {
-            // const url = "/api/auth/login";
             console.log(payload)
             const data = {
                 "email": payload.email,

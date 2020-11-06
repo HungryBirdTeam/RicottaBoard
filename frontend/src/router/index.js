@@ -18,9 +18,9 @@ import DeleteUser from '../page/user/ReallyDelete.vue'
 
 // 포스트
 import Enter from '../page/post/Enter.vue'
-import EnterTest from '../page/post/EnterTest.vue'
 import Guide from '../page/post/Guide.vue'
 import List from '../page/post/List.vue'
+import createTeam from '../page/post/createTeam.vue'
 
 // test
 import Poll from '../components/common/Poll.vue'
@@ -87,12 +87,12 @@ export default new Router({
       component: Enter,
     },
     { 
-      path: '/Enter',
-      component: EnterTest,
-    },
-    { 
       path: '/guide',
       component: Guide,
+    },
+    { 
+      path: '/@hungrybird',
+      component: createTeam,
     },
     { 
       path: '/main',

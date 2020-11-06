@@ -19,8 +19,12 @@
             </div>  
         </transition>
         <transition name="starter">
-            <div class="main">
-                <h4 style=" font-size:30px; line-height:150%;">
+            <div v-if="isStarting" class="main">
+                <div>
+                    <h2>이미지가 들어갑니다.</h2>
+                </div>
+
+                <h4 style="font-size:30px; line-height:150%;">
                 리코타보드는 온라인 및 오프라인 모임을 지원하는 협업툴 플랫폼입니다
                 </h4>
                 
@@ -67,6 +71,13 @@
                         </h4>
                     </div>
                 </div>
+                <footer
+                    style="width:100vw; text-align:center; position:absolute; bottom:10px; "
+                >
+                    <router-link to="/@hungrybird">
+                        <p class="footerText">ⓒHungrybird</p>
+                    </router-link>
+                </footer>
             </div>
         </transition>  
     </div>
@@ -97,6 +108,7 @@ export default {
 </script>
 
 <style scoped>
+
 .Loading {
     width:100%;
     height:100vh;
@@ -114,11 +126,11 @@ export default {
     top:0px;
     background: #f5f5ec;
     text-align: center;
-    padding:20vh;
-    padding:5vw;
 }
 
 .comment {
+    width: 100%;
+    height:100%;
     font-size:24px;
     line-height:130%;
     position: absolute;
@@ -139,6 +151,19 @@ export default {
 }
 
 .loader-leave-active{
-    transition: opacity .8s;
+    transition: opacity 1.0s;
+}
+
+.starter-enter, .starter-enter-to {
+    opacity: 0;
+}
+
+.starter-enter-active{
+    transition: opacity 1.0s;
+}
+
+.footerText { 
+    text-decoration: none;
+    color:#000000;
 }
 </style>
