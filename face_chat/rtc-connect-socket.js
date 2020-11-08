@@ -1,4 +1,5 @@
-var nodeStatic = require('node-static')
+// var nodeStatic = require('node-static')
+// const app = require('express')();
 const https = require('https');
 const fs = require('fs');
 
@@ -9,11 +10,12 @@ const options = {
 
 var socketIO = require('socket.io');
 
-var fileServer = new(nodeStatic.Server)();
+// var fileServer = new(nodeStatic.Server)();
 
-var app = https.createServer(options, function(req, res) {
-    fileServer.serve(req, res);
-}).listen(3031);
+// var app = https.createServer(options, function(req, res) {
+//     fileServer.serve(req, res);
+// }).listen(3031);
+var app = https.createServer(options).listen(3031);
 
 var io = socketIO.listen(app);
 
