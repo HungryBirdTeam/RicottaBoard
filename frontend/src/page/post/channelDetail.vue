@@ -310,7 +310,7 @@
     <!-- <Chat /> -->
   </div>
 </template>
-
+<script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script>
 
 <script>
 import SockJS from "sockjs-client";
@@ -468,9 +468,9 @@ export default {
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
-      var socket = new SockJS('https://localhost/api/facechat');
+      // var socket = new SockJS('https://localhost/api/facechat');
+      var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat',{secure:true})
       console.log("socket", sock, socket);
-      // var socket = io.connect('https://k3a204.p.ssafy.io:3031',{secure:true})
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
