@@ -331,7 +331,7 @@ import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js"
 import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 
 
 export default {
@@ -469,8 +469,8 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // var socket = new SockJS('https://localhost/api/facechat');
-      var socket = io.connect('https://k3a204.p.ssafy.io:3031',{secure:true})
-      console.log("socket", sock, socket);
+      var socket = io.connect('https://k3a204.p.ssafy.io',{secure:true, port:3031, rejectUnauthorized: false})
+      // console.log("socket", sock, socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
