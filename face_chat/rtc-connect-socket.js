@@ -1,5 +1,5 @@
 // var nodeStatic = require('node-static')
-// const app = require('express')();
+const app = require('express')();
 const https = require('https');
 const fs = require('fs');
 
@@ -15,9 +15,14 @@ var socketIO = require('socket.io');
 // var app = https.createServer(options, function(req, res) {
 //     fileServer.serve(req, res);
 // }).listen(3031);
-var app = https.createServer(options).listen(3031);
+var server = https.createServer(options, app);
 
-var io = socketIO.listen(app);
+var io = socketIO.listen(server, options);
+
+server.listen(3031, function() {
+    console.log("server listening on port 3031");
+});
+// var io = socketIO.listen(app);
 
 console.log("rtc server socket on");
 io.sockets.on('connection', function(socket) {
