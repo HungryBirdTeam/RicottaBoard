@@ -1,5 +1,5 @@
 <template>
-    <div style=" padding:0px; margin:0px;">
+    <div style=" padding:0px; margin:0px; background:#f5f5ec;">
         <v-toolbar dark color="#0d875C">
             <v-toolbar-title>                        
                 <img
@@ -33,9 +33,10 @@
             </div>
         </div>
         <footer
-          class="footer"
+            style="width:100vw; text-align:center; bottom:10px;"
         >
-          <p>ⓒHungryBird</p>
+            <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+            
         </footer>
     </div>
 </template>
@@ -81,6 +82,9 @@ export default {
             console.log('change!')
             console.log('test', dataset)
         },
+        teamPage() {
+            this.$router.push('/@hungrybird')
+        },
     },
 }
 </script>
@@ -122,10 +126,11 @@ export default {
     padding-left: 0;
 }
 
-.footer {
-    width:100vw;
-    text-align: center;
-    position:absolute;
-    bottom:10px;
+.footerText {
+    height:40px;
+    text-decoration: none;
+    color:#000000;
+    background:#f5f5ec;
+    margin-bottom: 0;
 }
 </style>

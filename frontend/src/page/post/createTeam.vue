@@ -1,8 +1,8 @@
 <template>
-    <div class="box3 d-flex black--text" style="width: 100vw; height: 100vh;">
+    <div class="box3 d-flex black--text" style="width: 100vw; height: 100vh; background:#f5f5ec;">
         <div
             class="white--text"
-            style="width:40%; padding:10vw; padding-top: 15vh; background:rgb(33,33,33); "
+            style="width:40%; padding:10vw; padding-top: 15vh; background:#0d875C; "
         >
             <h2>TEAM<br />Hungry Bird</h2>
         </div>
