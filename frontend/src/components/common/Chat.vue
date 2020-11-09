@@ -26,7 +26,9 @@
         </div>
     
         <div class="chatbox" id="chatBox">
-
+          <div @click="connect">
+            chat 접속하기
+          </div>
           <div class="goodchat-bubble bubble">
             매너 채팅 해주세요 :)
           </div>
@@ -108,7 +110,7 @@ export default {
     var textbox = document.getElementById("textBox");
     var $msgForm = $('#msgForm').val();
     this.naname = myname;
-    this.Channel = localStorage.getItem("wsboard.channelName");
+    this.Channel = localStorage.getItem("wsboard.channelId");
 
     console.log('name is: ' + this.naname);
     var testinput = 1;
@@ -275,6 +277,7 @@ export default {
     },
 
     sendToBoard() {
+      console.log('sendtoboard')
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
       var $msgForm = $('#msgForm').val();

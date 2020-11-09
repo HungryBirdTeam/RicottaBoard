@@ -81,7 +81,7 @@ io.on('connection', function(socket) {
 
 
         // room 조인
-        room = socket.room = data.channelName;
+        room = socket.room = data.channelId;
         console.log('('+socket.name+')'+ 'room : '+room);
         socket.join(room);
         console.log('socket.id: '+socket.id);
