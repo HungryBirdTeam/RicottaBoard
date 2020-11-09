@@ -36,6 +36,7 @@ public class BoardController {
     @GetMapping("/{channelId}/history")
     @ResponseBody
     public List<HistoryResponse> getPersonChanges(@PathVariable("channelId") String channelId) throws IOException {
+
         QueryBuilder jqlQuery = QueryBuilder.byInstanceId(channelId, SocketBoardMessage.class)
                 .withNewObjectChanges();
 

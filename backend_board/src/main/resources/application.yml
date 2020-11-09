@@ -28,7 +28,10 @@ spring:
     allow-bean-definition-overriding: true
 
 # By default JaVers uses the same database as application does, but you can point another database
-#javers:
+javers:
+  newObjectSnapshot: true
+
+
 #  mongodb:
 #    host: localhost
 #    port: 27017
