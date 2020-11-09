@@ -14,6 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/board")
 public class ChannelController {
 
     private final ChannelRedisRepository channelRedisRepository;

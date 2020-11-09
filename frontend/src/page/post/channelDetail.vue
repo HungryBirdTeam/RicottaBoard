@@ -463,7 +463,7 @@ export default {
   methods: {
     init() {
       console.log('init method start')
-      var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
+      var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");

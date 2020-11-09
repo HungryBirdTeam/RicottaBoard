@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/board")
 public class BoardController {
 
     private final ChannelRedisRepository channelRedisRepository;
