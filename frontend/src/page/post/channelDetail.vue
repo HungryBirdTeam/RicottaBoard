@@ -469,7 +469,8 @@ export default {
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // var socket = new SockJS('https://localhost/api/facechat');
-      var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
+      // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
+      var socket = io('https://k3a204.p.ssafy.io/api/facechat');
       // console.log("socket", sock, socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;

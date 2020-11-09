@@ -1,5 +1,5 @@
 // var nodeStatic = require('node-static')
-// const app = require('express')();
+const app = require('express')();
 const https = require('https');
 const fs = require('fs');
 
@@ -8,25 +8,25 @@ const options = {
     cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/fullchain.pem')
 };
 
-var socketIO = require('socket.io');
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+
+
+// var socketIO = require('socket.io');
 
 // var fileServer = new(nodeStatic.Server)();
 
 // var app = https.createServer(options, function(req, res) {
 //     fileServer.serve(req, res);
 // }).listen(3031);
-// var server = https.createServer(options, app);
+var server = https.createServer(options, app);
+var io = require('socket.io')(server);
 // var io = socketIO.listen(server);
-// server.listen(3031, function() {
-//     console.log("server listening on port 3031");
-// });
-var server = https.createServer(options);
-
-var io = socketIO(server);
-
-server.listen(3031, (err) => {
-    if (err) throw err;
-    console.log('listening on port 3031');
+server.listen(3031, function() {
+    console.log("server listening on port 3031");
 });
 // var io = socketIO.listen(app);
 
