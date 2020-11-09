@@ -307,7 +307,7 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <!-- <Chat /> -->
+    <Chat />
   </div>
 </template>
 <script src="https://k3a204.p.ssafy.io:3031/socket.io/socket.io.js"></script>
