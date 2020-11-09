@@ -111,7 +111,6 @@ export default {
       localStorage.setItem("wsboard.channelName", "Tutorial Channel");
       location.href = "/channel/earlyBird10TeamTestChannel1";
     }
-  },
 };
 </script>
 
