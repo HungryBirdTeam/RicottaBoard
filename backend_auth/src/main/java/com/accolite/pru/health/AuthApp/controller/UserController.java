@@ -19,9 +19,7 @@ import com.accolite.pru.health.AuthApp.event.OnUserLogoutSuccessEvent;
 import com.accolite.pru.health.AuthApp.exception.UpdatePasswordException;
 import com.accolite.pru.health.AuthApp.model.CustomUserDetails;
 import com.accolite.pru.health.AuthApp.model.User;
-import com.accolite.pru.health.AuthApp.model.payload.ApiResponse;
-import com.accolite.pru.health.AuthApp.model.payload.LogOutRequest;
-import com.accolite.pru.health.AuthApp.model.payload.UpdatePasswordRequest;
+import com.accolite.pru.health.AuthApp.model.payload.*;
 import com.accolite.pru.health.AuthApp.model.token.EmailVerificationToken;
 import com.accolite.pru.health.AuthApp.service.AuthService;
 import com.accolite.pru.health.AuthApp.service.EmailVerificationTokenService;
@@ -42,6 +40,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -87,6 +86,26 @@ public class UserController {
     @ApiOperation(value = "Returns the current user profile")
     public ResponseEntity getUserInfo(@RequestParam String email) {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
+    }
+
+    /**
+     * Sets the new user data of the logged in user
+     */
+    @PostMapping("/userInfo")
+    @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "Update user profile")
+    public ResponseEntity setUserInfo(@RequestBody UserInfoUpdateRequest newUser){
+
+        Optional<User> tempUserData = userService.findByEmail(newUser.getEmail());
+
+        if(tempUserData.isPresent()){
+            User user = tempUserData.get();
+            user.setNickname(newUser.getNickname());
+            user.setUsername(newUser.getUsername());
+            userService.save(user);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @ApiOperation(value = "Delete", response = String.class)
