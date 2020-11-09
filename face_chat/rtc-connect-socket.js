@@ -14,6 +14,11 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
+app.get('/', function(req, res) {
+    res.sendFile('Hellow Chating App Server');
+});
+
+
 
 // var socketIO = require('socket.io');
 

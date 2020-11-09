@@ -469,8 +469,8 @@ export default {
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // var socket = new SockJS('https://localhost/api/facechat');
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
-      var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
-
+      // var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
+      var socket = io('http://localhost:3031');
       socket.on('connect', function () {
         console.log("connect!!!!!!");
       });
