@@ -135,6 +135,22 @@
                 <v-btn
                   icon
                   color="#FF5722"
+                  @click="reset"
+                  draggable="true"
+                >
+                  <v-icon>mdi-arrow-expand-all</v-icon>
+                </v-btn>
+              </div>
+            </template>
+            <span>화면 위치 초기화</span>
+          </v-tooltip>
+
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <div v-on="on">
+                <v-btn
+                  icon
+                  color="#FF5722"
                   @click="openWithdrawalModal"
                   draggable="true"
                 >
@@ -198,14 +214,7 @@
       <div v-if="isNotice"><Notice/></div>
     </v-btn> -->
     <Notice/>
-    <v-btn
-      class="reset-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
-      icon
-      color="black"
-      @click="reset"
-    >
-      <v-icon large>mdi-arrow-expand-all</v-icon>
-    </v-btn>
+
 
     <Moveable
       ref="moveable"
@@ -306,11 +315,9 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <!-- <Chat /> -->
+    <Chat />  
   </div>
 </template>
-
-
 
 
 <script>
@@ -469,7 +476,7 @@ export default {
     },
     init() {
       console.log('init method start')
-      var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
+      var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
 
@@ -544,7 +551,7 @@ export default {
       )
     },
     sendMessage: function (type) {
-      this.board.userNickname = this.userNickname;
+      this.board.userNickname = this.$store.state.userData.nickname;
       this.ws.send(
         "/pub/board/message",
         {},

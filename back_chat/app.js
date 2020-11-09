@@ -81,7 +81,7 @@ io.on('connection', function(socket) {
 
 
         // room 조인
-        room = socket.room = data.channelName;
+        room = socket.room = data.channelId;
         console.log('('+socket.name+')'+ 'room : '+room);
         socket.join(room);
         console.log('socket.id: '+socket.id);
@@ -188,6 +188,7 @@ io.on('connection', function(socket) {
 
     // force client disconnect from server
     socket.on('forceDisconnect', function() {
+        console.log('force Disconnect Activated')
         socket.disconnect();
     })
 

@@ -40,10 +40,11 @@ export default new Router({
       path: '/channel/:channelId',
       name: 'channelDeatil',
       component: ChannelDetail,
-      
-      // name: constants.URL_TYPE.POST.TEST_BOARD,
-      // component: ChannelDetail  ,
-      props: route => ({channelId: Number(route.params.ChannelId)})
+      props: route => ({channelId: Number(route.params.ChannelId)}),
+      beforeRouteLeave (to, from, next) {
+        const answer = window.confirm('Do you really want to leave? you have unsaved changes!') 
+        if (answer) { next() } else { next(false) }
+      }
     },
     // 로그인/가입
     { 
