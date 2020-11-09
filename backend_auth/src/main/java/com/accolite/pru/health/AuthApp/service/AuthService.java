@@ -118,6 +118,8 @@ public class AuthService {
         return userService.existsByUsername(username);
     }
 
+    public Boolean nicknameAlreadyExists(String nickname) { return userService.existsByNickname(nickname); }
+
     /**
      * Authenticate user and log them in given a loginRequest
      */

@@ -94,6 +94,8 @@ public class UserService {
         return userRepository.existsByUsername(username);
     }
 
+    public Boolean existsByNickname(String nickname) { return userRepository.existsByNickname(nickname); }
+
     /**
      * delete
      */

@@ -86,6 +86,13 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse(true, usernameExists.toString()));
     }
 
+    @ApiOperation(value = "Checks if the given nickname is in use")
+    @GetMapping("/checkNicknameInUse")
+    public ResponseEntity checkNicknameInUse(@ApiParam(value = "Nickname to check against") @RequestParam(
+            "Nickname") String nickname) {
+        Boolean nicknameAlreadyExists = authService.nicknameAlreadyExists(nickname);
+        return ResponseEntity.ok(new ApiResponse(true, nicknameAlreadyExists.toString()));
+    }
 
     @PostMapping("/login")
     @ApiOperation(value = "Logs the user in to the system and return the auth tokens")
