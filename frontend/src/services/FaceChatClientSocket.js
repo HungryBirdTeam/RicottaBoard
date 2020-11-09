@@ -147,9 +147,9 @@ var remoteVideo = document.querySelector('#remoteVideo');
 ////////////////////////////////////////////////// 실행 코드 //////////////////////////////////////////////////
 // createPeerConnection();
 if (location.hostname !== 'localhost') {
-    requestTurn(
-        'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-    );
+    // requestTurn(
+    //     'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+    // );
 }
 
 ////////////////////////////////////////////////// 실행 코드 //////////////////////////////////////////////////
