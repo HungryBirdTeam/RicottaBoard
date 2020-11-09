@@ -1,6 +1,7 @@
 package com.websocket.board.model.postit;
 
 import lombok.*;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import java.io.Serializable;
 
@@ -15,7 +16,10 @@ public class Postit implements Serializable {
 
     private String title;
     private String contents;
+    @DiffIgnore
     private String left;
+    @DiffIgnore
     private String top;
+    @DiffIgnore
     private Long frontPostitId;
 }
