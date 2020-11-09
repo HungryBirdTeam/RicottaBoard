@@ -471,9 +471,7 @@ export default {
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
       // var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
       var socket = io('https://k3a204.p.ssafy.io/api/facechat');
-      socket.on('connect', function () {
-        console.log("connect!!!!!!");
-      });
+      
       // var socket = io('https://localhost:3031');
       console.log("socket", sock, socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);

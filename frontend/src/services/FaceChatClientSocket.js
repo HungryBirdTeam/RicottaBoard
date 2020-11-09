@@ -147,9 +147,9 @@ var remoteVideo = document.querySelector('#remoteVideo');
 ////////////////////////////////////////////////// 실행 코드 //////////////////////////////////////////////////
 // createPeerConnection();
 if (location.hostname !== 'localhost') {
-    // requestTurn(
-    //     'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
-    // );
+    requestTurn(
+        'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+    );
 }
 
 ////////////////////////////////////////////////// 실행 코드 //////////////////////////////////////////////////
@@ -169,6 +169,15 @@ function loadChannelInfo(channelId, email, _socket) {
     // socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
     socket = _socket;
     console.log(socket);
+
+    socket.on('connect', function() {
+        console.log("connect!!!!!!");
+    });
+
+    socket.on('disconnect', function() {
+        console.log("disconnect!!!");
+    });
+
     socket.on('member', member => {
         if (member != myInfo) {
             if (!users.has(member)) {
