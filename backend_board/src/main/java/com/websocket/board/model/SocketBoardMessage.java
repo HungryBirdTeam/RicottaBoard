@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
@@ -24,21 +25,29 @@ import java.util.List;
 @Builder
 public class SocketBoardMessage implements Serializable {
 
-    // 채널 자체 정보
+    // 채널 info
     @Id
     @JsonProperty(value = "channelId")
-    private String id;       // 채널 아이디
-    @JsonProperty(value = "userNickname")
-    private String editUser;    // 수정한 사용자
-    private Long userCount;         // 현재 참여하고 있는 사용자 수
-    private List<String> memberList;// 채널 참여 멤버 닉네임 리스트
+    private String id;                  // 채널 아이디
+
+    @DiffIgnore
+    private Long userCount;             // 현재 참여하고 있는 사용자 수
+
+    @DiffIgnore
+    private List<String> memberList;    // 채널 참여 멤버 닉네임 리스트
 
     // 모듈 관련 정보
-    private Long idCount;           // 프론트 생성 아이디 카운트
-    private List<Postit> postitList;// 포스트잇 리스트 객체
-    private Kanban kanban;          // 칸반 객체
-    private Scheduler scheduler;    // 스케줄러 객체
-    private List<Poll> poll;        // 투표 리스트 객체
+    @DiffIgnore
+    private Long idCount;               // 프론트 생성 아이디 카운트
+
+    private List<Postit> postitList;    // 포스트잇 리스트 객체
+    private Kanban kanban;              // 칸반 객체
+    private Scheduler scheduler;        // 스케줄러 객체
+    private List<Poll> poll;            // 투표 리스트 객체
     private List<Editor> editorList;          //  에디터 객체
-    private List<Video> videoList;  // 화상 채팅 리스트 객체
+    private List<Video> videoList;      // 화상 채팅 리스트 객체
+
+    @JsonProperty(value = "userNickname")
+//    @DiffIgnore
+    private String editUser;            // 수정한 사용자
 }
