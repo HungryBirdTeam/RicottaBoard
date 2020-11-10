@@ -69,7 +69,7 @@
 
 <script>
 
-import ChatlogDataService from "../../services/ChatlogDataService"
+// import ChatlogDataService from "../../services/ChatlogDataService"
  
 export default {
   name: "Chat",
@@ -104,7 +104,6 @@ export default {
 
 
     this.$socket.emit("login", {
-      //name: this.$store.state.name,
       name: this.naname,
       userid: this.naname,
       channelId : this.Channel,
@@ -225,14 +224,14 @@ export default {
       console.log("나네임 : "+this.naname);
 
 
-      ChatlogDataService.create(data)
-        .then(response => { 
-          this.chatlog.id = response.data.id;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
+      // ChatlogDataService.create(data)
+      //   .then(response => { 
+      //     this.chatlog.id = response.data.id;
+      //     console.log(response.data);
+      //   })
+      //   .catch(e => {
+      //     console.log(e);
+      //   });
     },
 
 
@@ -315,37 +314,37 @@ export default {
 //       $('#msgForm').val("안녕");
     },
 
-    retrieveChatlogs(){
-      ChatlogDataService.getAll()
-        .then(response =>{
-          var Logs = response.data;
-          console.log("채팅로그 불러오기");
-          console.log("LogRoom : "+Logs[0].roomid);
-          console.log("channelName : "+this.Channel);
-          //console.log(Logs[0]);
-          console.log("logsname : "+Logs[0].userid);
-          console.log("myname : "+this.naname);
+    // retrieveChatlogs(){
+    //   ChatlogDataService.getAll()
+    //     .then(response =>{
+    //       var Logs = response.data;
+    //       console.log("채팅로그 불러오기");
+    //       console.log("LogRoom : "+Logs[0].roomid);
+    //       console.log("channelName : "+this.Channel);
+    //       //console.log(Logs[0]);
+    //       console.log("logsname : "+Logs[0].userid);
+    //       console.log("myname : "+this.naname);
           
-          for(var i=0; i<Logs.length; i++){
-            if(Logs[i].roomid === this.Channel){
-              //console.log(Logs[i].message);
-              //this.chatlogs.push(Logs[i]);
-              if(Logs[i].userid === this.naname) $('.chatbox').append('<div class="my-bubble bubble">'+Logs[i].message+'</div>');
-              else $('.chatbox').append('<div class="friend-bubble bubble">('+Logs[i].userid+'님) '+Logs[i].message+'</div>');
-            }
-          }
-          console.log(Logs);
+    //       for(var i=0; i<Logs.length; i++){
+    //         if(Logs[i].roomid === this.Channel){
+    //           //console.log(Logs[i].message);
+    //           //this.chatlogs.push(Logs[i]);
+    //           if(Logs[i].userid === this.naname) $('.chatbox').append('<div class="my-bubble bubble">'+Logs[i].message+'</div>');
+    //           else $('.chatbox').append('<div class="friend-bubble bubble">('+Logs[i].userid+'님) '+Logs[i].message+'</div>');
+    //         }
+    //       }
+    //       console.log(Logs);
 
           
-        })
-        .catch(e =>{
-          console.log(e);
-        });
-    },
+    //     })
+    //     .catch(e =>{
+    //       console.log(e);
+    //     });
+    // },
   },
 
   mounted(){
-    this.retrieveChatlogs();
+    // this.retrieveChatlogs();
   }
 };
 </script>
