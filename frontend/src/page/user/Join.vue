@@ -210,6 +210,9 @@ export default {
     test1: function () {
       console.log(this.email);
     },
+    teamPage() {
+        this.$router.push('/@hungrybird')
+    },
   },
   watch: {},
   data: () => {
