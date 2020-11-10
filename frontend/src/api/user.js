@@ -29,6 +29,13 @@ function emailCheck(email, success, fail) {
         .catch(fail);
 }
 
+function nicknameCheck(nickName, success, fail) {
+    instance
+        .get(`/api/auth/checkNicknameInUse?Nickname=${nickName}`)
+        .then(success)
+        .catch(fail);
+}
+
 function resetMyPasswordReq(email, success, fail) {
     instance
         .post('/api/auth/password/resetlink', email)
@@ -43,4 +50,4 @@ function resetMyPassword(password, success, fail) {
         .catch(fail);
 }
 
-export { deleteUser, createUser, emailCheck, resetMyPasswordReq, resetMyPassword };
+export { deleteUser, createUser, emailCheck, nicknameCheck, resetMyPasswordReq, resetMyPassword };

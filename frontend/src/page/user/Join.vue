@@ -33,7 +33,16 @@
         </div>
         <div class="input-wrap">
           <p style="text-align: left; margin-bottom:4px">닉네임</p>
-          <input v-model="nickName" id="nickName" style="border:solid 1px #dadada;height:50px; background-color:white;" placeholder="닉네임을 입력해주세요" type="text" />
+          <input
+            v-model="nickName"
+            id="nickName"
+            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            placeholder="닉네임을 입력해주세요"
+            type="text"            
+            @change="nicknameCheck"
+          />
+          <!-- 닉네임이 사용중인지 체크 -->
+          {{this.$store.getters.canNameUseIt}}
         </div>
 
         <div class="input-wrap password-wrap">
@@ -193,6 +202,10 @@ export default {
     },
     emailCheck: function () {
       this.$store.dispatch(constants.METHODS.EMAILCHECK, email.value);
+    },
+    nicknameCheck: function () {
+      this.nickName = this.nickName.trim();
+      this.$store.dispatch(constants.METHODS.NICKNAMECHECK, this.nickName);
     },
     test1: function () {
       console.log(this.email);

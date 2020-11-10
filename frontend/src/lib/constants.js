@@ -36,6 +36,8 @@ export default {
 
         // 이메일 중복체크 메소드
         EMAILCHECK: 'emailCheck',
+        // 닉네임 중복체크 메소드
+        NICKNAMECHECK: 'nicknameCheck',
         
         // 비밀번호 재설정 메소드
         RESETMYPASSWORD: 'resetMyPassword',
