@@ -13,6 +13,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as API from '../src/api/index.js'
 
 const socket = io(API.CHAT_BASE_URL);
+console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
+console.log(socket);
 Vue.use(cookies);
 Vue.use(router);
 // Vue.prototype.$channelSocket = channelSocket;
