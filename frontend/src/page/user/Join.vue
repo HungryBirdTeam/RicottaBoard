@@ -118,32 +118,32 @@
             </v-dialog>
           
         </div>
-          <!-- <v-btn
-            dark
-            depressed
-            block
-            class="allbtn mt-3"
-            color="#0d875C"
-            @click="createUserRequest"
-          >
-            확인
-          </v-btn> -->
-          <button
-            style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
-            @click="createUserRequest"
-            class="btn"
-          >
-            <span>확인</span>
-          </button>
+        <!-- <v-btn
+          dark
+          depressed
+          block
+          class="allbtn mt-3"
+          color="#0d875C"
+          @click="createUserRequest"
+        >
+          확인
+        </v-btn> -->
+        <button
+          style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
+          @click="createUserRequest"
+          class="btn"
+        >
+          <span>확인</span>
+        </button>
         
       </div>
-      <footer
-        class="mx-auto wrap"
-        style="text-align:center; bottom:10px; "
-      >
-        <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
-      </footer>
     </div>
+    <footer
+      class="mx-auto wrap"
+      style="text-align:center; position:absolute; bottom:10px;"
+    >
+      <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+    </footer>
     
     <!-- <router-link v-bind:to="{name:constants.URL_TYPE.USER.JOINDONE}" @click="createUserRequest" class="btn">
             작성완료 
