@@ -46,14 +46,16 @@ public class BoardController {
         List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
         List<HistoryResponse> historyResponsesList = new ArrayList<>();
 
-        for (CdoSnapshot cs: snapshots) {
+        for (int i = 0; i < snapshots.size(); i++) {
+            if(i == 20) break;
+            CdoSnapshot cs = snapshots.get(i);
             String tmp = javers.getJsonConverter().toJson(cs);
             SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
             System.out.println(snapShot);
             String editUser = snapShot.state.editUser == null ? "TestUser" : snapShot.state.editUser;
             historyResponsesList.add(
                     new HistoryResponse().builder()
-                            .editor(editUser)
+                            .editUser(editUser)
                             .editModule(snapShot.changedProperties)
                             .editTime(snapShot.commitMetadata.commitDateInstant)
                             .build());
