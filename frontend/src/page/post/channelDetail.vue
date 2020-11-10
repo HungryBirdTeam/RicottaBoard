@@ -473,10 +473,12 @@ export default {
     validateUser() {
       const validation = {
         channelId: this.$route.params.channelId,
-        userId: this.$store.state.userData.email
+        email: this.$store.state.userData.email
       }
       channelApi.validateUserWithChannel(validation, 
         (response) => {
+          console.log('검증검증(!@ㅑ)(!@)$&!@*&$*')
+          console.log(response);
           if(response.data.valid === false) {
             alert('채널에 속하지 않은 사용자는 접속 할 수 없습니다!')
             // this.$router.push("/main");
