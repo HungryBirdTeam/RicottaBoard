@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
-import {store} from './store'
+import { store } from './store'
 import cookies from 'vue-cookie';
 import constant from './lib/constants'
 import vuetify from './plugins/vuetify';
@@ -15,15 +15,16 @@ import * as API from '../src/api/index.js'
 const socket = io(API.CHAT_BASE_URL);
 Vue.use(cookies);
 Vue.use(router);
+// Vue.prototype.$channelSocket = channelSocket;
 Vue.prototype.$socket = socket;
 Vue.prototype.$axios = axios;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  vuetify,
-  template: '<App/>'
-})
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    vuetify,
+    template: '<App/>'
+});

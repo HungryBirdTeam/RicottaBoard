@@ -33,7 +33,16 @@
         </div>
         <div class="input-wrap">
           <p style="text-align: left; margin-bottom:4px">닉네임</p>
-          <input v-model="nickName" id="nickName" style="border:solid 1px #dadada;height:50px; background-color:white;" placeholder="닉네임을 입력해주세요" type="text" />
+          <input
+            v-model="nickName"
+            id="nickName"
+            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            placeholder="닉네임을 입력해주세요"
+            type="text"            
+            @change="nicknameCheck"
+          />
+          <!-- 닉네임이 사용중인지 체크 -->
+          {{this.$store.getters.canNameUseIt}}
         </div>
 
         <div class="input-wrap password-wrap">
@@ -118,32 +127,32 @@
             </v-dialog>
           
         </div>
-          <!-- <v-btn
-            dark
-            depressed
-            block
-            class="allbtn mt-3"
-            color="#0d875C"
-            @click="createUserRequest"
-          >
-            확인
-          </v-btn> -->
-          <button
-            style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
-            @click="createUserRequest"
-            class="btn"
-          >
-            <span>확인</span>
-          </button>
+        <!-- <v-btn
+          dark
+          depressed
+          block
+          class="allbtn mt-3"
+          color="#0d875C"
+          @click="createUserRequest"
+        >
+          확인
+        </v-btn> -->
+        <button
+          style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
+          @click="createUserRequest"
+          class="btn"
+        >
+          <span>확인</span>
+        </button>
         
       </div>
-      <footer
-        class="mx-auto wrap"
-        style="text-align:center; bottom:10px; "
-      >
-        <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
-      </footer>
     </div>
+    <footer
+      class="mx-auto wrap"
+      style="text-align:center; position:absolute; bottom:10px;"
+    >
+      <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+    </footer>
     
     <!-- <router-link v-bind:to="{name:constants.URL_TYPE.USER.JOINDONE}" @click="createUserRequest" class="btn">
             작성완료 
@@ -193,6 +202,10 @@ export default {
     },
     emailCheck: function () {
       this.$store.dispatch(constants.METHODS.EMAILCHECK, email.value);
+    },
+    nicknameCheck: function () {
+      this.nickName = this.nickName.trim();
+      this.$store.dispatch(constants.METHODS.NICKNAMECHECK, this.nickName);
     },
     test1: function () {
       console.log(this.email);

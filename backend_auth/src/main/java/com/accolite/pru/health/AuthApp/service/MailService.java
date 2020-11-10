@@ -52,16 +52,16 @@ public class MailService {
         this.templateConfiguration = templateConfiguration;
     }
 
-    public void sendEmailVerification(String emailVerificationUrl, String to)
+    public void sendEmailVerification(String emailVerificationUrl, String to, String username)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
         mail.setSubject("Email Verification [Team EarlyBird]");
         mail.setTo(to);
         mail.setFrom(mailFrom);
-        mail.getModel().put("userName", to);
+        mail.getModel().put("userName", username);
         mail.getModel().put("userEmailTokenVerificationLink", emailVerificationUrl);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
-        Template template = templateConfiguration.getTemplate("email-verification.ftl");
+        Template template = templateConfiguration.getTemplate("email-verification_new.ftl");
         String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
         mail.setContent(mailContent);
         send(mail);
