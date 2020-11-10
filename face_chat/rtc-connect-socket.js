@@ -18,7 +18,7 @@ var io = require('socket.io')(server, {
     path: '/api/facechat'
 });
 
-// io.set('transports', ['websocket']);
+io.set('transports', ['websocket']);
 
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
