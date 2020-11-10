@@ -11,8 +11,11 @@ import VueSocketIO from 'vue-socket.io'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import * as API from '../src/api/index.js'
 
-const socket = io('http://localhost:3030');
+const socket = io(API.CHAT_BASE_URL);
+console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
+console.log(socket);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;

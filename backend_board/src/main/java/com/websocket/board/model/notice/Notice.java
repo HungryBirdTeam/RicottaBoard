@@ -4,11 +4,13 @@ package com.websocket.board.model.notice;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@DiffIgnore
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

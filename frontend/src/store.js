@@ -51,6 +51,7 @@ export const store = new Vuex.Store({
         },
         joining:{
             canIUseIt:"",
+            canNameUseIt: "",
         },
 
         finding: {
@@ -315,7 +316,35 @@ export const store = new Vuex.Store({
                 //         store.commit(constants.METHODS.EMAILCHECK, 0);
                 //     })
         },
+        /**
+         * 닉네임 중복 체크 메소드
+         */
+        [constants.METHODS.NICKNAMECHECK]: (store, payload) => {
+            const checkNickname = payload;
+            console.log('first', checkNickname)
+            if (checkNickname == "") {
+                console.log('nothing')
+                store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
+                return;
+            }
 
+            console.log('second', checkNickname.length)
+            if (checkNickname.length == 0) {           
+                store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
+                return;
+            }
+
+            userApi.nicknameCheck(checkNickname,
+                res => {
+                    console.log('res', res.data.data)
+                    store.commit(constants.METHODS.NICKNAMECHECK, res.data.data);
+                },
+                err => {
+                    console.log('err')
+                    store.dispatch("throwError", err);
+                    store.commit(constants.METHODS.NICKNAMECHECK, 0);
+                })
+        },
         /** 
          * 비밀번호 초기화 요청 메소드 
          */
@@ -326,19 +355,19 @@ export const store = new Vuex.Store({
                 "email": payload
             }
             userApi.resetMyPasswordReq(email,
-                    res => {
-                        if (res.data.success) {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                            }, 3000)
+                res => {
+                    if (res.data.success) {
+                        store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
+                        setTimeout(() => {
+                            router.push('/');
+                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
+                        }, 3000)
 
-                        }
-                    },
-                    err => {
-                        store.dispatch("throwError", err);
-                    })
+                    }
+                },
+                err => {
+                    store.dispatch("throwError", err);
+                })
                 // authConnect.post(url, {
                 //         "email": data,
                 //     })
@@ -511,6 +540,22 @@ export const store = new Vuex.Store({
                     break;
             }
         },
+        [constants.METHODS.NICKNAMECHECK]: (state, result) => {
+            switch (result) {
+                case "true":
+                    state.joining.canNameUseIt = "사용할 수 없는 닉네임입니다.";
+                    break;
+                case "false":
+                    state.joining.canNameUseIt = "사용할 수 있는 닉네임입니다.";
+                    break;
+                case "nothing":
+                    state.joining.canNameUseIt = "";
+                    break;
+                default:
+                    state.joining.canNamedUseIt = "";
+                    break;
+            }
+        },
         [constants.METHODS.RESETMYPASSWORDREQ]: (state, result) => {
             state.finding.status = result;
         },
@@ -526,6 +571,7 @@ export const store = new Vuex.Store({
             state.accessToken = '';
             state.modal = false;
             state.joining.canIUseIt = "";
+            state.joining.canNameUseIt = "";
             state.finding.status = "";
 
         },
@@ -560,6 +606,9 @@ export const store = new Vuex.Store({
         },
         canIUseIt: function(state) {
             return state.joining.canIUseIt;
+        },
+        canNameUseIt: function(state) {
+            return state.joining.canNameUseIt;
         },
         status: function(state) {
             return state.finding.status;

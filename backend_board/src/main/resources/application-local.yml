@@ -10,7 +10,7 @@ spring:
     username: root
     password: mariadb
     initialization-mode: always
-#    data: classpath:board-schema.sql
+    data: classpath:board-schema.sql
 
   data:
     mongodb:

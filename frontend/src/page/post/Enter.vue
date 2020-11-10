@@ -1,6 +1,5 @@
 <template>
     <div style=" padding:0px; margin:0px;">
-        <!-- transition을 하나로 하면 leave-active 효과가 나타나지 않음 -->
         <transition name="loader" >
             <div
                 class="Loading"
@@ -19,8 +18,8 @@
             </div>  
         </transition>
         <transition name="starter">
-            <div v-if="isStarting" class="main">
-                <div class="m-4">
+            <div v-if="isStarting" class="mainEnter">
+                <div>
                     <h2>이미지가 들어갑니다.</h2>
                 </div>
 
@@ -53,9 +52,11 @@
                             <br>
                             아래 버튼을 눌러보세요!
                             <br>
-                            <router-link to="channel/earlyBird10TeamTestChannel1">
-                                <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
-                            </router-link>
+                            <div @click="localSave">
+                              <router-link to="channel/earlyBird10TeamTestChannel1">
+                                  <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
+                              </router-link>
+                            </div>
                         </h4>                                
                     </div>
                     
@@ -74,9 +75,7 @@
                 <footer
                     style="width:100vw; text-align:center; position:absolute; bottom:10px; "
                 >
-                    <router-link to="/@hungrybird">
-                        <p class="footerText">ⓒHungrybird</p>
-                    </router-link>
+                    <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
                 </footer>
             </div>
         </transition>  
@@ -98,12 +97,21 @@ export default {
             this.isStarting = true;
             console.log('after', this.isStarting);
         },
+        teamPage() {
+            this.$router.push('/@hungrybird')
+        },
+        localSave(){
+            localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
+            localStorage.setItem("wsboard.channelName", "Tutorial Channel");
+            location.href = "/channel/earlyBird10TeamTestChannel1";
+        },
     },
     created() {
         this.isStarting = false;
         console.log('before', this.isStarting);
         setTimeout(() => (this.isStarting = true), 1000);
     },
+
 }
 </script>
 
@@ -119,13 +127,14 @@ export default {
     z-index: 1;
 }
 
-.main {
+.mainEnter {
     width:100%;
     height:100vh;
     left:0px;
     top:0px;
     background: #f5f5ec;
     text-align: center;
+    z-index: 0;
 }
 
 .comment {

@@ -19,4 +19,11 @@ function createChannel(data, config, success, fail) {
         .catch(fail);
 }
 
-export { findAllChannel, createChannel};
+function validateUserWithChannel(data, success, fail) {
+    instance
+        .post('api/board/channel/validation', data)
+        .then(success)
+        .catch(fail);
+}
+
+export { findAllChannel, createChannel, validateUserWithChannel };

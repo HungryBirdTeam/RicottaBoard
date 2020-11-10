@@ -1,7 +1,7 @@
 <template>
-    <div class="user" id="joinDone">
+    <div class="user" id="joinDone" style="background: #f5f5ec;">
         <div class="wrapC table">
-            <div class="middle">
+            <div class="middle" style="text-align:center;">
                 <h1>회원가입이 완료되었습니다!</h1>
 
                 <h3>회원가입 인증 메일이 발송되었습니다.</h3>
@@ -10,10 +10,13 @@
                 </router-link>  
             </div>
         </div> 
-
+        <footer
+            class="mx-auto wrap"
+            style="text-align:center; position:absolute; bottom:10px;"
+        >
+            <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+        </footer>
     </div>
-
-
 </template>
 
 

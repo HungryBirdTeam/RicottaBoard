@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HistoryResponse {
 
-    private String editor;
+    private String editUser;
     private String editTime;
     private List<String> editModule = new ArrayList();
 
