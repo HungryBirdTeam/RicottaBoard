@@ -60,7 +60,7 @@ public class OnGenerateResetLinkEventListener implements ApplicationListener<OnG
 //        String emailConfirmationUrl = event.getRedirectUrl().queryParam("token", passwordResetToken.getToken())
 //                .toUriString();
 // String emailConfirmationUrl = "http://i3a510.p.ssafy.io:3001/#/user/PasswordReset?token="+ passwordResetToken.getToken();
-String emailConfirmationUrl = "http://"+ GlobalVariables.host +":3000/#/user/PasswordReset?token="+ passwordResetToken.getToken();
+String emailConfirmationUrl = "http://"+ GlobalVariables.host + GlobalVariables.frontPort +"/user/PasswordReset?token="+ passwordResetToken.getToken();
 
         try {
             mailService.sendResetLink(emailConfirmationUrl, recipientAddress);

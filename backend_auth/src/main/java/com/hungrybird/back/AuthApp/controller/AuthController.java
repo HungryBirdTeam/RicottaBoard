@@ -266,9 +266,9 @@ public class AuthController {
     public String confirmRegistration(@ApiParam(value = "the token that was sent to the user email") @RequestParam("token") String token) {
         if(authService.confirmEmailRegistration(token)!=null){
 //            return "redirect:http://i3a510.p.ssafy.io:3000/user/signup/done/registrationConfirmation";
-            return "redirect:http://"+GlobalVariables.host+":3000/user/signup/done/registrationConfirmation";
+            return "redirect:http://"+GlobalVariables.host+GlobalVariables.frontPort+"/user/signup/done/registrationConfirmation";
         }else{
-            return "redirect:http://"+GlobalVariables.host+":3000/error";
+            return "redirect:http://"+GlobalVariables.host+GlobalVariables.frontPort+"/error";
         }
     }
 

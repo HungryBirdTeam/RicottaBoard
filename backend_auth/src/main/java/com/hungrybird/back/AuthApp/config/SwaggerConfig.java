@@ -53,7 +53,7 @@ public class SwaggerConfig  extends WebMvcConfigurerAdapter{
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalOperationParameters(aParameters)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.accolite.pru.health.AuthApp"))
+                .apis(RequestHandlerSelectors.basePackage("com.hungrybird.back.AuthApp"))
                 .paths(PathSelectors.regex("/api.*"))
                 .build()
 //                .apiInfo(metaInfo())
