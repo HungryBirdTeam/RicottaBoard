@@ -1,11 +1,13 @@
 <template>
   <div class="history-box">
-    <span @click="showHistory()" class="main-button">Updates</span>
+    <v-btn @click="showHistory()" class="main-button" fab width="36px" height="36px">
+      <v-icon>mdi-update</v-icon>
+    </v-btn>
     <div v-if="isHistory" class="main">
-      <span class="hint">최근 수정사항 20개를 보여줍니다</span><hr/>
+      <div class="hint">최근 수정사항 20개를 보여줍니다</div><hr stlye="margin-top: 0px;"/>
       <div class="history-list">
         <div v-for="(history, idx) in historyList" :key="idx" class="history-item">
-          <span class="module">  수정{{ history.editModule }} </span><br>
+          <span class="module"> {{ history.editModule }} </span><br>
           <span class="time">{{ history.editTime.substr(0,10) }} {{ history.editTime.substr(11,8)}} </span><hr/>
         </div>
       </div>
@@ -55,14 +57,26 @@ export default {
 }
 
 .main-button {
-  text-align: right;
+  margin-left: auto;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  border: solid black 1px;
+  width: 36px;
+  height: 36px;
 }
 
-.main-button :hover {
-  
+
+.main {
+  padding: 5px;
+  background-color: white;
+  border-radius: 20px;
+  border: 2px solid rgba(104, 104, 104, 0.5);
 }
+
+.hint {
+  padding: 12px;
+}
+
 .history-list {
   width: 300px;
   max-height: 300px;

@@ -10,8 +10,9 @@ import io from 'socket.io-client';
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import * as API from '../src/api/index.js'
 
-const socket = io('http://localhost:3030');
+const socket = io(API.CHAT_BASE_URL);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;
