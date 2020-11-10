@@ -474,7 +474,23 @@ export default {
       
       socket.on('test', message => {
         console.log(message);
-      })
+      });
+
+      socket.on( 'connect', function() {
+        console.log("connect!!!!!!!!!!!!");
+      });
+
+      socket.on( 'disconnect', function() {
+        console.log("disconnect!!!!!!!!!!!!");
+      });
+
+      socket.on( 'connect_failed', function() {
+        console.log("connect_failed!!!!!!!!!!!!");
+      });
+
+      socket.on( 'error', function() {
+        console.log("error!!!!!!!!!!!!");
+      });
       // var socket = io('https://localhost:3031');
       console.log("socket", sock, socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
