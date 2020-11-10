@@ -498,11 +498,11 @@ export default {
       // this.channelName = localStorage.getItem("wsboard.channelName");
       // var socket = new SockJS('https://localhost/api/facechat');
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
-      // var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
+      var socket = io('https://k3a204.p.ssafy.io/api/facechat', { secure: true });
       
-      var socket = io('https://k3a204.p.ssafy.io/api/facechat' ,
-      { transports: 
- ['websocket'], upgrade: false, rejectUnauthorized: false });
+//       var socket = io('https://k3a204.p.ssafy.io/api/facechat' ,
+//       { transports: 
+//  ['websocket'], upgrade: false, rejectUnauthorized: false });
       
       // var socket = io('https://localhost:3031');
       console.log("socket", sock, socket);
