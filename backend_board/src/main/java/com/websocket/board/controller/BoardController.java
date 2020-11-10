@@ -56,7 +56,7 @@ public class BoardController {
                     new HistoryResponse().builder()
                             .editUser(editUser)
                             .editModule(snapShot.changedProperties)
-                            .editTime(snapShot.commitMetadata.commitDateInstant)
+                            .editTime(snapShot.commitMetadata.commitDate)
                             .build());
         }
 
