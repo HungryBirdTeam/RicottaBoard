@@ -21,7 +21,7 @@
   </div>
 
   <!-- This file is automatically added/served when running "node index.js". -->
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="./socket.io/socket.io.js"></script>
   <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
   <!-- <script src="js/main.js"></script> -->
 
@@ -69,7 +69,7 @@
   // room = prompt('Enter room name:');
 
   var socket = io.connect();
-
+  console.log(io);
   if (room !== '') {
     socket.emit('create or join', room);
     console.log('Attempted to create or  join room', room);
