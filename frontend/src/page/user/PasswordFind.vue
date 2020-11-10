@@ -1,5 +1,5 @@
 <template>
-  <div class="user" id="passwordFind" style="background-color:#f2f2f2">
+  <div class="user" id="passwordFind" style="background-color:#f5f5ec">
     <div class="wrapC table">
       <div class="myBox">
         <div class="middle">
@@ -17,13 +17,19 @@
             </div>
 
             <div class="input-wrap">
-              <button class="btn" v-on:click="findMyPassword">비밀번호 재설정</button>
+              <button class="btn" v-on:click="findMyPassword" style="background-color:#0d875C;">비밀번호 재설정</button>
             </div>
           </div>
           <div class="form-wrap" v-else>{{this.$store.getters.status}}</div>
         </div>
       </div>
     </div>
+    <footer
+      class="mx-auto wrap"
+      style="text-align:center; position:absolute; bottom:10px;"
+    >
+      <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+    </footer>
   </div>
 </template>
 
@@ -44,6 +50,9 @@ export default {
         constants.METHODS.RESETMYPASSWORDREQ,
         this.userEmail
       );
+    },
+    teamPage() {
+      this.$router.push('/@hungrybird')
     },
   },
   data: () => {
