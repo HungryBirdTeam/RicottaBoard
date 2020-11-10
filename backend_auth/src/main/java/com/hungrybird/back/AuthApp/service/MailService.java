@@ -54,7 +54,7 @@ public class MailService {
     public void sendEmailVerification(String emailVerificationUrl, String to, String username)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Email Verification [Team EarlyBird]");
+        mail.setSubject("Email Verification [Team HungryBird]");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", username);
