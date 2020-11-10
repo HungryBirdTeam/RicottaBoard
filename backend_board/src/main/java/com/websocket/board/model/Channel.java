@@ -7,7 +7,7 @@ import com.websocket.board.model.kanban.Kanban;
 import com.websocket.board.model.postit.Postit;
 import com.websocket.board.model.user.UserChannel;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@DiffIgnore
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
