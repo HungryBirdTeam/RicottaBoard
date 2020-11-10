@@ -12,10 +12,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const socket = io('http://localhost:3030');
-const channelSocket = io('https://k3a204.p.ssafy.io/api/facechat');
+// const channelSocket = io('https://k3a204.p.ssafy.io/api/facechat');
 Vue.use(cookies);
 Vue.use(router);
-Vue.prototype.$channelSocket = channelSocket;
+// Vue.prototype.$channelSocket = channelSocket;
 Vue.prototype.$socket = socket;
 Vue.prototype.$axios = axios;
 

@@ -5,7 +5,10 @@ const fs = require('fs');
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/fullchain.pem')
+    cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+    requestCert: false,
+    rejectUnauthorized: false
 };
 
 var server = https.createServer(options, app);

@@ -471,11 +471,11 @@ export default {
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
       // var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
       
-      // var socket = io('https://k3a204.p.ssafy.io/api/facechat');
+      var socket = io('https://k3a204.p.ssafy.io/api/facechat');
       
       // var socket = io('https://localhost:3031');
-      console.log("socket", sock, this.$channelSocket);
-      loadChannelInfo(this.board.channelId, this.userEmail, this.$channelSocket);
+      console.log("socket", sock, socket);
+      loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
