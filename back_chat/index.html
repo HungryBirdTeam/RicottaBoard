@@ -65,7 +65,7 @@
             </div>
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="./socket.io/socket.io.js"></script>
     <script>
         var divdiv = document.getElementById("chatLogs");
         console.log(getParameterByName('userName'));
@@ -156,9 +156,9 @@
 
             // 서버로부터의 메시지가 수신되면
 
-            socket.on("s2c chat", function(data) {
+            socket.on("s2c_chat", function(data) {
 
-                //$("#chatLogs").append("<div>" + data.msg + " : from <strong>" + data.from.name + "</strong></div>");
+                $("#chatLogs").append("<div>" + data.msg + " : from <strong>" + data.from.name + "</strong></div>");
                 console.log("data.id : "+data.id);
                 console.log("data.myid : "+data.myid);
                 console.log("data.from.name : "+data.from.name);
