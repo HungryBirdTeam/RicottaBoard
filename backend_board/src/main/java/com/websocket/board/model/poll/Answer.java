@@ -1,7 +1,6 @@
 package com.websocket.board.model.poll;
 
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;

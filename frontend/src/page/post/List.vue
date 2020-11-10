@@ -214,7 +214,8 @@ export default {
     enterRoom: function (channelId, channelName) {
       localStorage.setItem("wsboard.channelId", channelId);
       localStorage.setItem("wsboard.channelName", channelName);
-      location.href = "/channel/" + channelId;
+      // location.href = "/channel/" + channelId;
+      this.$router.push(`/channel/${channelId}`)
     },
     
     openModal() { // 모임생성 모달

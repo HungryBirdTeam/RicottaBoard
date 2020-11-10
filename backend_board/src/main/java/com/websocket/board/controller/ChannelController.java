@@ -28,6 +28,17 @@ public class ChannelController {
         return channels;
     }
 
+    @PostMapping("/channel/validation")
+    public ValidUserWithChannelResponse validUserWithChannel(
+            @RequestBody ValidUserWithChannelRequest validUserWithChannelRequest) {
+
+        if(channelService.validUserWithChannel(validUserWithChannelRequest)) {
+            return new ValidUserWithChannelResponse().builder().isValid(true).build();
+        } else {
+            return new ValidUserWithChannelResponse().builder().isValid(false).build();
+        }
+    }
+
     @PostMapping("/channels")
     public List<Channel> myChannel(
             @RequestHeader(name = "Authorization") String Authorization,

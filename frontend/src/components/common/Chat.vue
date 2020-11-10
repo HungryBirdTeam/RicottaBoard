@@ -19,14 +19,13 @@
           <button id="maximize" class="header-btn" @click="maximize"></button>
           <img id="profile-pic" src='../../assets/img/picture.jpg' width="1">
           <span>
-            <a id="username">나</a>
+            <a id="username">{{ this.naname }}</a>
             <img title="접속자 보기" id="showList-pic" src='../../assets/img/2.jpg' @click="showList"/>
           </span>
 
         </div>
     
         <div class="chatbox" id="chatBox">
-
           <div class="goodchat-bubble bubble">
             매너 채팅 해주세요 :)
           </div>
@@ -70,24 +69,6 @@
 
 <script>
 
-      // var chatcontainer = document.getElementById("chatContainer");
-      // var chatheader = document.getElementById("chatHeader");
-      // var chatbox = document.getElementById("chatBox");
-      // var textbox = document.getElementById("textBox");
-
-      // $("#minimize").click(function(){
-      //   chatbox.style.display = 'none';
-      //   textbox.style.display = 'none';
-      //   chatcontainer.style.top = '90%';
-      //   //alert("최소화");
-      // });
-
-      // $("#maximize").click(function(){
-      //   chatbox.style.display = 'block';
-      //   textbox.style.display = 'block';
-      //   chatcontainer.style.top = '23%';
-      // })
-
 import ChatlogDataService from "../../services/ChatlogDataService"
  
 export default {
@@ -96,7 +77,6 @@ export default {
   },
   created() {
     //console.log("chanelName : "+ localStorage.getItem("wsboard.channelName")); 채널 이름 가져오는 부분
-    // var myname = this.makeRandomName();
     var myname = this.$store.getters.userData.nickname;
     if(this.$store.getters.userData.nickname == ""){
       myname = "Unknown_"+this.makeRandomName();
@@ -108,31 +88,34 @@ export default {
     var textbox = document.getElementById("textBox");
     var $msgForm = $('#msgForm').val();
     this.naname = myname;
-    this.Channel = localStorage.getItem("wsboard.channelName");
+    this.Channel = localStorage.getItem("wsboard.channelId");
 
-    console.log(this.naname);
-    
+    console.log('name is: ' + this.naname);
+    console.log('channel is: ' + this.Channel);
+
+    console.log("SOCKET IS @@@@@@: ");
+    console.log(this.$socket);
+    this.$socket._callbacks.$clientList = undefined;
+    this.$socket._callbacks.$enter = undefined;
+    this.$socket._callbacks.$out = undefined;
+    this.$socket._callbacks.$s2c_chat = undefined;
+    this.$socket._callbacks.$s2c_chat_me = undefined;
+    this.$socket._callbacks.$s2c_text = undefined;
+
+
     this.$socket.emit("login", {
       //name: this.$store.state.name,
-      name: myname,
-      userid: myname,
-      channelName : this.Channel,
+      name: this.naname,
+      userid: this.naname,
+      channelId : this.Channel,
     });
 
-    this.$socket.on("login", (data) => {
+    
+    this.$socket.on("enter", (data) => {
       // this.chatLogs.push(data.name + "님이 접속하셨습니다");
       // this.chatComes.push(data.name);
-      console.log("입장!");
       $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
     
-    });
-
-     this.$socket.on("enter", (data) => {
-      // this.chatLogs.push(data.name + "님이 접속하셨습니다");
-      // this.chatComes.push(data.name);
-    setTimeout(function() {
-         $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
-        }, 800);
     });
 
     this.$socket.on("clientList", (data) => {
@@ -146,17 +129,15 @@ export default {
         else exceptme.push(data[i]);  // 배열에 나의 정보는 빼고 넣어주었다
       }
       this.clientList = exceptme;
-
       console.log(this.clientList);
-
     });
 
     // 내 메시지는 띄우지 말야아함.
-    this.$socket.on("s2c chat", (data) => {
+    this.$socket.on("s2c_chat", (data) => {
       var name = data.from.name;
       var msg = data.msg;
 
-     if(name === this.naname){ // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
+    if(name === this.naname){ // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
         console.log("지금 내 이름 : "+this.naname);
       }
       else $('.chatbox').append('<div class="friend-bubble bubble">('+name+'님) '+msg+'</div>');
@@ -172,7 +153,7 @@ export default {
                 }, 50);
     });
 
-    this.$socket.on("s2c text", (data) => {
+    this.$socket.on("s2c_text", (data) => {
       var name = data.from.name;
       var msg = data.msg;
 
@@ -180,10 +161,10 @@ export default {
 
     });
 
-    this.$socket.on("s2c chat me", (data) => {
+    this.$socket.on("s2c_chat_me", (data) => {
       var name = data.from.name;
       var msg = data.msg;
-     
+    
       $('.chatbox').append('<div class="my-bubble bubble">'+msg+'</div>');
 
       setTimeout(function(){
@@ -197,11 +178,11 @@ export default {
       $('.chatbox').append('<div class="inout-bubble">'+data.from.name+'님이 나가셨습니다.</div>');
     
     });
+  },
 
-    this.$socket.on(() => {});
-
-
-    
+  destroyed() {
+    console.log('Chat destoryed');
+    this.$socket.emit("disconnect2", {});
   },
 
   data() {
@@ -273,6 +254,7 @@ export default {
     },
 
     sendToBoard() {
+      console.log('sendtoboard')
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
       var $msgForm = $('#msgForm').val();
@@ -304,15 +286,6 @@ export default {
          }
         }
        
-    },
-
-    minimize(){
-      this.chattingBox = false;
-      //alert("최소화");
-    },
-    maximize(){
-      this.chattingBox = true;
-      this.notread = 0;
     },
 
     minimize(){
