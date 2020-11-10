@@ -69,24 +69,6 @@
 
 <script>
 
-      // var chatcontainer = document.getElementById("chatContainer");
-      // var chatheader = document.getElementById("chatHeader");
-      // var chatbox = document.getElementById("chatBox");
-      // var textbox = document.getElementById("textBox");
-
-      // $("#minimize").click(function(){
-      //   chatbox.style.display = 'none';
-      //   textbox.style.display = 'none';
-      //   chatcontainer.style.top = '90%';
-      //   //alert("최소화");
-      // });
-
-      // $("#maximize").click(function(){
-      //   chatbox.style.display = 'block';
-      //   textbox.style.display = 'block';
-      //   chatcontainer.style.top = '23%';
-      // })
-
 import ChatlogDataService from "../../services/ChatlogDataService"
  
 export default {
@@ -95,7 +77,6 @@ export default {
   },
   created() {
     //console.log("chanelName : "+ localStorage.getItem("wsboard.channelName")); 채널 이름 가져오는 부분
-    // var myname = this.makeRandomName();
     var myname = this.$store.getters.userData.nickname;
     if(this.$store.getters.userData.nickname == ""){
       myname = "Unknown_"+this.makeRandomName();
@@ -110,7 +91,7 @@ export default {
     this.Channel = localStorage.getItem("wsboard.channelId");
 
     console.log('name is: ' + this.naname);
-    var testinput = 1;
+    console.log('channel is: ' + this.Channel);
 
     console.log("SOCKET IS @@@@@@: ");
     console.log(this.$socket);
@@ -121,90 +102,89 @@ export default {
     this.$socket._callbacks.$s2c_chat_me = undefined;
     this.$socket._callbacks.$s2c_text = undefined;
 
-    // if(this.$socket._callbacks.$enter === undefined) {
-      this.$socket.on("enter", (data) => {
-        // this.chatLogs.push(data.name + "님이 접속하셨습니다");
-        // this.chatComes.push(data.name);
-        $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
-      
-      });
 
-      this.$socket.on("clientList", (data) => {
-        console.log("접속자 : ");
-        var exceptme = [];
-        //this.clientList = data;
-        for(var i=0; i<data.length; i++){
-          if(data[i] === myname){
-            continue;
-          }
-          else exceptme.push(data[i]);  // 배열에 나의 정보는 빼고 넣어주었다
-        }
-        this.clientList = exceptme;
-
-        console.log(this.clientList);
-
-      });
-
-      // 내 메시지는 띄우지 말야아함.
-      this.$socket.on("s2c_chat", (data) => {
-        var name = data.from.name;
-        var msg = data.msg;
-
-      if(name === this.naname){ // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
-          console.log("지금 내 이름 : "+this.naname);
-        }
-        else $('.chatbox').append('<div class="friend-bubble bubble">('+name+'님) '+msg+'</div>');
-
-        if(!this.chattingBox){
-          
-          this.notread += 1;
-          console.log("안읽은 메시지 수 : "+this.notread);
-        }
-
-        setTimeout(function(){
-                      $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
-                  }, 50);
-      });
-
-      this.$socket.on("s2c_text", (data) => {
-        var name = data.from.name;
-        var msg = data.msg;
-
-        $('.textBoard').append('<h3><span>'+msg+'</span></h3>');
-
-      });
-
-      this.$socket.on("s2c_chat_me", (data) => {
-        var name = data.from.name;
-        var msg = data.msg;
-      
-        $('.chatbox').append('<div class="my-bubble bubble">'+msg+'</div>');
-
-        setTimeout(function(){
-                $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
-            }, 50);
-      });
-
-      this.$socket.on("out", (data) => {
-        console.log("나갔습니다!!");
-        // if(!(data.from.name).eqauls("undefnied")) 
-        $('.chatbox').append('<div class="inout-bubble">'+data.from.name+'님이 나가셨습니다.</div>');
-      
-      });
-    // }
     this.$socket.emit("login", {
       //name: this.$store.state.name,
       name: this.naname,
-      userid: this.nanmae,
-      channelName : this.Channel,
+      userid: this.naname,
+      channelId : this.Channel,
+    });
+
+    
+    this.$socket.on("enter", (data) => {
+      // this.chatLogs.push(data.name + "님이 접속하셨습니다");
+      // this.chatComes.push(data.name);
+      $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
+    
+    });
+
+    this.$socket.on("clientList", (data) => {
+      console.log("접속자 : ");
+      var exceptme = [];
+      //this.clientList = data;
+      for(var i=0; i<data.length; i++){
+        if(data[i] === myname){
+          continue;
+        }
+        else exceptme.push(data[i]);  // 배열에 나의 정보는 빼고 넣어주었다
+      }
+      this.clientList = exceptme;
+      console.log(this.clientList);
+    });
+
+    // 내 메시지는 띄우지 말야아함.
+    this.$socket.on("s2c_chat", (data) => {
+      var name = data.from.name;
+      var msg = data.msg;
+
+    if(name === this.naname){ // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
+        console.log("지금 내 이름 : "+this.naname);
+      }
+      else $('.chatbox').append('<div class="friend-bubble bubble">('+name+'님) '+msg+'</div>');
+
+      if(!this.chattingBox){
+        
+        this.notread += 1;
+        console.log("안읽은 메시지 수 : "+this.notread);
+      }
+
+      setTimeout(function(){
+                    $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
+                }, 50);
+    });
+
+    this.$socket.on("s2c_text", (data) => {
+      var name = data.from.name;
+      var msg = data.msg;
+
+      $('.textBoard').append('<h3><span>'+msg+'</span></h3>');
+
+    });
+
+    this.$socket.on("s2c_chat_me", (data) => {
+      var name = data.from.name;
+      var msg = data.msg;
+    
+      $('.chatbox').append('<div class="my-bubble bubble">'+msg+'</div>');
+
+      setTimeout(function(){
+              $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
+          }, 50);
+    });
+
+    this.$socket.on("out", (data) => {
+      console.log("나갔습니다!!");
+      // if(!(data.from.name).eqauls("undefnied")) 
+      $('.chatbox').append('<div class="inout-bubble">'+data.from.name+'님이 나가셨습니다.</div>');
+    
     });
   },
+
   destroyed() {
     console.log('Chat destoryed');
     this.$socket.emit("disconnect2", {});
-    // this.$socket.emit("forceDisconnect", {});
-    // this.$socket = this.$io;
   },
+
   data() {
     return {
       chatlogs: [],

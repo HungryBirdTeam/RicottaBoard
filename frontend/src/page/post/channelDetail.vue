@@ -113,6 +113,8 @@
             <span>Face Chat</span>
           </v-tooltip>
           <v-divider> </v-divider>
+
+          
           <v-tooltip right>
             <template v-slot:activator="{ on }">
               <div v-on="on" class="tool-divide">
@@ -205,14 +207,7 @@
         </v-responsive>
       </transition>
     </v-responsive>
-    
-    <!-- <v-btn
-      class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
-      icon
-      color="dark">
-      Notice
-      <div v-if="isNotice"><Notice/></div>
-    </v-btn> -->
+
     <Notice/>
 
 
@@ -338,7 +333,8 @@ import FaceChat from "../../components/module/FaceChat";
 import InviteModal from "../../components/common/InviteModal";
 import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
-import * as boardApi from "../../api/board.js"
+import * as boardApi from "../../api/board.js";
+import * as channelApi from "../../api/channel.js";
 import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
 import io from 'socket.io-client';
 
@@ -426,14 +422,18 @@ export default {
     };
   },
   created() {
+    localStorage.setItem("wsboard.channelId", this.$route.params.channelId);
+    if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
+      this.testPage = true;
+    }
+    else {
+      this.validateUser();
+    }
     this.init();
     window.oncontextmenu = function () {
       // 우클릭 default이벤트 차단
       return false;
     };
-    if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
-      this.testPage = true;
-    }
     this.initRecv();
   },
   mounted() {
@@ -470,6 +470,24 @@ export default {
     });
   },
   methods: {
+    validateUser() {
+      const validation = {
+        channelId: this.$route.params.channelId,
+        userId: this.$store.state.userData.email
+      }
+      channelApi.validateUserWithChannel(validation, 
+        (response) => {
+          if(response.data.valid === false) {
+            alert('채널에 속하지 않은 사용자는 접속 할 수 없습니다!')
+            // this.$router.push("/main");
+          }
+        },
+        (err) => {
+          console.log('채널 Validation 연결 실패!\n' + err);
+        }
+      )
+
+    },
     init() {
       console.log('init method start')
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
@@ -482,22 +500,22 @@ export default {
       // console.log("socket", sock, socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
-        ws.connect(
-          {userNickname:this.$store.state.userData.nickname},
-          function (frame) {
-            ws.subscribe(
-              "/sub/board/channel/" + _this.board.channelId,
-              function (message) {
-                var recv = JSON.parse(message.body);
-                _this.recvMessage(recv);
-              }
-            );
-          },
-          function (error) {
-            alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
-            location.href = "/";
-          }
-        );
+      ws.connect(
+        {userNickname:this.$store.state.userData.nickname},
+        function (frame) {
+          ws.subscribe(
+            "/sub/board/channel/" + _this.board.channelId,
+            function (message) {
+              var recv = JSON.parse(message.body);
+              _this.recvMessage(recv);
+            }
+          );
+        },
+        function (error) {
+          alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
+          location.href = "/";
+        }
+      );
     },
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
