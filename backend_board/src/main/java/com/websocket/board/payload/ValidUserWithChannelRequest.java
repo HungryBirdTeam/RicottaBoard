@@ -5,17 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoryResponse {
-
-    private String editUser;
-    private String editTime;
-    private List<String> editModule = new ArrayList();
-
+public class ValidUserWithChannelRequest implements Serializable {
+    private String email;
+    private String channelId;
 }
