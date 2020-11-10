@@ -25,7 +25,8 @@ app.all('/*', function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-    res.sendFile('Hellow Chating App Server');
+    console.log("in socket");
+    // res.sendFile('Hellow Chating App Server');
 });
 
 
