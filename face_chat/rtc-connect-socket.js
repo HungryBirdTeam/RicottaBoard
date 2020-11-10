@@ -68,11 +68,14 @@ io.on('connection', function(socket) {
 
     socket.on('new member', channel => {
         io.sockets.in(channel).emit('alert');
-    })
+    });
 
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
-    })
+    });
+
+    socket.broadcast.emit('test', "connection success!");
+
 });
 
 server.listen(3031, function() {
