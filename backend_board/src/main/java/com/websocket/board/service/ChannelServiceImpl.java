@@ -5,6 +5,7 @@ import com.websocket.board.model.user.User;
 import com.websocket.board.model.user.UserChannel;
 import com.websocket.board.payload.CreateChannelRequest;
 import com.websocket.board.payload.InviteChannelRequest;
+import com.websocket.board.payload.ValidUserWithChannelRequest;
 import com.websocket.board.payload.WithdrawalRequest;
 import com.websocket.board.repo.ChannelRepository;
 import com.websocket.board.repo.UserChannelRepository;
@@ -26,8 +27,29 @@ public class ChannelServiceImpl implements ChannelService {
     private final UserChannelRepository userChannelRepository;
 
     @Override
-    public Channel createChannel(CreateChannelRequest createChannelRequest) {
+    public Boolean validUserWithChannel(ValidUserWithChannelRequest validUserWithChannelRequest) {
+        String email = validUserWithChannelRequest.getEmail();
+        Optional<User> user = userRepository.findByEmail(email);
+        if(!user.isPresent()) {
+            return false;
+        }
 
+        String channelId = validUserWithChannelRequest.getChannelId();
+        Optional<Channel> channel = channelRepository.findByChannelId(channelId);
+        if(!channel.isPresent()) {
+            return false;
+        }
+
+        Optional<UserChannel> userChannel = userChannelRepository.findByUserAndChannel(user.get(), channel.get());
+        if(!userChannel.isPresent()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public Channel createChannel(CreateChannelRequest createChannelRequest) {
         Channel channel = new Channel().createChannel();
         channel.setChannelName(createChannelRequest.getChannelName());
 
@@ -50,9 +72,7 @@ public class ChannelServiceImpl implements ChannelService {
 
     @Override
     public Boolean saveInvitedChannel(InviteChannelRequest inviteChannelRequest, String channelId) {
-
         Optional<Channel> channelResponse = channelRepository.findByChannelId(channelId);
-
         Optional<User> user = userRepository.findByEmail(inviteChannelRequest.getUser().getEmail());
 
         Boolean isSaved = false;
