@@ -2,20 +2,21 @@
 const app = require('express')();
 const https = require('https');
 const fs = require('fs');
+const http = require('http');
 
-const options = {
-    key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
-    requestCert: false,
-    rejectUnauthorized: false
-};
+// const options = {
+//     key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+//     cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+//     ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+//     requestCert: false,
+//     rejectUnauthorized: false
+// };
 
-var server = https.createServer(options, app);
-// var server = http.createServer(app);
+// var server = https.createServer(options, app);
+var server = http.createServer(app);
 var io = require('socket.io')(server);
 
-io.set('transports', ['websocket']);
+// io.set('transports', ['websocket']);
 
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
