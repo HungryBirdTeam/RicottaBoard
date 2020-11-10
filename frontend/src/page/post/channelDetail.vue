@@ -470,30 +470,12 @@ export default {
       // var socket = new SockJS('https://localhost/api/facechat');
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
       // var socket = io('https://k3a204.p.ssafy.io/api/facechat', { transports: ['websocket'] });
-      var socket = io('https://k3a204.p.ssafy.io/api/facechat');
       
-      socket.on('test', message => {
-        console.log(message);
-      });
-
-      socket.on( 'connect', function() {
-        console.log("connect!!!!!!!!!!!!");
-      });
-
-      socket.on( 'disconnect', function() {
-        console.log("disconnect!!!!!!!!!!!!");
-      });
-
-      socket.on( 'connect_failed', function() {
-        console.log("connect_failed!!!!!!!!!!!!");
-      });
-
-      socket.on( 'error', function() {
-        console.log("error!!!!!!!!!!!!");
-      });
+      // var socket = io('https://k3a204.p.ssafy.io/api/facechat');
+      
       // var socket = io('https://localhost:3031');
-      console.log("socket", sock, socket);
-      loadChannelInfo(this.board.channelId, this.userEmail, socket);
+      console.log("socket", sock, this.$channelSocket);
+      loadChannelInfo(this.board.channelId, this.userEmail, this.$channelSocket);
       var _this = this;
         ws.connect(
           {userNickname:this.$store.state.userData.nickname},
