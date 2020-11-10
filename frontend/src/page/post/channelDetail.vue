@@ -505,7 +505,7 @@ export default {
 //  ['websocket'], upgrade: false, rejectUnauthorized: false });
       
       // var socket = io('https://localhost:3031');
-      console.log("socket", sock, socket);
+      console.log("socket", sock, socket, this.$socket);
       loadChannelInfo(this.board.channelId, this.userEmail, socket);
       var _this = this;
       ws.connect(

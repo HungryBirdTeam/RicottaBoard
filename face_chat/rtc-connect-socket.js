@@ -24,10 +24,10 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
-app.get('/', function(req, res) {
-    console.log("in socket");
-    // res.sendFile('Hellow Chating App Server');
-});
+// app.get('/', function(req, res) {
+// console.log("in socket");
+// res.sendFile('Hellow Chating App Server');
+// });
 
 
 

@@ -6,7 +6,8 @@ import { store } from './store'
 import cookies from 'vue-cookie';
 import constant from './lib/constants'
 import vuetify from './plugins/vuetify';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -17,7 +18,6 @@ console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
 console.log(socket);
 Vue.use(cookies);
 Vue.use(router);
-// Vue.prototype.$channelSocket = channelSocket;
 Vue.prototype.$socket = socket;
 Vue.prototype.$axios = axios;
 
