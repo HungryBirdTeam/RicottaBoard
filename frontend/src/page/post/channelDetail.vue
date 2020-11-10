@@ -172,7 +172,7 @@
         @mouseout="testOut"
         style="background-color: black;"
       >
-        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 9px;"
+        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 7px;"
           ><div v-if="userCount != 0">{{ userCount }}</div></v-img
         >
       </v-responsive>
@@ -1216,8 +1216,8 @@ export default {
   border: solid black 1px;
   background-color: white;
   /* border-radius: 50%; */
-  width: 56px;
-  height: 56px;
+  width: 50px;
+  height: 50px;
 }
 
 .vueBox {

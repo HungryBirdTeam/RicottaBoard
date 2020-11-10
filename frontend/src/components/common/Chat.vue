@@ -26,9 +26,6 @@
         </div>
     
         <div class="chatbox" id="chatBox">
-          <div @click="connect">
-            chat 접속하기
-          </div>
           <div class="goodchat-bubble bubble">
             매너 채팅 해주세요 :)
           </div>
