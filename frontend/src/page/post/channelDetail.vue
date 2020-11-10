@@ -500,7 +500,8 @@ export default {
       // var socket = io.connect('https://k3a204.p.ssafy.io/api/facechat')
       var socket = io('https://k3a204.p.ssafy.io', 
                   { 
-                    path: '/api/facechat'
+                    path: '/api/facechat',
+                    transports: ['websocket'], upgrade: false
                   }
                   );
       
