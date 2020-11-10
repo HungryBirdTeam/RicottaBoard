@@ -76,12 +76,10 @@ export default {
   components:{
   },
   created() {
-    //console.log("chanelName : "+ localStorage.getItem("wsboard.channelName")); 채널 이름 가져오는 부분
     var myname = this.$store.getters.userData.nickname;
     if(this.$store.getters.userData.nickname == ""){
       myname = "Unknown_"+this.makeRandomName();
     }
-    // console.log("my nickname is : ", myname);
     var chatcontainer = document.getElementById("chatContainer");
     var chatheader = document.getElementById("chatHeader");
     var chatbox = document.getElementById("chatBox");
@@ -118,7 +116,6 @@ export default {
     });
 
     this.$socket.on("clientList", (data) => {
-      console.log("접속자 : ");
       var exceptme = [];
       //this.clientList = data;
       for(var i=0; i<data.length; i++){
@@ -128,7 +125,6 @@ export default {
         else exceptme.push(data[i]);  // 배열에 나의 정보는 빼고 넣어주었다
       }
       this.clientList = exceptme;
-      console.log(this.clientList);
     });
 
     // 내 메시지는 띄우지 말야아함.
@@ -172,7 +168,6 @@ export default {
     });
 
     this.$socket.on("out", (data) => {
-      console.log("나갔습니다!!");
       // if(!(data.from.name).eqauls("undefnied")) 
       $('.chatbox').append('<div class="inout-bubble">'+data.from.name+'님이 나가셨습니다.</div>');
     
@@ -180,7 +175,6 @@ export default {
   },
 
   destroyed() {
-    console.log('Chat destoryed');
     this.$socket.emit("disconnect2", {});
   },
 
@@ -220,18 +214,6 @@ export default {
         userid: this.naname,
         roomid:  this.Channel,
       };
-
-      console.log("나네임 : "+this.naname);
-
-
-      // ChatlogDataService.create(data)
-      //   .then(response => { 
-      //     this.chatlog.id = response.data.id;
-      //     console.log(response.data);
-      //   })
-      //   .catch(e => {
-      //     console.log(e);
-      //   });
     },
 
 
@@ -253,13 +235,9 @@ export default {
     },
 
     sendToBoard() {
-      console.log('sendtoboard')
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
       var $msgForm = $('#msgForm').val();
-      // console.log("msgForm : "+$msgForm);
-      // console.log("channel : "+this.Channel);
-
 
       this.$socket.emit("text", {msg: $msgForm});
       $('#msgForm').val("");
@@ -274,11 +252,9 @@ export default {
         if(code==13){
           
           if(event.shiftKey === true){ // Shift + Enter 처리
-            //console.log("Shift도 눌러짐");
           
           }
           else{
-              
               this.sendChat();
              //this.saveChatlog();
           
@@ -308,44 +284,11 @@ export default {
     },
 
     showList(){
-      
       if(this.isList) this.isList=false;
       else this.isList=true;
-//       $('#msgForm').val("안녕");
     },
 
-    // retrieveChatlogs(){
-    //   ChatlogDataService.getAll()
-    //     .then(response =>{
-    //       var Logs = response.data;
-    //       console.log("채팅로그 불러오기");
-    //       console.log("LogRoom : "+Logs[0].roomid);
-    //       console.log("channelName : "+this.Channel);
-    //       //console.log(Logs[0]);
-    //       console.log("logsname : "+Logs[0].userid);
-    //       console.log("myname : "+this.naname);
-          
-    //       for(var i=0; i<Logs.length; i++){
-    //         if(Logs[i].roomid === this.Channel){
-    //           //console.log(Logs[i].message);
-    //           //this.chatlogs.push(Logs[i]);
-    //           if(Logs[i].userid === this.naname) $('.chatbox').append('<div class="my-bubble bubble">'+Logs[i].message+'</div>');
-    //           else $('.chatbox').append('<div class="friend-bubble bubble">('+Logs[i].userid+'님) '+Logs[i].message+'</div>');
-    //         }
-    //       }
-    //       console.log(Logs);
-
-          
-    //     })
-    //     .catch(e =>{
-    //       console.log(e);
-    //     });
-    // },
   },
-
-  mounted(){
-    // this.retrieveChatlogs();
-  }
 };
 </script>
 
