@@ -155,4 +155,8 @@ public class UserService {
         System.out.println(userDevice.toString());
         userDeviceService.delete(userDevice);
     }
+
+    public boolean checkPassword(String currentPassword, String checkPassword) {
+        return passwordEncoder.matches(checkPassword, currentPassword);
+    }
 }

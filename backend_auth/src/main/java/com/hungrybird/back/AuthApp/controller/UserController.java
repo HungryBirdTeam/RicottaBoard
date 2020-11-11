@@ -46,7 +46,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/auth/user")
 @Api(value = "User Rest API", description = "Defines endpoints for the logged in user. It's secured by default")
 @CrossOrigin(origins = "http://localhost:3000")
 // @CrossOrigin(origins = "http://localhost:3001")
@@ -102,7 +102,16 @@ public class UserController {
         Optional<User> tempUserData = userService.findByEmail(newUser.getEmail());
 
         if(tempUserData.isPresent()){
+
+
             User user = tempUserData.get();
+
+            boolean isCorrect = userService.checkPassword(user.getPassword(), newUser.getPassword());
+
+            System.out.println("=================Check : " + isCorrect);
+
+            if(!isCorrect) return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
             user.setNickname(newUser.getNickname());
             user.setUsername(newUser.getUsername());
             userService.save(user);
