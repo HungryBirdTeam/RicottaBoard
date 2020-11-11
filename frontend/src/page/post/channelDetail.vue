@@ -696,6 +696,7 @@ export default {
       }
 
       if (this.board.videoOn || exitMyVideo) {
+        console.log("already loaded video component");
         this.createSnackbar("비디오 컴포넌트가 이미 생성 중입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;
