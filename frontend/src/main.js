@@ -43,6 +43,7 @@ console.log("success socket", successFaceSocket);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;
+Vue.prototype.$faceChatSocket = successFaceSocket;
 Vue.prototype.$axios = axios;
 
 /* eslint-disable no-new */
