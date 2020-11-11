@@ -17,15 +17,15 @@ const socket = io(API.CHAT_BASE_URL);
 console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
 console.log(socket);
 
-// const face = io('http://localhost:3031');
-// const face1 = io('https://localhost:3031');
-// const face6 = io('https://localhost/api/facechat');
-// const face2 = io('https://k3a204.p.ssafy.io/api/facechat');
-// const face7 = io('https://k3a204.p.ssafy.io/api/facechat', { secure: true });
-// const face5 = io('http://k3a204.p.ssafy.io/api/facechat');
-// const face3 = io('http://k3a204.p.ssafy.io:3031');
-// const face4 = io('https://k3a204.p.ssafy.io:3031');
-// console.log("face", face, face1, face2, face3, face4, face5, face6, face7);
+const face = io('http://localhost:3031');
+const face1 = io('https://localhost:3031');
+const face6 = io('https://localhost/api/facechat');
+const face2 = io('https://k3a204.p.ssafy.io/api/facechat');
+const face7 = io('https://k3a204.p.ssafy.io/api/facechat', { secure: true });
+const face5 = io('http://k3a204.p.ssafy.io/api/facechat');
+const face3 = io('http://k3a204.p.ssafy.io:3031');
+const face4 = io('https://k3a204.p.ssafy.io:3031');
+console.log("face", face, face1, face2, face3, face4, face5, face6, face7);
 
 // const face10 = io('http://localhost:3031/socket.io');
 // const face11 = io('https://localhost:3031/socket.io');
@@ -36,9 +36,9 @@ console.log(socket);
 // const face14 = io('https://k3a204.p.ssafy.io:3031/socket.io');
 // console.log("face", face10, face11, face12, face13, face14, face15, face16);
 
-const successFaceSocket = io('http://k3a204.p.ssafy.io/api/facechat');
+// const successFaceSocket = io('http://k3a204.p.ssafy.io/api/facechat');
 
-console.log("socket", successFaceSocket);
+// console.log("socket", successFaceSocket);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;
