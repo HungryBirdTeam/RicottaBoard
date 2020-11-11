@@ -8,7 +8,7 @@ const cors = require("cors");
  
 const db = require("./app/models");
 
-// app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors());
 
 //parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -36,11 +36,6 @@ var io = require('socket.io')(server);
 
 var client_list = [];
 
-app.all('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
 
 // localhost:3000으로 서버에 접속하면 클라이언트로 index.html을 전송한다
 app.get('/', function(req, res) {
