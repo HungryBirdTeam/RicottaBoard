@@ -16,6 +16,9 @@ import * as API from '../src/api/index.js'
 const socket = io(API.CHAT_BASE_URL);
 console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
 console.log(socket);
+
+const face = io('http://localhost:3031');
+console.log("face", face);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;
