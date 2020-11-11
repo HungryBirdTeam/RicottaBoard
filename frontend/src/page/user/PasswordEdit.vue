@@ -49,7 +49,7 @@
         </button>
       </div>
       <v-snackbar
-          centered
+          bottom
           v-model="snackbar.isPresent"
           :timeout="snackbar.timeout"
           :color="snackbar.color"
