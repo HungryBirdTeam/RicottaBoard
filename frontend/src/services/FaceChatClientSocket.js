@@ -321,8 +321,9 @@ function createPeerConnection(member) {
                 handleIceCandidate(event, member);
             };
             // pc.onaddstream = handleRemoteStreamAdded;
-            pc.onremovestream = handleRemoteStreamRemoved;
-
+            pc.onremovestream = (event) => {
+                handleRemoteStreamRemoved(event, member);
+            };
             pc.ontrack = event => {
                 handleTrack(event, member);
             }
@@ -380,8 +381,15 @@ function handleIceCandidate(event, member) {
 //     remoteVideo.srcObject = remoteStream;
 // }
 
-function handleRemoteStreamRemoved(event) {
+function handleRemoteStreamRemoved(event, member) {
     console.log('Remote stream removed. Event: ', event);
+    var videoComponent = document.getElementById("video_" + member);
+    if (videoComponent != undefined) {
+        console.log("src removed");
+        videoComponent.srcObject = null;
+        streamMap.set(member, null);
+        isConnect.set(member, false);
+    }
 }
 
 /////////////////////////////////
