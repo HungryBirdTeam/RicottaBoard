@@ -71,7 +71,6 @@ io.on('connection', function(socket) {
         io.sockets.in(info.channel).emit('member', info.member);
     });
 
-    socket.broadcast.emit('test', "connection success!");
 
 });
 

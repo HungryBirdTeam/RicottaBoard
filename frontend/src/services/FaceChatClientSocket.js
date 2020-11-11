@@ -177,9 +177,9 @@ function loadChannelInfo(channelId, email, _socket) {
     });
 
     socket.on('member', member => {
+        console.log("멤버 알림", member);
         if (member != myInfo) {
             if (!users.has(member)) {
-                console.log("새 멤버", member);
                 users.add(member);
                 createPeerConnection(member);
             }
@@ -189,6 +189,7 @@ function loadChannelInfo(channelId, email, _socket) {
 
     socket.on('alert', () => {
         var info = { channel: channel, member: myInfo };
+        console.log("face chat log :: alert info = ", info);
         socket.emit('alert member', info);
     });
 
