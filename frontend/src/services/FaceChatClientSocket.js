@@ -261,7 +261,7 @@ async function onVideo(vdId) {
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
+        audio: true,
         video: true
     });
     gotStream(stream)

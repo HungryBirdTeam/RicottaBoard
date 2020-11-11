@@ -548,6 +548,13 @@ export default {
             this.board.editorList = response.data.editorList;
             this.$store.state.editorList = response.data.editorList;
           }
+          if (!response.data.videoList) {            
+            this.board.videoList = [];
+            this.$store.state.videoList = [];
+          } else {            
+            this.board.videoList = response.data.videoList;
+            this.$store.state.videoList = response.data.videoList;
+          }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
           this.createSnackbar(
@@ -585,6 +592,7 @@ export default {
       this.board.editorList = recv.editorList;
       this.$store.state.editorList = recv.editorList;
       this.board.videoList = recv.videoList;
+      this.$store.state.videoList = recv.videoList;
       //crudModule 초기화
       // this.board.crudModule = {
       //   modulType: "",
@@ -790,7 +798,9 @@ export default {
               }
             });
           } else if (clas[cla] == "video") {
+            console.log("video catch", target);
             this.board.videoList.map((video) => {
+              console.log("video catch", video);
               if (video.vdId == target.id) {
                 (video.left = `${left}px`), (video.top = `${top}px`);
               }

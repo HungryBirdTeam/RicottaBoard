@@ -35,22 +35,22 @@ export const store = new Vuex.Store({
         modal: false,
         // 캘린더
         scheduler: {
-          left: '600px',
-          top: '270px',
-          event: {
-              startDate: '',
-              startTime: '',
-              endDate: '',
-              endTime: '',
-              content: '',
-              name: '',
-          },
-          events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
-          dialog: false,
-          eventDetail: false,
+            left: '600px',
+            top: '270px',
+            event: {
+                startDate: '',
+                startTime: '',
+                endDate: '',
+                endTime: '',
+                content: '',
+                name: '',
+            },
+            events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
+            dialog: false,
+            eventDetail: false,
         },
-        joining:{
-            canIUseIt:"",
+        joining: {
+            canIUseIt: "",
             canNameUseIt: "",
         },
 
@@ -82,6 +82,7 @@ export const store = new Vuex.Store({
             ],
         },
         poll: [],
+        videoList: [],
         editorList: [],
         inviteModal: false,
         withdrawalModal: false,
@@ -329,7 +330,7 @@ export const store = new Vuex.Store({
             }
 
             console.log('second', checkNickname.length)
-            if (checkNickname.length == 0) {           
+            if (checkNickname.length == 0) {
                 store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
                 return;
             }
@@ -355,19 +356,19 @@ export const store = new Vuex.Store({
                 "email": payload
             }
             userApi.resetMyPasswordReq(email,
-                res => {
-                    if (res.data.success) {
-                        store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
-                        setTimeout(() => {
-                            router.push('/');
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                        }, 3000)
+                    res => {
+                        if (res.data.success) {
+                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
+                            setTimeout(() => {
+                                router.push('/');
+                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
+                            }, 3000)
 
-                    }
-                },
-                err => {
-                    store.dispatch("throwError", err);
-                })
+                        }
+                    },
+                    err => {
+                        store.dispatch("throwError", err);
+                    })
                 // authConnect.post(url, {
                 //         "email": data,
                 //     })
