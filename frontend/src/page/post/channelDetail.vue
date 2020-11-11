@@ -490,7 +490,6 @@ export default {
 
     },
     init() {
-      console.log('init method start')
       var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;

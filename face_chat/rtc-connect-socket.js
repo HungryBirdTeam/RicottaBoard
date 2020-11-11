@@ -35,7 +35,6 @@ app.all('/*', function(req, res, next) {
 console.log("rtc server socket on");
 // io.sockets.on('connection', function(socket) {
 io.on('connection', function(socket) {
-    console.log("connect!!");
     socket.on('add candidate', function(connect) {
         var channel = connect.channel;
 
