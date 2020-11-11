@@ -14,11 +14,10 @@ const http = require('http');
 
 // var server = https.createServer(options, app);
 var server = http.createServer(app);
-var io = require('socket.io')(server, {
-    path: '/api/facechat'
-});
 
-io.set('transports', ['websocket']);
+var io = require('socket.io')(server);
+
+// io.set('transports', ['websocket']);
 
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
