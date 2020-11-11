@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/member")
-@Api(value = "Memser Rest API", description = "Defines endpoints for the logged in member. It's secured by default")
+@RequestMapping("/api/auth/member")
+@Api(value = "Member Rest API", description = "Defines endpoints for the logged in member. It's secured by default")
 @CrossOrigin(origins = "http://localhost:3000")
 public class MemberController {
 
