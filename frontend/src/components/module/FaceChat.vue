@@ -6,13 +6,14 @@
       class="video_component"
       :id="videoInfo.vdId"
       src=""
+      :muted = "mute"
       autoplay playsinline></video>
       <button 
-      v-show="userEmail==myEmail && !onVideo"
-      id="videoOn" @click="onClickVideo">on</button>
-      <button 
-      v-show="userEmail==myEmail && onVideo"
-      id="videoOn" @click="onClickVideo">off</button>
+      v-show="userEmail==myEmail"
+      id="videoOn" @click="onClickVideo">{{onVideoBtnText}}</button>
+      <button
+      @click="muteVideo"
+      >{{muteBtnText}}</button>
   </div>
 </template>
 
@@ -30,19 +31,30 @@ export default {
   },
   methods: {
     onClickVideo() {
-      console.log("onClick");
       if(!this.onVideo) {
         onVideo(this.videoInfo.vdId);
         this.onVideo = true;
+        this.onVideoBtnText = "off";
       } else {
         offVideo();
         this.onVideo = false;
+        this.onVideoBtnText = "on";
+      }
+    },
+    muteVideo() {
+      if(!this.mute) {
+        this.muteBtnText = "soundOn";
+      } else {
+        this.muteBtnText = "mute";
       }
     }
   },
   data() {
     return {
-      onVideo : false
+      onVideo : false,
+      onVideoBtnText : "on",
+      mute : false,
+      muteBtnText : "mute"
     }
   },
   created() {
@@ -52,8 +64,8 @@ export default {
 
 <style>
 .video_container {
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   background-color: white;
   /* border: solid 2px gray;  */
   border-radius: 5px;
@@ -62,6 +74,7 @@ export default {
 .video_component {
   width: 500px;
   height: 500px;
+  background-color: black;
 }
 </style>
 
