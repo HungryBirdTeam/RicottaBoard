@@ -6,7 +6,7 @@ const instance = createInstance(API_BASE_URL);
 
 function deleteUser(user, accessToken, success, fail) {
     instance
-        .delete(`/api/user/delete?email=${user.email.trim()}&password=${user.password.trim()}`, {
+        .delete(`/api/auth/user/delete?email=${user.email.trim()}&password=${user.password.trim()}`, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
@@ -52,7 +52,7 @@ function resetMyPassword(password, success, fail) {
 
 function userInfo(newUser, config, success, fail) {
     instance
-        .post('/api/user/userInfo', newUser, config)
+        .post('/api/auth/user/userInfo', newUser, config)
         .then(success)
         .catch(fail);
 }

@@ -12,7 +12,7 @@
             type="password"
             placeholder="기존 비밀번호를 입력해주세요."
             v-model="password.origin"
-            @change="changeIt()"
+            @change="changeOrigin()"
             @keypress.enter="submit()"
           >
         </div>
@@ -24,7 +24,7 @@
             type="password"
             v-model="password.new"
             placeholder="새 비밀번호를 입력해주세요."
-            @change="changeIt()"
+            @change="changeNew()"
             @keypress.enter="submit()"
           >
         </div>
@@ -36,7 +36,7 @@
             type="password"
             v-model="password.confirm"
             placeholder="비밀번호를 한번더 입력해주세요."
-            @change="changeIt()"
+            @change="changeConfirm()"
             @keypress.enter="submit()"
           >
         </div>
@@ -76,8 +76,24 @@ export default {
     },
     created(){
     },
-    methods: {   
+    methods: {  
       changeIt() {
+        const pwcheck = this.password
+        if (pwcheck.orign.length >= 8) {
+          this.isChange.origin = true;
+        } else {
+          this.isChange.origin = false;
+        }
+        if (pwcheck.new.length >= 8) {
+          this.isChange.new = true;
+        } else {
+          this.isChange.new = false;
+        } 
+        if (pwcheck.new == pwcheck.confirm) {
+          this.isChange.confirm = true
+        } else {
+          this.isChange.confirm = false
+        }
       },      
       submit(){
         // console.log("kk", this.isChange)
@@ -122,7 +138,11 @@ export default {
               text: "",
               timeout: 1000,
             },
-            isChange: false,
+            isChange: {
+              origin: false,
+              new: false,
+              confirm: false,
+            },
             constants,
         }
     }
