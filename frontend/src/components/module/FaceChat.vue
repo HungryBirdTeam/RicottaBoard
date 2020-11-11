@@ -6,7 +6,7 @@
       class="video_component"
       :id="videoInfo.vdId"
       src=""
-      :muted = "mute"
+      :muted="mute ? true : false"
       autoplay playsinline></video>
       <button 
       v-show="userEmail==myEmail"
