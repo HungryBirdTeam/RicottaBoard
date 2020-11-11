@@ -29,7 +29,7 @@ export default {
   methods: {
     onClickVideo() {
       console.log("onClick");
-      if(!onVideo) {
+      if(!this.onVideo) {
         onVideo(this.videoInfo.vdId);
       } else {
         offVideo();
