@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+//@RequestMapping("/api/board")   // 로컬
 public class NoticeController {
     private final NoticeRepository noticeRepository;
 

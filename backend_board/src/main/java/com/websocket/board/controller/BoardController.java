@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+//@RequestMapping("/api/board")   // 로컬
 public class BoardController {
 
     private final ChannelRedisRepository channelRedisRepository;
