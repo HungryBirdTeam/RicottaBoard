@@ -794,15 +794,16 @@ export default {
             this.board.kanban.left = `${left}px`;
             this.board.kanban.top = `${top}px`;
           } else if (clas[cla] == "editor") {
-            console.log("editor catch", target);
+            console.log("editor target catch", target);
             this.board.editorList.map((editor) => {
-              console.log("editor catch", video);
+              console.log("editor catch", editor);
               if (editor.mdId == target.id) {
+                console.log("same", editor.mdId, target.id);
                 (editor.left = `${left}px`), (editor.top = `${top}px`);
               }
             });
           } else if (clas[cla] == "video") {
-            console.log("video catch", target);
+            console.log("video target catch", target);
             this.board.videoList.map((video) => {
               console.log("video catch", video);
               if (video.id == target.id) {
