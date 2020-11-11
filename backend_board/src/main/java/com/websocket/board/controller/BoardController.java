@@ -53,7 +53,7 @@ public class BoardController {
             String tmp = javers.getJsonConverter().toJson(cs);
             SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
             System.out.println(snapShot);
-            String editUser = snapShot.state.editUser == null ? "TestUser" : snapShot.state.editUser;
+            String editUser = snapShot.state.editUser == null || snapShot.state.editUser.equals("") ? "TestUser" : snapShot.state.editUser;
             historyResponsesList.add(
                     new HistoryResponse().builder()
                             .editUser(editUser)
