@@ -164,14 +164,12 @@ function loadChannelInfo(channelId, email, _socket) {
     channel = channelId;
     myInfo = email;
     console.log('#video_' + myInfo);
-    console.log(channel);
 
     // socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
     socket = _socket;
-    console.log(socket);
 
     socket.on('connect', function() {
-        console.log("connect!!!!!!");
+        console.log("connect face chat socket", socket);
     });
 
     socket.on('disconnect', function() {
