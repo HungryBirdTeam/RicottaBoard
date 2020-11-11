@@ -7,8 +7,10 @@
       <div class="hint">최근 수정사항 20개를 보여줍니다</div><hr stlye="margin-top: 0px;"/>
       <div class="history-list">
         <div v-for="(history, idx) in historyList" :key="idx" class="history-item">
-          <span class="module"> {{ history.editModule }} </span><br>
-          <span class="time">{{ history.editTime.substr(0,10) }} {{ history.editTime.substr(11,8)}} </span><hr/>
+          <span class="user"> {{ history.editUser }} 님이 </span>
+          <span class="time">{{ history.editTime.substr(0,10) }} {{ history.editTime.substr(11,8)}}</span>
+          <span> 수정했습니다. </span><hr/>
+          <span class="module" v-for="(editModule, i) in history.editModule" :key="i"> {{ editModule }} </span><br>
         </div>
       </div>
     </div>

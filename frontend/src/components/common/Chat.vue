@@ -88,11 +88,11 @@ export default {
     this.naname = myname;
     this.Channel = localStorage.getItem("wsboard.channelId");
 
-    console.log('name is: ' + this.naname);
-    console.log('channel is: ' + this.Channel);
+    // console.log('name is: ' + this.naname);
+    // console.log('channel is: ' + this.Channel);
 
-    console.log("SOCKET IS @@@@@@: ");
-    console.log(this.$socket);
+    // console.log("SOCKET IS @@@@@@: ");
+    // console.log(this.$socket);
     this.$socket._callbacks.$clientList = undefined;
     this.$socket._callbacks.$enter = undefined;
     this.$socket._callbacks.$out = undefined;
