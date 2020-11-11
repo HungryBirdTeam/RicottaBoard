@@ -294,7 +294,7 @@
         <div
           class="video"
           v-for="(vd, idx) in this.board.videoList"
-          :key="vd.vdId"
+          :key="vd.id"
           @click.right="deleteTargetAction(idx, 'video', $event)"
         >
           <FaceChat
@@ -808,6 +808,7 @@ export default {
             this.board.videoList.map((video) => {
               console.log("video catch", video);
               if (video.id == target.id) {
+                console.log("same", video.id, target.id);
                 (video.left = `${left}px`), (video.top = `${top}px`);
               }
             });

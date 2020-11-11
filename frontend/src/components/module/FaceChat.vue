@@ -1,6 +1,6 @@
 <template>
   <div
-    class="MoveableBox"
+    class="MoveableBox video"
     width="300px"
     height="300px"
     style="border: 1px solid black;">
