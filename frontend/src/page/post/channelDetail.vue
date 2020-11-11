@@ -1,215 +1,180 @@
 <template>
   <div id="app" v-cloak @click="cloakMoveable">
-    <div class="toolbar">
-      <v-snackbar
-        app
-        bottom
-        v-model="snackbar.isPresent"
-        :timeout="snackbar.timeout"
-        :color="snackbar.color"
-        >{{ snackbar.text }}</v-snackbar
-      >
-      <div>
-        <History style="position: fixed; right: 12px;"/>
-        <div class="toolBox">
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('postit', $event)"
-                >
-                  <v-icon>mdi-message</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Post-it</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('kanban', $event)"
-                >
-                  <v-icon>mdi-clipboard-list-outline</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Kanban-Board</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('scheduler', $event)"
-                >
-                  <v-icon>mdi-calendar</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Scheduler</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('poll', $event)"
-                >
-                  <v-icon>mdi-vote</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Poll</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('editor', $event)"
-                >
-                  <v-icon>mdi-language-markdown</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Editor</span>
-          </v-tooltip>
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('video', $event)"
-                >
-                  <v-icon>mdi-video-plus</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Face Chat</span>
-          </v-tooltip>
-          <v-divider> </v-divider>
-
-          
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on" class="tool-divide">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="openInviteModal"
-                  draggable="true"
-                >
-                  <v-icon>mdi-account-supervisor-outline</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>멤버 초대하기</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="reset"
-                  draggable="true"
-                >
-                  <v-icon>mdi-arrow-expand-all</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>화면 위치 초기화</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="openWithdrawalModal"
-                  draggable="true"
-                >
-                  <v-icon>mdi-close-circle</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>모임 나가기</span>
-          </v-tooltip>
-        </div>
-        <br />
+    
+    <div class="toolbar" style="height: 0px">
+      <div class="float">
+        <div @click="reset" class="channel-name"> {{ channelName }} </div>  
+        <History style="position: fixed; right: 12px;"/>    
+        <Notice/>  
       </div>
-    </div>
+      <div class="toolBox">
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('postit', $event)"
+              >
+                <v-icon>mdi-message</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Post-it</span>
+        </v-tooltip>
 
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('kanban', $event)"
+              >
+                <v-icon>mdi-clipboard-list-outline</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Kanban-Board</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('scheduler', $event)"
+              >
+                <v-icon>mdi-calendar</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Scheduler</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('poll', $event)"
+              >
+                <v-icon>mdi-vote</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Poll</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('editor', $event)"
+              >
+                <v-icon>mdi-language-markdown</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Editor</span>
+        </v-tooltip>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="orange"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('video', $event)"
+              >
+                <v-icon>mdi-video-plus</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Face Chat</span>
+        </v-tooltip>
+        <v-divider> </v-divider>
+
+        
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="tool-divide">
+              <v-btn
+                icon
+                color="#FF5722"
+                @click="openInviteModal"
+                draggable="true"
+              >
+                <v-icon>mdi-account-supervisor-outline</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>멤버 초대하기</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF5722"
+                @click="openWithdrawalModal"
+                draggable="true"
+              >
+                <v-icon>mdi-close-circle</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>모임 나가기</span>
+        </v-tooltip>
+      </div>
+      <br />
+    </div>
     <v-responsive>
       <v-responsive
         class="userListBadge badge-info text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
         @mouseover="testIn"
         @mouseout="testOut"
-        style="background-color: black;"
+        style="background-color: #0d875c;"
       >
-        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 7px;"
-          ><div v-if="userCount != 0">{{ userCount }}</div></v-img
-        >
+        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 7px;"></v-img>
       </v-responsive>
 
-      <transition name="slide-fade">
+      <transition name="fade">
         <v-responsive
-          id="memberList"
-          class="text-center"
+          class="member-list text-center p-0 w-auto"
           v-show="memberView"
           align="center"
           justify="center"
         >
-          <main role="main" class="container">
-            <div class="my-3 p-3 bg-white rounded shadow-sm">
-              <h4 class="border-bottom border-gray pb-2 mb-0">
-                {{ this.channelName }}
-              </h4>
-
-              <div class="media pt-3 border-bottom asdf">
-                <div
+            <div class="px-3 py-2 bg-white rounded">
+              <span><strong>멤버</strong> ({{ userCount }}) | </span>
+                <span
                   v-for="(member, idx) in board.memberList"
                   :key="idx"
-                  class="media-body small lh-125 border-gray member"
+                  class="px-1"
                 >
                   {{ member }}
-                </div>
-              </div>
+              </span>
             </div>
-          </main>
         </v-responsive>
       </transition>
     </v-responsive>
-
-    <Notice/>
-
 
     <Moveable
       ref="moveable"
@@ -401,8 +366,8 @@ export default {
         text: "",
         timeout: 1000,
       },
-      boardLengthX: 3250,
-      boardLengthY: 1750,
+      boardLengthX: 6000,
+      boardLengthY: 4000,
       boardScale: 1,
       boardX: this.boardLengthX / 2,
       boardY: this.boardLengthY / 2,
@@ -415,7 +380,6 @@ export default {
 
       memberView: false,
       idc: 0,
-      isPoll: false,
       testPage: false,
       isNotice: false,
     };
@@ -1165,20 +1129,35 @@ export default {
     );
 
   background-size: 250px 250px;
-  /* transition: all 0.05s; */
 }
 
 .moveable-control-box {
   display: none;
 }
+.channel-name {
+  position: fixed;
+  z-index: 50000;
+  top: 90px;
+  left: 12px;
+  font-size: 1.2rem;
+  background-color: white;
+  padding: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.07), 0px 3px 14px 2px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  color: #48524a;
 
+}
 .toolBox {
   font-family: "Roboto", sans-serif;
   /* position: relative; */
   position: fixed;
   z-index: 3;
-  width: 56px;
-  top: 30%;
+  width: 50px;
+  top: 25%;
   left: 12px;
   margin-left:12px;
   padding: 10px 0px;
@@ -1186,8 +1165,9 @@ export default {
   background-color: white;
   text-align: center;
   vertical-align: middle;
-  border-radius: 20px;
-  border: 2px solid rgba(104, 104, 104, 0.5);
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05); 
 }
 
 .toolbar {
@@ -1200,9 +1180,7 @@ export default {
   z-index: 3;
   bottom: 20px;
   left: 12px;
-  border: solid black 1px;
   background-color: white;
-  /* border-radius: 50%; */
   width: 50px;
   height: 50px;
 }
@@ -1219,16 +1197,18 @@ export default {
   height: 200px;
 }
 
-#memberList {
+.member-list {
   width: 350px;
   height: auto;
   position: fixed;
   z-index: 2;
-  bottom: 12px;
-  left: 35px;
+  bottom: 38px;
+  left: 95px;
   text-align: right;
   padding-right: 1%;
   padding-left: 5%;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
 }
 
 .moimimg {
@@ -1237,16 +1217,6 @@ export default {
 
 .invite-mem {
   margin-top: 20px;
-}
-
-.notice-button {
-  position: fixed;
-  z-index: 3;
-  bottom: 150px;
-  left: 12px;
-  border: solid black 1px;
-  width: 56px;
-  height: 56px;
 }
 
 .reset-button {
@@ -1260,15 +1230,21 @@ export default {
 }
 
 .member {
-  /* overflow: scroll; */
-  /* margin-left: 5px; */
   margin: 5px;
   display: inline-block;
-  /* margin-right: 5px; */
 }
 
 .asdf {
   width: 100%;
   display: contents;
+}
+
+.fade-enter-active,
+.fade-leave-active{
+    transition: opacity .4s
+}
+.fade-enter,
+.fade-leave-to{
+    opacity: 0
 }
 </style>

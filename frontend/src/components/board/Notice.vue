@@ -2,10 +2,9 @@
   <div>
     <v-responsive>
       <v-btn
-        class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
+        class="notice-button justify-center ma-3"
         fab
-        dark
-        color="black"
+        color="#0d875c"
         @click="showNotice()"
         @mouseover="isTopNoticeToggle=true"
         @mouseout="isTopNoticeToggle=false"
@@ -15,12 +14,12 @@
             src="../../assets/img/noticeIconW.png"
           />
       </v-btn>
-      <transition name="slide-fade">
+      <transition name="fade">
         <v-responsive
           class="top-notice"
           v-if="isTopNoticeToggle"
           >
-          공지 | {{ topNotice }}
+          <strong>공지</strong> | {{ topNotice }}
         </v-responsive>
       </transition>
     </v-responsive>
@@ -304,7 +303,15 @@ i {
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
     0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
-  
+}
+
+.fade-enter-active,
+.fade-leave-active{
+    transition: opacity .4s
+}
+.fade-enter,
+.fade-leave-to{
+    opacity: 0
 }
 </style>
 
