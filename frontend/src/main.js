@@ -25,7 +25,8 @@ const face7 = io('https://k3a204.p.ssafy.io/api/facechat', { secure: true });
 const face5 = io('http://k3a204.p.ssafy.io/api/facechat');
 const face3 = io('http://k3a204.p.ssafy.io:3031');
 const face4 = io('https://k3a204.p.ssafy.io:3031');
-console.log("face", face, face1, face2, face3, face4, face5, face6, face7);
+const face8 = io('http://k3a204.p.ssafy.io/api/facechat', { secure: true });
+console.log("face", face, face1, face2, face3, face4, face5, face6, face7, face8);
 
 // const face10 = io('http://localhost:3031/socket.io');
 // const face11 = io('https://localhost:3031/socket.io');
