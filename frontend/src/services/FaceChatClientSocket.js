@@ -257,7 +257,6 @@ function loadChannelInfo(channelId, email, _socket) {
 
 //비디오 실행
 async function onVideo(vdId) {
-    console.log("onVideo");
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -265,6 +264,17 @@ async function onVideo(vdId) {
         video: true
     });
     gotStream(stream)
+}
+
+//비디오 종료
+function offVideo() {
+    let tracks = localStream.getTracks();
+
+    tracks.forEach((track) => {
+        track.stop();
+    });
+
+    localStream.srcObject = null;
 }
 
 function createOffer() {
@@ -460,4 +470,4 @@ function requestTurn(turnURL) {
 
 
 
-export { loadChannelInfo, onVideo }
+export { loadChannelInfo, onVideo, offVideo }

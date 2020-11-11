@@ -852,6 +852,8 @@ export default {
 
           if(this.userEmail != "" && video.userEmail == this.userEmail) {
             this.board.videoOn = false;
+          } else if(this.userEmail == "") {
+            this.board.videoOn = false;
           }
         }
         this.sendMessage();
