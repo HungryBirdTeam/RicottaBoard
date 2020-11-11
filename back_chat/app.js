@@ -8,7 +8,7 @@ const cors = require("cors");
  
 const db = require("./app/models");
 
-app.use(cors());
+app.use(cors({origin: true}));
 
 //parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -197,14 +197,11 @@ io.on('connection', function(socket) {
       socket.leave(room);
       var clientList = new Array();
       io.of('/').in(room).clients(function(error,roster){
-        //console.log(io.sockets.sockets[roster[0]].name);
         for(var i=0; i<roster.length; i++){
-          //console.log(io.sockets.sockets[roster[i]]);
           clientList.push(io.sockets.sockets[roster[i]].name);
         }
       });
       setTimeout(function() {
-        console.log(clientList);
         io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
       }, 1000);
     })
@@ -225,14 +222,11 @@ io.on('connection', function(socket) {
         socket.leave(room);
         var clientList = new Array();
         io.of('/').in(room).clients(function(error,roster){
-          //console.log(io.sockets.sockets[roster[0]].name);
           for(var i=0; i<roster.length; i++){
-            //console.log(io.sockets.sockets[roster[i]]);
             clientList.push(io.sockets.sockets[roster[i]].name);
           }
         });
         setTimeout(function() {
-          console.log(clientList);
           io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
         }, 1000);
        

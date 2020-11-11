@@ -68,7 +68,8 @@
   // Could prompt for room name:
   // room = prompt('Enter room name:');
 
-  var socket = io.connect();
+  var socket = io.connect('http://k3a204.p.ssafy.io:3030');
+  console.log(socket);
   console.log(io);
   if (room !== '') {
     socket.emit('create or join', room);

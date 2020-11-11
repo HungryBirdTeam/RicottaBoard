@@ -89,7 +89,7 @@
         },1000);
 
 
-
+      
         $(function(){
 
         
@@ -99,7 +99,10 @@
             // console.log(userList);
 
             // socket.io 서버에 접속한다
-            var socket = io('http://k3a204.p.ssafy.io/api/chat');
+            // var socket_port = io.connect('http://k3a204.p.ssafy.io:3030');
+            var socket = io('https://k3a204.p.ssafy.io/api/chat');
+            // console.log(socket_port);
+            console.log(socket);
 
         socket.on("sendList", function(data){
                 console.log(data);

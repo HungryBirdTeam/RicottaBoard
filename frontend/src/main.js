@@ -14,7 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as API from '../src/api/index.js'
 
 // const socket = io(API.CHAT_BASE_URL);
-const socket = io("http://k3a204.p.ssafy.io:3030");
+const socket = io("https://k3a204.p.ssafy.io/api/chat");
 console.log(socket);
 
 const face = io('http://localhost:3031');
