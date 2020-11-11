@@ -688,7 +688,7 @@ export default {
 
     createVideo() {
       const exitMyVideo = false;
-      for (var video of this.videoList) {
+      for (var video of this.board.videoList) {
         if(this.userEmail != "" && video.userEmail == this.userEmail) {
           exitMyVideo = true;
           break;
