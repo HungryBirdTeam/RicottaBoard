@@ -50,4 +50,11 @@ function resetMyPassword(password, success, fail) {
         .catch(fail);
 }
 
-export { deleteUser, createUser, emailCheck, nicknameCheck, resetMyPasswordReq, resetMyPassword };
+function userInfo(newUser, config, success, fail) {
+    instance
+        .post('/api/user/userInfo', newUser, config)
+        .then(success)
+        .catch(fail);
+}
+
+export { deleteUser, createUser, emailCheck, nicknameCheck, resetMyPasswordReq, resetMyPassword, userInfo };
