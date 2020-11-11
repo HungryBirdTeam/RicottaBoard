@@ -3,7 +3,9 @@
     class="MoveableBox video video_container">
     <p>{{userNickname}}</p>
     <video
+      class="video_component"
       :id="videoInfo.vdId"
+      src=""
       autoplay playsinline></video>
       <button 
       v-show="userEmail==myEmail && !onVideo"
@@ -34,6 +36,7 @@ export default {
         this.onVideo = true;
       } else {
         offVideo();
+        this.onVideo = false;
       }
     }
   },
@@ -55,6 +58,10 @@ export default {
   /* border: solid 2px gray;  */
   border-radius: 5px;
   box-shadow: .5rem 1rem 2rem rgba(0,0,0,.3)!important;
+}
+.video_component {
+  width: 500px;
+  height: 500px;
 }
 </style>
 
