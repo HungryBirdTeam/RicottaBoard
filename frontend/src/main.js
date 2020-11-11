@@ -17,13 +17,13 @@ import * as API from '../src/api/index.js'
 const socket = io("http://k3a204.p.ssafy.io:3030");
 console.log(socket);
 
-const face = io('http://localhost:3031');
-const face1 = io('https://localhost:3031');
-const face6 = io('https://localhost/api/facechat');
-const face2 = io('https://k3a204.p.ssafy.io/api/facechat');
-const face5 = io('http://k3a204.p.ssafy.io/api/facechat');
-const face3 = io('http://k3a204.p.ssafy.io:3031');
-const face4 = io('https://k3a204.p.ssafy.io:3031');
+// const face = io('http://localhost:3031');
+// const face1 = io('https://localhost:3031');
+// const face6 = io('https://localhost/api/facechat');
+// const face2 = io('https://k3a204.p.ssafy.io/api/facechat');
+// const face5 = io('http://k3a204.p.ssafy.io/api/facechat');
+// const face3 = io('http://k3a204.p.ssafy.io:3031');
+// const face4 = io('https://k3a204.p.ssafy.io:3031');
 console.log("face", face, face1, face2, face3, face4, face5, face6);
 Vue.use(cookies);
 Vue.use(router);
