@@ -36,6 +36,11 @@ var io = require('socket.io')(server);
 
 var client_list = [];
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 // localhost:3000으로 서버에 접속하면 클라이언트로 index.html을 전송한다
 app.get('/', function(req, res) {

@@ -99,7 +99,7 @@
             // console.log(userList);
 
             // socket.io 서버에 접속한다
-            var socket = io();
+            var socket = io('http://k3a204.p.ssafy.io/api/chat');
 
         socket.on("sendList", function(data){
                 console.log(data);

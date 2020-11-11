@@ -440,7 +440,6 @@ export default {
       this.boardLengthY + "px";
     document.querySelector(".realBoard").style.width = this.boardLengthX + "px";
 
-    // console.log((boardLength/2) - (window.innerWidth * 0.4));
     document.querySelector(".realBoard").style.left =
       -(this.boardLengthX / 2) + window.innerWidth * 0.5 + "px";
 
@@ -476,8 +475,6 @@ export default {
       }
       channelApi.validateUserWithChannel(validation, 
         (response) => {
-          console.log('검증검증(!@ㅑ)(!@)$&!@*&$*')
-          console.log(response);
           if(response.data.valid === false) {
             alert('채널에 속하지 않은 사용자는 접속 할 수 없습니다!')
             // this.$router.push("/main");
@@ -647,7 +644,6 @@ export default {
     },
 
     deleteKanban({ target }) {
-      console.log(target);
       if (confirm("요소를 삭제하시겠습니까?") === true) {
         target.remove();
         this.cloakMoveable();
@@ -678,7 +674,6 @@ export default {
           top: this.moduleYP + "px",
           events: this.$store.state.scheduler.events,
         };
-        console.log("create Scheduler");
         this.sendMessage();
         // snackbar
         this.createSnackbar("달력이 생성되었습니다!", 1500, "success");
@@ -705,7 +700,6 @@ export default {
           setAll: false,
           end: false,
         };
-        console.log(newPoll);
         this.board.poll.push(newPoll);
         this.sendMessage();
         // snackbar
@@ -714,7 +708,6 @@ export default {
     },
 
     createEditor() {
-      console.log("editor", this.board)
       if (this.board.editorList.length >= 3) {
         this.createSnackbar("마크다운 에디터 수가 최대입니다!", 3000, "error");
       } else {
@@ -835,19 +828,6 @@ export default {
               ".realBoard"
             ).style.transformOrigin = `${event.offsetX}px ${event.offsetY}px`;
             this.sendMessage();
-            console.log("ltp : ", this.lp, ",", this.tp);
-            console.log(
-              "bodyBox wh : ",
-              window.innerWidth,
-              ", ",
-              window.innerHeight
-            );
-            console.log("boardXY  : ", this.boardX, ", ", this.boardY);
-            console.log(
-              "origin : ",
-              document.querySelector(".realBoard").style.transformOrigin
-            );
-            console.log("event : ", event);
           }
         }
       }
@@ -870,12 +850,9 @@ export default {
     },
     changeTargetAction({ target }) {
       this.blockMoveable();
-
       if (target.getAttribute("class") != null) {
         var clas = target.getAttribute("class").split(" ");
-        // console.log(clas);
         for (var cla in clas) {
-          // console.log(clas[cla]);
           if (clas[cla] == "MoveableBox") {
             target.blur();
             event.stopPropagation();
@@ -917,13 +894,11 @@ export default {
       }
     },
     wheelEvent: function (event) {
-      console.log(event.target.getAttribute("class"));
       if (event.target.getAttribute("class") != "MoveableBox realBoard") {
         // 모듈 위에서는 휠업을 방지한다.
         return;
       }
       if (event.deltaY < 0) {
-        console.log("up!");
         this.boardScale += 0.05;
 
         if (this.boardScale > 1.3) {
@@ -939,20 +914,14 @@ export default {
           return;
         }
       }
-      console.log(this.boardScale);
       let lastOriginX = document
         .querySelector(".realBoard")
         .style.transformOrigin.split(" ")[0];
       let lastOriginY = document
         .querySelector(".realBoard")
         .style.transformOrigin.split(" ")[1];
-
-      console.log("LastOrigin : ", lastOriginX, " ", lastOriginY);
-
       let diffX = lastOriginX.replace("px", "") - event.offsetX;
       let diffY = lastOriginY.replace("px", "") - event.offsetY;
-
-      console.log("Diff : ", diffX, ",", diffY);
 
       document.querySelector(
         ".realBoard"
@@ -963,20 +932,12 @@ export default {
       let topPoint =
         document.querySelector(".realBoard").style.top.replace("px", "") * 1;
 
-      console.log("realBoard left and top : ", leftPoint, ", ", topPoint);
-      console.log("so its now  :  ", leftPoint + diffX, ", ", topPoint + diffY);
-
       if (Math.abs(diffX) > 100 || Math.abs(diffY) > 100) {
         document.querySelector(".realBoard").style.left =
           leftPoint + diffX / 2 + "px";
         document.querySelector(".realBoard").style.top =
           topPoint + diffY / 2 + "px";
       }
-
-      console.log(
-        "origin : ",
-        document.querySelector(".realBoard").style.transformOrigin
-      );
 
       document.querySelector(
         ".realBoard"
@@ -1034,7 +995,6 @@ export default {
           this.createVideo();
           break;
       }
-      console.log("drag end at : ", event);
     },
     pleaseDrag() {
       this.createSnackbar("생성하고자 하는 위치로 드래그 해주세요!", 3000, "default");
@@ -1051,7 +1011,6 @@ export default {
     },
 
     test5(event) {
-      // console.log(event.offsetX, event.offsetY);
       this.moduleXP = event.offsetX;
       this.moduleYP = event.offsetY;
     },
@@ -1071,9 +1030,6 @@ export default {
         ".realBoard"
       ).style.transform = `scale(${this.boardScale})`;
 
-      console.log("reset lp is : ", this.boardLengthX * this.boardScale);
-
-      console.log("window is : ", window.innerWidth, window.innerHeight);
       document.querySelector(".realBoard").style.left = `${
         -1 * ((this.boardLengthX - window.innerWidth) / 2)
       }px`;
