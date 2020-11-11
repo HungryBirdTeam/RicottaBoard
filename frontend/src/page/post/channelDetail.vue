@@ -298,6 +298,7 @@
           @click.right="deleteTargetAction(idx, 'video', $event)"
         >
           <FaceChat
+            :id="vd.id"
             :videoInfo="vd"
             :channelId="board.channelId"
             :userEmail="vd.userEmail"
