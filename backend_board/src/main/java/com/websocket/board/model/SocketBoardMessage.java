@@ -18,7 +18,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
 
-@TypeName("SocketBoardMessage")
 @Document(collection = "channel")
 @Data
 @NoArgsConstructor
