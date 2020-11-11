@@ -43,8 +43,10 @@ export default {
     },
     muteVideo() {
       if(!this.mute) {
+        this.mute = true;
         this.muteBtnText = "soundOn";
       } else {
+        this.mute = false;
         this.muteBtnText = "mute";
       }
     }
