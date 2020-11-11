@@ -37,9 +37,9 @@ console.log("face", face, face1, face2, face3, face4, face5, face6, face7, face8
 // const face14 = io('https://k3a204.p.ssafy.io:3031/socket.io');
 // console.log("face", face10, face11, face12, face13, face14, face15, face16);
 
-// const successFaceSocket = io('http://k3a204.p.ssafy.io/api/facechat');
+const successFaceSocket = io('https://k3a204.p.ssafy.io:3031');
 
-// console.log("socket", successFaceSocket);
+console.log("success socket", successFaceSocket);
 Vue.use(cookies);
 Vue.use(router);
 Vue.prototype.$socket = socket;
