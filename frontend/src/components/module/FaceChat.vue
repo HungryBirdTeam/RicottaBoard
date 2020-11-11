@@ -1,7 +1,7 @@
 <template>
   <div
     class="MoveableBox video video_container">
-    <p>{{userNickname}}</p>
+    <p class="video_nickname">{{userNickname}}</p>
     <video
       class="video_component"
       :id="videoInfo.vdId"
@@ -9,9 +9,11 @@
       :muted="mute ? true : false"
       autoplay playsinline></video>
       <button 
+      class="video_btn"
       v-show="userEmail==myEmail"
       id="videoOn" @click="onClickVideo">{{onVideoBtnText}}</button>
       <button
+      class="video_btn"
       @click="muteVideo"
       >{{muteBtnText}}</button>
   </div>
@@ -66,8 +68,8 @@ export default {
 
 <style>
 .video_container {
-  width: 600px;
-  height: 600px;
+  width: 560px;
+  height: 630px;
   background-color: white;
   /* border: solid 2px gray;  */
   border-radius: 5px;
@@ -77,6 +79,17 @@ export default {
   width: 500px;
   height: 500px;
   background-color: black;
+}
+.video_btn {
+  float: right;
+  background-color: #1976D2;
+  border-radius: 2px;
+  padding: 5px 10px;
+  color: white;
+}
+.video_nickname{
+  font-weight: bold;
+  font-size: 20px;
 }
 </style>
 
