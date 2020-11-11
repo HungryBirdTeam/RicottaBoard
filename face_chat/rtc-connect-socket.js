@@ -4,16 +4,16 @@ const https = require('https');
 const fs = require('fs');
 const http = require('http');
 
-// const options = {
-//     key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
-//     ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
-//     requestCert: false,
-//     rejectUnauthorized: false
-// };
+const options = {
+    key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+    requestCert: false,
+    rejectUnauthorized: false
+};
 
-// var server = https.createServer(options, app);
-var server = http.createServer(app);
+var server = https.createServer(options, app);
+// var server = http.createServer(app);
 
 var io = require('socket.io')(server);
 
@@ -31,17 +31,6 @@ app.all('/*', function(req, res, next) {
 // });
 
 
-
-// var socketIO = require('socket.io');
-
-// var fileServer = new(nodeStatic.Server)();
-
-// var app = https.createServer(options, function(req, res) {
-//     fileServer.serve(req, res);
-// }).listen(3031);
-
-// var io = socketIO.listen(server);
-// var io = socketIO.listen(app);
 
 console.log("rtc server socket on");
 // io.sockets.on('connection', function(socket) {
