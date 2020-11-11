@@ -687,8 +687,16 @@ export default {
     },
 
     createVideo() {
-      if (this.board.videoOn) {
-        this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
+      const exitMyVideo = false;
+      for (var video of this.videoList) {
+        if(this.userEmail != "" && video.userEmail == this.userEmail) {
+          exitMyVideo = true;
+          break;
+        }
+      }
+
+      if (this.board.videoOn || exitMyVideo) {
+        this.createSnackbar("비디오 컴포넌트가 이미 생성 중입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;
         const newVideo = {
@@ -700,16 +708,7 @@ export default {
           top: this.moduleYP + "px",
           isHidden: false,
         };
-        // const newVideo = {
-        //   vdId: "video_"+this.board.videoList.length.toString(),
-        //   userEmail: this.board.videoList.length.toString(),
-        //   userNickname: this.board.videoList.length.toString(),
-        //   left: this.moduleXP + "px",
-        //   top: this.moduleYP + "px",
-        //   isHidden: false,
-        // };
-        // this.tempEmail = this.board.videoList.length.toString();
-        console.dir(newVideo);
+        
         this.board.videoList.push(newVideo);
         this.board.videoOn = true;
         this.sendMessage();
@@ -841,13 +840,18 @@ export default {
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
         } else if (moduleName === "video") {
-          var id = this.board.videoList[idx].vdId;
+          const video = this.board.videoList[idx]
+          var id = video.id;
           // if(id.substring(6, id.length) != this.$store.state.userData.email) {
           //   return;
           // }
           this.board.delete.moduleName = "video";
-          this.board.delete.id = this.board.videoList[idx].vdId;
+          this.board.delete.id = video.id;
           this.board.videoList.splice(idx, 1);
+
+          if(this.userEmail != "" && video.userEmail == this.userEmail) {
+            this.board.videoOn = false;
+          }
         }
         this.sendMessage();
         this.cloakMoveable();
