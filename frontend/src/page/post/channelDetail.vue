@@ -302,7 +302,7 @@
             :channelId="board.channelId"
             :userEmail="vd.userEmail"
             :userNickname="vd.userNickname"
-            :myEmail="tempEmail"
+            :myEmail="userEmail"
             :style="{ left: vd.left, top: vd.top }"
           />
         </div>
@@ -717,23 +717,23 @@ export default {
       if (this.board.videoOn) {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
-        // const newVideo = {
-        //   vdId: "video_"+this.userEmail,
-        //   userEmail: this.userEmail,
-        //   userNickname: this.board.userNickname,
-        //   left: this.moduleXP + "px",
-        //   top: this.moduleYP + "px",
-        //   isHidden: false,
-        // };
         const newVideo = {
-          vdId: "video_"+this.board.videoList.length.toString(),
-          userEmail: this.board.videoList.length.toString(),
-          userNickname: this.board.videoList.length.toString(),
+          vdId: "video_"+this.userEmail,
+          userEmail: this.userEmail,
+          userNickname: this.board.userNickname,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
         };
-        this.tempEmail = this.board.videoList.length.toString();
+        // const newVideo = {
+        //   vdId: "video_"+this.board.videoList.length.toString(),
+        //   userEmail: this.board.videoList.length.toString(),
+        //   userNickname: this.board.videoList.length.toString(),
+        //   left: this.moduleXP + "px",
+        //   top: this.moduleYP + "px",
+        //   isHidden: false,
+        // };
+        // this.tempEmail = this.board.videoList.length.toString();
         console.dir(newVideo);
         this.board.videoList.push(newVideo);
         this.board.videoOn = true;
