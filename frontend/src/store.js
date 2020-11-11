@@ -543,7 +543,8 @@ export const store = new Vuex.Store({
         [constants.METHODS.USER_INFO]: (state, payload) => {
             state.userData.email = payload.newUser.email
             state.userData.nickname = payload.newUser.nickname
-            state.userData.username = payload.newUser.username
+            state.userData.name = payload.newUser.username
+            console.log(state.userData);
         },
         [constants.METHODS.DELETE_USER]: (state) => {
             state.userData.email = "";

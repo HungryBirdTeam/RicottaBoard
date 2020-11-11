@@ -51,15 +51,15 @@
           @click="submit"
           class="updateButton text-white p-2 mt-5"
           type="button"
-        >
-          <span>확  인</span>
-        </button>
+        >확  인</button>
+
         <div class="row px-2 py-1 justify-content-between">
           <p class="lead text-left m-2 my-0">비밀번호를 변경하시겠습니까?</p>
           <router-link to="/@hungrybird">
             <p class="lead passwordButton text-right m-2 my-0">비밀번호 변경</p>
           </router-link>
         </div>
+        
         <div class="row px-2 py-1 justify-content-between">
           <p class="lead text-left m-2 my-0">탈퇴하시겠습니까?</p>
           <router-link :to="{name:constants.URL_TYPE.USER.DELETEUSER}">
@@ -68,7 +68,7 @@
         </div>
       </div>
       <v-snackbar
-          centered
+          bottom
           v-model="snackbar.isPresent"
           :timeout="snackbar.timeout"
           :color="snackbar.color"

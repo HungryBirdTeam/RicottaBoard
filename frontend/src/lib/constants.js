@@ -16,7 +16,7 @@ export default {
             MYPAGE: 'myPage',
             PASSWORDFIND: 'passwordFind',
             PASSWORDRESET: 'passwordReset',
-
+            PASSWORDEDIT: 'passwordEdit',
             DELETEUSER: 'deleteUser',
         },
         POST: {
@@ -43,7 +43,7 @@ export default {
         // 비밀번호 재설정 메소드
         RESETMYPASSWORD: 'resetMyPassword',
         // 비밀번호 재설정 요청 메소드
-        RESETMYPASSWORDREQ: 'resetMyPasswordReq',
+        RESETMYPASSWORDREQ: 'resetMyPasswordReq', 
     }
 }
 
