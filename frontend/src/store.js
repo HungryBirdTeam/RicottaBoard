@@ -234,7 +234,7 @@ export const store = new Vuex.Store({
         [constants.METHODS.USER_INFO]: (store, payload) => {
             const newUser = {
                 "email": payload.email,
-                "username": payload.username,
+                "username": payload.name,
                 "nickname": payload.nickname,
                 "password": payload.password,
             }            
