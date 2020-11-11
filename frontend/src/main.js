@@ -12,7 +12,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as API from '../src/api/index.js'
 
-const socket = io(API.CHAT_BASE_URL);
+// const socket = io(API.CHAT_BASE_URL);
+const socket = io("http://k3a204.p.ssafy.io/api/chat");
 console.log('main.js Chat Socket 연결\n' + API.CHAT_BASE_URL);
 console.log(socket);
 Vue.use(cookies);
