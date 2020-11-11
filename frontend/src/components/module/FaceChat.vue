@@ -31,6 +31,7 @@ export default {
       console.log("onClick");
       if(!this.onVideo) {
         onVideo(this.videoInfo.vdId);
+        this.onVideo = true;
       } else {
         offVideo();
       }
