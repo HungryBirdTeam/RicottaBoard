@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 @Builder
 public class Video implements Serializable{
-  
+  private String id;
   private String vdId;
   private String userEmail;
   private String userNickname;
