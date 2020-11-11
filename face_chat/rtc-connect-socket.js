@@ -15,7 +15,7 @@ const options = {
 var server = https.createServer(options, app);
 // var server = http.createServer(app);
 
-// var io = require('socket.io')(server);
+var io = require('socket.io')(server);
 
 // io.set('transports', ['websocket']);
 
