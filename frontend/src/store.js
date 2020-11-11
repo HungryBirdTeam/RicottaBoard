@@ -228,6 +228,32 @@ export const store = new Vuex.Store({
             state.commit("reSetAll");
             this.$router.go(0);
         },
+        /** 
+         * 유저정보 수정 메소드
+         */
+        [constants.METHODS.USER_INFO]: (store, payload) => {
+            const newUser = {
+                "email": payload.email,
+                "username": payload.username,
+                "nickname": payload.nickname,
+                "password": payload.password,
+            }            
+            const config = {
+                headers: {
+                "Authorization" : "Bearer " + store.getters.accessToken
+                }
+            }
+            userApi.userInfo(newUser, config,
+                    res => {
+                        console.log('good',res.status);
+                        store.commit(constants.METHODS.USER_INFO, {
+                            newUser
+                        });                        
+                    },
+                    err => {
+                        store.dispatch("throwError", err);
+                    })
+        },
 
         /**
          * 회원가입 메소드
@@ -513,6 +539,11 @@ export const store = new Vuex.Store({
             state.userData.password = payload.dataWhatINeed.password;
             state.userData.nickname = payload.dataWhatINeed.nickname;
             state.userData.name = payload.dataWhatINeed.username;
+        },
+        [constants.METHODS.USER_INFO]: (state, payload) => {
+            state.userData.email = payload.newUser.email
+            state.userData.nickname = payload.newUser.nickname
+            state.userData.username = payload.newUser.username
         },
         [constants.METHODS.DELETE_USER]: (state) => {
             state.userData.email = "";

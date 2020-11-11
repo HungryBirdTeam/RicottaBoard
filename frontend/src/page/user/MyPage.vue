@@ -9,7 +9,7 @@
           <input
             id="email"
             class="inputsForm col"
-            v-model="this.userData.email"
+            v-model="userData.email"
             disabled
           >
         </div>
@@ -18,9 +18,10 @@
           <input
             id="name"
             class="inputsForm col"
-            v-model="this.userData.name"
+            v-model="userData.name"
             placeholder="이름을 입력해주세요."
-            @change="changeName"
+            @change="changeIt()"
+            @keypress.enter="submit()"
           >
         </div>
         <div>
@@ -28,9 +29,10 @@
           <input
             id="nickname"
             class="inputsForm col"
-            v-model="this.userData.nickname"
+            v-model="userData.nickname"
             placeholder="닉네임을 입력해주세요."
-            @change="changeNickname"
+            @change="changeIt()"
+            @keypress.enter="submit()"
           >
         </div>
         <div>
@@ -39,9 +41,10 @@
             id="password"
             class="inputsForm col"
             type="password"
-            v-model="this.passwordConfirm"
+            v-model="passwordCheck"
             placeholder="비밀번호를 입력해주세요."
-            @change="changePassword"
+            @change="changeIt()"
+            @keypress.enter="submit()"
           >
         </div>
         <button
@@ -64,7 +67,14 @@
           </router-link>
         </div>
       </div>
+      <v-snackbar
+          centered
+          v-model="snackbar.isPresent"
+          :timeout="snackbar.timeout"
+          :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar>
     </div>
+
     <footer
       class="mx-auto wrap"
       style="text-align:center; position:absolute; bottom:10px;"
@@ -87,28 +97,37 @@ export default {
       this.userData = this.$store.getters.userData;
     },
     methods: {   
-      chageName() {
-        if (this.userData.name.length == 0) {
-          
+      changeIt() {
+        if (this.userData.name.length > 0 && this.userData.nickname.length > 0 && this.passwordCheck.length >= 8) {
+          this.isChange = true
+        } else {
+          this.isChange = false
         }
       },      
       submit(){
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.filter.call(forms, function (form) {
-          form.addEventListener('submit', function (event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault()
-              event.stopPropagation()
-            }
-            form.classList.add('was-validated')
-          }, false)
-        })
+        console.log("kk", this.isChange)
+        if (this.isChange) {
+          console.log('sucess')
+          const newUser = {
+            "email": this.userData.email,
+            "username": this.userData.username,
+            "nickname": this.userData.nickname,
+            "password": this.passwordCheck,
+          }
+          this.$store.dispatch(constants.METHODS.USER_INFO, newUser);
+          this.passwordCheck = "";
+        } else {
+          this.createSnackbar("값이 모두 입력되지 않았습니다.", 2000, "error")
+        }
       },        
       teamPage() {
           this.$router.push('/@hungrybird')
+      },
+      createSnackbar(text, timeout, color) {
+        this.snackbar.isPresent = true;
+        this.snackbar.text = text;
+        this.snackbar.timeout = timeout;
+        this.snackbar.color = color;
       },
     },
     computed:{
@@ -124,13 +143,14 @@ export default {
               password:'',
               nickname:'',
             },
-            messages: {
-              name: '',
-              password: '',
-              nickname: '',
+            snackbar: {
+              isPresent: false,
+              text: "",
+              timeout: 1000,
             },
+            isChange: false,
             constants,
-            passwordConfirm: '',
+            passwordCheck: '',
         }
     }
 

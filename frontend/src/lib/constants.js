@@ -32,6 +32,7 @@ export default {
         LOGOUT_USER: 'logoutUser',
         CREATE_USER: 'createUser',
         GET_USER: 'getUser',
+        USER_INFO:'userInfo',
         ERROR:'error',
 
         // 이메일 중복체크 메소드
