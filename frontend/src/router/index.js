@@ -73,7 +73,7 @@ export default new Router({
       component: DeleteUser
     },
     { // 유저 정보 - 마이 페이지
-      path:'/user/info/*',
+      path:'/user/info',
       name: constants.URL_TYPE.USER.MYPAGE,
       component: MyPage
     },

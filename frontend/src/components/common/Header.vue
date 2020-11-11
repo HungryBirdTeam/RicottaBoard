@@ -29,7 +29,7 @@
         <div class="headBox mt-1">
           환영합니다!
           <router-link style="margin-left: 20px; padding-top:5px"
-            v-bind:to="{name:constants.URL_TYPE.USER.MYPAGE}"
+            :to="{name:constants.URL_TYPE.USER.MYPAGE}"
             class="btn--text"
           >
           {{(this.$store.getters.userData.nickname)}}
@@ -41,7 +41,7 @@
       <template v-if="this.$store.getters.accessToken == ''">
         <div class="headBox mt-1">
           <router-link style="margin-left: 20px; padding-top:5px"
-            v-bind:to="{name:constants.URL_TYPE.USER.JOIN}"
+            :to="{name:constants.URL_TYPE.USER.JOIN}"
           >
           <v-btn dark class="allbtn" outlined color="white">Sign up</v-btn>
           </router-link>
