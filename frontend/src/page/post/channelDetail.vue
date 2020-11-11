@@ -689,7 +689,9 @@ export default {
       if (this.board.videoOn) {
         this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
       } else {
+        const idc = this.board.idCount++;
         const newVideo = {
+          id : idc,
           vdId: "video_"+this.userEmail,
           userEmail: this.userEmail,
           userNickname: this.board.userNickname,
@@ -749,7 +751,9 @@ export default {
             this.board.kanban.left = `${left}px`;
             this.board.kanban.top = `${top}px`;
           } else if (clas[cla] == "editor") {
+            console.log("editor catch", target);
             this.board.editorList.map((editor) => {
+              console.log("editor catch", video);
               if (editor.mdId == target.id) {
                 (editor.left = `${left}px`), (editor.top = `${top}px`);
               }
@@ -758,7 +762,7 @@ export default {
             console.log("video catch", target);
             this.board.videoList.map((video) => {
               console.log("video catch", video);
-              if (video.vdId == target.id) {
+              if (video.id == target.id) {
                 (video.left = `${left}px`), (video.top = `${top}px`);
               }
             });
