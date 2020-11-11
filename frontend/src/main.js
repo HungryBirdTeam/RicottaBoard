@@ -6,17 +6,23 @@ import { store } from './store'
 import cookies from 'vue-cookie';
 import constant from './lib/constants'
 import vuetify from './plugins/vuetify';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as API from '../src/api/index.js'
 
-const socket = io(API.CHAT_BASE_URL);
+// const socket = io(API.CHAT_BASE_URL);
+const socket = io("https://k3a204.p.ssafy.io/api/chat");
+console.log(socket);
+
+
+const successFaceSocket = io('https://k3a204.p.ssafy.io:3031');
+
 Vue.use(cookies);
 Vue.use(router);
-// Vue.prototype.$channelSocket = channelSocket;
 Vue.prototype.$socket = socket;
+Vue.prototype.$faceChatSocket = successFaceSocket;
 Vue.prototype.$axios = axios;
 
 /* eslint-disable no-new */

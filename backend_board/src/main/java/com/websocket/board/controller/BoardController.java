@@ -23,6 +23,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+//@RequestMapping("/api/board")   // 로컬
 public class BoardController {
 
     private final ChannelRedisRepository channelRedisRepository;
@@ -36,6 +37,7 @@ public class BoardController {
     @GetMapping("/{channelId}/history")
     @ResponseBody
     public List<HistoryResponse> getPersonChanges(@PathVariable("channelId") String channelId) throws IOException {
+
         QueryBuilder jqlQuery = QueryBuilder.byInstanceId(channelId, SocketBoardMessage.class)
                 .withNewObjectChanges();
 
@@ -51,12 +53,12 @@ public class BoardController {
             String tmp = javers.getJsonConverter().toJson(cs);
             SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
             System.out.println(snapShot);
-            String editUser = snapShot.state.editUser == null ? "TestUser" : snapShot.state.editUser;
+            String editUser = snapShot.state.editUser == null || snapShot.state.editUser.equals("") ? "TestUser" : snapShot.state.editUser;
             historyResponsesList.add(
                     new HistoryResponse().builder()
                             .editUser(editUser)
                             .editModule(snapShot.changedProperties)
-                            .editTime(snapShot.commitMetadata.commitDateInstant)
+                            .editTime(snapShot.commitMetadata.commitDate)
                             .build());
         }
 

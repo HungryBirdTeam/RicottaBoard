@@ -5,10 +5,10 @@ const app = express();
 const bodyParser = require("body-parser");
 
 const cors = require("cors");
-
+ 
 const db = require("./app/models");
 
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors({origin: true}));
 
 //parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -40,6 +40,10 @@ var client_list = [];
 // localhost:3000으로 서버에 접속하면 클라이언트로 index.html을 전송한다
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/useTest.html');
+});
+
+app.get('/test', function(req, res) {
+  res.send(server);
 });
 
 app.get('/index', function(req, res) {
@@ -193,14 +197,11 @@ io.on('connection', function(socket) {
       socket.leave(room);
       var clientList = new Array();
       io.of('/').in(room).clients(function(error,roster){
-        //console.log(io.sockets.sockets[roster[0]].name);
         for(var i=0; i<roster.length; i++){
-          //console.log(io.sockets.sockets[roster[i]]);
           clientList.push(io.sockets.sockets[roster[i]].name);
         }
       });
       setTimeout(function() {
-        console.log(clientList);
         io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
       }, 1000);
     })
@@ -221,14 +222,11 @@ io.on('connection', function(socket) {
         socket.leave(room);
         var clientList = new Array();
         io.of('/').in(room).clients(function(error,roster){
-          //console.log(io.sockets.sockets[roster[0]].name);
           for(var i=0; i<roster.length; i++){
-            //console.log(io.sockets.sockets[roster[i]]);
             clientList.push(io.sockets.sockets[roster[i]].name);
           }
         });
         setTimeout(function() {
-          console.log(clientList);
           io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
         }, 1000);
        

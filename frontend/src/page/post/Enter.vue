@@ -100,17 +100,18 @@ export default {
         teamPage() {
             this.$router.push('/@hungrybird')
         },
+        localSave(){
+            localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
+            localStorage.setItem("wsboard.channelName", "Tutorial Channel");
+            location.href = "/channel/earlyBird10TeamTestChannel1";
+        },
     },
     created() {
         this.isStarting = false;
         console.log('before', this.isStarting);
         setTimeout(() => (this.isStarting = true), 1000);
     },
-    localSave(){
-      localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
-      localStorage.setItem("wsboard.channelName", "Tutorial Channel");
-      location.href = "/channel/earlyBird10TeamTestChannel1";
-    }
+
 }
 </script>
 

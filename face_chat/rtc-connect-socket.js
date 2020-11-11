@@ -2,6 +2,7 @@
 const app = require('express')();
 const https = require('https');
 const fs = require('fs');
+const http = require('http');
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
@@ -13,9 +14,10 @@ const options = {
 
 var server = https.createServer(options, app);
 // var server = http.createServer(app);
+
 var io = require('socket.io')(server);
 
-io.set('transports', ['websocket']);
+// io.set('transports', ['websocket']);
 
 app.all('/*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -23,27 +25,16 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
-app.get('/', function(req, res) {
-    res.sendFile('Hellow Chating App Server');
-});
+// app.get('/', function(req, res) {
+// console.log("in socket");
+// res.sendFile('Hellow Chating App Server');
+// });
 
 
-
-// var socketIO = require('socket.io');
-
-// var fileServer = new(nodeStatic.Server)();
-
-// var app = https.createServer(options, function(req, res) {
-//     fileServer.serve(req, res);
-// }).listen(3031);
-
-// var io = socketIO.listen(server);
-// var io = socketIO.listen(app);
 
 console.log("rtc server socket on");
 // io.sockets.on('connection', function(socket) {
 io.on('connection', function(socket) {
-    console.log("connect!!");
     socket.on('add candidate', function(connect) {
         var channel = connect.channel;
 
