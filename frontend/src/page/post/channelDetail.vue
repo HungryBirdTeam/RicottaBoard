@@ -300,7 +300,7 @@ import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js";
 import * as channelApi from "../../api/channel.js";
-import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
+import { loadChannelInfo, offVideo } from "../../services/FaceChatClientSocket.js"
 import io from 'socket.io-client';
 
 
@@ -688,6 +688,11 @@ export default {
 
     createVideo() {
       let exitMyVideo = false;
+      if(this.userEmail == "") {
+        alert("로그인 후 이용 가능합니다.");
+        return;
+      }
+
       for (var video of this.board.videoList) {
         if(this.userEmail != "" && video.userEmail == this.userEmail) {
           exitMyVideo = true;
@@ -841,6 +846,7 @@ export default {
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
         } else if (moduleName === "video") {
+          offVideo();
           const video = this.board.videoList[idx]
           var id = video.id;
           // if(id.substring(6, id.length) != this.$store.state.userData.email) {

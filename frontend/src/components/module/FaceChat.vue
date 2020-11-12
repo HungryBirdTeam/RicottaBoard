@@ -34,13 +34,13 @@ export default {
   },
   methods: {
     onClickVideo() {
-      if(!this.onVideo) {
+      if(!this.videoOn) {
         onVideo(this.videoInfo.vdId);
-        this.onVideo = true;
+        this.videoOn = true;
         this.onVideoBtnText = "off";
       } else {
         offVideo();
-        this.onVideo = false;
+        this.videoOn = false;
         this.onVideoBtnText = "on";
       }
     },
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      onVideo : false,
+      videoOn : false,
       onVideoBtnText : "on",
       mute : false,
       muteBtnText : "mute"
