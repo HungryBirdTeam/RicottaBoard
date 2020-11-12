@@ -186,7 +186,7 @@ function createOffer() {
             streamSenderMap.delete(key);
         }
         for (const track of localStream.getTracks()) {
-            var sender = value.addTrack(track, localStream);
+            var sender = value.addTrack(track);
 
             streamSenderMap.set(key, sender);
         };
