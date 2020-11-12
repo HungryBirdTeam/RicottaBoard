@@ -206,36 +206,6 @@ export const store = new Vuex.Store({
             state.commit("reSetAll");
             this.$router.go(0);
         },
-        /** 
-         * 유저정보 수정 메소드
-         */
-        [constants.METHODS.USER_INFO]: (store, payload) => {
-            const newUser = {
-                "email": payload.email,
-                "username": payload.name,
-                "nickname": payload.nickname,
-                "password": payload.password,
-            }            
-            const config = {
-                headers: {
-                "Authorization" : "Bearer " + store.getters.accessToken
-                }
-            }
-            const textSend = true;
-            userApi.userInfo(newUser, config,
-                    res => {
-                        console.log('good',res.status);
-                        store.commit(constants.METHODS.USER_INFO, {
-                            newUser
-                        });                        
-                    },
-                    err => {
-                        textSend = false;
-                        store.dispatch("throwError", err);
-                    })
-            return textSend;
-        },
-
         /**
          * 회원가입 메소드
          */
@@ -410,7 +380,7 @@ export const store = new Vuex.Store({
             router.push('/error');
             store.commit(constants.METHODS.ERROR, exp)
             console.log(exp);
-        }
+        },
 
     },
     mutations: {
@@ -570,7 +540,7 @@ export const store = new Vuex.Store({
         toggleUpdate: (state) => {
             console.log('update Occured')
             state.updateOccur = !state.updateOccur;
-        }
+        },
     },
     getters: {
         userData: function(state) {
