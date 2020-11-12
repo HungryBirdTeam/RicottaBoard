@@ -79,6 +79,14 @@ export default {
   width: 500px;
   height: 500px;
   background-color: black;
+
+  transform:rotate(90deg);
+  -moz-transform: scaleX(-1); 
+  -o-transform: scaleX(-1); 
+  -webkit-transform: scaleX(-1); 
+  transform: scaleX(-1);   
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
 .video_btn {
   float: right;
