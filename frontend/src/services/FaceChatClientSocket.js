@@ -308,6 +308,9 @@ function createPeerConnection(member) {
             };
             pc.ontrack = event => {
                 handleTrack(event, member);
+            };
+            pc.oniceconnectionstatechange = event => {
+                handleCompleteConnection(event, member, pc);
             }
 
             channelPeerConnectionsMap.set(member, pc);
@@ -326,18 +329,29 @@ function createPeerConnection(member) {
 function handleTrack(event, member) {
     // remoteStream = event.streams[0];
     // remoteVideo.srcObject = remoteStream;
-    streamMap.set(member, event.streams[0]);
 
-    var videoComponent = document.getElementById("video_" + member);
-    if (videoComponent != undefined) {
-        if (event.streams && event.streams[0]) {
-            videoComponent.srcObject = event.streams[0];
-        } else {
-            videoComponent.srcObject = streamMap.get(member);
-            streamMap.get(member).addTrack(event.track);
-        }
+
+    if (event.streams && event.streams[0]) {
+        event.streams[0].getTracks().forEach(track => {
+            streamMap.get(member).addTrack(track, streamMap.get(member));
+        });
     } else {
-        console.log("no component");
+        streamMap.get(member).addTrack(event.track, streamMap.get(member));
+    }
+}
+
+function handleCompleteConnection(event, member, pc) {
+    if (pc.connectionState == "connected") {
+        console.log(member + "와의 RTC Peer Connection 연결 성공!");
+        if (!streamMap.get(member))
+            streamMap.set(member, new MediaStream());
+
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent != undefined) {
+            videoComponent.srcObject = streamMap.get(member);
+        } else {
+            console.log("no component");
+        }
     }
 }
 
