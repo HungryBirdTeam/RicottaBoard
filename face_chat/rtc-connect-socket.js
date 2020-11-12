@@ -58,10 +58,17 @@ io.on('connection', function(socket) {
 
         io.sockets.in(channel).emit('new member');
 
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 3000);
 
         setTimeout(() => {
             io.sockets.in(channel).emit('who is video on');
-        }, 6000);
+        }, 5000);
+
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 7000);
     });
 
     socket.on('alert member', info => {
