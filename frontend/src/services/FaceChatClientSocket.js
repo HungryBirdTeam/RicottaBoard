@@ -281,7 +281,6 @@ function createOffer() {
             );
     });
 
-    isVideoOn = true;
 }
 
 function doAnswer(sender) {
@@ -444,6 +443,7 @@ function gotStream(stream) {
     localStream = stream;
     localVideo.srcObject = stream;
 
+    isVideoOn = true;
     createOffer();
 }
 
