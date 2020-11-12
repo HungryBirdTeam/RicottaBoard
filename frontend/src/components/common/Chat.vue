@@ -1,75 +1,69 @@
 <template>
   <div class="chat">
-    <div class="chat-container" id="chatContainer">
-      <div id="chattingBox" v-show="chattingBox">
-        <div class="chat-header" id="chatHeader">
-          <div id="clientList" v-show="isList">
-            <ul>
-              <li id="user" v-for="(user, index) in clientList" :key="index">
-                {{ user }}
-              </li>
-            </ul>
+      <v-btn
+        class="chat-button justify-center ma-3"
+        fab
+        @click="chattingBox = !chattingBox"
+        width="50px"
+        height="50px"
+        :color="gradColor()"
+      >
+        <v-icon color="white" size="28px">mdi-chat-processing</v-icon>
+      </v-btn>
+    <v-navigation-drawer
+      v-model="chattingBox"
+      :permanent="chattingBox"
+      app
+      overflow
+      right
+    >
+      <div class="chat-container" id="chatContainer">
+        <div id="chattingBox">
+          <div class="chat-header" id="chatHeader">
+            <div>
+              <span id="username">{{ this.naname }}</span><br>
+              <span @click="showList">접속자 보기</span>
+            </div>
+            <v-icon @click="chattingBox = false" >mdi-close</v-icon>
+            <div id="clientList" v-show="isList">
+              <ul>
+                <li id="user" v-for="(user, index) in clientList" :key="index">
+                  {{ user }}
+                </li>
+              </ul>
+            </div>
           </div>
-          <button id="minimize" class="header-btn" @click="minimize"></button>
-          <button id="maximize" class="header-btn" @click="maximize"></button>
-          <img id="profile-pic" src="../../assets/img/picture.jpg" width="1" />
-          <span>
-            <a id="username">{{ this.naname }}</a>
-            <img
-              title="접속자 보기"
-              id="showList-pic"
-              src="../../assets/img/2.jpg"
-              @click="showList"
-            />
-          </span>
-        </div>
 
-        <div class="chatbox" id="chatBox">
-          <div class="goodchat-bubble bubble">매너 채팅 해주세요 :)</div>
-        </div>
-
-        <form>
-          <div class="text-box" id="textBox">
-            <textarea
-              v-model="chatlog.message"
-              id="msgForm"
-              placeholder="메시지를 입력해주세요 :)"
-              @keyup="enter"
-            ></textarea>
-            <button
-              id="sendChat"
-              @click="sendChat"
-              v-show="chatlog.message != ''"
-            >
-              전송
-            </button>
-            <button
-              id="sendChat_disable"
-              disabled="true"
-              v-show="chatlog.message == ''"
-            >
-              전송
-            </button>
-
-            <button id="sendToBoard" @click="sendToBoard">보드로</button>
-            <div class="clearfix"></div>
+          <div class="chatbox" id="chatBox">
+            <div class="goodchat-bubble bubble">매너 채팅 해주세요 :)</div>
           </div>
-        </form>
-      </div>
-    </div>
 
-    <div class="chat-container2" id="chatContainer" v-if="!chattingBox">
-      <div class="chat-header" id="chatHeader">
-        <button id="minimize" class="header-btn" @click="minimize"></button>
-        <button id="maximize" class="header-btn" @click="maximize"></button>
-        <img id="profile-pic" src="../../assets/img/picture.jpg" width="1" />
-        <span>
-          <a id="username" style="margin-right: 52%">나</a>
-          <img class="bell" />
-          {{ notread }}
-        </span>
+          <form>
+            <div class="text-box" id="textBox">
+              <v-text-field label="메시지 전송"
+                v-model="chatlog.message"
+                id="msgForm"
+                @keyup.enter="enter"
+              >
+              </v-text-field>
+              <input type="text" style="display:none;"/> 
+              <v-icon 
+                @click="sendChat"
+                class="text-box-icon"
+                v-show="!chatlog.message"
+              >mdi-send</v-icon>
+              <v-icon 
+                @click="sendChat"
+                class="text-box-icon"
+                v-show="chatlog.message"
+                color="blue"
+              >mdi-send</v-icon>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </v-navigation-drawer>
+
   </div>
 </template>
 
@@ -189,7 +183,7 @@ export default {
   data() {
     return {
       chatlogs: [],
-      chattingBox: true,
+      chattingBox: false,
       isList: false,
       clientList: [],
       textarea: "",
@@ -226,16 +220,14 @@ export default {
     sendChat() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
-      var $msgForm = $("#msgForm").val();
-      console.log("msgForm : " + $msgForm);
+      console.log("msgForm : " + this.chatlog.message);
       console.log("channel : " + this.Channel);
 
-      if ($msgForm === "") alert("메시지를 입력해주세요");
+      if (this.chatlog.message === "") pass;
       else {
-        this.$socket.emit("chat", { msg: $msgForm });
-        $("#msgForm").val("");
-
-        this.saveChatlog();
+        this.$socket.emit("chat", { msg: this.chatlog.message });
+        this.chatlog.message = "";
+        // this.saveChatlog();
       }
     },
 
@@ -263,15 +255,6 @@ export default {
       }
     },
 
-    minimize() {
-      this.chattingBox = false;
-      //alert("최소화");
-    },
-    maximize() {
-      this.chattingBox = true;
-      this.notread = 0;
-    },
-
     makeRandomName() {
       var name = "";
       var possible = "abcdefghijklmnopqrstuvwxyz";
@@ -287,97 +270,50 @@ export default {
       if (this.isList) this.isList = false;
       else this.isList = true;
     },
+
+    gradColor() {
+      if(this.chattingBox) {
+        return "#08543A"
+      }
+      return "#0d875c"
+    }
   },
 };
 </script>
 
 <style>
-* {
-  box-sizing: border-box;
+.chat-button {
+  position: fixed;
+  z-index: 3;
+  bottom: 140px;
+  left: 12px;
+  width: 50px;
+  height: 50px;
 }
 
-body {
-  /* background-image: url('../images/background.jpg'); */
-  font-family: "Noto Sans KR", sans-serif;
-}
 
 .chat-container {
+  padding-left: 16px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   transition: width 0.3s ease;
   position: absolute;
-
-  left: 75%;
-  width: 25%;
-  bottom: 0%;
+  top: 70px;
+  height: 100%;
+  width: 100%;
 }
 
 .chat-header {
+  display: flex;
+  justify-content: space-between;
   background-color: white;
-  padding: 30px 8px 8px 8px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  padding: 8px 8px 8px 8px;
 }
 
-.chat-header .header-btn {
-  border-radius: 50%;
-  border: none;
-  width: 12px;
-  height: 12px;
-  cursor: pointer;
-  position: absolute;
-  top: 8px;
-  padding: 0;
+.chat-header button{
+  padding-top: 5px;
+  margin-bottom: auto;
 }
-
-.chat-header #close {
-  background-color: #ff6059;
-  left: 8px;
-}
-
-.chat-header #minimize {
-  background-color: #ffbf2f;
-  left: 10px;
-}
-
-.chat-header #maximize {
-  background-color: #29cd42;
-  left: 28px;
-}
-
-.chat-header #profile-pic {
-  vertical-align: middle;
-  border-radius: 50%;
-  width: 12%;
-  height: 12%;
-  margin-right: 2%;
-}
-
-.chat-header #showList-pic {
-  vertical-align: middle;
-  border-radius: 50%;
-  width: 15%;
-  height: 15%;
-  margin-right: 2%;
-  cursor: pointer;
-}
-
-.chat-header #bell-pic {
-  vertical-align: middle;
-  border-radius: 50%;
-  width: 17%;
-  height: 17%;
-  margin-right: 2%;
-  cursor: pointer;
-}
-
-.bell {
-  position: relative;
-  background-image: url("../../assets/img/bell.png");
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  background-size: cover;
-  vertical-align: middle;
-}
-
 .content {
   position: absolute;
   top: 10%;
@@ -393,7 +329,7 @@ body {
   vertical-align: middle;
   font-size: 17px;
   font-weight: 500;
-  margin-right: 63%;
+  margin-right: 20px;
   color: #343434;
 }
 
@@ -411,22 +347,11 @@ body {
   clear: both;
 }
 
-/* only header */
-.chat-container2 {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  transition: width 0.3s ease;
-  position: absolute;
-
-  left: 75%;
-  width: 25%;
-  bottom: 0%;
-}
-
 /* chat box */
 
 .chatbox {
-  height: 400px;
-  background-color: #d7e4f2;
+  height: calc(100vh - 200px);
+  background-color: white;
   padding: 10px;
   overflow-y: scroll;
   position: relative;
@@ -480,32 +405,20 @@ body {
 /* text box */
 
 .text-box {
-  background-color: #fafafa;
+  position: fixed;
+  bottom:0;
+  display: flex;
+  background-color: white;
+  border-top: 2px solid rgba(0, 0, 0, 0.3);
   padding: 10px;
 }
 
-.text-box textarea {
-  height: 60px;
-  float: left;
-  width: calc(100% - 140px);
-  border-radius: 3px;
-  background-color: #ffffff;
-  border: solid 0.5px #d7d7d7;
-  resize: none;
-  padding: 10px;
-  font-size: 14px;
-}
-
-#sendChat {
-  background-color: orange;
-  width: 60px;
-  height: 60px;
-  color: black;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+.text-box-icon {
+  margin-top: auto;
+  margin-bottom: auto;
   margin-left: 10px;
-  float: left;
+  margin-right: 10px;
+  padding: 2px;
 }
 
 #sendToBoard {
@@ -520,21 +433,7 @@ body {
   float: left;
 }
 
-#sendChat_disable {
-  background-color: orange;
-  color: gray;
-  width: 60px;
-  height: 60px;
-  border: none;
-  border-radius: 3px;
-  cursor: initial;
-  margin-left: 10px;
-  float: left;
-}
 
-.clearfix {
-  clear: both;
-}
 
 h3 {
   /* margin: 20px; */

@@ -326,7 +326,7 @@ export default {
       tempEmail : "",
       // 소켓 서버 전송
       board: {
-        channelId: localStorage.getItem("wsboard.channelId"),
+        channelId: this.$route.params.channelId,
         idCount: 1,
         memberList: [],
         postitList: [],
@@ -473,7 +473,7 @@ export default {
         },
         function (error) {
           alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
-          location.href = "/";
+          _this.$router.push('/');
         }
       );
     },
@@ -1140,8 +1140,9 @@ export default {
 .channel-name {
   position: fixed;
   z-index: 50000;
-  top: 90px;
+  top: 85px;
   left: 12px;
+  margin-left: 12px;
   font-size: 1.2rem;
   background-color: white;
   padding: 6px;
