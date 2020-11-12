@@ -135,6 +135,13 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     });
 
+    socket.on('who is video on', () => {
+        console.log("who's video on");
+        if (isVideoOn) {
+            createOffer();
+        }
+    });
+
 
 
     socket.emit('join channel', channel);
@@ -219,9 +226,6 @@ function createPeerConnection(member) {
             // }
 
             channelPeerConnectionsMap.set(member, pc);
-        }
-        if (isVideoOn) {
-            createOffer();
         }
 
     } catch (e) {
