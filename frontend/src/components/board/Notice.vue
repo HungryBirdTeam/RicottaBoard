@@ -4,7 +4,7 @@
       <v-btn
         class="notice-button justify-center ma-3"
         fab
-        color="#0d875c"
+        :color="gradColor()"
         @click="showNotice()"
         @mouseover="isTopNoticeToggle=true"
         @mouseout="isTopNoticeToggle=false"
@@ -245,6 +245,12 @@ export default {
       this.isDetail = false;
       this.isPost = false;
       this.fetchNotice();
+    },
+    gradColor() {
+      if(this.isNotice) {
+        return "#08543A"
+      }
+      return "#0d875c"
     }
   },
 };
@@ -254,19 +260,20 @@ export default {
 .notice-button {
   position: fixed;
   z-index: 3;
-  bottom: 85px;
+  bottom: 80px;
   left: 12px;
-  border: solid black 1px;
   width: 50px;
   height: 50px;
 }
 
 .notice-modal {
   width: 80%;
-  min-width: 300px;
-  top: 15%;
+  min-width: 350px;
   padding: 32px;
-  left: 10%;
+  margin-left: 10vw;
+  margin-right: 30vw;
+  margin-top: 5vh;
+  margin-bottom: 30vh;
   background: #ffffff;
   border-radius: 4px;
   position: absolute;
