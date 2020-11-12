@@ -181,12 +181,11 @@ function offVideo() {
 
 function createOffer() {
     channelPeerConnectionsMap.forEach((value, key) => {
+        if (streamSenderMap.has(key)) {
+            value.removeTrack(streamSenderMap.get(key));
+            streamSenderMap.delete(key);
+        }
         for (const track of localStream.getTracks()) {
-            if (streamSenderMap.has(key)) {
-                value.removeTrack(streamSenderMap.get(key));
-                streamSenderMap.delete(key);
-            }
-
             var sender = value.addTrack(track, localStream);
 
             streamSenderMap.set(key, sender);
