@@ -3,7 +3,6 @@ var localStream = new MediaStream();
 // var remoteStream = new MediaStream();
 const channelPeerConnectionsMap = new Map();
 const streamMap = new Map();
-var isIceCandidate = new Map();
 
 var myInfo;
 var users = new Set();
@@ -226,18 +225,17 @@ function loadChannelInfo(channelId, email, _socket) {
 
     });
 
-    // socket.on('candidate', function(connect) {
-    //     if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
-    //         // var candidate = new RTCIceCandidate({
-    //         //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
-    //         //     candidate: connect.candidate
-    //         // });
-    //         var candidate = new RTCIceCandidate(connect.candidate);
-    //         if (candidate)
-    //             channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate);
-    //         isIceCandidate.set(connect.sender, true);
-    //     }
-    // });
+    socket.on('candidate', async function(connect) {
+        if (connect.sender != myInfo && connect.receiver == myInfo) {
+            // var candidate = new RTCIceCandidate({
+            //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
+            //     candidate: connect.candidate
+            // });
+            var candidate = new RTCIceCandidate(connect.candidate);
+            if (candidate)
+                await channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate);
+        }
+    });
 
 
 
@@ -300,7 +298,6 @@ function createPeerConnection(member) {
 
         if (!channelPeerConnectionsMap.has(member)) {
             streamMap.set(member, new MediaStream());
-            isIceCandidate.set(member, false);
             console.log(member, "와의 커넥션 객체 생성");
             var pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = (event) => {
@@ -348,15 +345,15 @@ function handleTrack(event, member) {
 function handleIceCandidate(event, member) {
     console.log('icecandidate event: ', event, new Date().getTime());
     if (event.candidate) {
-        const newIceCandidate = new RTCIceCandidate(event.candidate);
-        channelPeerConnectionsMap.get(member).addIceCandidate(newIceCandidate);
-        // var connect = {
-        //     sender: myInfo,
-        //     receiver: member,
-        //     candidate: event.candidate,
-        //     channel: channel
-        // };
-        // socket.emit('add candidate', connect);
+        // const newIceCandidate = new RTCIceCandidate(event.candidate);
+        // channelPeerConnectionsMap.get(member).addIceCandidate(newIceCandidate);
+        var connect = {
+            sender: myInfo,
+            receiver: member,
+            candidate: event.candidate,
+            channel: channel
+        };
+        socket.emit('add candidate', connect);
     } else {
         console.log('End of candidates.');
     }
