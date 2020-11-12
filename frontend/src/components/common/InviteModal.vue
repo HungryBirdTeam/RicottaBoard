@@ -78,7 +78,6 @@ export default {
   methods: {
     submit() {
       console.log('auth에 보내기')
-      const url = "/api/auth/invite";
       const mydata = {
           "channelId": localStorage.getItem("wsboard.channelId"),
           "email": this.memberList,

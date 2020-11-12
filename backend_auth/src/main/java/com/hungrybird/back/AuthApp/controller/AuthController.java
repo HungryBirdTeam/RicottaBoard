@@ -178,10 +178,10 @@ public class AuthController {
 //            }else{
 //                memberService.createMember(user, channel);
 //            }
-//            return "redirect:http://i3a510.p.ssafy.io";
+//            return "redirect:http://k3a204.p.ssafy.io";
 //        }
 //        else{
-//            return "redirect:http://i3a510.p.ssafy.io";
+//            return "redirect:http://k3a204.p.ssafy.io";
 //        }
 //    }
 
@@ -214,17 +214,17 @@ public class AuthController {
             User user = userService.findByEmail(mail).orElseThrow(() -> new NoSuchElementException());
             if(memberService.isMemberExist(mail,channel)==null) {
                 if(user==null){
-                    System.out.println(mail+" 님은 '이거모임'의 회원이 아닙니다.");
+                    System.out.println(mail+" 님은 '리코타보드'의 회원이 아닙니다.");
                 }else{
                     memberService.createMember(user, channel);
                 }
-                return "redirect:http://i3a510.p.ssafy.io";
+                return "redirect:http://"+ GlobalVariables.host + GlobalVariables.frontPort;
             }
             else{
-                return "redirect:http://i3a510.p.ssafy.io";
+                return "redirect:http://" + GlobalVariables.host + GlobalVariables.frontPort;
             }
         }else{
-            return "redirect:http://i3a510.p.ssafy.io/error";
+            return "redirect:http://"+ GlobalVariables.host + GlobalVariables.frontPort +"/error";
         }
 
     }
@@ -265,7 +265,7 @@ public class AuthController {
     @ApiOperation(value = "Confirms the email verification token that has been generated for the user during registration")
     public String confirmRegistration(@ApiParam(value = "the token that was sent to the user email") @RequestParam("token") String token) {
         if(authService.confirmEmailRegistration(token)!=null){
-//            return "redirect:http://i3a510.p.ssafy.io:3000/user/signup/done/registrationConfirmation";
+//            return "redirect:http://k3a204.p.ssafy.io:3000/user/signup/done/registrationConfirmation";
             return "redirect:http://"+GlobalVariables.host+GlobalVariables.frontPort+"/user/signup/done/registrationConfirmation";
         }else{
             return "redirect:http://"+GlobalVariables.host+GlobalVariables.frontPort+"/error";
