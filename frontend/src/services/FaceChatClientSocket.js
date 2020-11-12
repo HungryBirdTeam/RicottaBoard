@@ -131,6 +131,7 @@ function loadChannelInfo(channelId, email, _socket) {
 
         } else {
             //다른 멤버라면,
+
         }
     });
 
@@ -142,6 +143,13 @@ function loadChannelInfo(channelId, email, _socket) {
 
 //비디오 실행
 async function onVideo(vdId) {
+    if (isVideoOn) {
+        let tracks = localStream.getTracks();
+        tracks.forEach((track) => {
+            track.enabled = true;
+        });
+    }
+
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -155,12 +163,11 @@ async function onVideo(vdId) {
 function offVideo() {
     if (localStream) {
         let tracks = localStream.getTracks();
-
         tracks.forEach((track) => {
-            track.stop();
+            track.enabled = false;
         });
-        isVideoOn = false;
-        localStream.srcObject = null;
+        // isVideoOn = false;
+        // localStream.srcObject = null;
 
         var info = {
             member: myInfo,
