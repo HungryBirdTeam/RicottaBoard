@@ -61,6 +61,10 @@ io.on('connection', function(socket) {
 
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
+
+        setTimeout(() => {
+            io.sockets.in(info.channel).emit('who is video on');
+        }, 2000);
     });
 
     socket.on('off video', info => {
