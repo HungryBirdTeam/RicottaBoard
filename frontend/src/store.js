@@ -134,29 +134,6 @@ export const store = new Vuex.Store({
                     err => {
                         store.dispatch("throwError", err);
                     })
-                /* const url = `/api/user/delete?email=${payload.email.trim()}&password=${payload.password.trim()}`;
-                console.log(store.getters.accessToken);
-                authConnect.delete(url, {
-                        headers: {
-                            Authorization: 'Bearer ' + store.getters.accessToken
-                        }
-                    })
-                    .then((res) => {
-                        console.log(res);
-                        if (res.data == "success") {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                                "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                                store.commit("reSetAll");
-                            }, 3000)
-
-                        }
-                    })
-                    .catch(exp => {
-                        store.dispatch("throwError", exp);
-                    }); */
         },
 
         /**
@@ -244,6 +221,7 @@ export const store = new Vuex.Store({
                 "Authorization" : "Bearer " + store.getters.accessToken
                 }
             }
+            const textSend = true;
             userApi.userInfo(newUser, config,
                     res => {
                         console.log('good',res.status);
@@ -252,8 +230,10 @@ export const store = new Vuex.Store({
                         });                        
                     },
                     err => {
+                        textSend = false;
                         store.dispatch("throwError", err);
                     })
+            return textSend;
         },
 
         /**
@@ -261,7 +241,6 @@ export const store = new Vuex.Store({
          */
         [constants.METHODS.CREATE_USER]: (_store, payload) => {
             store.commit(constants.METHODS.EMAILCHECK, "reset");
-            // const url = 'api/auth/register';
             const data = {
                 "email": payload.email.value,
                 "password": payload.password.value,
@@ -282,32 +261,6 @@ export const store = new Vuex.Store({
                 //         store.dispatch("throwError", exp);
                 //     });
         },
-
-        /**
-         * 유저 정보 가져오기
-         */
-        // [constants.METHODS.GET_USER] : (store, payload) =>{
-        //     // console.log("data : " + payload);
-
-        //     const data = payload;
-        //     const url = `/api/user/userInfo?email=${data}`;
-        //     authConnect.get(url, {
-        //         headers: {
-        //             Authorization: 'Bearer ' + store.getters.accessToken
-        //         }
-        //     })
-        //         .then(res => {
-        //             const dataWhatINeed = res.data  ;
-        //             console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-        //             store.commit(constants.METHODS.GET_USER, {
-        //                 dataWhatINeed
-        //             });
-        //         })
-        //         .catch(exp => {
-        //             store.dispatch("throwError", exp);
-        //         });
-        // },
-
         /**
          * 이메일 중복 체크 메소드
          */
@@ -324,7 +277,6 @@ export const store = new Vuex.Store({
                 return;
             }
 
-            // const url = `/api/auth/checkEmailInUse?email=${checkEmail}`;
             userApi.emailCheck(checkEmail,
                     res => {
                         store.commit(constants.METHODS.EMAILCHECK, res.data.data);
@@ -376,8 +328,6 @@ export const store = new Vuex.Store({
          * 비밀번호 초기화 요청 메소드 
          */
         [constants.METHODS.RESETMYPASSWORDREQ]: (store, payload) => {
-            // const url = "/api/auth/password/resetlink"
-            // const data = payload;
             const email = {
                 "email": payload
             }
@@ -419,8 +369,6 @@ export const store = new Vuex.Store({
          * 비밀번호 초기화 메소드
          */
         [constants.METHODS.RESETMYPASSWORD]: (store, payload) => {
-            // const url = "/api/auth/password/reset";
-            // const data = payload;
             const passwordInfo = {
                 "password": payload.password,
                 "confirmPassword": payload.passwordConfirm,

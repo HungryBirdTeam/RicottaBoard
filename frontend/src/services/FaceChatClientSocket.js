@@ -3,7 +3,6 @@ var localStream = new MediaStream();
 // var remoteStream = new MediaStream();
 const channelPeerConnectionsMap = new Map();
 const streamMap = new Map();
-var isConnect = new Map();
 var isIceCandidate = new Map();
 
 var myInfo;
@@ -163,18 +162,18 @@ function loadChannelInfo(channelId, email, _socket) {
 
     channel = channelId;
     myInfo = email;
-    console.log('#video_' + myInfo);
+    // console.log('#video_' + myInfo);
 
     // socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
     socket = _socket;
 
-    socket.on('connect', function() {
-        console.log("connect face chat socket", socket);
-    });
+    // socket.on('connect', function() {
+    //     console.log("connect face chat socket", socket);
+    // });
 
-    socket.on('disconnect', function() {
-        console.log("disconnect!!!");
-    });
+    // socket.on('disconnect', function() {
+    //     console.log("disconnect!!!");
+    // });
 
     socket.on('member', member => {
         console.log("멤버 알림", member);
@@ -187,21 +186,17 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     })
 
-    socket.on('alert', () => {
-        var info = { channel: channel, member: myInfo };
-        console.log("face chat log :: alert info = ", info);
-        socket.emit('alert member', info);
-    });
+    // socket.on('alert', () => {
+    //     var info = { channel: channel, member: myInfo };
+    //     console.log("face chat log :: alert info = ", info);
+    //     socket.emit('alert member', info);
+    // });
 
     socket.on('new member', () => {
-        // if (myInfo == undefined) {
-        // myInfo = user;
-        // console.log("myInfo : ", user);
-        // } else {
-        // var info = { user: myInfo, channel: channel };
-        console.log("new member!!!!!!!!!");
-        socket.emit('new member', channel);
-        // }
+
+        // socket.emit('new member', channel);
+        var info = { channel: channel, member: myInfo };
+        socket.emit('alert member', info);
     });
 
     socket.on('sender info', function(connect) {
@@ -279,21 +274,18 @@ function offVideo() {
 
 function createOffer() {
     channelPeerConnectionsMap.forEach((value, key) => {
-        if (!isConnect.get(key)) {
-            for (const track of localStream.getTracks()) {
-                value.addTrack(track, localStream);
-            };
-            value.createOffer()
-                .then(
-                    sessionDescription => {
-                        setLocalAndSendMessage(sessionDescription, key);
-                    })
-                .catch(
-                    err =>
-                    alert(err)
-                );
-            isConnect.set(key, true);
-        }
+        for (const track of localStream.getTracks()) {
+            value.addTrack(track);
+        };
+        value.createOffer()
+            .then(
+                sessionDescription => {
+                    setLocalAndSendMessage(sessionDescription, key);
+                })
+            .catch(
+                err =>
+                alert(err)
+            );
     });
 
     isVideoOn = true;
@@ -312,15 +304,13 @@ function createPeerConnection(member) {
     try {
 
         if (!channelPeerConnectionsMap.has(member)) {
-            streamMap.set(member, null);
-            isConnect.set(member, false);
+            streamMap.set(member, new MediaStream());
             isIceCandidate.set(member, false);
             console.log(member, "와의 커넥션 객체 생성");
             var pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = (event) => {
                 handleIceCandidate(event, member);
             };
-            // pc.onaddstream = handleRemoteStreamAdded;
             pc.onremovestream = (event) => {
                 handleRemoteStreamRemoved(event, member);
             };
@@ -329,10 +319,9 @@ function createPeerConnection(member) {
             }
 
             channelPeerConnectionsMap.set(member, pc);
-
-            if (isVideoOn) {
-                createOffer();
-            }
+        }
+        if (isVideoOn) {
+            createOffer();
         }
 
     } catch (e) {
@@ -349,8 +338,12 @@ function handleTrack(event, member) {
 
     var videoComponent = document.getElementById("video_" + member);
     if (videoComponent != undefined) {
-        console.log("src added");
-        videoComponent.srcObject = streamMap.get(member);
+        if (event.streams && event.streams[0]) {
+            videoComponent.srcObject = event.streams[0];
+        } else {
+            videoComponent.srcObject = streamMap.get(member);
+            streamMap.get(member).addTrack(event.track);
+        }
     } else {
         console.log("no component");
     }
@@ -387,8 +380,6 @@ function handleRemoteStreamRemoved(event, member) {
     if (videoComponent != undefined) {
         console.log("src removed");
         videoComponent.srcObject = null;
-        streamMap.set(member, null);
-        isConnect.set(member, false);
     }
 }
 
