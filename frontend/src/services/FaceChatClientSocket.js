@@ -143,12 +143,6 @@ function loadChannelInfo(channelId, email, _socket) {
 
 //비디오 실행
 async function onVideo(vdId) {
-    if (isVideoOn) {
-        let tracks = localStream.getTracks();
-        tracks.forEach((track) => {
-            track.enabled = true;
-        });
-    }
 
     localVideo = document.getElementById(vdId);
     // localVideo = document.querySelector('#video_' + myInfo);
@@ -164,7 +158,7 @@ function offVideo() {
     if (localStream) {
         let tracks = localStream.getTracks();
         tracks.forEach((track) => {
-            track.enabled = false;
+            track.stop();
         });
         // isVideoOn = false;
         // localStream.srcObject = null;
