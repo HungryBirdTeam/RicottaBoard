@@ -341,6 +341,8 @@ function handleTrack(event, member) {
 }
 
 function handleCompleteConnection(event, member, pc) {
+    console.dir("handleCompleteConnection", event);
+    console.dir(pc.connectionState);
     if (pc.connectionState == "connected") {
         console.log(member + "와의 RTC Peer Connection 연결 성공!");
         if (!streamMap.get(member))
