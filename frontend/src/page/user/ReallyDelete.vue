@@ -1,40 +1,54 @@
-<template class="bg-light">
-  <div class="container">
-    <div class="form-wrap" v-if="this.$store.getters.status == ''">
-      <div class="py-5 text-center" style="margin-bottom:20%;">
-        <h2>정말로 계정을 삭제하시겠습니까??</h2>
-      </div>
-
-      <div class="col-md-8 order-md-1 container" style="margin-right: auto; margin-left: auto; height: 50vh">
+<template>
+  <div style="background-color:#f5f5ec">
+    <div class="d-flex justify-content-center" v-if="this.$store.getters.status == ''">
+      <div class="outService col text-center mt-3" style="max-width: 500px;">
+        <h2 class="m-3">회원 탈퇴</h2>
+        <p class="lead m-3">정말로 탈퇴를 하시겠습니까?</p>
         <div class="mb-5">
-          <label for>탈퇴를 원하신다면 비밀번호를 입력해주세요</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            v-model="password"
-            placeholder="확인용 비밀번호를 입력해주세요."
-          />
+          <p class="lead m-3">탈퇴를 원하신다면 비밀번호를 입력해주세요.</p>
+          <div class="mb-5">
+            <label class="col text-left pb-0 pt-2">비밀번호</label>
+            <input
+              id="password"
+              type="password"
+              class="inputsForm col"
+              v-model="password"
+              placeholder="확인을 위한 비밀번호를 입력해주세요."
+              @keypress.enter="deleteMyAccount()"
+            />
+          </div>
+          <div class="mb-5">
+            <label class="col text-left pb-0 pt-2">비밀번호 확인</label>
+            <input
+              id="passwordConfirm"
+              type="password"
+              class="inputsForm col"
+              v-model="passwordConfirm"
+              placeholder="비밀번호를 다시 입력해주세요."
+              @keypress.enter="deleteMyAccount()"
+            />
+          </div>
+          <button
+            @click="deleteMyAccount"
+            class="updateButton text-white p-2 mt-5"
+            type="button"
+          >계정 탈퇴</button>
         </div>
-        <br>
-        <div class="mb-5">
-          <label for>비밀번호 확인</label>
-          <input
-            type="password"
-            class="form-control"
-            id="passwordConfirm"
-            v-model="passwordConfirm"
-            placeholder="비밀번호를 다시 입력해주세요."
-          />
-        </div>
-        <br>
-        <br>
-        <div class="btn btn-danger btn-lg btn-block">
-          <button v-on:click="deleteMyAccount">계정 탈퇴</button>
-        </div>
-      </div>
+      </div> 
+      <v-snackbar
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar>     
     </div>
     <div class="form-wrap" v-else>{{this.$store.getters.status}}</div>
+    <footer
+      class="mx-auto wrap"
+      style="text-align:center; position:absolute; bottom:10px;"
+    >
+      <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+    </footer>
   </div>
 </template>
 
@@ -44,6 +58,11 @@ import constants from "../../lib/constants";
 export default {
   data: () => {
     return {
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+      },
       password: "",
       passwordConfirm: "",
     };
@@ -52,10 +71,12 @@ export default {
     deleteMyAccount() {
       const token = this.$route.query.token;
 
-      if (this.password == "") {
+      if (this.password.length < 8) {
+        this.createSnackbar("비밀번호는 8자리 이상이어야 합니다.", 2000, "error");
         return;
       }
       if (this.password != this.passwordConfirm) {
+        this.createSnackbar("비밀번호가 일치하지 않습니다.", 2000, "error");
         return;
       } else {
         const data = {
@@ -66,12 +87,35 @@ export default {
         this.$store.dispatch(constants.METHODS.DELETE_USER, data);
       }
     },
+    teamPage() {
+          this.$router.push('/@hungrybird')
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
 };
 </script>
 
 <style>
-.container {
-  max-width: 960px;
+.outService {
+  max-width: 500px;
+}
+
+.inputsForm {
+  border:solid 1px #dadada;
+  height: 45px;
+  border-radius: 5px;
+  background-color:white;
+}
+
+.updateButton {
+  border-radius: 5px;
+  width: 100%;
+  background-color:red;
+  border:solid 0px;
 }
 </style>
