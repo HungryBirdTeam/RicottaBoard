@@ -14,7 +14,7 @@ function loginUser(data, success, fail) {
 
 function inviteUser(data, success, fail){
     instance
-        .post('/api/auth/invite', data)
+        .post('/invite', data)
         .then(success)
         .catch(fail);
         
