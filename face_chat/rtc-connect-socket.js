@@ -59,13 +59,13 @@ io.on('connection', function(socket) {
         io.sockets.in(channel).emit('new member');
     });
 
-    // socket.on('new member', channel => {
-    //     io.sockets.in(channel).emit('alert');
-    // });
-
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
     });
+
+    socket.on('off video', info => {
+        io.sockets.in(info.channel).emit('off video', info.member);
+    })
 
 
 });
