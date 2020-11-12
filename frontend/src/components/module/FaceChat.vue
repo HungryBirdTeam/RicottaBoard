@@ -11,9 +11,10 @@
       <button 
       class="video_btn"
       v-show="userEmail==myEmail"
-      id="videoOn" @click="onClickVideo">{{onVideoBtnText}}</button>
+      @click="onClickVideo">{{onVideoBtnText}}</button>
       <button
       class="video_btn"
+      v-show="userEmail!=myEmail"
       @click="muteVideo"
       >{{muteBtnText}}</button>
   </div>
@@ -62,6 +63,9 @@ export default {
     }
   },
   created() {
+    if(this.userEmail==this.myEmail) {
+      this.mute = true;
+    }
   },
 };
 </script>
