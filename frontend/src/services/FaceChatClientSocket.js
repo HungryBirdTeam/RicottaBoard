@@ -181,7 +181,7 @@ function offVideo() {
 function createOffer() {
     channelPeerConnectionsMap.forEach((value, key) => {
         for (const track of localStream.getTracks()) {
-            value.addTrack(track);
+            value.addTrack(track, value);
         };
         value.createOffer()
             .then(
