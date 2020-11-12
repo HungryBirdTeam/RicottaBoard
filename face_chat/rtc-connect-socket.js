@@ -64,7 +64,15 @@ io.on('connection', function(socket) {
 
         setTimeout(() => {
             io.sockets.in(info.channel).emit('who is video on');
+        }, 3000);
+
+        setTimeout(() => {
+            io.sockets.in(info.channel).emit('who is video on');
         }, 5000);
+
+        setTimeout(() => {
+            io.sockets.in(info.channel).emit('who is video on');
+        }, 7000);
     });
 
     socket.on('off video', info => {
