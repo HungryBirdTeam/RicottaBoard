@@ -2,6 +2,7 @@
 var localStream = new MediaStream();
 const channelPeerConnectionsMap = new Map();
 const streamMap = new Map();
+const streamSenderMap = new Map();
 
 var myInfo;
 var users = new Set();
@@ -181,7 +182,14 @@ function offVideo() {
 function createOffer() {
     channelPeerConnectionsMap.forEach((value, key) => {
         for (const track of localStream.getTracks()) {
-            value.addTrack(track, localStream);
+            if (streamSenderMap.has(key)) {
+                value.removeTrack(streamSenderMap.get(key));
+                streamSenderMap.delete(key);
+            }
+
+            var sender = value.addTrack(track, localStream);
+
+            streamSenderMap.set(key, sender);
         };
         value.createOffer()
             .then(
