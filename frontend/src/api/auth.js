@@ -12,5 +12,12 @@ function loginUser(data, success, fail) {
         .catch(fail);
 }
 
+function inviteUser(data, success, fail){
+    instance
+        .post('/api/auth/invite', data)
+        .then(success)
+        .catch(fail);
+        
+}
 
-export { loginUser, };
+export { loginUser, inviteUser};
