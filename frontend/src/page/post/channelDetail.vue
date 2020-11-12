@@ -704,7 +704,7 @@ export default {
           id : idc,
           vdId: "video_"+this.userEmail,
           userEmail: this.userEmail,
-          userNickname: this.board.userNickname,
+          userNickname: this.$store.state.userData.nickname,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
