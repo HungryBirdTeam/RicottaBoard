@@ -205,6 +205,17 @@ function loadChannelInfo(channelId, email, _socket) {
             console.log(myInfo, "peer connect to remote", sender);
             channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
             console.dir(new RTCSessionDescription(sdp));
+            ///////////////////////////////////////////////
+            if (!streamMap.get(sender))
+                streamMap.set(sender, new MediaStream());
+
+            var videoComponent = document.getElementById("video_" + sender);
+            if (videoComponent != undefined) {
+                videoComponent.srcObject = streamMap.get(sender);
+            } else {
+                console.log("no component");
+            }
+            ///////////////////////////////////////////////
             doAnswer(sender);
         }
 
@@ -261,7 +272,7 @@ function offVideo() {
     tracks.forEach((track) => {
         track.stop();
     });
-
+    onVideo = false;
     localStream.srcObject = null;
 }
 
@@ -308,9 +319,9 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
-            pc.oniceconnectionstatechange = event => {
-                handleCompleteConnection(event, member, pc);
-            }
+            // pc.oniceconnectionstatechange = event => {
+            //     handleCompleteConnection(event, member, pc);
+            // }
 
             channelPeerConnectionsMap.set(member, pc);
         }
@@ -339,22 +350,22 @@ function handleTrack(event, member) {
     }
 }
 
-function handleCompleteConnection(event, member, pc) {
-    console.dir("handleCompleteConnection", event);
-    console.dir(pc.connectionState);
-    if (pc.connectionState == "connected") {
-        console.log(member + "와의 RTC Peer Connection 연결 성공!");
-        if (!streamMap.get(member))
-            streamMap.set(member, new MediaStream());
+// function handleCompleteConnection(event, member, pc) {
+//     console.dir("handleCompleteConnection", event);
+//     console.dir(pc.connectionState);
+//     if (pc.connectionState == "connected") {
+//         console.log(member + "와의 RTC Peer Connection 연결 성공!");
+//         if (!streamMap.get(member))
+//             streamMap.set(member, new MediaStream());
 
-        var videoComponent = document.getElementById("video_" + member);
-        if (videoComponent != undefined) {
-            videoComponent.srcObject = streamMap.get(member);
-        } else {
-            console.log("no component");
-        }
-    }
-}
+//         var videoComponent = document.getElementById("video_" + member);
+//         if (videoComponent != undefined) {
+//             videoComponent.srcObject = streamMap.get(member);
+//         } else {
+//             console.log("no component");
+//         }
+//     }
+// }
 
 //peer listener//
 function handleIceCandidate(event, member) {
