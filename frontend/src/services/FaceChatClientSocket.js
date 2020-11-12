@@ -159,7 +159,7 @@ function offVideo() {
         tracks.forEach((track) => {
             track.stop();
         });
-        onVideo = false;
+        isVideoOn = false;
         localStream.srcObject = null;
 
         var info = {
