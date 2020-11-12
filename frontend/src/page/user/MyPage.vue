@@ -114,7 +114,7 @@ export default {
             "nickname": this.userData.nickname,
             "password": this.passwordCheck,
           }
-          this.$store.dispatch(constants.METHODS.USER_INFO, newUser);
+          const result = this.$store.dispatch(constants.METHODS.USER_INFO, newUser);
           this.passwordCheck = "";
         } else {
           this.createSnackbar("값이 모두 입력되지 않았습니다.", 2000, "error")
@@ -166,7 +166,6 @@ export default {
 .profile {
   max-width: 500px;
 }
-.lh-condensed { line-height: 1.25; }
 
 .inputsForm {
   border:solid 1px #dadada;

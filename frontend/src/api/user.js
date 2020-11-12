@@ -6,7 +6,7 @@ const instance = createInstance(API_BASE_URL);
 
 function deleteUser(user, accessToken, success, fail) {
     instance
-        .delete(`/api/auth/user/delete?email=${user.email.trim()}&password=${user.password.trim()}`, {
+        .delete(`/user/delete?email=${user.email.trim()}&password=${user.password.trim()}`, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
@@ -17,42 +17,42 @@ function deleteUser(user, accessToken, success, fail) {
 
 function createUser(user, success, fail) {
     instance
-        .post('api/auth/register', user)
+        .post('/register', user)
         .then(success)
         .catch(fail);
 }
 
 function emailCheck(email, success, fail) {
     instance
-        .get(`/api/auth/checkEmailInUse?email=${email}`)
+        .get(`/checkEmailInUse?email=${email}`)
         .then(success)
         .catch(fail);
 }
 
 function nicknameCheck(nickName, success, fail) {
     instance
-        .get(`/api/auth/checkNicknameInUse?Nickname=${nickName}`)
+        .get(`/checkNicknameInUse?Nickname=${nickName}`)
         .then(success)
         .catch(fail);
 }
 
 function resetMyPasswordReq(email, success, fail) {
     instance
-        .post('/api/auth/password/resetlink', email)
+        .post('/password/resetlink', email)
         .then(success)
         .catch(fail);
 }
 
 function resetMyPassword(password, success, fail) {
     instance
-        .post('/api/auth/password/reset', password)
+        .post('/password/reset', password)
         .then(success)
         .catch(fail);
 }
 
 function userInfo(newUser, config, success, fail) {
     instance
-        .post('/api/auth/user/userInfo', newUser, config)
+        .post('/user/userInfo', newUser, config)
         .then(success)
         .catch(fail);
 }

@@ -7,7 +7,7 @@ const instance = createInstance(API_BASE_URL);
 
 function loginUser(data, success, fail) {
     instance
-        .post('/api/board/user/login', data)
+        .post('/user/login', data)
         .then(success)
         .catch(fail);
 }
