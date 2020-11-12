@@ -56,16 +56,12 @@ io.on('connection', function(socket) {
     socket.on('join channel', function(channel) {
         socket.join(channel);
 
-        // var clientsInRoom = io.sockets.adapter.rooms[channel];
-        // var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
-
-        // io.sockets.in(channel).emit('new member', numClients);
         io.sockets.in(channel).emit('new member');
     });
 
-    socket.on('new member', channel => {
-        io.sockets.in(channel).emit('alert');
-    });
+    // socket.on('new member', channel => {
+    //     io.sockets.in(channel).emit('alert');
+    // });
 
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
