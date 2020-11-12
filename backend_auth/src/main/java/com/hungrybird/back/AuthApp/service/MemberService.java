@@ -51,7 +51,7 @@ public class MemberService {
         System.out.println(inviteChannelRequest1.getChannelId()+"--------"+inviteChannelRequest1.getUser().getEmail());
 //        return apiService.post("http://"+ GlobalVariables.host + GlobalVariables.boardPort + "/board/channel/invitation"
 
-        return apiService.post("http://"+ GlobalVariables.host + GlobalVariables.boardPort + "/board/channel/invitation"
+        return apiService.post("https://"+ GlobalVariables.host + GlobalVariables.boardPort + "/api/board/channel/invitation"
                 , HttpHeaders.EMPTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
     }
 
