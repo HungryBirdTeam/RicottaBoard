@@ -386,7 +386,8 @@ export default {
     };
   },
   created() {
-    localStorage.setItem("wsboard.channelId", this.$route.params.channelId);
+    this.channelId = this.$route.params.channelId;
+    localStorage.setItem("wsboard.channelId", this.channelId);
     if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
       this.testPage = true;
     }
@@ -452,7 +453,7 @@ export default {
 
     },
     init() {
-      var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
+      var sock = new SockJS("http://localhost:8081/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
