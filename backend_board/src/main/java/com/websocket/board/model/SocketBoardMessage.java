@@ -34,7 +34,6 @@ public class SocketBoardMessage implements Serializable {
     @DiffIgnore
     private Long userCount;             // 현재 참여하고 있는 사용자 수
 
-    @DiffIgnore
     private List<String> memberList;    // 채널 참여 멤버 닉네임 리스트
 
     // 모듈 관련 정보
