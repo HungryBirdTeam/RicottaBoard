@@ -156,6 +156,9 @@ export default {
   height: 70px;
 }
 
+#header a{
+  color: white;
+}
 .toolbar {
   background:#0d875C;
   width: 100vw;
