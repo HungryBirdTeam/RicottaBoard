@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-
+const fs = require('fs');
 const cors = require("cors");
  
 const db = require("./app/models");
@@ -26,10 +26,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./app/routes/chatlog.routes.js")(app);
 
 
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+  requestCert: false,
+  rejectUnauthorized: false
+};
 
-
-
-var server = require('http').createServer(app);
+var server = require('https').createServer(options, app);
 
 // http server를 socket.io server로 upgrade한다
 var io = require('socket.io')(server);
