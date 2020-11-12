@@ -20,7 +20,6 @@
             class="inputsForm col"
             v-model="userData.name"
             placeholder="이름을 입력해주세요."
-            @change="changeIt()"
             @keypress.enter="submit()"
           >
         </div>
@@ -31,7 +30,6 @@
             class="inputsForm col"
             v-model="userData.nickname"
             placeholder="닉네임을 입력해주세요."
-            @change="changeIt()"
             @keypress.enter="submit()"
           >
         </div>
@@ -43,7 +41,6 @@
             type="password"
             v-model="passwordCheck"
             placeholder="비밀번호를 입력해주세요."
-            @change="changeIt()"
             @keypress.enter="submit()"
           >
         </div>
@@ -89,6 +86,7 @@
 <script>
 import '../../assets/css/user.scss'
 import constants from '../../lib/constants'
+import * as userApi from '@/api/user.js';
 
 export default {
     components: {
@@ -98,6 +96,7 @@ export default {
     },
     methods: {   
       changeIt() {
+        console.log(this.$store.getters.userData.nickname)
         if (this.userData.name.length > 0 && this.userData.nickname.length > 0 && this.passwordCheck.length >= 8) {
           this.isChange = true
         } else {
@@ -105,21 +104,37 @@ export default {
         }
       },      
       submit(){
-        console.log("kk", this.isChange)
         if (this.isChange) {
-          console.log('sucess')
           const newUser = {
             "email": this.userData.email,
-            "username": this.userData.username,
+            "username": this.userData.name,
             "nickname": this.userData.nickname,
             "password": this.passwordCheck,
           }
-          const result = this.$store.dispatch(constants.METHODS.USER_INFO, newUser);
+          const config = {
+            headers: {
+              "Authorization" : "Bearer " + this.$store.getters.accessToken
+            }
+          }
+          userApi.userInfo(newUser, config,
+            res => {
+              console.log('good',res.status);
+              this.$store.commit(constants.METHODS.USER_INFO, {
+                  newUser
+              });
+              this.createSnackbar("프로필이 수정되었습니다.", 2000, "green");
+              console.log(this.$store.getters.userData);                    
+            },
+            err => {
+              console.log('error', err);
+              this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
+            });
+            console.log(real)
           this.passwordCheck = "";
         } else {
           this.createSnackbar("값이 모두 입력되지 않았습니다.", 2000, "error")
         }
-      },        
+      },
       teamPage() {
           this.$router.push('/@hungrybird')
       },
@@ -134,6 +149,15 @@ export default {
         
     },
     watch: {
+      'userData.name': function() {
+          this.changeIt();
+      },
+      'userData.nickname': function() {
+          this.changeIt();
+      },
+      passwordCheck: function() {
+          this.changeIt();
+      },
     },
     data: () => {
         return {
@@ -148,6 +172,7 @@ export default {
               text: "",
               timeout: 1000,
             },
+            isCheck: false,
             isChange: false,
             constants,
             passwordCheck: '',
