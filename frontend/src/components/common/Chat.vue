@@ -16,21 +16,19 @@
       app
       overflow
       right
+      width="380px"
     >
       <div class="chat-container" id="chatContainer">
         <div id="chattingBox">
           <div class="chat-header" id="chatHeader">
-            <div>
+            <div class="header-top">
               <span id="username">{{ this.naname }}</span><br>
-              <span @click="showList">접속자 보기</span>
+              <v-icon @click="chattingBox = false" >mdi-close</v-icon>
             </div>
-            <v-icon @click="chattingBox = false" >mdi-close</v-icon>
-            <div id="clientList" v-show="isList">
-              <ul>
-                <li id="user" v-for="(user, index) in clientList" :key="index">
-                  {{ user }}
-                </li>
-              </ul>
+            <div id="clientList" class="client-list">
+              <span id="user" v-for="(user, index) in clientList" :key="index">
+                {{ user }}
+              </span>
             </div>
           </div>
 
@@ -135,7 +133,7 @@ export default {
         console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
-          '<div class="friend-bubble bubble">(' + name + "님) " + msg + "</div>"
+          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + "</div>"
         );
 
       if (!this.chattingBox) {
@@ -304,25 +302,14 @@ export default {
 
 .chat-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: white;
   border-bottom: 2px solid rgba(0, 0, 0, 0.3);
   padding: 8px 8px 8px 8px;
 }
 
 .chat-header button{
-  padding-top: 5px;
   margin-bottom: auto;
-}
-.content {
-  position: absolute;
-  top: 10%;
-  left: 5%;
-  transform: translate(-50%, -50%);
-  font-size: 10px;
-  color: red;
-  z-index: 2;
-  text-align: center;
 }
 
 .chat-header #username {
@@ -337,16 +324,31 @@ export default {
   margin-right: 5%;
 }
 .chat-header #user {
-  margin-left: 80%;
-  margin-bottom: 2%;
   font-size: 13px;
-  background-color: yellowgreen;
-  border-radius: 10px 10px 10px 10px;
-  padding: 7px 15px 7px 15px;
+  background-color: #F5F5EC;
+  border-radius: 10px;
+  padding: 2px 8px;
   float: left;
   clear: both;
 }
-
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.client-list {
+  display: flex;
+}
+.content {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  color: red;
+  z-index: 2;
+  text-align: center;
+}
 /* chat box */
 
 .chatbox {
@@ -366,12 +368,12 @@ export default {
 }
 
 .inout-bubble {
-  background-color: lightslategray;
+  background-color: #D3D3CA;
   border-radius: 14px 14px 14px 14px;
   padding: 7px 50px 7px 50px;
   float: left;
   clear: both;
-
+  color: rgba(0,0,0,0.87);
   margin: 5px 0;
   max-width: 300px;
   font-size: 14px;
@@ -379,9 +381,15 @@ export default {
 }
 
 .friend-bubble {
-  background-color: white;
+  background-color: #d7e4f2;
   border-radius: 14px 14px 14px 0;
   padding: 7px 15px 7px 15px;
+  float: left;
+  clear: both;
+}
+
+.friend-bubble span{
+  font-size: 0.2rem;
   float: left;
   clear: both;
 }
@@ -405,12 +413,13 @@ export default {
 /* text box */
 
 .text-box {
+  width: 100%;
   position: fixed;
   bottom:0;
   display: flex;
   background-color: white;
   border-top: 2px solid rgba(0, 0, 0, 0.3);
-  padding: 10px;
+  padding: 0px 10px;
 }
 
 .text-box-icon {
