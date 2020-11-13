@@ -456,8 +456,8 @@ export default {
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
-      // this.board.channelId = localStorage.getItem("wsboard.channelId");
-      // this.channelName = localStorage.getItem("wsboard.channelName");
+      this.board.channelId = localStorage.getItem("wsboard.channelId");
+      this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 
