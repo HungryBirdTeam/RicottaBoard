@@ -16,7 +16,14 @@
       <div class="form-wrap" style="width:90%; padding-top:20px; margin:auto">
         <div class="input-wrap">
           <p style="text-align: left; margin-bottom:4px">이름</p>
-          <input v-model="realName" id="realName" style="border:solid 1px #dadada;height:50px; background-color:white;" placeholder="이름을 입력해주세요" type="text" />
+          <input
+            id="realName"
+            v-model="realName"
+            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            placeholder="이름을 입력해주세요"
+            type="text"
+            @keypress.enter="createUserRequest()"
+          />
         </div>
         <div class="input-wrap">
           <p style="text-align: left; margin-bottom:4px">이메일</p>
@@ -27,6 +34,7 @@
             style="border:solid 1px #dadada;height:50px; background-color:white;"
             type="text"
             @change="emailCheck"
+            @keypress.enter="createUserRequest()"
           />
           <!-- 이메일이 사용중인지 체크 -->
           {{this.$store.getters.canIUseIt}}
@@ -40,6 +48,7 @@
             placeholder="닉네임을 입력해주세요"
             type="text"            
             @change="nicknameCheck"
+            @keypress.enter="createUserRequest()"
           />
           <!-- 닉네임이 사용중인지 체크 -->
           {{this.$store.getters.canNameUseIt}}
@@ -53,6 +62,7 @@
             :type="passwordType"
             placeholder="최소 8자 이상으로 입력해주세요"
             style="border:solid 1px #dadada;height:50px; background-color:white;"
+            @keypress.enter="createUserRequest()"
           />
           <span :class="{active : passwordType==='text'}">
             <i class="fas fa-eye"></i>
@@ -67,6 +77,7 @@
             style="border:solid 1px #dadada;height:50px; background-color:white;"
             :type="passwordConfirmType"
             placeholder="비밀번호를 다시 한 번 입력해주세요"
+            @keypress.enter="createUserRequest()"
           />
           <span :class="{active : passwordConfirmType==='text'}">
             <i class="fas fa-eye"></i>
@@ -127,25 +138,21 @@
             </v-dialog>
           
         </div>
-        <!-- <v-btn
-          dark
-          depressed
-          block
-          class="allbtn mt-3"
-          color="#0d875C"
-          @click="createUserRequest"
-        >
-          확인
-        </v-btn> -->
         <button
           style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
-          @click="createUserRequest"
+          @click="createUserRequest()"
           class="btn"
         >
           <span>확인</span>
         </button>
         
       </div>
+      <v-snackbar
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar> 
     </div>
     <footer
       class="mx-auto wrap"
@@ -172,20 +179,21 @@ export default {
       var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
       var passwordExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{8,}$/;
       if (nickName.value == "") {
-        alert("닉네임을 입력해주세요");
+        this.createSnackbar("닉네임을 입력해주세요.", 2000, "error");
       } else if (exptext.test(email.value) == false) {
         //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+        this.createSnackbar("닉네임을 입력해주세요.", 2000, "error");
         alert("이메일형식이 올바르지 않습니다.");
       } else if (realName.value == "") {
-        alert("이름을 입력해주세요");
+        this.createSnackbar("이름을 입력해주세요.", 2000, "error");
       } else if (password.value == "") {
-        alert("비밀번호를 입력해주세요");
+        this.createSnackbar("비밀번호를 입력해주세요.", 2000, "error");
       } else if (passwordExp.test(password.value) == false) {
-        alert("비밀번호 형식이 잘못되었습니다.");
+        this.createSnackbar("비밀번호 형식이 잘못되었습니다.", 2000, "error");
       } else if (password.value != passwordConfirm.value) {
-        alert("비밀번호가 동일하지않습니다. 다시 입력해주세요.");
+        this.createSnackbar("비밀번호가 동일하지않습니다. 다시 입력해주세요.", 2000, "error");
       } else if (!this.isTerm) {
-        alert("약관을 읽어보시고, 동의란에 체크해주세요.");
+        this.createSnackbar("약관을 읽어보시고, 동의란에 체크해주세요.", 2000, "error");
       } else {
         this.$store.dispatch(constants.METHODS.CREATE_USER, {
           email,
@@ -203,11 +211,14 @@ export default {
       this.nickName = this.nickName.trim();
       this.$store.dispatch(constants.METHODS.NICKNAMECHECK, this.nickName);
     },
-    test1: function () {
-      console.log(this.email);
-    },
     teamPage() {
         this.$router.push('/@hungrybird')
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
     },
   },
   watch: {},
@@ -222,6 +233,11 @@ export default {
       passwordType: "password",
       passwordConfirmType: "password",
       constants,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 2000,
+      },
     };
   },
 };
