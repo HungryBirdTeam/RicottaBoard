@@ -181,7 +181,7 @@ async function onVideo(vdId) {
 }
 
 //비디오 종료
-function offVideo(vdId) {
+function offVideo() {
 
     // let tracks = localStream.getTracks();
     // tracks.forEach((track) => {
@@ -239,9 +239,9 @@ function createPeerConnection(member) {
             pc.onicecandidate = (event) => {
                 handleIceCandidate(event, member);
             };
-            pc.onremovestream = (event) => {
-                handleRemoteStreamRemoved(event, member);
-            };
+            // pc.onremovestream = (event) => {
+            //     handleRemoteStreamRemoved(event, member);
+            // };
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
@@ -286,15 +286,27 @@ function handleIceCandidate(event, member) {
     }
 }
 
+function handleConnectionEvent(event, member) {
+    const status = channelPeerConnectionsMap.get(member).iceConnectionState;
 
-function handleRemoteStreamRemoved(event, member) {
-    console.log('Remote stream removed. Event: ', event);
-    var videoComponent = document.getElementById("video_" + member);
-    if (videoComponent != undefined) {
-        console.log("src removed");
-        videoComponent.srcObject = null;
+    if (status == "disconnected" || status == "failed" || status == "closed") {
+        channelPeerConnectionsMap.get(member).close();
+        users.delete(member);
+        channelPeerConnectionsMap.delete(member);
+        streamMap.delete(member);
+        streamSenderMap.delete(member);
     }
 }
+
+
+// function handleRemoteStreamRemoved(event, member) {
+//     console.log('Remote stream removed. Event: ', event);
+//     var videoComponent = document.getElementById("video_" + member);
+//     if (videoComponent != undefined) {
+//         console.log("src removed");
+//         videoComponent.srcObject = null;
+//     }
+// }
 
 /////////////////////////////////
 
