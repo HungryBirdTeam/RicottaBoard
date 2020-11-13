@@ -77,7 +77,9 @@ export default {
   background: linear-gradient(-135deg,  #FC887C 20px, transparent 20px);
 }
 
-
+a :hover{
+  text-decoration: none !important;
+}
 .rCS53a2i7 {
   z-index: 0 !important;
 }
