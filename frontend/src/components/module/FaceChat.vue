@@ -8,7 +8,6 @@
       src=""
       :muted="mute ? true : false"
       autoplay playsinline
-      :style="videoStream ? 'background-color: white;' : 'background-color: black;'"
       ></video>
       <button 
       class="video_btn"
@@ -84,7 +83,7 @@ export default {
 .video_component {
   width: 500px;
   height: 500px;
-  background-color: black;
+  background-color: white;
 
   transform:rotate(90deg);
   -moz-transform: scaleX(-1); 
