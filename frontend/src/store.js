@@ -367,10 +367,10 @@ export const store = new Vuex.Store({
             // console.log("In store, result is : ", result);
             switch (result) {
                 case "true":
-                    state.joining.canIUseIt = "사용할 수 없는 이메일입니다.";
+                    state.joining.canIUseIt = "이미 사용 중인 이메일입니다.";
                     break;
                 case "false":
-                    state.joining.canIUseIt = "사용할 수 있는 이메일입니다.";
+                    state.joining.canIUseIt = "이 이메일은 사용가능합니다.";
                     break;
                 case "invaild":
                     state.joining.canIUseIt = "이메일형식이 올바르지 않습니다.";
@@ -383,10 +383,10 @@ export const store = new Vuex.Store({
         [constants.METHODS.NICKNAMECHECK]: (state, result) => {
             switch (result) {
                 case "true":
-                    state.joining.canNameUseIt = "사용할 수 없는 닉네임입니다.";
+                    state.joining.canNameUseIt = "이미 사용중인 닉네임입니다.";
                     break;
                 case "false":
-                    state.joining.canNameUseIt = "사용할 수 있는 닉네임입니다.";
+                    state.joining.canNameUseIt = "이 닉네임은 사용가능합니다.";
                     break;
                 case "nothing":
                     state.joining.canNameUseIt = "";
