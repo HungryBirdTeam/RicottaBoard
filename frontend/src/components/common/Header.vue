@@ -1,10 +1,11 @@
 <template>
   <div id="header">
-    <img
-      style="position:absolute ;top:0px;  margin: 10px 20px; width:auto;height:50px;"
-      src="../../assets/img/Logo.png"
-      @click="goWhere"
-    />
+    <button @click="goWhere()">
+      <img
+        style="position:absolute ;top:0px;  margin: 10px 20px; width:auto;height:50px;"
+        src="../../assets/img/Logo.png"
+      />
+    </button>
 
     <div class="right">
       <template v-if="this.$store.getters.accessToken != ''">
