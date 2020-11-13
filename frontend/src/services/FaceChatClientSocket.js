@@ -125,14 +125,23 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     });
 
+    socket.on('on video', member => {
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = true
+                );
+        }
+    });
+
     socket.on('off video', member => {
-        //비디오를 종료한 사람이
-        if (member == myInfo) {
-            //나라면,
-
-        } else {
-            //다른 멤버라면,
-
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = false
+                );
         }
     });
 
@@ -155,10 +164,11 @@ async function onVideo(vdId) {
     localVideo = document.getElementById(vdId);
 
     if (isVideoOn) {
-        localVideo.srcObject.getTracks()
-            .forEach(track =>
-                track.enabled = true
-            );
+        var info = {
+            member: myInfo,
+            channel: channel
+        }
+        socket.emit('on video', info);
 
         return;
     }
@@ -172,12 +182,7 @@ async function onVideo(vdId) {
 
 //비디오 종료
 function offVideo(vdId) {
-    localVideo = document.getElementById(vdId);
 
-    localVideo.srcObject.getTracks()
-        .forEach(track =>
-            track.enabled = false
-        );
     // let tracks = localStream.getTracks();
     // tracks.forEach((track) => {
     //     track.stop();
@@ -185,11 +190,11 @@ function offVideo(vdId) {
     // isVideoOn = false;
     // localStream.srcObject = null;
 
-    // var info = {
-    //     member: myInfo,
-    //     channel: channel
-    // }
-    // socket.emit('off video', info);
+    var info = {
+        member: myInfo,
+        channel: channel
+    }
+    socket.emit('off video', info);
 }
 
 function createOffer() {
