@@ -1,18 +1,26 @@
 <template>
   <div class="user custom" id="login">
     <div class="wrapC table">
-      <div class="middle">
+      <div class="middle justify-content-center">
         <div class="input-wrap">
           <input
-            v-model="email"
             id="email"
+            v-model="email"
             placeholder="이메일을 입력해주세요"
             type="text"
             class="input-border"
+            @keypress.enter="login(email, password)"
           />
         </div>
         <div class="input-wrap">
-          <input class="input-border" v-model="password" type="password" id="password" placeholder="영문, 숫자 혼용 8자 이상" />
+          <input
+            id="password"
+            class="input-border"
+            v-model="password"
+            type="password" 
+            placeholder="영문, 숫자 혼용 8자 이상"
+            @keypress.enter="login(email, password)"
+          />
         </div>
        
 
