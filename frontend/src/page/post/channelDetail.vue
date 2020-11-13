@@ -495,7 +495,7 @@ export default {
       boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
         (response) => {
           console.log("initRecv@@@@");
-          consoel.log(this.testPage);
+          console.log(this.testPage);
           console.log(response.data);
           // this.board.postitList = response.data.postitList;
           this.board.idCount = response.data.idCount;
