@@ -7,7 +7,7 @@
           v-for="column in this.$store.state.kanban.states"
           :key="column.columnTitle"
           @click="kanbanClickEvent"
-          class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
+          class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded ml-2"
         >
           <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.columnTitle}}</p>
           
@@ -254,14 +254,8 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
 }
 .kanban 
 {
-  /* background-color: #F5F5F5; */
-  /* background-color: white; */
-  
   padding: 15px;    
-  /* box-shadow: .5rem 1rem 2rem rgba(0,0,0,.4)!important; */
   border-radius: 5px;
-  /* width: 810px; */
-
 }
 .kanban-column {
   background-color: #F5F5F5;

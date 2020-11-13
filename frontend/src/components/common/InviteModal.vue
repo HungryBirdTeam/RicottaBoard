@@ -80,7 +80,9 @@ export default {
       console.log('auth에 보내기')
       const mydata = {
           "channelId": localStorage.getItem("wsboard.channelId"),
+          "channelName": localStorage.getItem("wsboard.channelName"),
           "email": this.memberList,
+          "from":  this.$store.getters.userData.nickname
       }
       console.log(mydata);
       

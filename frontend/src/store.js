@@ -111,93 +111,7 @@ export const store = new Vuex.Store({
                 }
             }
         },
-
-
-        /**
-         *  회원 탈퇴 메소드
-         */
-
-        [constants.METHODS.DELETE_USER]: (store, payload) => {
-            userApi.deleteUser(payload, store.getters.accessToken,
-                    res => {
-                        if (res.data == "success") {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                                "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                                store.commit("reSetAll");
-                            }, 3000)
-
-                        }
-                    },
-                    err => {
-                        store.dispatch("throwError", err);
-                    })
-        },
-
-        /**
-            회원 로그인 메소드
-        */
-        [constants.METHODS.LOGIN_USER]: (_store, payload) => {
-            console.log(payload)
-            const data = {
-                "email": payload.email,
-                "password": payload.password
-            }
-            authApi.loginUser(data,
-                    res => {
-                        if (res.status == 200) {
-                            cookies.set('AccessToken', res.data.accessToken);
-                            store.commit(constants.METHODS.LOGIN_USER, [data, res.data.accessToken]);
-                            const dataWhatINeed = res.data.user;
-                            console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-                            store.commit(constants.METHODS.GET_USER, {
-                                dataWhatINeed
-                            });
-                            console.log("In store, state is : ", store.state);
-                            cookies.set('AccessData', _store.getters.userDataStr);
-                            router.push("/main");
-                            return true;
-                        }
-                    },
-                    err => {
-                        console.log(err.message);
-                        alert("로그인 정보가 잘못되었습니다.");
-                        return false;
-                    })
-                // http
-                //     .post(url, data)
-                //     .then(res => {
-                //         console.log("In store, res is : ", res);
-                //         if (res.status == 200) {
-                //             cookies.set('AccessToken', res.data.accessToken);
-                //             store.commit(constants.METHODS.LOGIN_USER, [data, res.data.accessToken]);
-                //             // store.commit(constants.METHODS.GET_USER, res.data.userInfoResponse);
-                //             const dataWhatINeed = res.data.user;
-                //             console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-                //             store.commit(constants.METHODS.GET_USER, {
-                //                 dataWhatINeed
-                //             });
-                //             //store.dispatch(constants.METHODS.GET_USER, data.email);
-                //             console.log("In store, state is : ", store.state);
-                //             // const userDataString = _store.userData
-                //             cookies.set('AccessData', _store.getters.userDataStr);
-
-            //             router.push("/main");
-            //             // router.go(0);
-            //             return true;
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log(err.message);
-            //         alert("로그인 정보가 잘못되었습니다.");
-            //         return false;
-            //     });
-
-            return false;
-        },
-
+        
         /** 
          * 로그아웃 메소드
          */
@@ -205,31 +119,6 @@ export const store = new Vuex.Store({
             store.commit(constants.METHODS.LOGOUT_USER);
             state.commit("reSetAll");
             this.$router.go(0);
-        },
-        /**
-         * 회원가입 메소드
-         */
-        [constants.METHODS.CREATE_USER]: (_store, payload) => {
-            store.commit(constants.METHODS.EMAILCHECK, "reset");
-            const data = {
-                "email": payload.email.value,
-                "password": payload.password.value,
-                "registerAsAdmin": false,
-                "username": payload.realName.value,
-                "nickname": payload.nickName.value,
-            };
-            userApi.createUser(data,
-                    () => {
-                        console.log("create req success")
-                    },
-                    err => {
-                        store.dispatch("throwError", err)
-                    })
-                // authConnect.post(url, data)
-                //     .then(() => console.log("create req success"))
-                //     .catch(exp => {
-                //         store.dispatch("throwError", exp);
-                //     });
         },
         /**
          * 이메일 중복 체크 메소드
@@ -478,10 +367,10 @@ export const store = new Vuex.Store({
             // console.log("In store, result is : ", result);
             switch (result) {
                 case "true":
-                    state.joining.canIUseIt = "사용할 수 없는 이메일입니다.";
+                    state.joining.canIUseIt = "이미 사용 중인 이메일입니다.";
                     break;
                 case "false":
-                    state.joining.canIUseIt = "사용할 수 있는 이메일입니다.";
+                    state.joining.canIUseIt = "이 이메일은 사용가능합니다.";
                     break;
                 case "invaild":
                     state.joining.canIUseIt = "이메일형식이 올바르지 않습니다.";
@@ -494,10 +383,10 @@ export const store = new Vuex.Store({
         [constants.METHODS.NICKNAMECHECK]: (state, result) => {
             switch (result) {
                 case "true":
-                    state.joining.canNameUseIt = "사용할 수 없는 닉네임입니다.";
+                    state.joining.canNameUseIt = "이미 사용중인 닉네임입니다.";
                     break;
                 case "false":
-                    state.joining.canNameUseIt = "사용할 수 있는 닉네임입니다.";
+                    state.joining.canNameUseIt = "이 닉네임은 사용가능합니다.";
                     break;
                 case "nothing":
                     state.joining.canNameUseIt = "";

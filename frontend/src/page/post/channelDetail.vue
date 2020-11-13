@@ -7,13 +7,21 @@
         <History style="position: fixed; right: 12px;"/>    
         <Notice/>  
       </div>
+      <v-snackbar 
+        app
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+        >{{ snackbar.text }}</v-snackbar
+      >
       <div class="toolBox">
         <v-tooltip right>
           <template v-slot:activator="{ on }">
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('postit', $event)"
@@ -30,7 +38,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('kanban', $event)"
@@ -47,7 +55,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('scheduler', $event)"
@@ -64,7 +72,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('poll', $event)"
@@ -81,7 +89,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('editor', $event)"
@@ -97,7 +105,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('video', $event)"
@@ -157,7 +165,7 @@
 
       <transition name="fade">
         <v-responsive
-          class="member-list text-center p-0 w-auto"
+          class=" hover member-list text-center p-0 w-auto"
           v-show="memberView"
           align="center"
           justify="center"
@@ -465,7 +473,8 @@ export default {
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 
       var _this = this;
-      ws.connect( 
+      console.log("채널 구독하기" + _this.board.channelId);
+      ws.connect(
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
           ws.subscribe(
@@ -489,6 +498,7 @@ export default {
       boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
         (response) => {
           console.log("initRecv@@@@");
+          console.log(this.testPage);
           console.log(response.data);
           // this.board.postitList = response.data.postitList;
           this.board.idCount = response.data.idCount;
@@ -1192,12 +1202,13 @@ export default {
 
 .userListBadge {
   position: fixed;
-  z-index: 3;
+  z-index: 1;
   bottom: 20px;
   left: 12px;
   background-color: white;
   width: 50px;
   height: 50px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
 
 .vueBox {
@@ -1213,17 +1224,7 @@ export default {
 }
 
 .member-list {
-  width: 350px;
-  height: auto;
-  position: fixed;
-  z-index: 2;
   bottom: 38px;
-  left: 95px;
-  text-align: right;
-  padding-right: 1%;
-  padding-left: 5%;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
 }
 
 .moimimg {

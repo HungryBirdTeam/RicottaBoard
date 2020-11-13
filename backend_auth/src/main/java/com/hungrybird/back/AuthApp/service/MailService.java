@@ -13,6 +13,7 @@
  */
 package com.hungrybird.back.AuthApp.service;
 
+import com.hungrybird.back.AuthApp.GlobalVariables;
 import com.hungrybird.back.AuthApp.model.Mail;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -54,7 +55,7 @@ public class MailService {
     public void sendEmailVerification(String emailVerificationUrl, String to, String username)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Email Verification [Team HungryBird]");
+        mail.setSubject("[리코타 보드] 이메일 인증");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", username);
@@ -74,7 +75,7 @@ public class MailService {
         Long expirationInMinutes = TimeUnit.MILLISECONDS.toMinutes(expiration);
         String expirationInMinutesString = expirationInMinutes.toString();
         Mail mail = new Mail();
-        mail.setSubject("Password Reset Link [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 비밀번호 변경 안내");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
@@ -95,7 +96,7 @@ public class MailService {
     public void sendAccountChangeEmail(String action, String actionStatus, String to)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Account Status Change [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 계정 상태 변경 안내");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
@@ -125,16 +126,35 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public void sendInviteEmail(String inviteUrl, String to)
+    public void sendInviteEmail(String inviteUrl, String to, String channelName, String from)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Circle invitation [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
         mail.getModel().put("invitationLink", inviteUrl);
+        mail.getModel().put("channelName", channelName);
+        mail.getModel().put("from", from);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
         Template template = templateConfiguration.getTemplate("circle-invite.ftl");
+        String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
+        mail.setContent(mailContent);
+        send(mail);
+    }
+
+    public void sendRegistrationMail(String to, String channelName, String from) throws IOException, TemplateException, MessagingException {
+        Mail mail = new Mail();
+        mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
+        mail.setTo(to);
+        mail.setFrom(mailFrom);
+        mail.getModel().put("urlToRegistration", "https://"+ GlobalVariables.host+GlobalVariables.frontPort+"/user/signup");
+//        mail.getModel().put("channelName", channelName);
+        // System.out.println(from);
+        mail.getModel().put("from", from);
+//        mail.getModel().put("invitationLink", inviteUrl);
+        templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
+        Template template = templateConfiguration.getTemplate("email-registration.ftl");
         String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
         mail.setContent(mailContent);
         send(mail);

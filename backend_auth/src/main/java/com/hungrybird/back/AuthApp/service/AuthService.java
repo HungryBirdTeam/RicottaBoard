@@ -93,7 +93,12 @@ public class AuthService {
         for (int i=0;i<mailSendRequest.getEmail().size();i++){
             Member m = new Member();
             m.setUser(userService.findByEmail(mailSendRequest.getEmail().get(i)).orElse(null));
-            m.setChannelId(mailSendRequest.getChannelId());
+            if(m.getUser()==null){
+                m.setEmail(mailSendRequest.getEmail().get(i));
+                m.setChannelId("NEED_TO_REGISTRATION");
+            }else {
+                m.setChannelId(mailSendRequest.getChannelId());
+            }
             newMember.add(m);
         }
 

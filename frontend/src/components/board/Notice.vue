@@ -16,7 +16,7 @@
       </v-btn>
       <transition name="fade">
         <v-responsive
-          class="top-notice"
+          class="hover notice-hover"
           v-if="isTopNoticeToggle"
           >
           <strong>공지</strong> | {{ topNotice }}
@@ -298,18 +298,8 @@ i {
   min-height: 120px;
 }
 
-.top-notice{
-  background-color: white;
-  width: auto;
-  height: auto;
-  position: fixed;
-  z-index: 2;
-  bottom: 105px;
-  left: 95px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
+.notice-hover{
+  bottom: 98px;
 }
 
 .fade-enter-active,

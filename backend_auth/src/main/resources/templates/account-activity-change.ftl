@@ -1,100 +1,44 @@
-<!-- [if !mso]><!--><!--![endif]--><!-- Normalize Styles --><!-- [if gte mso 9]>
-<style type="text/css">
-            /* What it does: Normalize space between bullets and text. */
-            /* https://litmus.com/community/discussions/1093-bulletproof-lists-using-ul-and-li */
-            li {
-                text-indent: -1em;
-            }
+<html>
+    <head>
+        <#include "css/style.css">
+    </head>
+
+    <div class="temp_body">
 
 
+        <div class="bodyContent">
+
+            <div class="headlineContent">
+                <h1>Recota board</h1>
+            </div>
+
+            <div class="innerContent">
+                <h2>계정 정보 변경 안내</h2>
+
+                <div class="mainText">
+                    <p>${userName}님, 안녕하세요. 리코타 보드입니다.</p>
+                    <p>최근 계정 정보가 변경되었습니다!</p>
+                    <p>아래의 링크를 눌러 재설정을 진행해주세요</p>
+
+                    <br>
+                    <p>Action: <strong>${action}</strong></p>
+                    <p>Status: <strong>${actionStatus}</strong></p>
+
+                </div>
 
 
+                <div class="andLast">
+                    <p style="font-size:18px">자세한 내용은 리코타 보드 홈페이지를 참고하세요.</p>
+                    <p style="text-align: right; font-size:18px;">- Hungry Bird -</p>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="footer">
+            <p>© 2020 Recota Board</p>
+            <p>508, Eonju-ro, Gangnam-gu, Seoul, 06152 - Republic of Korea</p>
+        </div>
+    </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</style>
-<![endif]--><!-- Progressive Enhancements -->
-<div style="display: none; font-size: 1px; line-height: 1px; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
-    &nbsp;
-</div>
-<table style="background: #F7F8FA; border: 0; border-radius: 0; width: 100%;" cellspacing="0" cellpadding="0">
-<tbody>
-<tr>
-    <td class="tw-body" style="padding: 15px 15px 0;" align="center">
-        <table style="background: #F7F8FA; border: 0; border-radius: 0;" cellspacing="0" cellpadding="0">
-            <tbody>
-            <tr>
-                <td class="" style="width: 600px;" align="center">
-                    <p style="padding: 5px 5px 5px; font-size: 13px; margin: 0 0 0px; color: #316fea;" align="right">
-                    </p>
-                    <table style="background: #ffffff; border: 0px; border-radius: 4px; width: 99.6672%; overflow: hidden;"
-                           cellspacing="0" cellpadding="0">
-                        <tbody>
-                        <tr>
-                            <td class="" style="padding: 0px; width: 100%;" align="center">
-                                <table style="background: #336f85; border: 0px; border-radius: 0px; width: 599px; height: 53px; margin-left: auto; margin-right: auto;"
-                                       cellspacing="0" cellpadding="0">
-                                    <tbody>
-                                    <tr>
-
-                                        <td class="tw-card-header"
-                                            style="padding: 5px 5px px; width: 366px; color: #ffff; text-decoration: none; font-family: sans-serif;"
-                                            align="center"><span
-                                                style="font-weight: 600;">Account Status Changed</span></td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <p><br/><br/></p>
-                                <table dir="ltr" style="border: 0; width: 100%;" cellspacing="0" cellpadding="0">
-                                    <tbody>
-                                    <tr>
-                                        <td class="tw-card-body"
-                                            style="padding: 20px 35px; text-align: left; color: #6f6f6f; font-family: sans-serif; border-top: 0;">
-                                            <h1 class="tw-h1"
-                                                style="font-size: 24px; font-weight: bold; mso-line-height-rule: exactly; line-height: 32px; margin: 0 0 20px; color: #474747;">
-                                                ${userName}님, 안녕하세요</h1>
-                                            <p class=""
-                                               style="margin: 20px 0; font-size: 16px; mso-line-height-rule: exactly; line-height: 24px;">
-                                            <span style="font-weight: 400;">계정 변경사항을 알려드립니다.</span>
-                                            <br></br><span style="font-weight: 400;">Action: <strong>${action}</strong></span>
-                                            <br></br><span
-                                                style="font-weight: 400;">Status: <strong>${actionStatus}</strong></span>
-
-                                            <div class=""
-                                                 style="border-top: 0; font-size: 1px; mso-line-height-rule: exactly; line-height: 1px; max-height: 0; margin: 20px 0; overflow: hidden;">
-                                                ​
-                                            </div>
-                                            <p class=""
-                                               style="margin: 20px 0; font-size: 16px; mso-line-height-rule: exactly; line-height: 24px;">
-                                                문의사항이 있으시면 저희 팀에 연락하세요&nbsp;<a
-                                                        style="color: #316fea; text-decoration: none;"
-                                                        href="https://ssafy-ysj.my.webex.com/meet/chl30shl20">Ask us any
-                                                    question</a></p>
-                                            <p class="tw-signoff"
-                                               style="margin: 45px 0 5px; font-size: 16px; mso-line-height-rule: exactly; line-height: 24px;">
-                                                Our best, <br/> EarlyBird</p>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+</html>

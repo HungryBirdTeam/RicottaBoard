@@ -34,9 +34,31 @@
                             <br>
                             지금 로그인하세요!
                             <br />
-                            <v-btn class="allbtn px-5 py-2" color="#0d875C">
-                                <LoginModal />
-                            </v-btn>
+                            <v-dialog  width="350px ">
+                                <template v-slot:activator="{ on, attrs }">                                    
+                                    <v-btn
+                                        class="allbtn px-5 py-2"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        color="#0d875C"
+                                        v-if="$store.getters.accessToken == ''"
+                                    >
+                                    LOGIN
+                                    </v-btn>
+                                    <v-btn
+                                        class="allbtn px-5 py-2"
+                                        color="#0d875C"
+                                        v-if="$store.getters.accessToken !== ''"
+                                        @click="checkLogin"
+                                    >
+                                    Main
+                                    </v-btn>
+                                </template>
+                                <v-card style="width:350px; height:280px">
+                                    <v-card-title>LOGIN</v-card-title>
+                                    <v-card-text style=" background-color:white; height:90px; padding-bottom:0"><Login style="height:120px;padding-bottom:0"/></v-card-text>
+                                </v-card>
+                            </v-dialog>
                             <br>
                             없다면 가입하고 이용해보세요!
                             <br>
@@ -83,10 +105,11 @@
 </template>
 
 <script>
-import LoginModal from "../../components/common/LoginModal";
-
+import Login from '@/page/user/Login'
 export default {
-    components: { LoginModal },
+    components: {
+        Login,
+    },
     data() {
         return {
             isStarting: false,
@@ -103,7 +126,11 @@ export default {
         localSave(){
             localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
             localStorage.setItem("wsboard.channelName", "Tutorial Channel");
-            location.href = "/channel/earlyBird10TeamTestChannel1";
+        },
+        checkLogin() {
+            if(this.$store.getters.accessToken !== ''){
+                this.$router.push('/main')
+            }
         },
     },
     created() {

@@ -7,7 +7,7 @@ const instance = createInstance(API_BASE_URL);
 
 function initialRecv(isTestPage, accessToken, success, fail) {
   var url = `/${channelId}`;
-  if (isTestPage) url = "/tutorial/earlyBird10TeamTestChannel1";
+  if (isTestPage) {url = "/tutorial/earlyBird10TeamTestChannel1";}
   instance
     .get(url, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -28,7 +28,7 @@ function getHistories(success, fail) {
 // 공지사항 REST API 
 function getAllNotice(isTestPage, accessToken, success, fail) {
   var url = `/${channelId}/notice`;
-  if (isTestPage) url = "/tutorial/earlyBird10TeamTestChannel1/notice";
+  if (isTestPage) {url = "/tutorial/earlyBird10TeamTestChannel1/notice";}
   instance
     .get(url, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -40,7 +40,7 @@ function getAllNotice(isTestPage, accessToken, success, fail) {
 function createNotice(notice, isTestPage, accessToken, success, fail) {
   console.log
   var url = `/${channelId}/notice`;
-  if (isTestPage) url = "/tutorial/earlyBird10TeamTestChannel1/notice";
+  if (isTestPage) {url = "/tutorial/earlyBird10TeamTestChannel1/notice";}
   instance
     .post(url, notice, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -52,7 +52,7 @@ function createNotice(notice, isTestPage, accessToken, success, fail) {
 
 function getNotice(channelId, noticeId, isTestPage, accessToken, success, fail) {
   var url = `/${channelId}/notice/${noticeId}`;
-  if (isTestPage) url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
+  if (isTestPage) {url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;}
   instance
     .get(url, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -63,7 +63,7 @@ function getNotice(channelId, noticeId, isTestPage, accessToken, success, fail) 
 
 function updateNotice(notice, channelId, noticeId, isTestPage, accessToken, success, fail) {
   var url = `/${channelId}/notice/${noticeId}`;
-  if (isTestPage) url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
+  if (isTestPage) {url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;}
   instance
     .put(url, notice, {
       headers: { Authorization: "Bearer " + accessToken }
@@ -74,7 +74,7 @@ function updateNotice(notice, channelId, noticeId, isTestPage, accessToken, succ
 
 function deleteNotice(noticeId, isTestPage, accessToken, success, fail) {
   var url = `/${channelId}/notice/${noticeId}`;
-  if (isTestPage) url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;
+  if (isTestPage) {url = `/tutorial/earlyBird10TeamTestChannel1/notice/${noticeId}`;}
   instance
     .delete(url, {
       headers: { Authorization: "Bearer " + accessToken }

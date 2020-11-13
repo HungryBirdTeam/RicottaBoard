@@ -167,5 +167,8 @@ export default {
   width: 550px;
   box-shadow: .5rem 1rem 2rem rgba(0,0,0,.3)!important;
 }
+.v-event {
+  z-index: 0 !important;
+}
 </style>
 

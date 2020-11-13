@@ -24,4 +24,13 @@ public class MailSendRequest {
     @ApiModelProperty(value = "A valid email", required = true, allowableValues = "NonEmpty String")
     private List<String> email;
 
+
+    @NullOrNotBlank(message = "Registration channelName can be null but not blank")
+    @ApiModelProperty(value = "A valid channelName", allowableValues = "NonEmpty String")
+    private String channelName;
+
+
+    @NullOrNotBlank(message = "Registration FromWho can be null but not blank")
+    @ApiModelProperty(value = "A valid user from", allowableValues = "NonEmpty String")
+    private String from;
 }

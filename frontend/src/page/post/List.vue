@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color:#f5f5ec">
     <v-container fluid>
       <div class="d-flex justify-space-between head">
         <div class="head-title">나의 모임목록 </div>
@@ -75,7 +75,7 @@
                     style="height: 100%; align-items: center; bottom: 0; justify-content: center; opacity: .5; position: absolute; width: 100%; ">
                     <br />
                     <br />
-                    <span class="hover">생성하기</span>
+                    <span class="channel-hover">생성하기</span>
                   </div>
                 </v-expand-transition>
                 <v-card-title >
@@ -253,7 +253,7 @@ export default {
   font-size: 1.875em;
   font-weight: 600;
 }
-.hover {
+.channel-hover {
   font-size: 1.5rem;
   color: white;
 }
