@@ -149,7 +149,7 @@ export default {
         console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
-          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + '<span class="time">' + time + "</span>" + "</div>"
+          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + '<span class="chat-time">' + time + "</span>" + "</div>"
         );
 
       if (!this.chattingBox) {
@@ -173,7 +173,7 @@ export default {
       var name = data.from.name;
       var msg = data.msg;
       var time = data.time;
-      $(".chatbox").append('<div class="my-bubble bubble">' + msg + '<span class="time">' + time + "</span>" + "</div>");
+      $(".chatbox").append('<div class="my-bubble bubble">' + msg + '<span class="chat-time">' + time + "</span>" + "</div>");
 
       setTimeout(function () {
         $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
@@ -440,7 +440,7 @@ export default {
   left: -32px;
 }
 
-.time {
+.chat-time {
   position: absolute;
   bottom: 0px;
   font-size: 0.7rem !important;
