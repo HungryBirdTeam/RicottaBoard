@@ -167,6 +167,7 @@
 <script>
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
+import * as userApi from '@/api/user.js';
 
 export default {
   components: {},
@@ -195,12 +196,23 @@ export default {
       } else if (!this.isTerm) {
         this.createSnackbar("약관을 읽어보시고, 동의란에 체크해주세요.", 2000, "error");
       } else {
-        this.$store.dispatch(constants.METHODS.CREATE_USER, {
-          email,
-          password,
-          nickName,
-          realName,
-        });
+        this.$store.commit(constants.METHODS.EMAILCHECK, "reset");
+        const data = {
+          "email": this.email,
+          "password": this.password,
+          "registerAsAdmin": false,
+          "username": this.realName,
+          "nickname": this.nickName,
+        };
+        console.log(data)
+        userApi.createUser(data,
+          () => {
+            console.log("create req success")
+          },
+          err => {
+            console.log('error', err);
+            this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
+          });
         this.$router.push(constants.URL_TYPE.USER.JOINDONE);
       }
     },

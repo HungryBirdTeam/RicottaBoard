@@ -121,31 +121,6 @@ export const store = new Vuex.Store({
             this.$router.go(0);
         },
         /**
-         * 회원가입 메소드
-         */
-        [constants.METHODS.CREATE_USER]: (_store, payload) => {
-            store.commit(constants.METHODS.EMAILCHECK, "reset");
-            const data = {
-                "email": payload.email.value,
-                "password": payload.password.value,
-                "registerAsAdmin": false,
-                "username": payload.realName.value,
-                "nickname": payload.nickName.value,
-            };
-            userApi.createUser(data,
-                    () => {
-                        console.log("create req success")
-                    },
-                    err => {
-                        store.dispatch("throwError", err)
-                    })
-                // authConnect.post(url, data)
-                //     .then(() => console.log("create req success"))
-                //     .catch(exp => {
-                //         store.dispatch("throwError", exp);
-                //     });
-        },
-        /**
          * 이메일 중복 체크 메소드
          */
         [constants.METHODS.EMAILCHECK]: (store, payload) => {
