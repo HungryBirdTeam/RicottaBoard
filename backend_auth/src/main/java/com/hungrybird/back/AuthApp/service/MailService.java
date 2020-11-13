@@ -149,7 +149,8 @@ public class MailService {
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("urlToRegistration", "https://"+ GlobalVariables.host+GlobalVariables.frontPort+"/user/signup");
-        mail.getModel().put("channelName", channelName);
+//        mail.getModel().put("channelName", channelName);
+        // System.out.println(from);
         mail.getModel().put("from", from);
 //        mail.getModel().put("invitationLink", inviteUrl);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
