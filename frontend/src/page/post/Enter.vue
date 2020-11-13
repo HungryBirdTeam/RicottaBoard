@@ -126,7 +126,6 @@ export default {
         localSave(){
             localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
             localStorage.setItem("wsboard.channelName", "Tutorial Channel");
-            location.href = "/channel/earlyBird10TeamTestChannel1";
         },
         checkLogin() {
             if(this.$store.getters.accessToken !== ''){

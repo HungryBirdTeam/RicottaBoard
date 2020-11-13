@@ -417,7 +417,7 @@ export default {
   float: left;
   clear: both;
 }
-.friend-bubble .time{
+.friend-bubble .chat-time{
   margin-left: 20px;
 }
 .goodchat-bubble {
@@ -436,7 +436,7 @@ export default {
   clear: both;
 }
 
-.my-bubble .time{
+.my-bubble .chat-time{
   left: -32px;
 }
 

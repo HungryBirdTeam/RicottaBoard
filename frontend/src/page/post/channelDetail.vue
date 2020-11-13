@@ -396,7 +396,7 @@ export default {
   created() {
     this.channelId = this.$route.params.channelId;
     localStorage.setItem("wsboard.channelId", this.channelId);
-    if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
+    if (this.channelId === "earlyBird10TeamTestChannel1") {
       this.testPage = true;
     }
     else {
@@ -501,6 +501,7 @@ export default {
       boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
         (response) => {
           console.log("initRecv@@@@");
+          consoel.log(this.testPage);
           console.log(response.data);
           // this.board.postitList = response.data.postitList;
           this.board.idCount = response.data.idCount;
