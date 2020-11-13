@@ -123,6 +123,9 @@ export default {
       $(".chatbox").append(
         '<div class="inout-bubble">' + data + "님이 입장하셨습니다.</div>"
       );
+      setTimeout(function () {
+        $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
+      }, 50);
     });
 
     this.$socket.on("clientList", (data) => {
@@ -184,6 +187,9 @@ export default {
           data.from.name +
           "님이 나가셨습니다.</div>"
       );
+      setTimeout(function () {
+        $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
+      }, 50);
     });
   },
 
@@ -355,6 +361,7 @@ export default {
 }
 .client-list {
   display: flex;
+  overflow-x: auto;
 }
 .content {
   position: absolute;
@@ -394,6 +401,7 @@ export default {
   margin: 5px 0;
   max-width: 300px;
   font-size: 14px;
+  text-align: center;
   position: relative;
 }
 
