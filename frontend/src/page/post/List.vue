@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <div class="d-flex justify-space-between head">
+      <div class="d-flex justify-space-between head" style="background-color:#f5f5ec">
         <div class="head-title">나의 모임목록 </div>
       </div>
       <v-row>
