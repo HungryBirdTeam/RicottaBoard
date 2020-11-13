@@ -1,15 +1,28 @@
 <template>
   <div class="chat">
+    <v-responsive>
       <v-btn
         class="chat-button justify-center ma-3"
         fab
-        @click="chattingBox = !chattingBox"
+        @click="toggleChattingBox()"
         width="50px"
         height="50px"
         :color="gradColor()"
+        @mouseover="isHover=true"
+        @mouseout="isHover=false"
       >
         <v-icon color="white" size="28px">mdi-chat-processing</v-icon>
+        <div v-show="notread != 0" class="dot"></div>
       </v-btn>
+      <transition name="fade">
+        <v-responsive
+          class="hover chat-hover"
+          v-show="isHover & notread"
+          >
+          <strong>안 읽은 메시지</strong> | {{ notread }}개
+        </v-responsive>
+      </transition>
+    </v-responsive>
     <v-navigation-drawer
       v-model="chattingBox"
       :permanent="chattingBox"
@@ -127,13 +140,13 @@ export default {
     this.$socket.on("s2c_chat", (data) => {
       var name = data.from.name;
       var msg = data.msg;
-
+      var time = data.time;
       if (name === this.naname) {
         // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
         console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
-          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + "</div>"
+          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + "</div>" +'<span class="time">' + time + "</span>"
         );
 
       if (!this.chattingBox) {
@@ -156,8 +169,8 @@ export default {
     this.$socket.on("s2c_chat_me", (data) => {
       var name = data.from.name;
       var msg = data.msg;
-
-      $(".chatbox").append('<div class="my-bubble bubble">' + msg + "</div>");
+      var time = data.time;
+      $(".chatbox").append('<span class="time">' + time + "</span>" + '<div class="my-bubble bubble">' + msg + "</div>");
 
       setTimeout(function () {
         $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
@@ -193,7 +206,7 @@ export default {
       chatMsgs: [],
       naname: "",
       notread: 0,
-
+      isHover: false,
       chatlog: {
         id: null,
         message: "",
@@ -204,6 +217,10 @@ export default {
     };
   },
   methods: {
+    toggleChattingBox() {
+      this.notread = 0
+      this.chattingBox = !this.chattingBox;
+    },
     saveChatlog() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
@@ -429,6 +446,34 @@ export default {
   margin-right: 10px;
   padding: 2px;
 }
+
+.dot {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  background-color: rgb(255, 89, 34);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.hover {
+  background-color: white;
+  width: auto;
+  height: auto;
+  position: fixed;
+  z-index: 2;
+  left: 95px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chat-hover{
+  bottom: 157px;
+}
+
+
 
 #sendToBoard {
   background-color: skyblue;

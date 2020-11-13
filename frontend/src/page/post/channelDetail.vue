@@ -13,7 +13,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('postit', $event)"
@@ -30,7 +30,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('kanban', $event)"
@@ -47,7 +47,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('scheduler', $event)"
@@ -64,7 +64,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('poll', $event)"
@@ -81,7 +81,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('editor', $event)"
@@ -97,7 +97,7 @@
             <div v-on="on">
               <v-btn
                 icon
-                color="orange"
+                color="#FF9300"
                 @click="pleaseDrag"
                 draggable="true"
                 @dragend="moduleDragEnd('video', $event)"
@@ -461,6 +461,7 @@ export default {
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
       var _this = this;
+      console.log("채널 구독하기" + _this.board.channelId);
       ws.connect(
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
