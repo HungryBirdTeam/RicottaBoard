@@ -17,7 +17,7 @@
       <transition name="fade">
         <v-responsive
           class="hover chat-hover"
-          v-show="isHover & notread"
+          v-show="isHover "
           >
           <strong>안 읽은 메시지</strong> | {{ notread }}개
         </v-responsive>
@@ -305,7 +305,6 @@ export default {
 <style>
 .chat-button {
   position: fixed;
-  z-index: 3;
   bottom: 140px;
   left: 12px;
   width: 50px;
@@ -481,7 +480,7 @@ export default {
   height: auto;
   position: fixed;
   z-index: 2;
-  left: 95px;
+  left: 90px;
   padding: 8px 16px;
   border-radius: 4px;
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
