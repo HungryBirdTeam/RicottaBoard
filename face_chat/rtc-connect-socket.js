@@ -57,16 +57,33 @@ io.on('connection', function(socket) {
         socket.join(channel);
 
         io.sockets.in(channel).emit('new member');
-    });
 
-    // socket.on('new member', channel => {
-    //     io.sockets.in(channel).emit('alert');
-    // });
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 3000);
+
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 5000);
+
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 7000);
+    });
 
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
+
+
     });
 
+    socket.on('on video', info => {
+        io.sockets.in(info.channel).emit('on video', info.member);
+    })
+
+    socket.on('off video', info => {
+        io.sockets.in(info.channel).emit('off video', info.member);
+    });
 
 });
 

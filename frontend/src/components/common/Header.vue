@@ -1,29 +1,23 @@
 <template>
   <div id="header">
-    <h1>
-      <router-link 
-        class="white--text"
-        style="color:rgb(0,0,0);"
-        v-if="this.$store.getters.accessToken != ''"
-        v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"
-      >
-        <img
-          style="position:absolute;top:0px;  margin-top:7px; width:auto;height:50px;"
-          src="../../assets/img/Logo.png"
-        />
-      </router-link>
+      <!-- <div class="left">
+        <div class="headBox mt-1">
+      
+          
+        </div> 
+      </div> -->
       <router-link
-        class="white--text"
-        style="color:rgb(0,0,0);"
-        v-if="this.$store.getters.accessToken == ''"
-        v-bind:to="{name:constants.URL_TYPE.POST.ENTER}"
-      >
-        <img
-          style="position:absolute;top:0px;  margin-top:7px; width:auto;height:50px;"
-          src="../../assets/img/Logo.png"
-        />
-      </router-link>
-    </h1>
+            class="white--text left"
+            style="color:rgb(0,0,0);"
+            v-if="this.$store.getters.accessToken == ''"
+            v-bind:to="{name:constants.URL_TYPE.POST.ENTER}"
+          >
+            <img
+              style="position:absolute ;top:0px;  margin: 10px 20px; width:auto;height:50px;"
+              src="../../assets/img/Logo.png"
+            />
+          </router-link>
+    
     <div class="right">
       <template v-if="this.$store.getters.accessToken != ''">
         <div class="headBox mt-1">
@@ -154,6 +148,7 @@ export default {
   background:#0d875C;
   border:solid 0px;
   height: 70px;
+  padding: 12px 40px 12px 0px;
 }
 
 #header a{
