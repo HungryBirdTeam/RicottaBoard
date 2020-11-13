@@ -13,6 +13,7 @@
  */
 package com.hungrybird.back.AuthApp.service;
 
+import com.hungrybird.back.AuthApp.GlobalVariables;
 import com.hungrybird.back.AuthApp.model.Mail;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -135,6 +136,20 @@ public class MailService {
         mail.getModel().put("invitationLink", inviteUrl);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
         Template template = templateConfiguration.getTemplate("circle-invite.ftl");
+        String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
+        mail.setContent(mailContent);
+        send(mail);
+    }
+
+    public void sendRegistrationMail(String to) throws IOException, TemplateException, MessagingException {
+        Mail mail = new Mail();
+        mail.setSubject("[리코타 보드] 초대받으셨습니다!");
+        mail.setTo(to);
+        mail.setFrom(mailFrom);
+        mail.getModel().put("urlToRegistration", "https://"+ GlobalVariables.host+GlobalVariables.frontPort+"/user/signup");
+//        mail.getModel().put("invitationLink", inviteUrl);
+        templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
+        Template template = templateConfiguration.getTemplate("email-registration.ftl");
         String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
         mail.setContent(mailContent);
         send(mail);
