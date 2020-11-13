@@ -73,7 +73,15 @@ function loadChannelInfo(channelId, email, _socket) {
     })
 
 
-    socket.on('new member', () => {
+    socket.on('new member', member => {
+        //기존 Connection 정리
+        if (users.has(member)) {
+            channelPeerConnectionsMap.get(member).close();
+            users.delete(member);
+            channelPeerConnectionsMap.delete(member);
+            streamMap.delete(member);
+            streamSenderMap.delete(member);
+        }
 
         var info = { channel: channel, member: myInfo };
         socket.emit('alert member', info);
@@ -145,30 +153,18 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     });
 
-    socket.on('out of room', member => {
-        channelPeerConnectionsMap.get(member).close();
-        users.delete(member);
-        channelPeerConnectionsMap.delete(member);
-        streamMap.delete(member);
-        streamSenderMap.delete(member);
-
-        console.log(member, "그룹에서 나갔습니다.");
-        console.dir(users);
-        console.dir(channelPeerConnectionsMap);
-        console.dir(streamMap);
-        console.dir(streamSenderMap);
-    })
-
     socket.on('who is video on', () => {
-        console.log("who's video on");
         if (isVideoOn) {
             createOffer();
         }
     });
 
 
-
-    socket.emit('join channel', channel);
+    var info = {
+        channel = channel,
+        member = myInfo
+    }
+    socket.emit('join channel', info);
 
 }
 
@@ -259,9 +255,9 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
-            pc.oniceconnectionstatechange = event => {
-                handleConnectionEvent(event, member);
-            }
+            // pc.oniceconnectionstatechange = event => {
+            //     handleConnectionEvent(event, member);
+            // }
 
             channelPeerConnectionsMap.set(member, pc);
         }
@@ -299,34 +295,6 @@ function handleIceCandidate(event, member) {
         console.log('End of candidates.');
     }
 }
-
-function handleConnectionEvent(event, member) {
-    const status = channelPeerConnectionsMap.get(member).iceConnectionState;
-
-    if (status == "disconnected" || status == "failed" || status == "closed") {
-        channelPeerConnectionsMap.get(member).close();
-        users.delete(member);
-        channelPeerConnectionsMap.delete(member);
-        streamMap.delete(member);
-        streamSenderMap.delete(member);
-
-        console.log(member, "그룹에서 나갔습니다.");
-        console.dir(users);
-        console.dir(channelPeerConnectionsMap);
-        console.dir(streamMap);
-        console.dir(streamSenderMap);
-    }
-}
-
-
-// function handleRemoteStreamRemoved(event, member) {
-//     console.log('Remote stream removed. Event: ', event);
-//     var videoComponent = document.getElementById("video_" + member);
-//     if (videoComponent != undefined) {
-//         console.log("src removed");
-//         videoComponent.srcObject = null;
-//     }
-// }
 
 /////////////////////////////////
 

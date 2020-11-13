@@ -53,10 +53,11 @@ io.on('connection', function(socket) {
         io.sockets.in(channel).emit('receiver info', connect);
     });
 
-    socket.on('join channel', function(channel) {
-        socket.join(channel);
+    socket.on('join channel', info => {
 
-        io.sockets.in(channel).emit('new member');
+        socket.join(info.channel);
+
+        io.sockets.in(info.channel).emit('new member', info.member);
 
         setTimeout(() => {
             io.sockets.in(channel).emit('who is video on');
@@ -82,10 +83,6 @@ io.on('connection', function(socket) {
 
     socket.on('off video', info => {
         io.sockets.in(info.channel).emit('off video', info.member);
-    });
-
-    socket.on('out of room', info => {
-        io.sockets.in(info.channel).emit('out of room', info.member);
     });
 
 });
