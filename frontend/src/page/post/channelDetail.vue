@@ -460,6 +460,13 @@ export default {
       // this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
+
+      window.onbeforeunload = function(event) {
+        this.$faceChatSocket.emit("out of room", {
+          channel : this.board.channelId,
+          member : this.userEmail
+        });
+      };
       var _this = this;
       console.log("채널 구독하기" + _this.board.channelId);
       ws.connect(

@@ -145,6 +145,14 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     });
 
+    socket.on('out of room', member => {
+        channelPeerConnectionsMap.get(member).close();
+        users.delete(member);
+        channelPeerConnectionsMap.delete(member);
+        streamMap.delete(member);
+        streamSenderMap.delete(member);
+    })
+
     socket.on('who is video on', () => {
         console.log("who's video on");
         if (isVideoOn) {

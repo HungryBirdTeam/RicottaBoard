@@ -74,7 +74,6 @@ io.on('connection', function(socket) {
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
 
-
     });
 
     socket.on('on video', info => {
@@ -83,6 +82,10 @@ io.on('connection', function(socket) {
 
     socket.on('off video', info => {
         io.sockets.in(info.channel).emit('off video', info.member);
+    });
+
+    socket.on('out of room', info => {
+        io.sockets.in(info.channel).emit('out of room', info.member);
     });
 
 });
