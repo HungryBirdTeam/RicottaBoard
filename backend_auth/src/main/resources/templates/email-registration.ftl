@@ -22,7 +22,7 @@
         </div>
 
         <div class="buttonHere">
-            <a class="button__a" href="${userEmailTokenVerificationLink}" target="_blank" rel="noopener">
+            <a class="button__a" href="${urlToRegistration}" target="_blank" rel="noopener">
                 Register Here!</a>
         </div>
 
