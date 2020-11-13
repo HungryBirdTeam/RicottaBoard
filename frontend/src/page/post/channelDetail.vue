@@ -7,6 +7,14 @@
         <History style="position: fixed; right: 12px;"/>    
         <Notice/>  
       </div>
+      <v-snackbar 
+        app
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+        >{{ snackbar.text }}</v-snackbar
+      >
       <div class="toolBox">
         <v-tooltip right>
           <template v-slot:activator="{ on }">
