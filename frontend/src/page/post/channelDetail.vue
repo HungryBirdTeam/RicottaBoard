@@ -466,6 +466,8 @@ export default {
           channel : this.board.channelId,
           member : this.userEmail
         });
+
+        return "bye";
       };
       var _this = this;
       console.log("채널 구독하기" + _this.board.channelId);
