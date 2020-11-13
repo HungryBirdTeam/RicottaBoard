@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-
+const fs = require('fs');
 const cors = require("cors");
  
 const db = require("./app/models");
@@ -26,10 +26,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./app/routes/chatlog.routes.js")(app);
 
 
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+  requestCert: false,
+  rejectUnauthorized: false
+};
 
-
-
-var server = require('http').createServer(app);
+var server = require('https').createServer(options, app);
 
 // http server를 socket.io server로 upgrade한다
 var io = require('socket.io')(server);
@@ -53,15 +58,6 @@ app.get('/index', function(req, res) {
 app.get('/cam', function(req, res) {
     res.sendFile(__dirname + '/cam.html');
 });
-
-// NameSpace 사용. 경로할당
-// Server-side
-// var nsp = io.of('/space');
-// nsp.on('connection', function(socket){
-//     console.log('someone connected');
-// });
-// nsp.emit('hi', 'everyone!');
-
 
 // connection event handler
 // connection이 수립되면 event handler function의 인자로 socket인 들어온다
@@ -109,11 +105,11 @@ io.on('connection', function(socket) {
         }, 1000);
         
     });
-
     // 클라이언트로부터의 메시지가 수신되면
     socket.on('chat', function(data) {
         console.log('Message from %s, 내용 : %s', socket.name, data.msg);
-
+      
+        var date = new Date();
         var msg = {
             to: {
                 name: '',
@@ -124,6 +120,7 @@ io.on('connection', function(socket) {
             },
             msg: data.msg,
             id: '',
+            time: date.getHours().toString() + ':' + date.getMinutes().toString()
         };
 
         io.to(room).emit('s2c_chat', msg);
@@ -154,26 +151,6 @@ io.on('connection', function(socket) {
      
   });
 
-    //     // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    //     // socket.broadcast.emit('chat', msg);
-
-    //     // 메시지를 전송한 클라이언트에게만 메시지를 전송한다
-    //     // socket.emit('s2c chat', msg);
-
-    //     // 접속된 모든 클라이언트에게 메시지를 전송한다
-    //     // io.emit('s2c chat', msg);
-
-    //     // 특정 클라이언트에게만 메시지를 전송한다
-    //     //io.to(data.id).emit('s2c chat', msg);
-
-    //     // room
-    //     var room = socket.room = data.id;
-    //     console.log('('+socket.name+') room : ' + room);
-    //     socket.join(room);
-
-    //     io.to(room).emit('s2c chat', msg);
-    // });
-
     // force client disconnect from server
     socket.on('forceDisconnect', function() {
         console.log(socket.name + "님이 소켓 연결을 끊으셨습니다.")
@@ -190,7 +167,6 @@ io.on('connection', function(socket) {
           },
       };
 
-//        io.emit('out', msg);
       io.to(room).emit('out', msg);
 
       // 소켓 room에서 빠져나온 뒤 clientList 다시 프론트로 전송
@@ -215,7 +191,6 @@ io.on('connection', function(socket) {
             },
         };
 
-//        io.emit('out', msg);
         io.to(room).emit('out', msg);
 
         // 소켓 room에서 빠져나온 뒤 clientList 다시 프론트로 전송

@@ -56,22 +56,37 @@ io.on('connection', function(socket) {
     socket.on('join channel', function(channel) {
         socket.join(channel);
 
-        // var clientsInRoom = io.sockets.adapter.rooms[channel];
-        // var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
-
-        // io.sockets.in(channel).emit('new member', numClients);
         io.sockets.in(channel).emit('new member');
-    });
 
-    socket.on('new member', channel => {
-        io.sockets.in(channel).emit('alert');
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 3000);
+
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 5000);
+
+        setTimeout(() => {
+            io.sockets.in(channel).emit('who is video on');
+        }, 7000);
     });
 
     socket.on('alert member', info => {
         io.sockets.in(info.channel).emit('member', info.member);
+
     });
 
-    socket.broadcast.emit('test', "connection success!");
+    socket.on('on video', info => {
+        io.sockets.in(info.channel).emit('on video', info.member);
+    })
+
+    socket.on('off video', info => {
+        io.sockets.in(info.channel).emit('off video', info.member);
+    });
+
+    socket.on('out of room', info => {
+        io.sockets.in(info.channel).emit('out of room', info.member);
+    });
 
 });
 

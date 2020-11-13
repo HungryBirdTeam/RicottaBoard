@@ -45,11 +45,13 @@ public class MemberService {
 
     // 사용자 정보 + 채널 정보 POST
     public InviteChannelResponse callPostBoardServer(InviteChannelRequest inviteChannelRequest) {
-//        return apiService.post("http://i3a510.p.ssafy.io/board/channel/invitation"
+//        return apiService.post("http://k3a204.p.ssafy.io/board/channel/invitation"
 //                , HttpHeaders.EMPTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
         InviteChannelRequest inviteChannelRequest1 = inviteChannelRequest;
         System.out.println(inviteChannelRequest1.getChannelId()+"--------"+inviteChannelRequest1.getUser().getEmail());
-        return apiService.post("http://"+ GlobalVariables.host + GlobalVariables.boardPort + "/board/channel/invitation"
+//        return apiService.post("http://"+ GlobalVariables.host + GlobalVariables.boardPort + "/board/channel/invitation"
+
+        return apiService.post("https://"+ GlobalVariables.host + GlobalVariables.boardPort + "/api/board/channel/invitation"
                 , HttpHeaders.EMPTY, inviteChannelRequest, InviteChannelResponse.class).getBody();
     }
 

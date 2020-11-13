@@ -43,9 +43,8 @@ export default {
 
 <style>
 .paper{  
-  /* background-color: yellow; */
-  background-image: url('../../assets/img/postIt.png');
-  background-size: 100% 100%;
+  background-image: url('../../assets/img/postIt.png') !important; 
+  background-size: 100% 100% !important;
   width: 300px;
   height: 300px;
   position: absolute;
@@ -75,5 +74,11 @@ export default {
 .MoveableBox {
   padding: 30px;
   position: absolute;
+  background: linear-gradient(-135deg,  #FC887C 20px, transparent 20px);
+}
+
+
+.rCS53a2i7 {
+  z-index: 0 !important;
 }
 </style>

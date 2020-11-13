@@ -17,13 +17,13 @@
     <button id="add">스트림 추가</button>
     <div id="videos">
         <video id="localVideo" autoplay muted playsinline style="border: 1px solid black;"></video>
-        <video id="remoteVideo" autoplay playsinline></video>
+        <video id="remoteVideo" autoplay playsinline style="border: 1px solid black;" src=""></video>
     </div>
 
-    <div class="MoveableBox" style="border: 1px solid black;">
+    <!-- <div class="MoveableBox" style="border: 1px solid black;">
         <video :id="videoInfo.vdId" style="width: 300px; height: 300px;" autoplay playsinline> </video>
         <button v-show="userEmail== myEmail" id="videoOn" :click="onVideo(videoInfo.vdId)">on</button>
-    </div>
+    </div> -->
 
     <!-- This file is automatically added/served when running "node index.js". -->
     <!-- <script src="https://k3a204.p.ssafy.io/api/facechat/socket.io/socket.io.js"></script> -->

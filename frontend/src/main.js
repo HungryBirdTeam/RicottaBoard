@@ -13,7 +13,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import * as API from '../src/api/index.js'
 
 // const socket = io(API.CHAT_BASE_URL);
-const socket = io("https://k3a204.p.ssafy.io/api/chat");
+const socket = io("https://k3a204.p.ssafy.io:3030");
 console.log(socket);
 
 

@@ -33,7 +33,6 @@ public class SocketBoardMessage implements Serializable {
     @DiffIgnore
     private Long userCount;             // 현재 참여하고 있는 사용자 수
 
-    @DiffIgnore
     private List<String> memberList;    // 채널 참여 멤버 닉네임 리스트
 
     // 모듈 관련 정보
@@ -48,6 +47,6 @@ public class SocketBoardMessage implements Serializable {
     private List<Video> videoList;      // 화상 채팅 리스트 객체
 
     @JsonProperty(value = "userNickname")
-//    @DiffIgnore
+    @DiffIgnore
     private String editUser;            // 수정한 사용자
 }

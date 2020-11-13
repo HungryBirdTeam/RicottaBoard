@@ -1,215 +1,180 @@
 <template>
   <div id="app" v-cloak @click="cloakMoveable">
-    <div class="toolbar">
-      <v-snackbar
-        app
-        bottom
-        v-model="snackbar.isPresent"
-        :timeout="snackbar.timeout"
-        :color="snackbar.color"
-        >{{ snackbar.text }}</v-snackbar
-      >
-      <div>
-        <History style="position: fixed; right: 12px;"/>
-        <div class="toolBox">
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('postit', $event)"
-                >
-                  <v-icon>mdi-message</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Post-it</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('kanban', $event)"
-                >
-                  <v-icon>mdi-clipboard-list-outline</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Kanban-Board</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('scheduler', $event)"
-                >
-                  <v-icon>mdi-calendar</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Scheduler</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('poll', $event)"
-                >
-                  <v-icon>mdi-vote</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Poll</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('editor', $event)"
-                >
-                  <v-icon>mdi-language-markdown</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Editor</span>
-          </v-tooltip>
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="orange"
-                  @click="pleaseDrag"
-                  draggable="true"
-                  @dragend="moduleDragEnd('video', $event)"
-                >
-                  <v-icon>mdi-video-plus</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>Face Chat</span>
-          </v-tooltip>
-          <v-divider> </v-divider>
-
-          
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on" class="tool-divide">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="openInviteModal"
-                  draggable="true"
-                >
-                  <v-icon>mdi-account-supervisor-outline</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>멤버 초대하기</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="reset"
-                  draggable="true"
-                >
-                  <v-icon>mdi-arrow-expand-all</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>화면 위치 초기화</span>
-          </v-tooltip>
-
-          <v-tooltip right>
-            <template v-slot:activator="{ on }">
-              <div v-on="on">
-                <v-btn
-                  icon
-                  color="#FF5722"
-                  @click="openWithdrawalModal"
-                  draggable="true"
-                >
-                  <v-icon>mdi-close-circle</v-icon>
-                </v-btn>
-              </div>
-            </template>
-            <span>모임 나가기</span>
-          </v-tooltip>
-        </div>
-        <br />
+    
+    <div class="toolbar" style="height: 0px">
+      <div class="float">
+        <div @click="reset" class="channel-name"> {{ channelName }} </div>  
+        <History style="position: fixed; right: 12px;"/>    
+        <Notice/>  
       </div>
-    </div>
+      <div class="toolBox">
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('postit', $event)"
+              >
+                <v-icon>mdi-message</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Post-it</span>
+        </v-tooltip>
 
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('kanban', $event)"
+              >
+                <v-icon>mdi-clipboard-list-outline</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Kanban-Board</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('scheduler', $event)"
+              >
+                <v-icon>mdi-calendar</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Scheduler</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('poll', $event)"
+              >
+                <v-icon>mdi-vote</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Poll</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('editor', $event)"
+              >
+                <v-icon>mdi-language-markdown</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Editor</span>
+        </v-tooltip>
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF9300"
+                @click="pleaseDrag"
+                draggable="true"
+                @dragend="moduleDragEnd('video', $event)"
+              >
+                <v-icon>mdi-video-plus</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>Face Chat</span>
+        </v-tooltip>
+        <v-divider> </v-divider>
+
+        
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on" class="tool-divide">
+              <v-btn
+                icon
+                color="#FF5722"
+                @click="openInviteModal"
+                draggable="true"
+              >
+                <v-icon>mdi-account-supervisor-outline</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>멤버 초대하기</span>
+        </v-tooltip>
+
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <div v-on="on">
+              <v-btn
+                icon
+                color="#FF5722"
+                @click="openWithdrawalModal"
+                draggable="true"
+              >
+                <v-icon>mdi-close-circle</v-icon>
+              </v-btn>
+            </div>
+          </template>
+          <span>모임 나가기</span>
+        </v-tooltip>
+      </div>
+      <br />
+    </div>
     <v-responsive>
       <v-responsive
         class="userListBadge badge-info text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
         @mouseover="testIn"
         @mouseout="testOut"
-        style="background-color: black;"
+        style="background-color: #0d875c;"
       >
-        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 7px;"
-          ><div v-if="userCount != 0">{{ userCount }}</div></v-img
-        >
+        <v-img width="36px" src="@/assets/img/memberIconW.png" style="margin-left: 7px;"></v-img>
       </v-responsive>
 
-      <transition name="slide-fade">
+      <transition name="fade">
         <v-responsive
-          id="memberList"
-          class="text-center"
+          class="member-list text-center p-0 w-auto"
           v-show="memberView"
           align="center"
           justify="center"
         >
-          <main role="main" class="container">
-            <div class="my-3 p-3 bg-white rounded shadow-sm">
-              <h4 class="border-bottom border-gray pb-2 mb-0">
-                {{ this.channelName }}
-              </h4>
-
-              <div class="media pt-3 border-bottom asdf">
-                <div
+            <div class="px-3 py-2 bg-white rounded">
+              <span><strong>멤버</strong> ({{ userCount }}) | </span>
+                <span
                   v-for="(member, idx) in board.memberList"
                   :key="idx"
-                  class="media-body small lh-125 border-gray member"
+                  class="px-1"
                 >
                   {{ member }}
-                </div>
-              </div>
+              </span>
             </div>
-          </main>
         </v-responsive>
       </transition>
     </v-responsive>
-
-    <Notice/>
-
 
     <Moveable
       ref="moveable"
@@ -294,15 +259,16 @@
         <div
           class="video"
           v-for="(vd, idx) in this.board.videoList"
-          :key="vd.vdId"
+          :key="vd.id"
           @click.right="deleteTargetAction(idx, 'video', $event)"
         >
           <FaceChat
+            :id="vd.id"
             :videoInfo="vd"
             :channelId="board.channelId"
             :userEmail="vd.userEmail"
             :userNickname="vd.userNickname"
-            :myEmail="tempEmail"
+            :myEmail="userEmail"
             :style="{ left: vd.left, top: vd.top }"
           />
         </div>
@@ -334,7 +300,7 @@ import WithdrawalModal from "../../components/common/WithdrawalModal";
 import { renderer } from "./renderer";
 import * as boardApi from "../../api/board.js";
 import * as channelApi from "../../api/channel.js";
-import { loadChannelInfo, onVideo } from "../../services/FaceChatClientSocket.js"
+import { loadChannelInfo, offVideo } from "../../services/FaceChatClientSocket.js"
 import io from 'socket.io-client';
 
 
@@ -360,7 +326,7 @@ export default {
       tempEmail : "",
       // 소켓 서버 전송
       board: {
-        channelId: localStorage.getItem("wsboard.channelId"),
+        channelId: this.$route.params.channelId,
         idCount: 1,
         memberList: [],
         postitList: [],
@@ -401,8 +367,8 @@ export default {
         text: "",
         timeout: 1000,
       },
-      boardLengthX: 3250,
-      boardLengthY: 1750,
+      boardLengthX: 6000,
+      boardLengthY: 4000,
       boardScale: 1,
       boardX: this.boardLengthX / 2,
       boardY: this.boardLengthY / 2,
@@ -415,13 +381,13 @@ export default {
 
       memberView: false,
       idc: 0,
-      isPoll: false,
       testPage: false,
       isNotice: false,
     };
   },
   created() {
-    localStorage.setItem("wsboard.channelId", this.$route.params.channelId);
+    this.channelId = this.$route.params.channelId;
+    localStorage.setItem("wsboard.channelId", this.channelId);
     if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
       this.testPage = true;
     }
@@ -487,14 +453,22 @@ export default {
 
     },
     init() {
-      var sock = new SockJS(boardApi.API_BASE_URL + "/api/board/ws-stomp");
+      var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
       // this.board.channelId = localStorage.getItem("wsboard.channelId");
       // this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
+
+      window.onbeforeunload = function(event) {
+        this.$faceChatSocket.emit("out of room", {
+          channel : this.board.channelId,
+          member : this.userEmail
+        });
+      };
       var _this = this;
+      console.log("채널 구독하기" + _this.board.channelId);
       ws.connect(
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
@@ -508,7 +482,7 @@ export default {
         },
         function (error) {
           alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
-          location.href = "/";
+          _this.$router.push('/');
         }
       );
     },
@@ -544,6 +518,13 @@ export default {
           } else {            
             this.board.editorList = response.data.editorList;
             this.$store.state.editorList = response.data.editorList;
+          }
+          if (!response.data.videoList) {            
+            this.board.videoList = [];
+            this.$store.state.videoList = [];
+          } else {            
+            this.board.videoList = response.data.videoList;
+            this.$store.state.videoList = response.data.videoList;
           }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
@@ -582,6 +563,7 @@ export default {
       this.board.editorList = recv.editorList;
       this.$store.state.editorList = recv.editorList;
       this.board.videoList = recv.videoList;
+      this.$store.state.videoList = recv.videoList;
       //crudModule 초기화
       // this.board.crudModule = {
       //   modulType: "",
@@ -714,27 +696,34 @@ export default {
     },
 
     createVideo() {
-      if (this.board.videoOn) {
-        this.createSnackbar("비디오가 이미 실행 중입니다!", 3000, "error");
+      let exitMyVideo = false;
+      if(this.userEmail == "") {
+        alert("로그인 후 이용 가능합니다.");
+        return;
+      }
+
+      for (var video of this.board.videoList) {
+        if(this.userEmail != "" && video.userEmail == this.userEmail) {
+          exitMyVideo = true;
+          break;
+        }
+      }
+
+      if (this.board.videoOn || exitMyVideo) {
+        console.log("already loaded video component");
+        this.createSnackbar("비디오 컴포넌트가 이미 생성 중입니다!", 3000, "error");
       } else {
-        // const newVideo = {
-        //   vdId: "video_"+this.userEmail,
-        //   userEmail: this.userEmail,
-        //   userNickname: this.board.userNickname,
-        //   left: this.moduleXP + "px",
-        //   top: this.moduleYP + "px",
-        //   isHidden: false,
-        // };
+        const idc = this.board.idCount++;
         const newVideo = {
-          vdId: "video_"+this.board.videoList.length.toString(),
-          userEmail: this.board.videoList.length.toString(),
-          userNickname: this.board.videoList.length.toString(),
+          id : idc,
+          vdId: "video_"+this.userEmail,
+          userEmail: this.userEmail,
+          userNickname: this.$store.state.userData.nickname,
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
           isHidden: false,
         };
-        this.tempEmail = this.board.videoList.length.toString();
-        console.dir(newVideo);
+        
         this.board.videoList.push(newVideo);
         this.board.videoOn = true;
         this.sendMessage();
@@ -784,7 +773,7 @@ export default {
             });
           } else if (clas[cla] == "video") {
             this.board.videoList.map((video) => {
-              if (video.vdId == target.id) {
+              if (video.id == target.id) {
                 (video.left = `${left}px`), (video.top = `${top}px`);
               }
             });
@@ -866,13 +855,21 @@ export default {
           this.board.delete.id = this.board.editorList[idx].mdId;
           this.board.editorList.splice(idx, 1);
         } else if (moduleName === "video") {
-          var id = this.board.videoList[idx].vdId;
+          offVideo();
+          const video = this.board.videoList[idx]
+          var id = video.id;
           // if(id.substring(6, id.length) != this.$store.state.userData.email) {
           //   return;
           // }
           this.board.delete.moduleName = "video";
-          this.board.delete.id = this.board.videoList[idx].vdId;
+          this.board.delete.id = video.id;
           this.board.videoList.splice(idx, 1);
+
+          if(this.userEmail != "" && video.userEmail == this.userEmail) {
+            this.board.videoOn = false;
+          } else if(this.userEmail == "") {
+            this.board.videoOn = false;
+          }
         }
         this.sendMessage();
         this.cloakMoveable();
@@ -1150,20 +1147,36 @@ export default {
     );
 
   background-size: 250px 250px;
-  /* transition: all 0.05s; */
 }
 
 .moveable-control-box {
   display: none;
 }
+.channel-name {
+  position: fixed;
+  z-index: 50000;
+  top: 85px;
+  left: 12px;
+  margin-left: 12px;
+  font-size: 1.2rem;
+  background-color: white;
+  padding: 6px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.07), 0px 3px 14px 2px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  color: #48524a;
 
+}
 .toolBox {
   font-family: "Roboto", sans-serif;
   /* position: relative; */
   position: fixed;
   z-index: 3;
-  width: 56px;
-  top: 30%;
+  width: 50px;
+  top: 25%;
   left: 12px;
   margin-left:12px;
   padding: 10px 0px;
@@ -1171,8 +1184,9 @@ export default {
   background-color: white;
   text-align: center;
   vertical-align: middle;
-  border-radius: 20px;
-  border: 2px solid rgba(104, 104, 104, 0.5);
+  border-radius: 5px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05); 
 }
 
 .toolbar {
@@ -1185,9 +1199,7 @@ export default {
   z-index: 3;
   bottom: 20px;
   left: 12px;
-  border: solid black 1px;
   background-color: white;
-  /* border-radius: 50%; */
   width: 50px;
   height: 50px;
 }
@@ -1204,16 +1216,18 @@ export default {
   height: 200px;
 }
 
-#memberList {
+.member-list {
   width: 350px;
   height: auto;
   position: fixed;
   z-index: 2;
-  bottom: 12px;
-  left: 35px;
+  bottom: 38px;
+  left: 95px;
   text-align: right;
   padding-right: 1%;
   padding-left: 5%;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
 }
 
 .moimimg {
@@ -1222,16 +1236,6 @@ export default {
 
 .invite-mem {
   margin-top: 20px;
-}
-
-.notice-button {
-  position: fixed;
-  z-index: 3;
-  bottom: 150px;
-  left: 12px;
-  border: solid black 1px;
-  width: 56px;
-  height: 56px;
 }
 
 .reset-button {
@@ -1245,15 +1249,21 @@ export default {
 }
 
 .member {
-  /* overflow: scroll; */
-  /* margin-left: 5px; */
   margin: 5px;
   display: inline-block;
-  /* margin-right: 5px; */
 }
 
 .asdf {
   width: 100%;
   display: contents;
+}
+
+.fade-enter-active,
+.fade-leave-active{
+    transition: opacity .4s
+}
+.fade-enter,
+.fade-leave-to{
+    opacity: 0
 }
 </style>

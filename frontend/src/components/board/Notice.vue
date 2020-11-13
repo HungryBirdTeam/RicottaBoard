@@ -2,10 +2,9 @@
   <div>
     <v-responsive>
       <v-btn
-        class="notice-button text-center lighten-2 rounded-circle d-inline-flex align-center justify-center ma-3"
+        class="notice-button justify-center ma-3"
         fab
-        dark
-        color="black"
+        :color="gradColor()"
         @click="showNotice()"
         @mouseover="isTopNoticeToggle=true"
         @mouseout="isTopNoticeToggle=false"
@@ -15,12 +14,12 @@
             src="../../assets/img/noticeIconW.png"
           />
       </v-btn>
-      <transition name="slide-fade">
+      <transition name="fade">
         <v-responsive
-          class="top-notice"
+          class="hover notice-hover"
           v-if="isTopNoticeToggle"
           >
-          공지 | {{ topNotice }}
+          <strong>공지</strong> | {{ topNotice }}
         </v-responsive>
       </transition>
     </v-responsive>
@@ -246,6 +245,12 @@ export default {
       this.isDetail = false;
       this.isPost = false;
       this.fetchNotice();
+    },
+    gradColor() {
+      if(this.isNotice) {
+        return "#08543A"
+      }
+      return "#0d875c"
     }
   },
 };
@@ -255,19 +260,20 @@ export default {
 .notice-button {
   position: fixed;
   z-index: 3;
-  bottom: 85px;
+  bottom: 80px;
   left: 12px;
-  border: solid black 1px;
   width: 50px;
   height: 50px;
 }
 
 .notice-modal {
   width: 80%;
-  min-width: 300px;
-  top: 15%;
+  min-width: 350px;
   padding: 32px;
-  left: 10%;
+  margin-left: 10vw;
+  margin-right: 30vw;
+  margin-top: 5vh;
+  margin-bottom: 30vh;
   background: #ffffff;
   border-radius: 4px;
   position: absolute;
@@ -292,19 +298,17 @@ i {
   min-height: 120px;
 }
 
-.top-notice{
-  background-color: white;
-  width: auto;
-  height: auto;
-  position: fixed;
-  z-index: 2;
-  bottom: 105px;
-  left: 95px;
-  padding: 8px 16px;
-  border-radius: 4px;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
-  
+.notice-hover{
+  bottom: 98px;
+}
+
+.fade-enter-active,
+.fade-leave-active{
+    transition: opacity .4s
+}
+.fade-enter,
+.fade-leave-to{
+    opacity: 0
 }
 </style>
 

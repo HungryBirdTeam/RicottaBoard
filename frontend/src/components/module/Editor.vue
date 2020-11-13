@@ -146,6 +146,9 @@ html, body, #EditorMain {
     background-color: #f6f6f6;
 }
 
+.editor {
+    padding: 15px;
+}
 .title {
     width: 800px;
     height: 50px;

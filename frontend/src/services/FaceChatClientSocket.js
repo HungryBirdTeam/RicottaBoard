@@ -1,10 +1,8 @@
 ///////////////////////////////////////////////// 초기화 구문 /////////////////////////////////////////////////
 var localStream = new MediaStream();
-// var remoteStream = new MediaStream();
 const channelPeerConnectionsMap = new Map();
 const streamMap = new Map();
-var isConnect = new Map();
-var isIceCandidate = new Map();
+const streamSenderMap = new Map();
 
 var myInfo;
 var users = new Set();
@@ -35,117 +33,16 @@ var channel = "tryIt";
 
 
 /////////////////////////////////////////////// 리스너 연결 구문 ///////////////////////////////////////////////
-// socket.emit('join channel', channel);
-
-// socket.on('member', member => {
-//     if (member != myInfo) {
-//         if (!users.has(member)) {
-//             console.log("새 멤버", member);
-//             users.add(member);
-//             createPeerConnection(member);
-//         }
-
-//     }
-// })
-
-// socket.on('alert', () => {
-//     var info = { channel: channel, member: myInfo };
-//     socket.emit('alert member', info);
-// })
-
-// socket.on('new member', () => {
-//     // if (myInfo == undefined) {
-//     // myInfo = user;
-//     // console.log("myInfo : ", user);
-//     // } else {
-//     // var info = { user: myInfo, channel: channel };
-//     socket.emit('new member', channel);
-//     // }
-// })
-
-// socket.on('sender info', function(connect) {
-//     if (connect.sender != myInfo && connect.receiver == myInfo) {
-//         var sdp = connect.sdp;
-//         var sender = connect.sender;
-//         console.log(myInfo, "peer connect to remote", sender);
-//         channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
-//         console.dir(new RTCSessionDescription(sdp));
-//         doAnswer(sender);
-//     }
-
-// });
-
-// socket.on('receiver info', function(connect) {
-//     if (connect.sender != myInfo && connect.receiver == myInfo) {
-//         console.log("receiver info", connect);
-//         var sdp = connect.sdp;
-//         var sender = connect.sender;
-
-//         console.log(myInfo, "peer connect to remote", sender);
-//         channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
-//         console.dir(new RTCSessionDescription(sdp));
-//         console.dir(channelPeerConnectionsMap.get(sender))
-
-//     }
-
-// });
-
-// socket.on('candidate', function(connect) {
-//     if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
-//         // var candidate = new RTCIceCandidate({
-//         //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
-//         //     candidate: connect.candidate
-//         // });
-//         var candidate = new RTCIceCandidate(connect.candidate);
-//         channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate,
-//             (res) => {
-//                 console.log("SUCCESS!!!!!!!", res);
-//             },
-//             (err) => {
-//                 console.log("ERR!!!!!!!!!!!!", err);
-//             });
-//         isIceCandidate.set(connect.sender, true);
-//     }
-// });
 
 var localVideo;
-var remoteVideo = document.querySelector('#remoteVideo');
 
 
-// show.onclick = function() {
-//     channelPeerConnectionsMap.forEach((value, key, mapObject) => {
-//         console.log(key + ' , ' + value);
-//         console.dir(value);
-//     });
-
-// }
-
-// add.onclick = function() {
-//     gotStream(localStream);
-// }
-
-// btn.onclick = async function() {
-//     const stream = await navigator.mediaDevices.getUserMedia({
-//         audio: false,
-//         video: true
-//     });
-//     // navigator.mediaDevices.getUserMedia({
-//     //         audio: false,
-//     //         video: true
-//     //     })
-//     //     .then(gotStream)
-//     //     .catch(function(e) {
-//     //         alert('getUserMedia() error: ' + e.name);
-//     //         alert(e.toString());
-//     //     });
-//     gotStream(stream)
-// };
 /////////////////////////////////////////////// 리스너 연결 구문 ///////////////////////////////////////////////
 
 
 
 ////////////////////////////////////////////////// 실행 코드 //////////////////////////////////////////////////
-// createPeerConnection();
+
 if (location.hostname !== 'localhost') {
     requestTurn(
         'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
@@ -163,23 +60,11 @@ function loadChannelInfo(channelId, email, _socket) {
 
     channel = channelId;
     myInfo = email;
-    console.log('#video_' + myInfo);
-
-    // socket = io.connect('https://k3a204.p.ssafy.io/api/facechat', { secure: true })
     socket = _socket;
-
-    socket.on('connect', function() {
-        console.log("connect face chat socket", socket);
-    });
-
-    socket.on('disconnect', function() {
-        console.log("disconnect!!!");
-    });
 
     socket.on('member', member => {
         if (member != myInfo) {
             if (!users.has(member)) {
-                console.log("새 멤버", member);
                 users.add(member);
                 createPeerConnection(member);
             }
@@ -187,20 +72,11 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     })
 
-    socket.on('alert', () => {
-        var info = { channel: channel, member: myInfo };
-        socket.emit('alert member', info);
-    });
 
     socket.on('new member', () => {
-        // if (myInfo == undefined) {
-        // myInfo = user;
-        // console.log("myInfo : ", user);
-        // } else {
-        // var info = { user: myInfo, channel: channel };
-        console.log("new member!!!!!!!!!");
-        socket.emit('new member', channel);
-        // }
+
+        var info = { channel: channel, member: myInfo };
+        socket.emit('alert member', info);
     });
 
     socket.on('sender info', function(connect) {
@@ -210,6 +86,17 @@ function loadChannelInfo(channelId, email, _socket) {
             console.log(myInfo, "peer connect to remote", sender);
             channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
             console.dir(new RTCSessionDescription(sdp));
+            ///////////////////////////////////////////////
+            if (!streamMap.get(sender))
+                streamMap.set(sender, new MediaStream());
+
+            var videoComponent = document.getElementById("video_" + sender);
+            if (videoComponent != undefined) {
+                videoComponent.srcObject = streamMap.get(sender);
+            } else {
+                console.log("no component");
+            }
+            ///////////////////////////////////////////////
             doAnswer(sender);
         }
 
@@ -230,21 +117,52 @@ function loadChannelInfo(channelId, email, _socket) {
 
     });
 
-    socket.on('candidate', function(connect) {
-        if (connect.sender != myInfo && connect.receiver == myInfo && !isIceCandidate.get(connect.sender)) {
-            // var candidate = new RTCIceCandidate({
-            //     sdpMLineIndex: connect.candidate.sdpMLineIndex,
-            //     candidate: connect.candidate
-            // });
+    socket.on('candidate', async function(connect) {
+        if (connect.sender != myInfo && connect.receiver == myInfo) {
             var candidate = new RTCIceCandidate(connect.candidate);
-            channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate,
-                (res) => {
-                    console.log("SUCCESS!!!!!!!", res);
-                },
-                (err) => {
-                    console.log("ERR!!!!!!!!!!!!", err);
-                });
-            isIceCandidate.set(connect.sender, true);
+            if (candidate)
+                await channelPeerConnectionsMap.get(connect.sender).addIceCandidate(candidate);
+        }
+    });
+
+    socket.on('on video', member => {
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = true
+                );
+        }
+    });
+
+    socket.on('off video', member => {
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = false
+                );
+        }
+    });
+
+    socket.on('out of room', member => {
+        channelPeerConnectionsMap.get(member).close();
+        users.delete(member);
+        channelPeerConnectionsMap.delete(member);
+        streamMap.delete(member);
+        streamSenderMap.delete(member);
+
+        console.log(member, "그룹에서 나갔습니다.");
+        console.dir(users);
+        console.dir(channelPeerConnectionsMap);
+        console.dir(streamMap);
+        console.dir(streamSenderMap);
+    })
+
+    socket.on('who is video on', () => {
+        console.log("who's video on");
+        if (isVideoOn) {
+            createOffer();
         }
     });
 
@@ -256,36 +174,64 @@ function loadChannelInfo(channelId, email, _socket) {
 
 //비디오 실행
 async function onVideo(vdId) {
-    console.log("onVideo");
+
     localVideo = document.getElementById(vdId);
+
+    if (isVideoOn) {
+        var info = {
+            member: myInfo,
+            channel: channel
+        }
+        socket.emit('on video', info);
+
+        return;
+    }
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
+        audio: true,
         video: true
     });
-    gotStream(stream)
+    gotStream(stream);
+}
+
+//비디오 종료
+function offVideo() {
+
+    // let tracks = localStream.getTracks();
+    // tracks.forEach((track) => {
+    //     track.stop();
+    // });
+    // isVideoOn = false;
+    // localStream.srcObject = null;
+
+    var info = {
+        member: myInfo,
+        channel: channel
+    }
+    socket.emit('off video', info);
 }
 
 function createOffer() {
     channelPeerConnectionsMap.forEach((value, key) => {
-        if (!isConnect.get(key)) {
-            for (const track of localStream.getTracks()) {
-                value.addTrack(track, localStream);
-            };
-            value.createOffer()
-                .then(
-                    sessionDescription => {
-                        setLocalAndSendMessage(sessionDescription, key);
-                    })
-                .catch(
-                    err =>
-                    alert(err)
-                );
-            isConnect.set(key, true);
+        if (streamSenderMap.has(key)) {
+            return;
         }
+        for (const track of localStream.getTracks()) {
+            var sender = value.addTrack(track);
+
+            streamSenderMap.set(key, sender);
+        };
+        value.createOffer()
+            .then(
+                sessionDescription => {
+                    setLocalAndSendMessage(sessionDescription, key);
+                })
+            .catch(
+                err =>
+                alert(err)
+            );
     });
 
-    isVideoOn = true;
 }
 
 function doAnswer(sender) {
@@ -301,46 +247,40 @@ function createPeerConnection(member) {
     try {
 
         if (!channelPeerConnectionsMap.has(member)) {
-            streamMap.set(member, null);
-            isConnect.set(member, false);
-            isIceCandidate.set(member, false);
+            streamMap.set(member, new MediaStream());
             console.log(member, "와의 커넥션 객체 생성");
             var pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = (event) => {
                 handleIceCandidate(event, member);
             };
-            // pc.onaddstream = handleRemoteStreamAdded;
-            pc.onremovestream = handleRemoteStreamRemoved;
-
+            // pc.onremovestream = (event) => {
+            //     handleRemoteStreamRemoved(event, member);
+            // };
             pc.ontrack = event => {
                 handleTrack(event, member);
+            };
+            pc.oniceconnectionstatechange = event => {
+                handleConnectionEvent(event, member);
             }
 
             channelPeerConnectionsMap.set(member, pc);
-
-            if (isVideoOn) {
-                createOffer();
-            }
         }
 
     } catch (e) {
         console.log('Failed to create PeerConnection, exception: ' + e.message);
-        alert('Cannot create RTCPeerConnection object.');
+        // alert('Cannot create RTCPeerConnection object.');
         return;
     }
 }
 
 function handleTrack(event, member) {
-    // remoteStream = event.streams[0];
-    // remoteVideo.srcObject = remoteStream;
-    streamMap.set(member, event.streams[0]);
 
-    var videoComponent = document.getElementById("video_" + member);
-    if (videoComponent != undefined) {
-        console.log("src added");
-        videoComponent.srcObject = streamMap.get(member);
+    if (event.streams && event.streams[0]) {
+        event.streams[0].getTracks().forEach(track => {
+            streamMap.get(member).addTrack(track, streamMap.get(member));
+        });
     } else {
-        console.log("no component");
+        streamMap.get(member).addTrack(event.track, streamMap.get(member));
     }
 }
 
@@ -360,18 +300,27 @@ function handleIceCandidate(event, member) {
     }
 }
 
-//해당 유저 리모트 화면에 Stream을 보여줘야 한다.
-// function handleRemoteStreamAdded(event) {
-//     console.dir(event.stream);
-//     console.log('Remote stream added.');
-//     remoteStream = event.stream;
-//     // remoteStream = window.URL.createObjectURL(event.stream);
-//     remoteVideo.srcObject = remoteStream;
-// }
+function handleConnectionEvent(event, member) {
+    const status = channelPeerConnectionsMap.get(member).iceConnectionState;
 
-function handleRemoteStreamRemoved(event) {
-    console.log('Remote stream removed. Event: ', event);
+    if (status == "disconnected" || status == "failed" || status == "closed") {
+        channelPeerConnectionsMap.get(member).close();
+        users.delete(member);
+        channelPeerConnectionsMap.delete(member);
+        streamMap.delete(member);
+        streamSenderMap.delete(member);
+    }
 }
+
+
+// function handleRemoteStreamRemoved(event, member) {
+//     console.log('Remote stream removed. Event: ', event);
+//     var videoComponent = document.getElementById("video_" + member);
+//     if (videoComponent != undefined) {
+//         console.log("src removed");
+//         videoComponent.srcObject = null;
+//     }
+// }
 
 /////////////////////////////////
 
@@ -411,19 +360,13 @@ function onCreateSessionDescriptionError(error) {
 }
 
 
-function handleCreateOfferError(event) {
-    console.log('createOffer() error: ', event);
-}
-
-/////////////////////////////////
-
-
 
 function gotStream(stream) {
     console.log('Adding local stream.', localVideo);
     localStream = stream;
     localVideo.srcObject = stream;
 
+    isVideoOn = true;
     createOffer();
 }
 
@@ -459,4 +402,4 @@ function requestTurn(turnURL) {
 
 
 
-export { loadChannelInfo, onVideo }
+export { loadChannelInfo, onVideo, offVideo }
