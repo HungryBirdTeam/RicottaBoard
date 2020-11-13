@@ -8,7 +8,7 @@
 
 리코타보드 서비스 페이지 는 이쪽으로 -> [Ricotta Board](http://k3a204.p.ssafy.io/)
 
-![KakaoTalk_Photo_2020-11-13-21-43-57](https://user-images.githubusercontent.com/23401317/99073584-85fd8180-25f9-11eb-8d68-e0e2b8133634.png)
+![image](https://user-images.githubusercontent.com/23401317/99085450-8acb3100-260b-11eb-8184-7b4b542b7cda.png)
 
 
 
