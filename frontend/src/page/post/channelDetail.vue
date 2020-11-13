@@ -157,7 +157,7 @@
 
       <transition name="fade">
         <v-responsive
-          class="member-list text-center p-0 w-auto"
+          class=" hover member-list text-center p-0 w-auto"
           v-show="memberView"
           align="center"
           justify="center"
@@ -1196,12 +1196,13 @@ export default {
 
 .userListBadge {
   position: fixed;
-  z-index: 3;
+  z-index: 1;
   bottom: 20px;
   left: 12px;
   background-color: white;
   width: 50px;
   height: 50px;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
 
 .vueBox {
@@ -1217,17 +1218,7 @@ export default {
 }
 
 .member-list {
-  width: 350px;
-  height: auto;
-  position: fixed;
-  z-index: 2;
   bottom: 38px;
-  left: 95px;
-  text-align: right;
-  padding-right: 1%;
-  padding-left: 5%;
-  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
-    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
 }
 
 .moimimg {
