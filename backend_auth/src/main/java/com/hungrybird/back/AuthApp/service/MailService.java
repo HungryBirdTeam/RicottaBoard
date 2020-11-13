@@ -55,7 +55,7 @@ public class MailService {
     public void sendEmailVerification(String emailVerificationUrl, String to, String username)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Email Verification [Team HungryBird]");
+        mail.setSubject("[리코타 보드] 이메일 인증");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", username);
@@ -75,7 +75,7 @@ public class MailService {
         Long expirationInMinutes = TimeUnit.MILLISECONDS.toMinutes(expiration);
         String expirationInMinutesString = expirationInMinutes.toString();
         Mail mail = new Mail();
-        mail.setSubject("Password Reset Link [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 비밀번호 변경 안내");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
@@ -96,7 +96,7 @@ public class MailService {
     public void sendAccountChangeEmail(String action, String actionStatus, String to)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Account Status Change [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 계정 상태 변경 안내");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
@@ -129,7 +129,7 @@ public class MailService {
     public void sendInviteEmail(String inviteUrl, String to)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("Circle invitation [Team EarlyBird]");
+        mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
@@ -143,7 +143,7 @@ public class MailService {
 
     public void sendRegistrationMail(String to) throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
-        mail.setSubject("[리코타 보드] 초대받으셨습니다!");
+        mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("urlToRegistration", "https://"+ GlobalVariables.host+GlobalVariables.frontPort+"/user/signup");
