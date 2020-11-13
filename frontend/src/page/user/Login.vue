@@ -48,6 +48,12 @@
 
         <v-btn dark depressed block class="allbtn mt-3" color="#0d875C" @click="login(email, password)">로그인 하기</v-btn>
       </div>
+      <v-snackbar
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar> 
     </div>
   </div>
 </template>
@@ -55,34 +61,59 @@
 <script>
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
-import cookies from "vue-cookie";
+import cookie from "vue-cookie";
 import router from "vue-router";
+import * as authApi from '@/api/auth.js';
 
 export default {
   components: {},
   created() {},
   watch: {},
   methods: {
-    newnew() {
-      this.$router.go(0);
-    },
     login(email, password) {
       console.log(email, password);
 
       var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
       if (exptext.test(email) == false) {
         //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
-        alert("이메일형식이 올바르지 않습니다.");
+        this.createSnackbar("이메일형식이 올바르지 않습니다.", 2000, "error");
       } else if (password == "") {
-        alert("비밀번호를 입력해주세요");
+        this.createSnackbar("비밀번호를 입력해주세요", 2000, "error");
       } else {
-        const result = this.$store.dispatch(constants.METHODS.LOGIN_USER, {
-          email,
-          password,
-        });
-        console.log(this.userData);
+        const data = {
+          "email": email,
+          "password": password,
+        }
+        authApi.loginUser(data,
+          res => {
+            if (res.status == 200) {
+              this.$cookie.set('AccessToken', res.data.accessToken);
+              this.$store.commit(constants.METHODS.LOGIN_USER, [data, res.data.accessToken]);
+              const dataWhatINeed = res.data.user;
+              this.$store.commit(constants.METHODS.GET_USER, {
+                  dataWhatINeed
+              });
+              this.$cookie.set('AccessData', this.$store.getters.userDataStr);
+              this.$router.push("/main");
+            }
+          },
+          err => {
+              console.log(err.message);
+              this.createSnackbar("로그인 정보가 잘못되었습니다.", 2000, "error");
+          })
+        // const result = this.$store.dispatch(constants.METHODS.LOGIN_USER, {
+        //   email,
+        //   password,
+        // });
+        // console.log(this.userData);
         this.modal = !this.modal;
       }
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
     },
   },
   data: () => {
@@ -91,6 +122,11 @@ export default {
       email: "",
       password: "",
       modal: false,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 2000,
+      },
     };
   },
 };
