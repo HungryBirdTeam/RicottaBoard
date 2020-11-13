@@ -161,8 +161,8 @@ function loadChannelInfo(channelId, email, _socket) {
 
 
     var info = {
-        channel = channel,
-        member = myInfo
+        channel: channel,
+        member: myInfo
     }
     socket.emit('join channel', info);
 
