@@ -35,8 +35,6 @@ export default {
   methods: {
     onClickVideo() {
       if(!this.videoStream) {
-        console.dir(onVideo);
-        console.dir(this.onVideo);
         onVideo(this.videoInfo.vdId);
         this.videoStream = true;
         this.onVideoBtnText = "off";
