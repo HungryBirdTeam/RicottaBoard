@@ -18,8 +18,9 @@
 
                 <div class="mainText">
                     <p>안녕하세요. 리코타 보드입니다.</p>
-                    <p>누군가 회원님을 채널에 초대하셨습니다!</p>
-                    <p>아래 버튼을 눌러 초대를 수락하세요.</p>
+                    <p>${from} 님으로부터 초대장이 왔습니다!</p>
+                    <p>아래 버튼을 눌러</p>
+                    <p>${channelName} 에 입장하세요!</p>
                 </div>
 
                 <div class="buttonHere">

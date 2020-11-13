@@ -26,11 +26,16 @@ public class OnInvitationEvent extends ApplicationEvent {
 
     private transient UriComponentsBuilder redirectUrl;
     private MailSendRequest mailSendRequest;
+    private String channelName;
+    private String from;
 
-    public OnInvitationEvent(MailSendRequest mailSendRequest, UriComponentsBuilder redirectUrl) {
+    public OnInvitationEvent(MailSendRequest mailSendRequest, UriComponentsBuilder redirectUrl,
+                             String channelName, String from) {
         super(mailSendRequest);
         this.mailSendRequest = mailSendRequest;
         this.redirectUrl = redirectUrl;
+        this.channelName = channelName;
+        this.from = from;
     }
 
 
