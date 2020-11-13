@@ -466,6 +466,8 @@ export default {
           channel : this.board.channelId,
           member : this.userEmail
         });
+
+        return "bye";
       };
       var _this = this;
       ws.connect(
