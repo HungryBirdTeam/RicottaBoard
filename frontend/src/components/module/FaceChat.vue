@@ -7,7 +7,9 @@
       :id="videoInfo.vdId"
       src=""
       :muted="mute ? true : false"
-      autoplay playsinline></video>
+      autoplay playsinline
+      :style="videoStream ? 'background-color: white;' : 'background-color: black;'"
+      ></video>
       <button 
       class="video_btn"
       v-show="userEmail==myEmail"
