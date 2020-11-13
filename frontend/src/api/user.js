@@ -57,4 +57,10 @@ function userInfo(newUser, config, success, fail) {
         .catch(fail);
 }
 
-export { deleteUser, createUser, emailCheck, nicknameCheck, resetMyPasswordReq, resetMyPassword, userInfo };
+function updatePassword(updatePasswordRequest, config, success, fail) {
+    instance
+        .post('/user/password/update', updatePasswordRequest, config)
+        .then(success)
+        .catch(fail);
+}
+export { deleteUser, createUser, emailCheck, nicknameCheck, resetMyPasswordReq, resetMyPassword, userInfo, updatePassword };
