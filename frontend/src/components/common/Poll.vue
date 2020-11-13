@@ -279,11 +279,10 @@ h3{
     position: relative;
     border-radius: 6px;
     overflow: hidden;
-    z-index: 1;
+    z-index: 0;
 }
 
 .circleScaleBtn span {
-    z-index: 1;
     position: relative;
 }
 

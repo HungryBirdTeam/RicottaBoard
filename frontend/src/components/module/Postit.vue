@@ -74,6 +74,11 @@ export default {
 .MoveableBox {
   padding: 30px;
   position: absolute;
-  background: linear-gradient(-135deg,  #FC887C 20px, white 20px);
+  background: linear-gradient(-135deg,  #FC887C 20px, transparent 20px);
+}
+
+
+.rCS53a2i7 {
+  z-index: 0 !important;
 }
 </style>
