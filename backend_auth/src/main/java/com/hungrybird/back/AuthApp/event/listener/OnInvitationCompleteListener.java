@@ -5,6 +5,7 @@ import com.hungrybird.back.AuthApp.exception.MailSendException;
 import com.hungrybird.back.AuthApp.model.User;
 import com.hungrybird.back.AuthApp.service.MailService;
 import freemarker.template.TemplateException;
+import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -28,27 +29,26 @@ public class OnInvitationCompleteListener implements ApplicationListener<OnInvit
     }
 
 
+    @SneakyThrows
     @Override
     @Async
     public void onApplicationEvent(OnInvitationCompleteEvent onInvitationCompleteEvent) {
         sendEmailVerification(onInvitationCompleteEvent);
     }
 
-    private void sendEmailVerification(OnInvitationCompleteEvent event) {
+    private void sendEmailVerification(OnInvitationCompleteEvent event) throws TemplateException, IOException, MessagingException {
         List<User> user = new ArrayList<>();
         for (int i=0;i<event.getMember().size();i++){
-            user.add(event.getMember().get(i).getUser());
+            User check = event.getMember().get(i).getUser();
+            if(check == null) {
+                System.out.println("====== WARNING : There is no user =====");
+                mailService.sendRegistrationMail(event.getMember().get(i).getEmail());
+            } else user.add(check);
         }
 
 
         List<String> recipientAddress = new ArrayList<>();
         for (User u:user) {
-            if(u.getEmail() == null){
-//                mailService.sendInviteRegistrationEmail();
-                System.out.println("====== WARNING : There is no user =====");
-                System.out.println(u.toString());
-                continue;
-            }
             recipientAddress.add(u.getEmail());
         }
         List<String> email = event.getEmail();
