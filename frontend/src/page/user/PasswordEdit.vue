@@ -70,6 +70,7 @@
 <script>
 import '../../assets/css/user.scss'
 import constants from '../../lib/constants'
+import * as userApi from '@/api/user.js';
 
 export default {
     components: {
@@ -77,39 +78,56 @@ export default {
     created(){
     },
     methods: {  
-      changeIt() {
-        const pwcheck = this.password
-        if (pwcheck.orign.length >= 8) {
+      changeOrigin() {
+        if (this.password.origin.length > 7) {
           this.isChange.origin = true;
         } else {
           this.isChange.origin = false;
         }
-        if (pwcheck.new.length >= 8) {
+      },
+      changeNew() {
+        if (this.password.new.length >= 8) {
           this.isChange.new = true;
         } else {
           this.isChange.new = false;
         } 
-        if (pwcheck.new == pwcheck.confirm) {
-          this.isChange.confirm = true
+      },
+      changeConfirm() {
+        if (this.password.new == this.password.confirm) {
+          this.isChange.confirm = true;
         } else {
-          this.isChange.confirm = false
+          this.isChange.confirm = false;
         }
       },      
       submit(){
-        // console.log("kk", this.isChange)
-        // if (this.isChange) {
-        //   console.log('sucess')
-        //   const newUser = {
-        //     "email": this.userData.email,
-        //     "username": this.userData.username,
-        //     "nickname": this.userData.nickname,
-        //     "password": this.passwordCheck,
-        //   }
-        //   this.$store.dispatch(constants.METHODS.USER_INFO, newUser);
-        //   this.passwordCheck = "";
-        // } else {
-        //   this.createSnackbar("값이 모두 입력되지 않았습니다.", 2000, "error")
-        // }
+        if (!this.isChange.origin || !this.isChange.new) {
+          this.createSnackbar("비밀번호는 8자리 이상입니다.", 2000, "error");
+        } else if (!this.isChange.confirm) {
+          this.createSnackbar("비밀번호가 일치하지 않습니다.", 2000, "error");
+        } else {
+          console.log('good?')
+          const updatePasswordRequest = {
+            "oldPassword":this.password.origin,
+            "newPassword":this.password.new,
+          }
+          const config = {
+            headers: {
+              "Authorization" : "Bearer " + this.$store.getters.accessToken
+            }
+          }
+          userApi.updatePassword(updatePasswordRequest, config,
+            res => {
+              console.log('good');
+              this.createSnackbar("비밀번호가 변경되었습니다.", 2000, "green");                    
+            },
+            err => {
+              console.log('error', err);
+              this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
+            });
+            this.password.origin = '';
+            this.password.new = '';
+            this.password.confirm = '';
+        }
       },        
       teamPage() {
           this.$router.push('/@hungrybird')
@@ -125,11 +143,21 @@ export default {
         
     },
     watch: {
+      'password.origin': function() {
+        console.log(this.password.origin);
+        this.changeOrigin();
+      },
+      'password.new': function() {
+        this.changeNew();
+      },
+      'password.confirm': function() {
+        this.changeConfirm();
+      },
     },
     data: () => {
         return {
             password:{
-              orign:'',
+              origin:'',
               new:'',
               confirm:'',
             },
