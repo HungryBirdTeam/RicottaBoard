@@ -460,6 +460,13 @@ export default {
       // this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
+
+      window.onbeforeunload = function(event) {
+        this.$faceChatSocket.emit("out of room", {
+          channel : this.board.channelId,
+          member : this.userEmail
+        });
+      };
       var _this = this;
       ws.connect(
         {userNickname:this.$store.state.userData.nickname},
