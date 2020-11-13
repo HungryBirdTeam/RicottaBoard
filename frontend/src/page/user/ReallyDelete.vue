@@ -88,12 +88,10 @@ export default {
         userApi.deleteUser(data, this.$store.getters.accessToken,
           res => {
             if (res.data == "success") {
-              this.$store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                  "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
+              this.createSnackbar("계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.", 3000, "error");
               setTimeout(() => {
+                  this.$store.commit("reSetAll");
                   router.push('/');
-                  this.$storestore.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                  this.$storestore.commit("reSetAll");
               }, 3000)
             }
           },
