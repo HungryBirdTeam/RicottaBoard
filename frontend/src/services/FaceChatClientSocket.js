@@ -135,7 +135,7 @@ function loadChannelInfo(channelId, email, _socket) {
 
     socket.on('on video', member => {
         var videoComponent = document.getElementById("video_" + member);
-        if (videoComponent) {
+        if (videoComponent && videoComponent.srcObject) {
             videoComponent.srcObject.getTracks()
                 .forEach(track =>
                     track.enabled = true
@@ -145,7 +145,7 @@ function loadChannelInfo(channelId, email, _socket) {
 
     socket.on('off video', member => {
         var videoComponent = document.getElementById("video_" + member);
-        if (videoComponent) {
+        if (videoComponent && videoComponent.srcObject) {
             videoComponent.srcObject.getTracks()
                 .forEach(track =>
                     track.enabled = false
