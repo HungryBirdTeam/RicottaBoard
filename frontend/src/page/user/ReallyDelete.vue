@@ -55,6 +55,8 @@
 <script>
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
+import * as userApi from '@/api/user.js';
+
 export default {
   data: () => {
     return {
@@ -83,8 +85,22 @@ export default {
           email: this.$store.getters.userData.email,
           password: this.password,
         };
+        userApi.deleteUser(data, this.$store.getters.accessToken,
+          res => {
+            if (res.data == "success") {
+              this.$store.commit(constants.METHODS.RESETMYPASSWORDREQ,
+                  "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
+              setTimeout(() => {
+                  router.push('/');
+                  this.$storestore.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
+                  this.$storestore.commit("reSetAll");
+              }, 3000)
+            }
+          },
+          err => {
+            this.createSnackbar("비밀번호가 일치하지 않습니다.", 2000, "error");
+          })
         console.log(data);
-        this.$store.dispatch(constants.METHODS.DELETE_USER, data);
       }
     },
     teamPage() {

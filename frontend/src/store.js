@@ -111,30 +111,6 @@ export const store = new Vuex.Store({
             }
         },
 
-
-        /**
-         *  회원 탈퇴 메소드
-         */
-
-        [constants.METHODS.DELETE_USER]: (store, payload) => {
-            userApi.deleteUser(payload, store.getters.accessToken,
-                    res => {
-                        if (res.data == "success") {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                                "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                                store.commit("reSetAll");
-                            }, 3000)
-
-                        }
-                    },
-                    err => {
-                        store.dispatch("throwError", err);
-                    })
-        },
-
         /**
             회원 로그인 메소드
         */
