@@ -153,7 +153,7 @@ public class MailService {
         mail.getModel().put("from", from);
 //        mail.getModel().put("invitationLink", inviteUrl);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
-        Template template = templateConfiguration.getTemplate("email-registration.ftl");
+        Template template = templateConfiguration.getTemplate("inviteToRegister.ftl");
         String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
         mail.setContent(mailContent);
         send(mail);
