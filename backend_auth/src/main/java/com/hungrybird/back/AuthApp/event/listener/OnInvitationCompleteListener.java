@@ -42,7 +42,7 @@ public class OnInvitationCompleteListener implements ApplicationListener<OnInvit
             User check = event.getMember().get(i).getUser();
             if(check == null) {
                 System.out.println("====== WARNING : There is no user =====");
-                mailService.sendRegistrationMail(event.getMember().get(i).getEmail());
+                mailService.sendRegistrationMail(event.getMember().get(i).getEmail(), event.getChannelName(), event.getFrom());
             } else user.add(check);
         }
 
@@ -62,7 +62,7 @@ public class OnInvitationCompleteListener implements ApplicationListener<OnInvit
         System.out.println("--------EVENTLISTNER CALLED------------");
 
         try {
-                mailService.sendInviteEmail(emailConfirmationUrl, recipientAddress.get(i));
+                mailService.sendInviteEmail(emailConfirmationUrl, recipientAddress.get(i), event.getChannelName(), event.getFrom());
 
             } catch (IOException | TemplateException | MessagingException e) {
                 logger.error(e);

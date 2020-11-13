@@ -126,7 +126,7 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public void sendInviteEmail(String inviteUrl, String to)
+    public void sendInviteEmail(String inviteUrl, String to, String channelName, String from)
             throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
         mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
@@ -134,6 +134,8 @@ public class MailService {
         mail.setFrom(mailFrom);
         mail.getModel().put("userName", to);
         mail.getModel().put("invitationLink", inviteUrl);
+        mail.getModel().put("channelName", channelName);
+        mail.getModel().put("from", from);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
         Template template = templateConfiguration.getTemplate("circle-invite.ftl");
         String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, mail.getModel());
@@ -141,12 +143,14 @@ public class MailService {
         send(mail);
     }
 
-    public void sendRegistrationMail(String to) throws IOException, TemplateException, MessagingException {
+    public void sendRegistrationMail(String to, String channelName, String from) throws IOException, TemplateException, MessagingException {
         Mail mail = new Mail();
         mail.setSubject("[리코타 보드] 채널에 초대받으셨습니다!");
         mail.setTo(to);
         mail.setFrom(mailFrom);
         mail.getModel().put("urlToRegistration", "https://"+ GlobalVariables.host+GlobalVariables.frontPort+"/user/signup");
+        mail.getModel().put("channelName", channelName);
+        mail.getModel().put("from", from);
 //        mail.getModel().put("invitationLink", inviteUrl);
         templateConfiguration.setClassForTemplateLoading(getClass(), basePackagePath);
         Template template = templateConfiguration.getTemplate("email-registration.ftl");

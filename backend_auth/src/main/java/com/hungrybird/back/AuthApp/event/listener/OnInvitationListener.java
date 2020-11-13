@@ -50,10 +50,12 @@ public class OnInvitationListener implements ApplicationListener<OnInvitationEve
     private void resendEmailVerification(OnInvitationEvent event) {
         String channelId = event.getMailSendRequest().getChannelId();
         String recipientAddress = channelId;
+        String channelName = event.getChannelName();
+        String from = event.getFrom();
 
         String inviteConfirmUrl = event.getRedirectUrl().toUriString();
         try {
-            mailService.sendInviteEmail(inviteConfirmUrl, recipientAddress);
+            mailService.sendInviteEmail(inviteConfirmUrl, recipientAddress,channelName, from);
         } catch (IOException | TemplateException | MessagingException e) {
             logger.error(e);
             throw new MailSendException(recipientAddress, "invite circle");

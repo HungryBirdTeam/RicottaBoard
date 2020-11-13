@@ -147,7 +147,8 @@ public class AuthController {
                     UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.newInstance().scheme("http").host(GlobalVariables.host).port(9004).path("/api/auth/inviteConfirmation");
 //                    UriComponentsBuilder urlBuilder = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/auth/registrationConfirmation");
                     OnInvitationCompleteEvent onUserRegistrationCompleteEvent =
-                            new OnInvitationCompleteEvent(mailSendRequest.getEmail(),mailSendRequest.getChannelId(),member, urlBuilder);
+                            new OnInvitationCompleteEvent(mailSendRequest.getEmail(),mailSendRequest.getChannelId(),member, urlBuilder,
+                                    mailSendRequest.getChannelName(), mailSendRequest.getFrom());
                     System.out.println(onUserRegistrationCompleteEvent.getMember().size()+" MEMBER SIZE");
                     applicationEventPublisher.publishEvent(onUserRegistrationCompleteEvent);
                     logger.info("Registered User returned [API[: " + member);
