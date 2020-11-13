@@ -462,7 +462,7 @@ export default {
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 
       var _this = this;
-      ws.connect(
+      ws.connect( 
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
           ws.subscribe(
