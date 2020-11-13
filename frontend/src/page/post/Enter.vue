@@ -51,7 +51,7 @@
                                         v-if="$store.getters.accessToken !== ''"
                                         @click="checkLogin"
                                     >
-                                    Go to Main
+                                    Main
                                     </v-btn>
                                 </template>
                                 <v-card style="width:350px; height:280px">
