@@ -52,8 +52,8 @@
                             <br>
                             아래 버튼을 눌러보세요!
                             <br>
-                            <div @click="localSave">
-                              <router-link to="channel/earlyBird10TeamTestChannel1">
+                            <div>
+                              <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial Channel">
                                   <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
                               </router-link>
                             </div>
