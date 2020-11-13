@@ -329,7 +329,8 @@ export default {
   data() {
     return {
       ws: null,
-      channelName: localStorage.getItem("wsboard.channelName"),
+      channelName: this.$route.params.channelName,
+      // channelName: localStorage.getItem("wsboard.channelName"),
       userEmail : this.$store.state.userData.email,
       tempEmail : "",
       // 소켓 서버 전송
@@ -395,8 +396,8 @@ export default {
   },
   created() {
     this.channelId = this.$route.params.channelId;
-    localStorage.setItem("wsboard.channelId", this.channelId);
-    if (this.channelId === "earlyBird10TeamTestChannel1") {
+    // localStorage.setItem("wsboard.channelId", this.channelId);
+    if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
       this.testPage = true;
     }
     else {
@@ -464,8 +465,10 @@ export default {
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
-      this.board.channelId = localStorage.getItem("wsboard.channelId");
-      this.channelName = localStorage.getItem("wsboard.channelName");
+      this.board.channelId = this.$route.params.channelId;
+      this.channelName = this.$route.params.channelName;
+      // this.board.channelId = localStorage.getItem("wsboard.channelId");
+      // this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 

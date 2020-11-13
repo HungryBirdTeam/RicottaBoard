@@ -29,114 +29,115 @@ import Kanban from '../components/module/Kanban.vue'
 import Scheduler from '../components/module/Scheduler.vue'
 import InviteModal from '../components/common/InviteModal.vue'
 
-Vue.use(Router) 
+Vue.use(Router)
 Vue.use(Vuex)
 Vue.use(VueCookie)
- 
+
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/channel/:channelId',
-      name: 'channelDetail',
-      component: ChannelDetail,
-      props: route => ({channelId: Number(route.params.ChannelId)})
-    },
-    // 로그인/가입
-    {
-      path: '/user/signup',
-      name: constants.URL_TYPE.USER.JOIN,
-      component: Join,
-    },
-    {
-      path:'/user/joinDone',
-      name: constants.URL_TYPE.USER.JOINDONE,
-      component: JoinDone,
-    },
-    { // 유저 정보 - 가입 확인
-      path: '/user/signup/done/registrationConfirmation',
-      name: constants.URL_TYPE.USER.CONFIRMDONE,
-      component: ConfirmDone,
-    },
-    {  // 유저 - 비밀번호 찾기
-      path: '/user/PasswordFind',
-      name: constants.URL_TYPE.USER.PASSWORDFIND,
-      component: PasswordFind,
-    },
-    {  // 유저 - 비밀번호 리셋
-      path: '/user/PasswordReset',
-      name: constants.URL_TYPE.USER.PASSWORDRESET,
-      component: PasswordReset,
-    },
-    {  // 유저 - 계정 삭제
-      path: '/user/DeleteAccount',
-      name: constants.URL_TYPE.USER.DELETEUSER,
-      component: DeleteUser,
-    },
-    {  // 유저 - 비밀번호 변경
-      path: '/user/PasswordEdit',
-      name: constants.URL_TYPE.USER.PASSWORDEDIT,
-      component: PasswordEdit,
-    },
-    { // 유저 정보 - 마이 페이지
-      path:'/user/info',
-      name: constants.URL_TYPE.USER.MYPAGE,
-      component: MyPage,
-    },
-    // 포스트
-    { 
-      path: '/',
-      name: constants.URL_TYPE.POST.ENTER,
-      component: Enter,
-    },
-    { 
-      path: '/guide',
-      component: Guide,
-    },
-    { 
-      path: '/@hungrybird',
-      component: createTeam,
-    },
-    { 
-      path: '/main',
-      name: constants.URL_TYPE.POST.MAIN,
-      component: List,
-    },
-    
-    { 
-      path: '/error',
-      name: constants.ERROR.FRONT_ERROR,
-      component: () => import('../page/etc/error.vue'),
-    },
+    mode: 'history',
+    routes: [{
+            path: '/channel/:channelId/:channelName',
+            name: 'channelDetail',
+            component: ChannelDetail,
+            props: route => ({ channelId: Number(route.params.ChannelId) })
+        },
+        // 로그인/가입
+        {
+            path: '/user/signup',
+            name: constants.URL_TYPE.USER.JOIN,
+            component: Join,
+        },
+        {
+            path: '/user/joinDone',
+            name: constants.URL_TYPE.USER.JOINDONE,
+            component: JoinDone,
+        },
+        { // 유저 정보 - 가입 확인
+            path: '/user/signup/done/registrationConfirmation',
+            name: constants.URL_TYPE.USER.CONFIRMDONE,
+            component: ConfirmDone,
+        },
+        { // 유저 - 비밀번호 찾기
+            path: '/user/PasswordFind',
+            name: constants.URL_TYPE.USER.PASSWORDFIND,
+            component: PasswordFind,
+        },
+        { // 유저 - 비밀번호 리셋
+            path: '/user/PasswordReset',
+            name: constants.URL_TYPE.USER.PASSWORDRESET,
+            component: PasswordReset,
+        },
+        { // 유저 - 계정 삭제
+            path: '/user/DeleteAccount',
+            name: constants.URL_TYPE.USER.DELETEUSER,
+            component: DeleteUser,
+        },
+        { // 유저 - 비밀번호 변경
+            path: '/user/PasswordEdit',
+            name: constants.URL_TYPE.USER.PASSWORDEDIT,
+            component: PasswordEdit,
+        },
+        { // 유저 정보 - 마이 페이지
+            path: '/user/info',
+            name: constants.URL_TYPE.USER.MYPAGE,
+            component: MyPage,
+        },
+        // 포스트
+        {
+            path: '/',
+            name: constants.URL_TYPE.POST.ENTER,
+            component: Enter,
+        },
+        {
+            path: '/guide',
+            component: Guide,
+        },
+        {
+            path: '/@hungrybird',
+            component: createTeam,
+        },
+        {
+            path: '/main',
+            name: constants.URL_TYPE.POST.MAIN,
+            component: List,
+        },
+
+        {
+            path: '/error',
+            name: constants.ERROR.FRONT_ERROR,
+            component: () =>
+                import ('../page/etc/error.vue'),
+        },
 
 
-    // 그 외 페이지 (404, ERROR)
-    {
-      path: '*',
-      name: 'e404',
-      component: () => import('../page/etc/e404.vue')
-    },
+        // 그 외 페이지 (404, ERROR)
+        {
+            path: '*',
+            name: 'e404',
+            component: () =>
+                import ('../page/etc/e404.vue')
+        },
 
-    //test
-    { 
-      path: '/poll',
-      name: 'poll',
-      component: Poll,
-    },
-    { 
-      path: '/kanban',
-      name: 'kanban',
-      component: Kanban,
-    },
-    { 
-      path: '/scheduler',
-      name: 'Scheduler',
-      component: Scheduler,
-    },    
-    { 
-      path: '/invite',
-      name: 'InviteModal',
-      component: InviteModal,
-    },
-  ]
+        //test
+        {
+            path: '/poll',
+            name: 'poll',
+            component: Poll,
+        },
+        {
+            path: '/kanban',
+            name: 'kanban',
+            component: Kanban,
+        },
+        {
+            path: '/scheduler',
+            name: 'Scheduler',
+            component: Scheduler,
+        },
+        {
+            path: '/invite',
+            name: 'InviteModal',
+            component: InviteModal,
+        },
+    ]
 })
