@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="buttonHere">
-                    <a class="button__a" href="${userEmailTokenVerificationLink}" target="_blank" rel="noopener">
+                    <a class="button__a" href="${invitationLink}" target="_blank" rel="noopener">
                         Accept Invite!</a>
                 </div>
 
