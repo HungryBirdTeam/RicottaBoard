@@ -153,6 +153,15 @@ function loadChannelInfo(channelId, email, _socket) {
 async function onVideo(vdId) {
 
     localVideo = document.getElementById(vdId);
+
+    if (isVideoOn) {
+        localVideo.srcObject.getTracks()
+            .forEach(track =>
+                track.enabled = true
+            );
+
+        return;
+    }
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -162,21 +171,25 @@ async function onVideo(vdId) {
 }
 
 //비디오 종료
-function offVideo() {
-    if (localStream) {
-        let tracks = localStream.getTracks();
-        tracks.forEach((track) => {
-            track.stop();
-        });
-        // isVideoOn = false;
-        // localStream.srcObject = null;
+function offVideo(vdId) {
+    localVideo = document.getElementById(vdId);
 
-        var info = {
-            member: myInfo,
-            channel: channel
-        }
-        socket.emit('off video', info);
-    }
+    localVideo.srcObject.getTracks()
+        .forEach(track =>
+            track.enabled = false
+        );
+    // let tracks = localStream.getTracks();
+    // tracks.forEach((track) => {
+    //     track.stop();
+    // });
+    // isVideoOn = false;
+    // localStream.srcObject = null;
+
+    // var info = {
+    //     member: myInfo,
+    //     channel: channel
+    // }
+    // socket.emit('off video', info);
 }
 
 function createOffer() {
@@ -227,9 +240,9 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
-            // pc.oniceconnectionstatechange = event => {
-            //     handleCompleteConnection(event, member, pc);
-            // }
+            pc.oniceconnectionstatechange = event => {
+                handleConnectionEvent(event, member);
+            }
 
             channelPeerConnectionsMap.set(member, pc);
         }
@@ -242,9 +255,6 @@ function createPeerConnection(member) {
 }
 
 function handleTrack(event, member) {
-    // remoteStream = event.streams[0];
-    // remoteVideo.srcObject = remoteStream;
-
 
     if (event.streams && event.streams[0]) {
         event.streams[0].getTracks().forEach(track => {
