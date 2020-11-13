@@ -47,6 +47,6 @@ public class SocketBoardMessage implements Serializable {
     private List<Video> videoList;      // 화상 채팅 리스트 객체
 
     @JsonProperty(value = "userNickname")
-//    @DiffIgnore
+    @DiffIgnore
     private String editUser;            // 수정한 사용자
 }
