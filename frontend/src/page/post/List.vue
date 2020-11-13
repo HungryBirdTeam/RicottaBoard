@@ -75,7 +75,7 @@
                     style="height: 100%; align-items: center; bottom: 0; justify-content: center; opacity: .5; position: absolute; width: 100%; ">
                     <br />
                     <br />
-                    <span class="hover">생성하기</span>
+                    <span class="channel-hover">생성하기</span>
                   </div>
                 </v-expand-transition>
                 <v-card-title >
@@ -214,7 +214,6 @@ export default {
     enterRoom: function (channelId, channelName) {
       localStorage.setItem("wsboard.channelId", channelId);
       localStorage.setItem("wsboard.channelName", channelName);
-      // location.href = "/channel/" + channelId;
       this.$router.push(`/channel/${channelId}`)
     },
     
@@ -253,7 +252,7 @@ export default {
   font-size: 1.875em;
   font-weight: 600;
 }
-.hover {
+.channel-hover {
   font-size: 1.5rem;
   color: white;
 }
