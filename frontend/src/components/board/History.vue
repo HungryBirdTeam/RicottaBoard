@@ -1,12 +1,18 @@
 <template>
   <div class="history-box">
-    <span @click="showHistory()" class="main-button">Updates</span>
+    <v-btn @click="showHistory()" class="main-button" fab width="50px" height="50px">
+      <v-icon size="36px">mdi-update</v-icon>
+    </v-btn>
     <div v-if="isHistory" class="main">
-      <span class="hint">최근 수정사항 20개를 보여줍니다</span><hr/>
+      <div class="hint"  stlye="padding-bottom: 0px;">최근 수정사항 20개를 보여줍니다</div><hr/>
       <div class="history-list">
         <div v-for="(history, idx) in historyList" :key="idx" class="history-item">
-          <span class="module">  수정{{ history.editModule }} </span><br>
-          <span class="time">{{ history.editTime.substr(0,10) }} {{ history.editTime.substr(11,8)}} </span><hr/>
+          <span class="user"> <strong>{{ history.editUser }}</strong> 님이 </span><br>
+          <div class="module">
+            <span class="module-name" v-for="(editModule, i) in history.editModule" :key="i"> {{ editModule }} </span>
+            <span> 을 수정했습니다. </span><br>
+          </div>
+          <span class="time">{{ history.editTime.substr(0,10) }} {{ history.editTime.substr(11,8)}}</span><hr>
         </div>
       </div>
     </div>
@@ -52,29 +58,50 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 16px;
+  
 }
 
 .main-button {
-  text-align: right;
+  margin-left: auto;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.5);
+  width: 50px;
+  height: 50px;
 }
 
-.main-button :hover {
-  
+
+.main {
+  padding: 5px;
+  background-color: white;
+  border-radius: 20px;
+  /* border: 2px solid rgba(104, 104, 104, 0.5); */
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  overflow-y: auto;
 }
+
+.hint {
+  padding: 12px;
+}
+
 .history-list {
   width: 300px;
-  max-height: 300px;
+  max-height: 400px;
   background-color: white;
   padding: 12px;
-  overflow-y: auto;
 }
 
 .history-item {
   /* background-color: white; */
   padding: 4px;
   border-radius: 8px;
+}
+
+.module {
+  background-color: #f5f5ec;
+}
+
+.module-name {
+  color: #0d875c;
 }
 
 .time {

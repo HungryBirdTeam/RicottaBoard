@@ -14,6 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+//@RequestMapping("/api/board") // 로컬
 public class ChannelController {
 
     private final ChannelRedisRepository channelRedisRepository;
@@ -26,6 +27,17 @@ public class ChannelController {
     public List<Channel> findAllChannels() {
         List<Channel> channels = channelRepository.findAll();
         return channels;
+    }
+
+    @PostMapping("/channel/validation")
+    public ValidUserWithChannelResponse validUserWithChannel(
+            @RequestBody ValidUserWithChannelRequest validUserWithChannelRequest) {
+
+        if(channelService.validUserWithChannel(validUserWithChannelRequest)) {
+            return new ValidUserWithChannelResponse().builder().isValid(true).build();
+        } else {
+            return new ValidUserWithChannelResponse().builder().isValid(false).build();
+        }
     }
 
     @PostMapping("/channels")

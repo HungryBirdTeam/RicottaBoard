@@ -3,12 +3,12 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-
+const fs = require('fs');
 const cors = require("cors");
-
+ 
 const db = require("./app/models");
 
-app.use(cors({origin: 'http://localhost:3000'}));
+app.use(cors({origin: true}));
 
 //parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -26,10 +26,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./app/routes/chatlog.routes.js")(app);
 
 
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/k3a204.p.ssafy.io/chain.pem'),
+  requestCert: false,
+  rejectUnauthorized: false
+};
 
-
-
-var server = require('http').createServer(app);
+var server = require('https').createServer(options, app);
 
 // http server를 socket.io server로 upgrade한다
 var io = require('socket.io')(server);
@@ -42,6 +47,10 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/useTest.html');
 });
 
+app.get('/test', function(req, res) {
+  res.send(server);
+});
+
 app.get('/index', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
@@ -49,15 +58,6 @@ app.get('/index', function(req, res) {
 app.get('/cam', function(req, res) {
     res.sendFile(__dirname + '/cam.html');
 });
-
-// NameSpace 사용. 경로할당
-// Server-side
-// var nsp = io.of('/space');
-// nsp.on('connection', function(socket){
-//     console.log('someone connected');
-// });
-// nsp.emit('hi', 'everyone!');
-
 
 // connection event handler
 // connection이 수립되면 event handler function의 인자로 socket인 들어온다
@@ -81,7 +81,7 @@ io.on('connection', function(socket) {
 
 
         // room 조인
-        room = socket.room = data.channelName;
+        room = socket.room = data.channelId;
         console.log('('+socket.name+')'+ 'room : '+room);
         socket.join(room);
         console.log('socket.id: '+socket.id);
@@ -105,11 +105,11 @@ io.on('connection', function(socket) {
         }, 1000);
         
     });
-
     // 클라이언트로부터의 메시지가 수신되면
     socket.on('chat', function(data) {
         console.log('Message from %s, 내용 : %s', socket.name, data.msg);
-
+      
+        var date = new Date();
         var msg = {
             to: {
                 name: '',
@@ -120,29 +120,14 @@ io.on('connection', function(socket) {
             },
             msg: data.msg,
             id: '',
+            time: date.getHours().toString() + ':' + date.getMinutes().toString()
         };
 
-        // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-        //socket.broadcast.emit('s2c chat', msg);
-        
-        // 메시지를 전송한 클라이언트에게만 메시지를 전송한다
-        //socket.emit('s2c chat me', msg);
-        
-        //socket.leave(this.room); --> 그냥 내 메시지 처리는 다른쪽에서 해줘야함. 딜레이가 심함
-        //console.log("나가기 전 room : "+room);
-        io.to(room).emit('s2c chat', msg);
+        io.to(room).emit('s2c_chat', msg);
         console.log("상대한테 메시지 보내기 : "+data.msg);
-        
-        //socket.join(this.room);
-        //console.log("다시 들어갈 room : "+room);
-        socket.emit('s2c chat me', msg);
-        console.log("나한테 메시지 보내기 : "+data.msg);
-        
-        // 접속된 모든 클라이언트에게 메시지를 전송한다
-        // io.emit('s2c chat', msg);
 
-        // 특정 클라이언트에게만 메시지를 전송한다
-        // io.to(id).emit('s2c chat', data);
+        socket.emit('s2c_chat_me', msg);
+        console.log("나한테 메시지 보내기 : "+data.msg);
     });
 
     // 클라이언트로부터의 메시지가 수신되면
@@ -161,64 +146,62 @@ io.on('connection', function(socket) {
           id: '',
       };
       
-      io.to(room).emit('s2c text', msg);
+      io.to(room).emit('s2c_text', msg);
       console.log("상대한테 메시지 보내기 : "+data.msg);
      
   });
 
-    //     // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
-    //     // socket.broadcast.emit('chat', msg);
-
-    //     // 메시지를 전송한 클라이언트에게만 메시지를 전송한다
-    //     // socket.emit('s2c chat', msg);
-
-    //     // 접속된 모든 클라이언트에게 메시지를 전송한다
-    //     // io.emit('s2c chat', msg);
-
-    //     // 특정 클라이언트에게만 메시지를 전송한다
-    //     //io.to(data.id).emit('s2c chat', msg);
-
-    //     // room
-    //     var room = socket.room = data.id;
-    //     console.log('('+socket.name+') room : ' + room);
-    //     socket.join(room);
-
-    //     io.to(room).emit('s2c chat', msg);
-    // });
-
     // force client disconnect from server
     socket.on('forceDisconnect', function() {
+        console.log(socket.name + "님이 소켓 연결을 끊으셨습니다.")
         socket.disconnect();
     })
 
 
+    socket.on('disconnect2', function() {
+      console.log(socket.name + "님이 페이지 이동으로 연결이 끊겼습니다.");
+      var msg = {
+          from: {
+              name: socket.name,
+              userid: socket.userid
+          },
+      };
 
-    socket.on('disconnect', function(data) {
+      io.to(room).emit('out', msg);
+
+      // 소켓 room에서 빠져나온 뒤 clientList 다시 프론트로 전송
+      socket.leave(room);
+      var clientList = new Array();
+      io.of('/').in(room).clients(function(error,roster){
+        for(var i=0; i<roster.length; i++){
+          clientList.push(io.sockets.sockets[roster[i]].name);
+        }
+      });
+      setTimeout(function() {
+        io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
+      }, 1000);
+    })
+
+    socket.on('disconnect', function() {
         console.log(socket.name + "님이 연결을 끓으셨습니다.");
-        
         var msg = {
             from: {
                 name: socket.name,
                 userid: socket.userid
             },
-            msg: data.msg
         };
 
-//        io.emit('out', msg);
         io.to(room).emit('out', msg);
 
         // 소켓 room에서 빠져나온 뒤 clientList 다시 프론트로 전송
         socket.leave(room);
         var clientList = new Array();
         io.of('/').in(room).clients(function(error,roster){
-          //console.log(io.sockets.sockets[roster[0]].name);
           for(var i=0; i<roster.length; i++){
-            //console.log(io.sockets.sockets[roster[i]]);
             clientList.push(io.sockets.sockets[roster[i]].name);
           }
         });
         setTimeout(function() {
-          console.log(clientList);
           io.to(room).emit('clientList', clientList); // 들어가는데에 시간이 조금 걸림.
         }, 1000);
        

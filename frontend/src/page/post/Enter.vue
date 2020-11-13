@@ -52,9 +52,11 @@
                             <br>
                             아래 버튼을 눌러보세요!
                             <br>
-                            <router-link to="channel/earlyBird10TeamTestChannel1">
-                                <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
-                            </router-link>
+                            <div @click="localSave">
+                              <router-link to="channel/earlyBird10TeamTestChannel1">
+                                  <v-btn class="allbtn px-5 py-2" color="#0d875C">Try it</v-btn>
+                              </router-link>
+                            </div>
                         </h4>                                
                     </div>
                     
@@ -98,12 +100,18 @@ export default {
         teamPage() {
             this.$router.push('/@hungrybird')
         },
+        localSave(){
+            localStorage.setItem("wsboard.channelId", "earlyBird10TeamTestChannel1");
+            localStorage.setItem("wsboard.channelName", "Tutorial Channel");
+            location.href = "/channel/earlyBird10TeamTestChannel1";
+        },
     },
     created() {
         this.isStarting = false;
         console.log('before', this.isStarting);
         setTimeout(() => (this.isStarting = true), 1000);
     },
+
 }
 </script>
 

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class HistoryResponse {
 
-    private String editor;
+    private String editUser;
     private String editTime;
     private List<String> editModule = new ArrayList();
 

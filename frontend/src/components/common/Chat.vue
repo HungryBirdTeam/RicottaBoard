@@ -1,213 +1,200 @@
 <template>
-<div>
-
-
- <div class="chat-container" id="chatContainer">
-   <div id="chattingBox" v-show="chattingBox">
-        <div class="chat-header" id="chatHeader">
-          <div id="clientList" v-show="isList">
-            <ul>
-                <li id="user"
-                  v-for="(user, index) in clientList"
-                  :key="index"
-                >
-                  {{ user }}
-                </li>
-             </ul>
+  <div class="chat">
+    <v-responsive>
+      <v-btn
+        class="chat-button justify-center ma-3"
+        fab
+        @click="toggleChattingBox()"
+        width="50px"
+        height="50px"
+        :color="gradColor()"
+        @mouseover="isHover=true"
+        @mouseout="isHover=false"
+      >
+        <v-icon color="white" size="28px">mdi-chat-processing</v-icon>
+        <div v-show="notread != 0" class="dot"></div>
+      </v-btn>
+      <transition name="fade">
+        <v-responsive
+          class="hover chat-hover"
+          v-show="isHover & notread"
+          >
+          <strong>안 읽은 메시지</strong> | {{ notread }}개
+        </v-responsive>
+      </transition>
+    </v-responsive>
+    <v-navigation-drawer
+      v-model="chattingBox"
+      :permanent="chattingBox"
+      app
+      overflow
+      right
+      width="380px"
+    >
+      <div class="chat-container" id="chatContainer">
+        <div id="chattingBox">
+          <div class="chat-header" id="chatHeader">
+            <div class="header-top">
+              <span id="username">{{ this.naname }}</span><br>
+              <v-icon @click="chattingBox = false" >mdi-close</v-icon>
+            </div>
+            <div id="clientList" class="client-list">
+              <span id="user" v-for="(user, index) in clientList" :key="index">
+                {{ user }}
+              </span>
+            </div>
           </div>
-          <button id="minimize" class="header-btn" @click="minimize"></button>
-          <button id="maximize" class="header-btn" @click="maximize"></button>
-          <img id="profile-pic" src='../../assets/img/picture.jpg' width="1">
-          <span>
-            <a id="username">나</a>
-            <img title="접속자 보기" id="showList-pic" src='../../assets/img/2.jpg' @click="showList"/>
-          </span>
 
-        </div>
-    
-        <div class="chatbox" id="chatBox">
-
-          <div class="goodchat-bubble bubble">
-            매너 채팅 해주세요 :)
+          <div class="chatbox" id="chatBox">
+            <div class="goodchat-bubble bubble">매너 채팅 해주세요 :)</div>
           </div>
 
+          <form>
+            <div class="text-box" id="textBox">
+              <v-text-field label="메시지 전송"
+                v-model="chatlog.message"
+                id="msgForm"
+                @keyup.enter="enter"
+              >
+              </v-text-field>
+              <input type="text" style="display:none;"/> 
+              <v-icon 
+                @click="sendChat"
+                class="text-box-icon"
+                v-show="!chatlog.message"
+              >mdi-send</v-icon>
+              <v-icon 
+                @click="sendChat"
+                class="text-box-icon"
+                v-show="chatlog.message"
+                color="blue"
+              >mdi-send</v-icon>
+            </div>
+          </form>
         </div>
-    
-        <form>
-        <div class="text-box" id="textBox">
-          <textarea v-model="chatlog.message" id="msgForm" placeholder="메시지를 입력해주세요 :)" @keyup="enter" ></textarea>
-          <button id="sendChat" @click="sendChat" v-show="chatlog.message != ''">전송</button>
-          <button id="sendChat_disable" disabled="true" v-show="chatlog.message == ''">전송</button>
+      </div>
+    </v-navigation-drawer>
 
-          <button id="sendToBoard" @click=sendToBoard>보드로</button>
-          <div class="clearfix"></div>
-        </div>
-       </form>
-   </div>
- </div>
- 
-    <div class="chat-container2" id="chatContainer" v-if="!chattingBox">
-       <div class="chat-header" id="chatHeader">
-          <button id="minimize" class="header-btn" @click="minimize"></button>
-          <button id="maximize" class="header-btn" @click="maximize"></button>
-          <img id="profile-pic" src='../../assets/img/picture.jpg' width="1">
-          <span>
-            <a id="username" style="margin-right:52%">나</a>
-            <img class="bell">
-            {{notread}}
-              
-          </span>
-          
-        </div>
-    </div>
- </div>
-
-
-
+  </div>
 </template>
 
 
 
 <script>
+// import ChatlogDataService from "../../services/ChatlogDataService"
 
-      // var chatcontainer = document.getElementById("chatContainer");
-      // var chatheader = document.getElementById("chatHeader");
-      // var chatbox = document.getElementById("chatBox");
-      // var textbox = document.getElementById("textBox");
-
-      // $("#minimize").click(function(){
-      //   chatbox.style.display = 'none';
-      //   textbox.style.display = 'none';
-      //   chatcontainer.style.top = '90%';
-      //   //alert("최소화");
-      // });
-
-      // $("#maximize").click(function(){
-      //   chatbox.style.display = 'block';
-      //   textbox.style.display = 'block';
-      //   chatcontainer.style.top = '23%';
-      // })
-
-import ChatlogDataService from "../../services/ChatlogDataService"
- 
 export default {
   name: "Chat",
-  components:{
-  },
+  components: {},
   created() {
-    //console.log("chanelName : "+ localStorage.getItem("wsboard.channelName")); 채널 이름 가져오는 부분
-    // var myname = this.makeRandomName();
     var myname = this.$store.getters.userData.nickname;
-    if(this.$store.getters.userData.nickname == ""){
-      myname = "Unknown_"+this.makeRandomName();
+    if (this.$store.getters.userData.nickname == "") {
+      myname = "Unknown_" + this.makeRandomName();
     }
-    // console.log("my nickname is : ", myname);
     var chatcontainer = document.getElementById("chatContainer");
     var chatheader = document.getElementById("chatHeader");
     var chatbox = document.getElementById("chatBox");
     var textbox = document.getElementById("textBox");
-    var $msgForm = $('#msgForm').val();
+    var $msgForm = $("#msgForm").val();
     this.naname = myname;
-    this.Channel = localStorage.getItem("wsboard.channelName");
+    this.Channel = localStorage.getItem("wsboard.channelId");
 
-    console.log(this.naname);
-    
+    // console.log('name is: ' + this.naname);
+    // console.log('channel is: ' + this.Channel);
+
+    // console.log("SOCKET IS @@@@@@: ");
+    // console.log(this.$socket);
+    this.$socket._callbacks.$clientList = undefined;
+    this.$socket._callbacks.$enter = undefined;
+    this.$socket._callbacks.$out = undefined;
+    this.$socket._callbacks.$s2c_chat = undefined;
+    this.$socket._callbacks.$s2c_chat_me = undefined;
+    this.$socket._callbacks.$s2c_text = undefined;
+
     this.$socket.emit("login", {
-      //name: this.$store.state.name,
-      name: myname,
-      userid: myname,
-      channelName : this.Channel,
+      name: this.naname,
+      userid: this.naname,
+      channelId: this.Channel,
     });
 
-    this.$socket.on("login", (data) => {
+    this.$socket.on("enter", (data) => {
       // this.chatLogs.push(data.name + "님이 접속하셨습니다");
       // this.chatComes.push(data.name);
-      console.log("입장!");
-      $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
-    
-    });
-
-     this.$socket.on("enter", (data) => {
-      // this.chatLogs.push(data.name + "님이 접속하셨습니다");
-      // this.chatComes.push(data.name);
-    setTimeout(function() {
-         $('.chatbox').append('<div class="inout-bubble">'+data+'님이 입장하셨습니다.</div>');
-        }, 800);
+      $(".chatbox").append(
+        '<div class="inout-bubble">' + data + "님이 입장하셨습니다.</div>"
+      );
     });
 
     this.$socket.on("clientList", (data) => {
-      console.log("접속자 : ");
       var exceptme = [];
       //this.clientList = data;
-      for(var i=0; i<data.length; i++){
-        if(data[i] === myname){
+      for (var i = 0; i < data.length; i++) {
+        if (data[i] === myname) {
           continue;
-        }
-        else exceptme.push(data[i]);  // 배열에 나의 정보는 빼고 넣어주었다
+        } else exceptme.push(data[i]); // 배열에 나의 정보는 빼고 넣어주었다
       }
       this.clientList = exceptme;
-
-      console.log(this.clientList);
-
     });
 
     // 내 메시지는 띄우지 말야아함.
-    this.$socket.on("s2c chat", (data) => {
+    this.$socket.on("s2c_chat", (data) => {
       var name = data.from.name;
       var msg = data.msg;
+      var time = data.time;
+      if (name === this.naname) {
+        // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
+        console.log("지금 내 이름 : " + this.naname);
+      } else
+        $(".chatbox").append(
+          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + '<span class="time">' + time + "</span>" + "</div>"
+        );
 
-     if(name === this.naname){ // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
-        console.log("지금 내 이름 : "+this.naname);
-      }
-      else $('.chatbox').append('<div class="friend-bubble bubble">('+name+'님) '+msg+'</div>');
-
-      if(!this.chattingBox){
-        
+      if (!this.chattingBox) {
         this.notread += 1;
-        console.log("안읽은 메시지 수 : "+this.notread);
+        console.log("안읽은 메시지 수 : " + this.notread);
       }
 
-      setTimeout(function(){
-                    $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
-                }, 50);
+      setTimeout(function () {
+        $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
+      }, 50);
     });
 
-    this.$socket.on("s2c text", (data) => {
+    this.$socket.on("s2c_text", (data) => {
       var name = data.from.name;
       var msg = data.msg;
 
-      $('.textBoard').append('<h3><span>'+msg+'</span></h3>');
-
+      $(".textBoard").append("<h3><span>" + msg + "</span></h3>");
     });
 
-    this.$socket.on("s2c chat me", (data) => {
+    this.$socket.on("s2c_chat_me", (data) => {
       var name = data.from.name;
       var msg = data.msg;
-     
-      $('.chatbox').append('<div class="my-bubble bubble">'+msg+'</div>');
+      var time = data.time;
+      $(".chatbox").append('<div class="my-bubble bubble">' + msg + '<span class="time">' + time + "</span>" + "</div>");
 
-      setTimeout(function(){
-              $('.chatbox').scrollTop($('.chatbox').prop('scrollHeight'));
-          }, 50);
+      setTimeout(function () {
+        $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
+      }, 50);
     });
 
     this.$socket.on("out", (data) => {
-      console.log("나갔습니다!!");
-      // if(!(data.from.name).eqauls("undefnied")) 
-      $('.chatbox').append('<div class="inout-bubble">'+data.from.name+'님이 나가셨습니다.</div>');
-    
+      // if(!(data.from.name).eqauls("undefnied"))
+      $(".chatbox").append(
+        '<div class="inout-bubble">' +
+          data.from.name +
+          "님이 나가셨습니다.</div>"
+      );
     });
+  },
 
-    this.$socket.on(() => {});
-
-
-    
+  destroyed() {
+    this.$socket.emit("disconnect2", {});
   },
 
   data() {
     return {
       chatlogs: [],
-      chattingBox: true,
+      chattingBox: false,
       isList: false,
       clientList: [],
       textarea: "",
@@ -219,109 +206,68 @@ export default {
       chatMsgs: [],
       naname: "",
       notread: 0,
-
+      isHover: false,
       chatlog: {
         id: null,
         message: "",
         userid: "",
         roomid: "",
-      }
-
-      
+      },
+      chatDrawer: false,
     };
   },
   methods: {
-    saveChatlog(){
+    toggleChattingBox() {
+      this.notread = 0
+      this.chattingBox = !this.chattingBox;
+    },
+    saveChatlog() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
 
       var data = {
         message: this.chatlog.message,
         userid: this.naname,
-        roomid:  this.Channel,
+        roomid: this.Channel,
       };
-
-      console.log("나네임 : "+this.naname);
-
-
-      ChatlogDataService.create(data)
-        .then(response => { 
-          this.chatlog.id = response.data.id;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
     },
-
 
     sendChat() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
-      var $msgForm = $('#msgForm').val();
-      console.log("msgForm : "+$msgForm);
-      console.log("channel : "+this.Channel);
+      console.log("msgForm : " + this.chatlog.message);
+      console.log("channel : " + this.Channel);
 
-      if($msgForm==='') alert("메시지를 입력해주세요");
-      else{
-      this.$socket.emit("chat", {msg: $msgForm});
-      $('#msgForm').val("");
-
-
-      this.saveChatlog();
+      if (this.chatlog.message === "") pass;
+      else {
+        this.$socket.emit("chat", { msg: this.chatlog.message });
+        this.chatlog.message = "";
+        // this.saveChatlog();
       }
     },
 
     sendToBoard() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
-      var $msgForm = $('#msgForm').val();
-      // console.log("msgForm : "+$msgForm);
-      // console.log("channel : "+this.Channel);
+      var $msgForm = $("#msgForm").val();
 
-
-      this.$socket.emit("text", {msg: $msgForm});
-      $('#msgForm').val("");
-
+      this.$socket.emit("text", { msg: $msgForm });
+      $("#msgForm").val("");
 
       //this.saveChatlog();
     },
 
-
-     enter() { // 엔터 처리
-       var code = event.keyCode;
-        if(code==13){
-          
-          if(event.shiftKey === true){ // Shift + Enter 처리
-            //console.log("Shift도 눌러짐");
-          
-          }
-          else{
-              
-              this.sendChat();
-             //this.saveChatlog();
-          
-         }
+    enter() {
+      // 엔터 처리
+      var code = event.keyCode;
+      if (code == 13) {
+        if (event.shiftKey === true) {
+          // Shift + Enter 처리
+        } else {
+          this.sendChat();
+          //this.saveChatlog();
         }
-       
-    },
-
-    minimize(){
-      this.chattingBox = false;
-      //alert("최소화");
-    },
-    maximize(){
-      this.chattingBox = true;
-      this.notread = 0;
-    },
-
-    minimize(){
-      this.chattingBox = false;
-      //alert("최소화");
-    },
-    maximize(){
-      this.chattingBox = true;
-      this.notread = 0;
+      }
     },
 
     makeRandomName() {
@@ -335,298 +281,225 @@ export default {
       // return name + Math.random()*10;
     },
 
-    showList(){
-      
-      if(this.isList) this.isList=false;
-      else this.isList=true;
-//       $('#msgForm').val("안녕");
+    showList() {
+      if (this.isList) this.isList = false;
+      else this.isList = true;
     },
 
-    retrieveChatlogs(){
-      ChatlogDataService.getAll()
-        .then(response =>{
-          var Logs = response.data;
-          console.log("채팅로그 불러오기");
-          console.log("LogRoom : "+Logs[0].roomid);
-          console.log("channelName : "+this.Channel);
-          //console.log(Logs[0]);
-          console.log("logsname : "+Logs[0].userid);
-          console.log("myname : "+this.naname);
-          
-          for(var i=0; i<Logs.length; i++){
-            if(Logs[i].roomid === this.Channel){
-              //console.log(Logs[i].message);
-              //this.chatlogs.push(Logs[i]);
-              if(Logs[i].userid === this.naname) $('.chatbox').append('<div class="my-bubble bubble">'+Logs[i].message+'</div>');
-              else $('.chatbox').append('<div class="friend-bubble bubble">('+Logs[i].userid+'님) '+Logs[i].message+'</div>');
-            }
-          }
-          console.log(Logs);
-
-          
-        })
-        .catch(e =>{
-          console.log(e);
-        });
-    },
+    gradColor() {
+      if(this.chattingBox) {
+        return "#08543A"
+      }
+      return "#0d875c"
+    }
   },
-
-  mounted(){
-    this.retrieveChatlogs();
-  }
 };
 </script>
 
 <style>
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    /* background-image: url('../images/background.jpg'); */
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-  
-  .chat-container {
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    transition: width 0.3s ease;
-    position: absolute;
-    
-    left: 75%;
-    width: 25%;
-    bottom: 0%;
+.chat-button {
+  position: fixed;
+  z-index: 3;
+  bottom: 140px;
+  left: 12px;
+  width: 50px;
+  height: 50px;
+}
 
-  }
-  
-  .chat-header {
-    background-color: white;
-    padding: 30px 8px 8px 8px;
-  }
-  
-  .chat-header .header-btn {
-    border-radius: 50%;
-    border: none;
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
-    position: absolute;
-    top: 8px;
-    padding: 0;
-  }
-  
-  .chat-header #close {
-    background-color: #ff6059;
-    left: 8px;
-  }
-  
-  .chat-header #minimize {
-    background-color: #ffbf2f;
-    left: 10px;
-  }
-  
-  .chat-header #maximize {
-    background-color: #29cd42;
-    left: 28px;
-  }
-  
-  .chat-header #profile-pic {
-    vertical-align: middle;
-    border-radius: 50%;
-    width: 12%;
-    height: 12%;
-    margin-right: 2%
-  }
-  
-  .chat-header #showList-pic {
-      vertical-align: middle;
-      border-radius: 50%;
-      width: 15%;
-      height: 15%;
-      margin-right: 2%;
-      cursor: pointer;
-    }
 
-  .chat-header #bell-pic {
-      vertical-align: middle;
-      border-radius: 50%;
-      width: 17%;
-      height: 17%;
-      margin-right: 2%;
-      cursor: pointer;
-    }
+.chat-container {
+  padding-left: 16px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  transition: width 0.3s ease;
+  position: absolute;
+  top: 70px;
+  height: 100%;
+  width: 100%;
+}
 
-   .bell{
-        position: relative;
-        background-image: url('../../assets/img/bell.png');                                                               
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        background-size: cover;
-        vertical-align: middle;
-    }
+.chat-header {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  padding: 8px 8px 8px 8px;
+}
 
-    .content{
-         position: absolute;
-         top:10%;
-         left:5%;
-         transform: translate(-50%, -50%);                                                                   
-         font-size:10px;
-         color:red;
-         z-index: 2;
-         text-align: center;
-    }
+.chat-header button{
+  margin-bottom: auto;
+}
 
-  .chat-header #username {
-    vertical-align: middle;
-    font-size: 17px;
-    font-weight: 500;
-    margin-right: 63%;
-    color: #343434;
-  }
+.chat-header #username {
+  vertical-align: middle;
+  font-size: 17px;
+  font-weight: 500;
+  margin-right: 20px;
+  color: #343434;
+}
 
-  .chat-header #userList {
-    margin-right: 5%;
-  }
-  .chat-header #user{
-    margin-left: 80%;
-    margin-bottom: 2%;
-    font-size:13px;
-    background-color:yellowgreen;
-    border-radius: 10px 10px 10px 10px;
-    padding: 7px 15px 7px 15px;
-    float: left;
-    clear: both;
-  }
+.chat-header #userList {
+  margin-right: 5%;
+}
+.chat-header #user {
+  font-size: 13px;
+  background-color: #F5F5EC;
+  border-radius: 10px;
+  padding: 2px 8px;
+  float: left;
+  clear: both;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.client-list {
+  display: flex;
+}
+.content {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  color: red;
+  z-index: 2;
+  text-align: center;
+}
+/* chat box */
 
-  /* only header */
-  .chat-container2 {
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    transition: width 0.3s ease;
-    position: absolute;
-    
-    left: 75%;
-    width: 25%;
-    bottom: 0%;
+.chatbox {
+  height: calc(100vh - 220px);
+  background-color: white;
+  padding: 10px;
+  overflow-y: scroll;
+  position: relative;
+}
 
-  }
-  
-  
-  /* chat box */
-  
-  .chatbox {
-    height: 400px;
-    background-color: #d7e4f2;
-    padding: 10px;
-    overflow-y: scroll;
-    position: relative;
-  }
-  
-  .bubble {
-    margin: 5px 0;
-    display: inline-block;
-    max-width: 300px;
-    font-size: 14px;
-    position: relative;
-  }
-  
-  .inout-bubble {
-    background-color:lightslategray;
-    border-radius: 14px 14px 14px 14px;
-    padding: 7px 50px 7px 50px;
-    float: left;
-    clear: both;
+.bubble {
+  margin: 5px 0;
+  display: inline-block;
+  max-width: 300px;
+  font-size: 14px;
+  position: relative;
+}
 
-    margin: 5px 0;
-    max-width: 300px;
-    font-size: 14px;
-    position: relative;
-  }
+.inout-bubble {
+  background-color: #D3D3CA;
+  border-radius: 14px 14px 14px 14px;
+  padding: 7px 50px 7px 50px;
+  float: left;
+  clear: both;
+  color: rgba(0,0,0,0.87);
+  margin: 5px 0;
+  max-width: 300px;
+  font-size: 14px;
+  position: relative;
+}
 
-  .friend-bubble {
-    background-color: white;
-    border-radius: 14px 14px 14px 0;
-    padding: 7px 15px 7px 15px;
-    float: left;
-    clear: both;
-  }
+.friend-bubble {
+  background-color: #d7e4f2;
+  border-radius: 14px 14px 14px 0;
+  padding: 7px 15px 7px 15px;
+  float: left;
+  clear: both;
+}
 
-  .goodchat-bubble {
-    background-color:lightpink;
-    border-radius: 14px 14px 14px 14px;
-    padding: 7px 15px 7px 15px;
-    float: left;
-    clear: both;
-  }
-  
-  .my-bubble {
-    background-color: #fff46d;
-    border-radius: 14px 14px 0px 14px;
-    padding: 7px 15px 7px 15px;
-    float: right;
-    clear: both;
-  }
-  
-  /* text box */
-  
-  .text-box {
-    background-color: #fafafa;
-    padding: 10px;
-  }
-  
-  .text-box textarea {
-    height: 60px;
-    float: left;
-    width: calc(100% - 140px);
-    border-radius: 3px;
-    background-color: #ffffff;
-    border: solid 0.5px #d7d7d7;
-    resize: none;
-    padding: 10px;
-    font-size: 14px;
-  }
-  
-  #sendChat {
-    background-color: orange;
-    width: 60px;
-    height: 60px;
-    color: black;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-left: 10px;
-    float: left;
-  }
+.friend-bubble span{
+  font-size: 0.2rem;
+  float: left;
+  clear: both;
+}
+.friend-bubble .time{
+  margin-left: 20px;
+}
+.goodchat-bubble {
+  background-color: lightpink;
+  border-radius: 14px 14px 14px 14px;
+  padding: 7px 15px 7px 15px;
+  float: left;
+  clear: both;
+}
 
-  #sendToBoard {
-    background-color:skyblue;
-    width: 60px;
-    height: 60px;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    margin-left: 10px;
-    float: left;
-  }
+.my-bubble {
+  background-color: #fff46d;
+  border-radius: 14px 14px 0px 14px;
+  padding: 7px 15px 7px 15px;
+  float: right;
+  clear: both;
+}
 
-  #sendChat_disable {
-    background-color: orange;
-    color: gray;
-    width: 60px;
-    height: 60px;
-    border: none;
-    border-radius: 3px;
-    cursor: initial;
-    margin-left: 10px;
-    float: left;
-  }
+.my-bubble .time{
+  left: -32px;
+}
 
-  
-  .clearfix {
-    clear: both;
-  }
+.time {
+  position: absolute;
+  bottom: 0px;
+  font-size: 0.7rem !important;
+}
+/* text box */
 
-  
+.text-box {
+  width: 100%;
+  position: fixed;
+  bottom:0;
+  display: flex;
+  background-color: white;
+  border-top: 2px solid rgba(0, 0, 0, 0.3);
+  padding: 0px 10px;
+}
+
+.text-box-icon {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 2px;
+}
+
+.dot {
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  background-color: rgb(255, 89, 34);
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.hover {
+  background-color: white;
+  width: auto;
+  height: auto;
+  position: fixed;
+  z-index: 2;
+  left: 95px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.1),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.08), 0px 3px 14px 2px rgba(0, 0, 0, 0.05);
+}
+
+.chat-hover{
+  bottom: 157px;
+}
+
+
+
+#sendToBoard {
+  background-color: skyblue;
+  width: 60px;
+  height: 60px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 10px;
+  float: left;
+}
+
+
+
 h3 {
   /* margin: 20px; */
   font-family: "Paytone One";
@@ -640,7 +513,7 @@ h3 span {
   font-size: 80px;
   line-height: 80px;
   color: orange;
-  text-shadow: 0 13.36px 8.896px #c4b59d,0 -2px 1px #fff;
+  text-shadow: 0 13.36px 8.896px #c4b59d, 0 -2px 1px #fff;
   letter-spacing: -4px;
 }
 </style>

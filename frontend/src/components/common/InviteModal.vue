@@ -51,6 +51,7 @@
 
 <script>
 import httpAuth from '../../http-common-auth';
+import * as authApi from '../../api/auth.js';
 
 export default {
   data() {
@@ -77,14 +78,25 @@ export default {
   methods: {
     submit() {
       console.log('auth에 보내기')
-      const url = "/api/auth/invite";
       const mydata = {
           "channelId": localStorage.getItem("wsboard.channelId"),
           "email": this.memberList,
       }
       console.log(mydata);
-      httpAuth.post(url, mydata)
-      this.$store.state.inviteModal = false;
+      
+      authApi.inviteUser(mydata,
+          res => {
+            // httpAuth.post(url, mydata)
+            this.$store.state.inviteModal = false; 
+          },
+          err => {
+              alert("문제가 발생하였습니다. 잠시후 다시 시도해주세요.");
+              console.log(err);
+          }    
+      );
+
+      
+      
     },
     append(valid) {
       if(!valid){ 

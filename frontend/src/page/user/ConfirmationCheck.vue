@@ -16,7 +16,6 @@
         >
             <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
         </footer>
-
     </div>
 </template>
 

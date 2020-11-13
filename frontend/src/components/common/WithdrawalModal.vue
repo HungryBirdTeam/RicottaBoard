@@ -58,7 +58,7 @@ export default {
   methods: {
     withdrawal() {       
       this.loading = true;
-      const url = "/api/auth/login";
+      const url = "/login";
       const mydata = {
         data: {
           "channelId": localStorage.getItem("wsboard.channelId"),

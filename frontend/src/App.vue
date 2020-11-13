@@ -23,16 +23,11 @@ export default {
   },
   created() {
     let url = this.$route.name;
-    console.log(url);
     this.checkBoard(url);
    
     
 
-    
-    console.log("refresh!");
-    console.log(this.$store);
     const arr = document.cookie.split(";");
-    console.log(this.$store.getters.userData);
     const logInfo = {
       AccessData: "",
       AccessToken: "",
@@ -44,7 +39,6 @@ export default {
         logInfo.AccessToken = element.split("=")[1];
       }
       if (element.split("=")[0].trim() == "AccessData") {
-        console.log("AccessData@");
         const a = element.split("=")[1].split("%2C");
         logInfo.AccessData = {
           email: unescape(a[0].split("%3A")[1]),
@@ -71,7 +65,6 @@ export default {
 
     checkBoard(url) {
       let array = ["enter","join"];
-      console.log(url);
       let isBoard = false;
       array.map((path) => {
      

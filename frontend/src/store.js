@@ -35,22 +35,22 @@ export const store = new Vuex.Store({
         modal: false,
         // 캘린더
         scheduler: {
-          left: '600px',
-          top: '270px',
-          event: {
-              startDate: '',
-              startTime: '',
-              endDate: '',
-              endTime: '',
-              content: '',
-              name: '',
-          },
-          events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
-          dialog: false,
-          eventDetail: false,
+            left: '600px',
+            top: '270px',
+            event: {
+                startDate: '',
+                startTime: '',
+                endDate: '',
+                endTime: '',
+                content: '',
+                name: '',
+            },
+            events: [{ "name": "오프라인", "content": "hello", "start": "2020-10-21T12:30:00", "end": "2020-10-21T18:00:00" }],
+            dialog: false,
+            eventDetail: false,
         },
-        joining:{
-            canIUseIt:"",
+        joining: {
+            canIUseIt: "",
             canNameUseIt: "",
         },
 
@@ -82,6 +82,7 @@ export const store = new Vuex.Store({
             ],
         },
         poll: [],
+        videoList: [],
         editorList: [],
         inviteModal: false,
         withdrawalModal: false,
@@ -110,116 +111,7 @@ export const store = new Vuex.Store({
                 }
             }
         },
-
-
-        /**
-         *  회원 탈퇴 메소드
-         */
-
-        [constants.METHODS.DELETE_USER]: (store, payload) => {
-            userApi.deleteUser(payload, store.getters.accessToken,
-                    res => {
-                        if (res.data == "success") {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                                "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                                store.commit("reSetAll");
-                            }, 3000)
-
-                        }
-                    },
-                    err => {
-                        store.dispatch("throwError", err);
-                    })
-                /* const url = `/api/user/delete?email=${payload.email.trim()}&password=${payload.password.trim()}`;
-                console.log(store.getters.accessToken);
-                authConnect.delete(url, {
-                        headers: {
-                            Authorization: 'Bearer ' + store.getters.accessToken
-                        }
-                    })
-                    .then((res) => {
-                        console.log(res);
-                        if (res.data == "success") {
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ,
-                                "계정이 삭제되었습니다. 지금까지 이용해주셔서 감사합니다.\n 3초뒤 되돌아갑니다.")
-                            setTimeout(() => {
-                                router.push('/');
-                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                                store.commit("reSetAll");
-                            }, 3000)
-
-                        }
-                    })
-                    .catch(exp => {
-                        store.dispatch("throwError", exp);
-                    }); */
-        },
-
-        /**
-            회원 로그인 메소드
-        */
-        [constants.METHODS.LOGIN_USER]: (_store, payload) => {
-            console.log(payload)
-            const data = {
-                "email": payload.email,
-                "password": payload.password
-            }
-            authApi.loginUser(data,
-                    res => {
-                        if (res.status == 200) {
-                            cookies.set('AccessToken', res.data.accessToken);
-                            store.commit(constants.METHODS.LOGIN_USER, [data, res.data.accessToken]);
-                            const dataWhatINeed = res.data.user;
-                            console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-                            store.commit(constants.METHODS.GET_USER, {
-                                dataWhatINeed
-                            });
-                            console.log("In store, state is : ", store.state);
-                            cookies.set('AccessData', _store.getters.userDataStr);
-                            router.push("/main");
-                            return true;
-                        }
-                    },
-                    err => {
-                        console.log(err.message);
-                        alert("로그인 정보가 잘못되었습니다.");
-                        return false;
-                    })
-                // http
-                //     .post(url, data)
-                //     .then(res => {
-                //         console.log("In store, res is : ", res);
-                //         if (res.status == 200) {
-                //             cookies.set('AccessToken', res.data.accessToken);
-                //             store.commit(constants.METHODS.LOGIN_USER, [data, res.data.accessToken]);
-                //             // store.commit(constants.METHODS.GET_USER, res.data.userInfoResponse);
-                //             const dataWhatINeed = res.data.user;
-                //             console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-                //             store.commit(constants.METHODS.GET_USER, {
-                //                 dataWhatINeed
-                //             });
-                //             //store.dispatch(constants.METHODS.GET_USER, data.email);
-                //             console.log("In store, state is : ", store.state);
-                //             // const userDataString = _store.userData
-                //             cookies.set('AccessData', _store.getters.userDataStr);
-
-            //             router.push("/main");
-            //             // router.go(0);
-            //             return true;
-            //         }
-            //     })
-            //     .catch(err => {
-            //         console.log(err.message);
-            //         alert("로그인 정보가 잘못되었습니다.");
-            //         return false;
-            //     });
-
-            return false;
-        },
-
+        
         /** 
          * 로그아웃 메소드
          */
@@ -228,13 +120,11 @@ export const store = new Vuex.Store({
             state.commit("reSetAll");
             this.$router.go(0);
         },
-
         /**
          * 회원가입 메소드
          */
         [constants.METHODS.CREATE_USER]: (_store, payload) => {
             store.commit(constants.METHODS.EMAILCHECK, "reset");
-            // const url = 'api/auth/register';
             const data = {
                 "email": payload.email.value,
                 "password": payload.password.value,
@@ -255,32 +145,6 @@ export const store = new Vuex.Store({
                 //         store.dispatch("throwError", exp);
                 //     });
         },
-
-        /**
-         * 유저 정보 가져오기
-         */
-        // [constants.METHODS.GET_USER] : (store, payload) =>{
-        //     // console.log("data : " + payload);
-
-        //     const data = payload;
-        //     const url = `/api/user/userInfo?email=${data}`;
-        //     authConnect.get(url, {
-        //         headers: {
-        //             Authorization: 'Bearer ' + store.getters.accessToken
-        //         }
-        //     })
-        //         .then(res => {
-        //             const dataWhatINeed = res.data  ;
-        //             console.log("In store, dataWhatINeed is : ", dataWhatINeed);
-        //             store.commit(constants.METHODS.GET_USER, {
-        //                 dataWhatINeed
-        //             });
-        //         })
-        //         .catch(exp => {
-        //             store.dispatch("throwError", exp);
-        //         });
-        // },
-
         /**
          * 이메일 중복 체크 메소드
          */
@@ -297,7 +161,6 @@ export const store = new Vuex.Store({
                 return;
             }
 
-            // const url = `/api/auth/checkEmailInUse?email=${checkEmail}`;
             userApi.emailCheck(checkEmail,
                     res => {
                         store.commit(constants.METHODS.EMAILCHECK, res.data.data);
@@ -329,7 +192,7 @@ export const store = new Vuex.Store({
             }
 
             console.log('second', checkNickname.length)
-            if (checkNickname.length == 0) {           
+            if (checkNickname.length == 0) {
                 store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
                 return;
             }
@@ -349,25 +212,23 @@ export const store = new Vuex.Store({
          * 비밀번호 초기화 요청 메소드 
          */
         [constants.METHODS.RESETMYPASSWORDREQ]: (store, payload) => {
-            // const url = "/api/auth/password/resetlink"
-            // const data = payload;
             const email = {
                 "email": payload
             }
             userApi.resetMyPasswordReq(email,
-                res => {
-                    if (res.data.success) {
-                        store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
-                        setTimeout(() => {
-                            router.push('/');
-                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
-                        }, 3000)
+                    res => {
+                        if (res.data.success) {
+                            store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
+                            setTimeout(() => {
+                                router.push('/');
+                                store.commit(constants.METHODS.RESETMYPASSWORDREQ, "");
+                            }, 3000)
 
-                    }
-                },
-                err => {
-                    store.dispatch("throwError", err);
-                })
+                        }
+                    },
+                    err => {
+                        store.dispatch("throwError", err);
+                    })
                 // authConnect.post(url, {
                 //         "email": data,
                 //     })
@@ -392,8 +253,6 @@ export const store = new Vuex.Store({
          * 비밀번호 초기화 메소드
          */
         [constants.METHODS.RESETMYPASSWORD]: (store, payload) => {
-            // const url = "/api/auth/password/reset";
-            // const data = payload;
             const passwordInfo = {
                 "password": payload.password,
                 "confirmPassword": payload.passwordConfirm,
@@ -435,7 +294,7 @@ export const store = new Vuex.Store({
             router.push('/error');
             store.commit(constants.METHODS.ERROR, exp)
             console.log(exp);
-        }
+        },
 
     },
     mutations: {
@@ -514,6 +373,12 @@ export const store = new Vuex.Store({
             state.userData.nickname = payload.dataWhatINeed.nickname;
             state.userData.name = payload.dataWhatINeed.username;
         },
+        [constants.METHODS.USER_INFO]: (state, payload) => {
+            state.userData.email = payload.newUser.email
+            state.userData.nickname = payload.newUser.nickname
+            state.userData.name = payload.newUser.username
+            console.log(state.userData);
+        },
         [constants.METHODS.DELETE_USER]: (state) => {
             state.userData.email = "";
             state.userData.password = "";
@@ -589,7 +454,7 @@ export const store = new Vuex.Store({
         toggleUpdate: (state) => {
             console.log('update Occured')
             state.updateOccur = !state.updateOccur;
-        }
+        },
     },
     getters: {
         userData: function(state) {

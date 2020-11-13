@@ -153,10 +153,6 @@
     >
       <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
     </footer>
-    
-    <!-- <router-link v-bind:to="{name:constants.URL_TYPE.USER.JOINDONE}" @click="createUserRequest" class="btn">
-            작성완료 
-    </router-link>-->
   </div>
     
 </template>

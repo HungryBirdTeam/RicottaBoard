@@ -7,16 +7,23 @@ const instance = createInstance(API_BASE_URL);
 
 function findAllChannel(data, config, success, fail) {
     instance
-        .post('api/board/channels', data, config)
+        .post('/channels', data, config)
         .then(success)
         .catch(fail);
 }
 
 function createChannel(data, config, success, fail) {
     instance
-        .post('api/board/channel', data, config)
+        .post('/channel', data, config)
         .then(success)
         .catch(fail);
 }
 
-export { findAllChannel, createChannel};
+function validateUserWithChannel(data, success, fail) {
+    instance
+        .post('/channel/validation', data)
+        .then(success)
+        .catch(fail);
+}
+
+export { findAllChannel, createChannel, validateUserWithChannel };

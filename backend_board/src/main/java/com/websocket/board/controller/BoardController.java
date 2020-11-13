@@ -10,6 +10,7 @@ import com.websocket.board.repo.SocketBoardMessageRepository;
 import com.websocket.board.service.BoardClientService;
 import com.websocket.board.service.ChannelService;
 import lombok.RequiredArgsConstructor;
+import org.javers.core.Changes;
 import org.javers.core.Javers;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
@@ -22,6 +23,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
+//@RequestMapping("/api/board")   // 로컬
 public class BoardController {
 
     private final ChannelRedisRepository channelRedisRepository;
@@ -35,21 +37,28 @@ public class BoardController {
     @GetMapping("/{channelId}/history")
     @ResponseBody
     public List<HistoryResponse> getPersonChanges(@PathVariable("channelId") String channelId) throws IOException {
+
         QueryBuilder jqlQuery = QueryBuilder.byInstanceId(channelId, SocketBoardMessage.class)
                 .withNewObjectChanges();
 
+        Changes changes = javers.findChanges(jqlQuery.build());
+        System.out.println(changes.prettyPrint());
+
         List<CdoSnapshot> snapshots = javers.findSnapshots(jqlQuery.build());
-//        System.out.println(changes.prettyPrint());
         List<HistoryResponse> historyResponsesList = new ArrayList<>();
 
-        for (CdoSnapshot cs: snapshots) {
+        for (int i = 0; i < snapshots.size(); i++) {
+            if(i == 20) break;
+            CdoSnapshot cs = snapshots.get(i);
             String tmp = javers.getJsonConverter().toJson(cs);
             SnapShot snapShot = objectMapper.readValue(tmp, SnapShot.class);
             System.out.println(snapShot);
+            String editUser = snapShot.state.editUser == null || snapShot.state.editUser.equals("") ? "TestUser" : snapShot.state.editUser;
             historyResponsesList.add(
                     new HistoryResponse().builder()
+                            .editUser(editUser)
                             .editModule(snapShot.changedProperties)
-                            .editTime(snapShot.commitMetadata.commitDateInstant)
+                            .editTime(snapShot.commitMetadata.commitDate)
                             .build());
         }
 

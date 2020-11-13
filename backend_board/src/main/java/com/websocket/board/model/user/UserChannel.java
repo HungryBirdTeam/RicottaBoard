@@ -3,10 +3,12 @@ package com.websocket.board.model.user;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.websocket.board.model.Channel;
 import lombok.*;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@DiffIgnore
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
