@@ -151,6 +151,12 @@ function loadChannelInfo(channelId, email, _socket) {
         channelPeerConnectionsMap.delete(member);
         streamMap.delete(member);
         streamSenderMap.delete(member);
+
+        console.log(member, "그룹에서 나갔습니다.");
+        console.dir(users);
+        console.dir(channelPeerConnectionsMap);
+        console.dir(streamMap);
+        console.dir(streamSenderMap);
     })
 
     socket.on('who is video on', () => {
