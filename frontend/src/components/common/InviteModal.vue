@@ -82,7 +82,7 @@ export default {
           "channelId": localStorage.getItem("wsboard.channelId"),
           "channelName": localStorage.getItem("wsboard.channelName"),
           "email": this.memberList,
-          "from": this.$store.state.userData.nickName
+          "from":  this.$store.getters.userData.nickname
       }
       console.log(mydata);
       
