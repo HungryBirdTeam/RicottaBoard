@@ -77,10 +77,13 @@ io.on('connection', function(socket) {
 
     });
 
-    socket.on('off video', info => {
-        io.sockets.in(info.channel).emit('off video', info.member);
+    socket.on('on video', info => {
+        io.sockets.in(info.channel).emit('on video', info.member);
     })
 
+    socket.on('off video', info => {
+        io.sockets.in(info.channel).emit('off video', info.member);
+    });
 
 });
 

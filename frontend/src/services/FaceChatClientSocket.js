@@ -125,14 +125,23 @@ function loadChannelInfo(channelId, email, _socket) {
         }
     });
 
+    socket.on('on video', member => {
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = true
+                );
+        }
+    });
+
     socket.on('off video', member => {
-        //비디오를 종료한 사람이
-        if (member == myInfo) {
-            //나라면,
-
-        } else {
-            //다른 멤버라면,
-
+        var videoComponent = document.getElementById("video_" + member);
+        if (videoComponent) {
+            videoComponent.srcObject.getTracks()
+                .forEach(track =>
+                    track.enabled = false
+                );
         }
     });
 
@@ -153,6 +162,16 @@ function loadChannelInfo(channelId, email, _socket) {
 async function onVideo(vdId) {
 
     localVideo = document.getElementById(vdId);
+
+    if (isVideoOn) {
+        var info = {
+            member: myInfo,
+            channel: channel
+        }
+        socket.emit('on video', info);
+
+        return;
+    }
     // localVideo = document.querySelector('#video_' + myInfo);
     const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -162,21 +181,20 @@ async function onVideo(vdId) {
 }
 
 //비디오 종료
-function offVideo() {
-    if (localStream) {
-        let tracks = localStream.getTracks();
-        tracks.forEach((track) => {
-            track.stop();
-        });
-        // isVideoOn = false;
-        // localStream.srcObject = null;
+function offVideo(vdId) {
 
-        var info = {
-            member: myInfo,
-            channel: channel
-        }
-        socket.emit('off video', info);
+    // let tracks = localStream.getTracks();
+    // tracks.forEach((track) => {
+    //     track.stop();
+    // });
+    // isVideoOn = false;
+    // localStream.srcObject = null;
+
+    var info = {
+        member: myInfo,
+        channel: channel
     }
+    socket.emit('off video', info);
 }
 
 function createOffer() {
@@ -227,9 +245,9 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
-            // pc.oniceconnectionstatechange = event => {
-            //     handleCompleteConnection(event, member, pc);
-            // }
+            pc.oniceconnectionstatechange = event => {
+                handleConnectionEvent(event, member);
+            }
 
             channelPeerConnectionsMap.set(member, pc);
         }
@@ -242,9 +260,6 @@ function createPeerConnection(member) {
 }
 
 function handleTrack(event, member) {
-    // remoteStream = event.streams[0];
-    // remoteVideo.srcObject = remoteStream;
-
 
     if (event.streams && event.streams[0]) {
         event.streams[0].getTracks().forEach(track => {
