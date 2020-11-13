@@ -43,6 +43,12 @@ public class OnInvitationCompleteListener implements ApplicationListener<OnInvit
 
         List<String> recipientAddress = new ArrayList<>();
         for (User u:user) {
+            if(u.getEmail() == null){
+//                mailService.sendInviteRegistrationEmail();
+                System.out.println("====== WARNING : There is no user =====");
+                System.out.println(u.toString());
+                continue;
+            }
             recipientAddress.add(u.getEmail());
         }
         List<String> email = event.getEmail();
