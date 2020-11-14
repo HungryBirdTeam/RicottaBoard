@@ -79,8 +79,8 @@ export default {
     submit() {
       console.log('auth에 보내기')
       const mydata = {
-          "channelId": localStorage.getItem("wsboard.channelId"),
-          "channelName": localStorage.getItem("wsboard.channelName"),
+          "channelId": this.$route.params.channelId,
+          "channelName": this.$route.params.channelName,
           "email": this.memberList,
           "from":  this.$store.getters.userData.nickname
       }
