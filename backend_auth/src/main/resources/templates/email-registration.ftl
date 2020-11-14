@@ -4,7 +4,6 @@
     </head>
     <div class="temp_body">
 
-
         <div class="bodyContent">
 
             <div class="headlineContent">
@@ -13,11 +12,12 @@
 
             <div class="innerContent">
 
+
                 <h2>안녕하세요!</h2>
 
                 <div class="mainText">
                     <p>안녕하세요. 리코타 보드입니다.</p>
-                    <p>누군가로부터 초대를 받았습니다!</p>
+                    <p>${from} 님으로부터 초대를 받았습니다!</p>
                     <p>리코타 보드에 가입하고 사람들과의 협업을 시작하세요!</p>
 
                 </div>
