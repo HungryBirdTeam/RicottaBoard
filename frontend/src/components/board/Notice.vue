@@ -174,13 +174,13 @@ export default {
     };
   },
   mounted() {
-    this.channelId = localStorage.getItem("wsboard.channelId");
+    this.channelId = this.$route.params.channelId
     console.log("NOTICE 생성");
     this.fetchNotice();
   },
   methods: {
     fetchNotice() {
-      boardApi.getAllNotice(false, this.$store.getters.accessToken,
+      boardApi.getAllNotice(this.channelId, false, this.$store.getters.accessToken,
         (response) => {
           this.articleList = response.data;
         },
@@ -210,7 +210,7 @@ export default {
       if (this.checkException()) {
         this.articleInfo.channelId = this.channelId
         this.articleInfo.writer = this.$store.state.userData.nickname
-        boardApi.createNotice(this.articleInfo, false, this.$store.getters.accessToken,
+        boardApi.createNotice(this.channelId, this.articleInfo, false, this.$store.getters.accessToken,
           (response) => {
             this.isPost = false;
             this.isDetail = true;
@@ -227,7 +227,7 @@ export default {
       this.article = article;
     },
     checkDelete() {
-      boardApi.deleteNotice(this.article.id, false, this.$store.getters.accessToken,
+      boardApi.deleteNotice(this.channelId, this.article.id, false, this.$store.getters.accessToken,
       (response) => {
         this.fetchNotice();
         this.isDetail = false;
