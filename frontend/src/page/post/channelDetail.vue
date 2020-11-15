@@ -343,7 +343,7 @@ export default {
         scheduler: {
           left: "600px",
           top: "270px",
-          events: this.$store.state.scheduler.events,
+          events: [],
         },
         poll: [],
         editorList: [],
@@ -644,7 +644,7 @@ export default {
         this.board.scheduler = {
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
-          events: this.$store.state.scheduler.events,
+          events: [],
         };
         this.sendMessage();
         // snackbar
