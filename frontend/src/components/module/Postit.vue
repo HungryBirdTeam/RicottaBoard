@@ -20,6 +20,8 @@
 
 <script>
 import image from '../../assets/img/postIt.png'
+
+var postSet = 0;
 export default {
     data() {
       return {
@@ -45,7 +47,12 @@ export default {
     },
     methods: {
       changePost() {
-        this.$emit('changePost', this.post);
+        if (postSet) {
+          clearTimeout(postSet);
+        }
+        postSet = setTimeout(() => {
+          this.$emit('changePost', this.post);
+        }, 500);        
       },
       recvPost() {
         this.post = this.postit;
