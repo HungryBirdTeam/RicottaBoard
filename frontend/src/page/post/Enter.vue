@@ -21,7 +21,7 @@
     </transition>
     <transition name="starter">
       <div v-show="isStarting" class="mainEnter">
-        <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1);     min-width: 800px;" >
+        <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1); min-width: 800px;" >
           <div class="row">
             <h4 style="font-size: 1.55vw; line-height: 150%; padding-left: 40px">
               리코타보드는 온라인 및 오프라인 모임을 지원하는 협업 툴
@@ -96,24 +96,26 @@
                         <v-dialog width="350px ">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    class="allbtn px-5 py-2"
+                                    class="vutton allbtn px-5 py-2"
                                     v-bind="attrs"
                                     v-on="on"
                                     color="#0d875C"
                                     v-if="$store.getters.accessToken == ''"
+                                    style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
                                 >
                                     LOGIN
                                 </v-btn>
                                 <v-btn
-                                    class="allbtn px-5 py-2"
+                                    class="vutton allbtn px-5 py-2"
                                     color="#0d875C"
                                     v-if="$store.getters.accessToken !== ''"
+                                    style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
                                     @click="checkLogin"
                                 >
                                     Main
                                 </v-btn>
                             </template>
-                            <v-card style="width: 350px; height: 280px">
+                            <v-card class="vutton" style="width: 350px; height: 280px">
                                 <v-card-title>LOGIN</v-card-title>
                                 <v-card-text
                                     style="
@@ -126,7 +128,7 @@
                             </v-card>
                         </v-dialog>
                         <router-link to="user/signup" v-if="$store.getters.accessToken == ''">
-                            <v-btn>Sign up</v-btn>
+                            <v-btn class="vutton" style="font-size: 0.84vw; height: 1.9vw">Sign up</v-btn>
                         </router-link>
                     </div>
                 </div>
