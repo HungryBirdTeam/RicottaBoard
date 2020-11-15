@@ -85,7 +85,9 @@
 
 export default {
   name: "Chat",
-  components: {},
+  props:{
+    channelId : String,
+  },
   created() {
     var myname = this.$store.getters.userData.nickname;
     if (this.$store.getters.userData.nickname == "") {
@@ -97,7 +99,8 @@ export default {
     var textbox = document.getElementById("textBox");
     var $msgForm = $("#msgForm").val();
     this.naname = myname;
-    this.Channel = localStorage.getItem("wsboard.channelId");
+    // this.Channel = localStorage.getItem("wsboard.channelId");
+    this.Channel = this.$route.params.channelName;
 
     // console.log('name is: ' + this.naname);
     // console.log('channel is: ' + this.Channel);

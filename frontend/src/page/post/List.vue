@@ -16,7 +16,7 @@
         <v-icon>mdi-view-list</v-icon>
       </v-btn>
 
-      <v-row style="width:80%; margin:auto;" v-if="howto">
+      <v-row style="width:80%;" v-if="howto">
         <v-col
           v-for="card in listChannels"
           :key="card.channelId"
@@ -46,7 +46,7 @@
                   >
                     <br />
                     <br />
-                    <div class="btn">입장하기</div>
+                    <div class="channel-hover">입장하기</div>
                   </div>
                 </v-expand-transition>
                 <v-card-title v-text="card.channelName"></v-card-title>

@@ -285,7 +285,7 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <Chat />
+    <Chat :channelId="board.channelId"/>
   </div>
 </template>
 
