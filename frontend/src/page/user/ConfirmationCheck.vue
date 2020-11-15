@@ -22,6 +22,7 @@
 <script>
     import '../../assets/css/user.scss'
     import constants from '../../lib/constants'
+import bus from '../../utils/bus'
     export default {
         components: {
         },
@@ -34,7 +35,10 @@
             teamPage() {
                 this.$router.push('/@hungrybird')
             },
-        }
+        },
+        mounted() {
+            bus.$emit('end:Loading');
+        },
     }
 </script>
 

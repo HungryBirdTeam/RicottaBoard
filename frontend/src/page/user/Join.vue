@@ -168,12 +168,16 @@
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
 import * as userApi from '@/api/user.js';
+import bus from "../../utils/bus.js"
 
 export default {
   components: {},
   watch: {},
   created() {
     this.$store.commit("toggleModal");
+  },
+  mounted() {
+    bus.$emit('end:Loading');
   },
   methods: {
     createUserRequest: function () {
