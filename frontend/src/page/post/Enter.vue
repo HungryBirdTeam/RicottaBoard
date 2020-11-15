@@ -20,8 +20,8 @@
       </div>
     </transition>
     <transition name="starter">
-      <div v-if="isStarting" class="mainEnter">
-        <div class="container cards">
+      <div v-show="isStarting" class="mainEnter">
+        <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1);" >
           <div class="row">
             <h4 style="font-size: 30px; line-height: 150%; padding-left: 40px">
               리코타보드는 온라인 및 오프라인 모임을 지원하는 협업 툴
@@ -176,6 +176,14 @@ export default {
     console.log("before", this.isStarting);
     setTimeout(() => (this.isStarting = true), 1000);
   },
+  
+  mounted() {
+    console.log("ratio is : " + window.devicePixelRatio);
+
+    var scale = 2 - window.devicePixelRatio;
+
+    this.$refs.needToRescale.style.transform = "scale(" + scale + ")";
+  }
 };
 </script>
 

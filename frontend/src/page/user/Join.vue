@@ -1,6 +1,6 @@
 <template>
   <div class="user" id="join" style="background-color:#f5f5ec">
-    <div class="wrapC table">
+    <div class="wrapC table" ref="needToRescale" style="transform-origin: top;">
 
       <div style="text-align: center;">
         <router-link
@@ -174,6 +174,10 @@ export default {
   watch: {},
   created() {
     this.$store.commit("toggleModal");
+  },
+  mounted(){
+    var scale = 2.25 - window.devicePixelRatio;
+    this.$refs.needToRescale.style.transform = "scale(" + scale + ")";
   },
   methods: {
     createUserRequest: function () {
