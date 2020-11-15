@@ -77,7 +77,7 @@
                   src="../../assets/img/enter1.svg"
                   alt=""
                 />
-                <div class="card-body">
+                <div class="card-body" v-if="$store.getters.accessToken == ''">
                   <h4 class="card-title">회원 관리</h4>
                   <p class="card-text">
                     리코타보드는 메일을 통한 인증을 통해 회원과 모임 채널의
@@ -85,46 +85,50 @@
                     쉽게 사용해보세요!
                   </p>
                 </div>
+                <div class="card-body" v-if="!$store.getters.accessToken == ''">
+                  <h4 class="card-title">모임 관리</h4>
+                  <p class="card-text">
+                    리코타보드의 모임 관리 페이지는 만든 모임을 확인하고 모임에 들어갈 수 있습니다. 이제 리코타보드를 활용해보세요!
+                  </p>
+                </div>
                 <div class="button-user">
-									<div class="d-flex justify-content-center">
-										<v-dialog width="350px ">
-											<template v-slot:activator="{ on, attrs }">
-												<v-btn
-													class="vutton allbtn px-5 py-2"
-													v-bind="attrs"
-													v-on="on"
-													color="#0d875C"
-													v-if="$store.getters.accessToken == ''"
-                          style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
-												>
-													LOGIN
-												</v-btn>
-												<v-btn
-													class="vutton allbtn px-5 py-2"
-													color="#0d875C"
-													v-if="$store.getters.accessToken !== ''"
-													@click="checkLogin"
-                          style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
-												>
-													Main
-												</v-btn>
-											</template>
-											<v-card class="vutton" style="width: 350px; height: 280px">
-												<v-card-title>LOGIN</v-card-title>
-												<v-card-text
-													style="
-														background-color: white;
-														height: 90px;
-														padding-bottom: 0;
-													"
-													><Login style="height: 120px; padding-bottom: 0"
-												/></v-card-text>
-											</v-card>
-										</v-dialog>
-										<router-link to="user/signup">
-											<v-btn class="vutton" style="font-size: 0.84vw; height: 1.9vw">Sign up</v-btn>
-										</router-link>
-									</div>
+                    <div class="d-flex justify-content-center">
+                        <v-dialog width="350px ">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                    class="allbtn px-5 py-2"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    color="#0d875C"
+                                    v-if="$store.getters.accessToken == ''"
+                                >
+                                    LOGIN
+                                </v-btn>
+                                <v-btn
+                                    class="allbtn px-5 py-2"
+                                    color="#0d875C"
+                                    v-if="$store.getters.accessToken !== ''"
+                                    @click="checkLogin"
+                                >
+                                    Main
+                                </v-btn>
+                            </template>
+                            <v-card style="width: 350px; height: 280px">
+                                <v-card-title>LOGIN</v-card-title>
+                                <v-card-text
+                                    style="
+                                        background-color: white;
+                                        height: 90px;
+                                        padding-bottom: 0;
+                                    "
+                                    ><Login style="height: 120px; padding-bottom: 0"
+                                /></v-card-text>
+                            </v-card>
+                        </v-dialog>
+                        <router-link to="user/signup" v-if="$store.getters.accessToken == ''">
+                            <v-btn>Sign up</v-btn>
+                        </router-link>
+                    </div>
                 </div>
               </div>
             </div>
