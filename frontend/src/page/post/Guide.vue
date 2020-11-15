@@ -35,6 +35,7 @@ import guide4 from "../../assets/img/guide4.gif";
 import guide5 from "../../assets/img/guide5.gif";
 import guide6 from "../../assets/img/guide6.gif";
 import guide7 from "../../assets/img/guide7.gif";
+import bus from '../../utils/bus';
 
 export default {
     data() {
@@ -76,6 +77,9 @@ export default {
             this.$router.push('/@hungrybird')
         },
     },
+    mounted() {
+        bus.$emit('end:Loading');
+    }
 }
 </script>
 

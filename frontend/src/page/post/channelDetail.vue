@@ -310,6 +310,7 @@ import * as boardApi from "../../api/board.js";
 import * as channelApi from "../../api/channel.js";
 import { loadChannelInfo, offVideo } from "../../services/FaceChatClientSocket.js"
 import io from 'socket.io-client';
+import bus from '../../utils/bus.js';
 
 
 export default {
@@ -441,6 +442,8 @@ export default {
         y: event.pageY,
       });
     });
+
+    
   },
   methods: {
     validateUser() {
@@ -534,6 +537,10 @@ export default {
           }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
+
+
+          bus.$emit('end:Loading');
+
           this.createSnackbar(
             `'${this.channelName}' 채널에 입장하였습니다!`,
             3000,

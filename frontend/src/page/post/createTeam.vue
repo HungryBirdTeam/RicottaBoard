@@ -48,6 +48,7 @@ import img2 from "../../assets/img/ProDeveloper2.jpg";
 import img3 from "../../assets/img/ProDeveloper3.gif";
 import img4 from "../../assets/img/ProDeveloper4.jpg";
 import img5 from "../../assets/img/ProDeveloper5.jpg";
+import bus from '../../utils/bus';
 
 export default {
     data() {
@@ -82,6 +83,9 @@ export default {
       },
     ],
         }
+    },
+    mounted() {
+        bus.$emit('end:Loading');
     }
 }
 </script>

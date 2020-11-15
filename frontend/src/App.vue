@@ -1,9 +1,10 @@
 <template>
   <v-app>
-      <v-main id="bg">
-        <Header v-if="!isBoard"/>
-      <!-- <Sidebar :isSidebar="isSidebar"/> -->
-      <!-- <Sidebar> </Sidebar> -->
+    <Loading :loading="LoadingStatus" :num="LoadingIcon"></Loading>
+    <v-main id="bg">
+      <Header v-if="!isBoard"/>
+        <!-- <Sidebar :isSidebar="isSidebar"/> -->
+        <!-- <Sidebar> </Sidebar> -->
       <router-view id="container" />
     </v-main>
   </v-app>
@@ -14,14 +15,20 @@ import './assets/css/style.scss'
 import Header from './components/common/Header.vue'
 import constants from './lib/constants' 
 import axios from 'axios'
+import Loading from './page/etc/loading.vue'
+import bus from "./utils/bus.js"
 
 export default {
   name: "App",
   components: {
     Header,
+    Loading,
     
   },
   created() {
+    bus.$on('start:Loading', this.startLoad);
+    bus.$on('end:Loading', this.stopLoad);
+
     let url = this.$route.name;
     this.checkBoard(url);
    
@@ -74,14 +81,32 @@ export default {
       });
       this.isBoard = isBoard;
     },
+
+    startLoad(){
+      
+      var rVar = Math.floor(Math.random() * 4);
+      this.LoadingIcon = rVar;
+
+      this.LoadingStatus = true;
+      
+    },
+    stopLoad(){
+      this.LoadingStatus = false;
+    }
   },
   data: function () {
     return {
       isHeader: true,
       isBoard: false,
       constants,
+      LoadingStatus: false,
+      LoadingIcon: 0,
     };
   },
+  beforeDestroy() {
+    bus.$off('start:Loading');
+    bus.$off('end:Loading');
+  }
 };
 </script>
 

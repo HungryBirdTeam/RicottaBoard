@@ -56,6 +56,7 @@
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
 import * as userApi from '@/api/user.js';
+import bus from '../../utils/bus';
 
 export default {
   data: () => {
@@ -110,6 +111,9 @@ export default {
       this.snackbar.timeout = timeout;
       this.snackbar.color = color;
     },
+  },
+  mounted() {
+    bus.$emit('end:Loading');
   },
 };
 </script>

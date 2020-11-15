@@ -147,6 +147,7 @@
 
 <script>
 import Login from "@/page/user/Login";
+import bus from '../../utils/bus';
 export default {
   components: {
     Login,
@@ -178,6 +179,9 @@ export default {
     this.isStarting = false;
     setTimeout(() => (this.isStarting = true), 1000);
   },
+  mounted() {
+    bus.$emit('end:Loading');
+  }
   
 };
 </script>

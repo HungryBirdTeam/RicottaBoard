@@ -136,6 +136,7 @@ import axios from "axios";
 import http from "../../http-common.js";
 import lodash from "lodash";
 import * as channelApi from "../../api/channel";
+import bus from '../../utils/bus';
 
 export default {
   data: () => ({
@@ -236,6 +237,9 @@ export default {
     listChannels() {
       return _.orderBy(this.channels, "channelName", "asc");
     },
+  },
+  mounted() {
+    bus.$emit('end:Loading');
   },
 };
 </script>
