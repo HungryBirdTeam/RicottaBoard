@@ -18,8 +18,10 @@
     </div>
 </template>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 import image from '../../assets/img/postIt.png'
+var postSet = 0;
 export default {
     data() {
       return {
@@ -45,7 +47,16 @@ export default {
     },
     methods: {
       changePost() {
-        this.$emit('changePost', this.post);
+        console.log('start', postSet);
+        if (postSet > 0) {
+          clearTimeout(postSet);
+          console.log('delete', postSet);
+        }
+        console.log('set', postSet);
+        postSet = setTimeout(() => {
+          console.log('eoe');
+          this.$emit('changePost', this.post);
+        }, 300);        
       },
       recvPost() {
         this.post = this.postit;
