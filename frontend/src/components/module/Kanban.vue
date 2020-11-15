@@ -198,7 +198,10 @@ export default {
           "name": this.newTask.taskTitle, 
           "content": this.newTask.taskContents, 
           "start": this.newTask.taskDates[0]+'T:00', 
-          "end": this.newTask.taskDates[1]+'T:00',
+          "end": this.newTask.taskDates[0]+'T:00',
+        }
+        if(this.newTask.taskDates[1] !== undefined) {
+          event['end'] = this.newTask.taskDates[1]+'T:00';
         }
       }
       this.$store.state.scheduler.events.push(event)

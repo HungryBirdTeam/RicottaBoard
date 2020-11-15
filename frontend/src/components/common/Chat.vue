@@ -100,7 +100,7 @@ export default {
     var $msgForm = $("#msgForm").val();
     this.naname = myname;
     // this.Channel = localStorage.getItem("wsboard.channelId");
-    this.Channel = this.$route.params.channelName;
+    this.Channel = this.channelId;
 
     // console.log('name is: ' + this.naname);
     // console.log('channel is: ' + this.Channel);
