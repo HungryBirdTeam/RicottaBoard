@@ -110,6 +110,14 @@ io.on('connection', function(socket) {
         console.log('Message from %s, 내용 : %s', socket.name, data.msg);
       
         var date = new Date();
+        var hours = date.getHours().toString()
+        if(hours.length() === 1){
+          hours = '0' + hours
+        }
+        var minuates = date.getMinuates().toString()
+        if(minuates.length() === 1){
+          minuates = '0' + minuates
+        }
         var msg = {
             to: {
                 name: '',
@@ -120,7 +128,7 @@ io.on('connection', function(socket) {
             },
             msg: data.msg,
             id: '',
-            time: date.getHours().toString() + ':' + date.getMinutes().toString()
+            time: hours + ':' + minuates
         };
 
         io.to(room).emit('s2c_chat', msg);

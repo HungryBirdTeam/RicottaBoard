@@ -260,6 +260,7 @@
             :id="md.mdId"
             :editor="md"
             :style="{ left: md.left, top: md.top }"
+            @changeEditor="changeEditor"
           />
         </div>
         
@@ -343,7 +344,7 @@ export default {
         scheduler: {
           left: "600px",
           top: "270px",
-          events: this.$store.state.scheduler.events,
+          events: [],
         },
         poll: [],
         editorList: [],
@@ -644,7 +645,7 @@ export default {
         this.board.scheduler = {
           left: this.moduleXP + "px",
           top: this.moduleYP + "px",
-          events: this.$store.state.scheduler.events,
+          events: [],
         };
         this.sendMessage();
         // snackbar
@@ -696,7 +697,18 @@ export default {
         this.board.editorList.push(newEditor);
         this.sendMessage();
         // snackbar
-        this.createSnackbar("마크다운이 생성되었습니다!", 1500, "success");
+        this.createSnackbar("마크다운 에디터가 생성되었습니다!", 1500, "success");
+      }
+    },
+    changeEditor(changeEditValue) {
+      console.log('real', changeEditValue);
+      for (let ei=0; ei<this.board.editorList.length; ei++) {
+        console.log('wow!!!!',ei, this.board.editorList[ei]);
+        if (this.board.editorList[ei].mdId == changeEditValue.mdId) {
+          this.board.editorList[ei] = changeEditValue
+          console.log('i got it!');
+          this.sendMessage();
+        }
       }
     },
 

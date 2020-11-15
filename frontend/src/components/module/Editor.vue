@@ -1,6 +1,6 @@
 <template>
     <div id="EditorMain" class="MoveableBox editor">
-        <div v-if="editor.isHidden">
+        <div v-if="edit.isHidden">
             <div class="row m-0 subtitle">
                 <v-btn
                     color="blue-grey lighten-4"
@@ -14,11 +14,11 @@
                         mdi-arrow-down-drop-circle-outline
                     </v-icon>
                 </v-btn>
-                <div v-if="editor.title" class="align-middle my-auto mx-1"> {{ subtitle }} </div>
-                <div v-if="!editor.title" class="align-middle my-auto mx-1"> 제목 없음 </div>                
+                <div v-if="edit.title" class="align-middle my-auto mx-1"> {{ subtitle }} </div>
+                <div v-if="!edit.title" class="align-middle my-auto mx-1"> 제목 없음 </div>                
             </div>
         </div>
-        <div v-if="!editor.isHidden">
+        <div v-if="!edit.isHidden">
             <div class="title row m-0">
                 <div class="col-10 p-0 m-0">
                     <div class="semititle row m-0">
@@ -34,7 +34,7 @@
                                 mdi-arrow-up-drop-circle
                             </v-icon>
                         </v-btn>
-                        <input type="text" placeholder="제목" v-model="editor.title" class="ml-1">
+                        <input type="text" placeholder="제목" v-model="edit.title" class="ml-1">
                     </div>
                 </div>
                 <v-btn
@@ -55,7 +55,7 @@
             </div>
             <Editor        
                 height="500px"
-                :initialValue="editor.text"
+                :initialValue="edit.text"
                 ref="toastuiEditor"
                 @change = "onEditorChange"
                 class="bg-white"
@@ -78,6 +78,8 @@ export default {
     data() {
         return {
             isLoading: false,
+            edit: Object,
+            test: 1,
         }
     },
     components: {
@@ -88,23 +90,30 @@ export default {
     },
     computed: {
         subtitle() {
-            if (this.editor.title.length <= 8) {
-                return this.editor.title
+            if (this.edit.title.length <= 8) {
+                return this.edit.title
             } else {
-                return this.editor.title.slice(0, 8)
+                return this.edit.title.slice(0, 8)
             }
         },
     },
     watch: {
         'editor.text': function() {
+            console.log('watch it!')
             this.textChange()
-        }
+        },
+        'editor.title': function() {
+            console.log('watch it!')
+        },
+        'editor.hidden': function() {
+            console.log('watch it!')
+        },
     },
     methods: {
         // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
-            this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.$store.commit('toggleUpdate');
+            this.edit.text = this.$refs.toastuiEditor.invoke("getMarkdown");
+            this.$emit('changeEditor', this.edit);
         },
 
         // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
@@ -118,10 +127,10 @@ export default {
         saveEditor() {     
             this.isLoading = true;
             var FileSaver = require ('file-saver');
-            var blob = new Blob([this.editor.text], { type : "text / plain; charset = utf-8" });
+            var blob = new Blob([this.edit.text], { type : "text / plain; charset = utf-8" });
             var name = "untitle";
-            if (this.editor.title) {
-                name = this.editor.title
+            if (this.edit.title) {
+                name = this.edit.title
             };
             FileSaver.saveAs (blob, name+".md");
             setTimeout(() => (this.isLoading = false), 1000);
@@ -129,10 +138,17 @@ export default {
 
         // 에디터 숨기기/펼치기
         changeHidden() {
-            this.editor.isHidden = !this.editor.isHidden
-            console.log(this.editor.isHidden)
-            this.$store.commit('toggleUpdate');
+            this.edit.isHidden = !this.edit.isHidden
+            console.log(this.edit.isHidden)
+            this.$emit('changeEditor', this.edit);
+
         }
+    },
+    created() {
+        this.edit = this.editor;
+        this.test = this.$store.getters.test;
+        this.test = 3;
+        console.log('test!!!',this.$store.state.test)
     },
 }
 </script>
