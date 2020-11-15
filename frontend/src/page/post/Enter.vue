@@ -60,11 +60,11 @@
                   <h4 class="card-title">테스트 페이지</h4>
                   <p class="card-text">
                     회원가입 없이 간단하게 리코타보드의 기능을 체험해봅시다!
-                    아래의 버튼을 클릭하면 기능이 제한된 튜토리얼 페이지로
+                    아래의 버튼을 클릭하면 비회원도 사용해 볼 수 있는 튜토리얼 페이지로
                     이동됩니다.
                   </p>
                 </div>
-                <router-link to="channel/earlyBird10TeamTestChannel1">
+                <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial">
                   <v-btn>Try It!</v-btn>
                 </router-link>
               </div>
