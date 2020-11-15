@@ -9,7 +9,7 @@
       >
         <img
           src="../../assets/img/Logo3.png"
-          style="margin-top:20px; margin-right:5px;   width:50%; height:auto;"
+          style="margin-top:20px; margin-right:5px;   width:100%; height:auto;"
         /></router-link>
       </div>
 
