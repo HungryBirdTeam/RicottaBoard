@@ -8,7 +8,7 @@
     <div class="bodyContent">
 
         <div class="headlineContent">
-            <h1>Recota board</h1>
+            <h1>Ricotta board</h1>
         </div>
 
         <div class="innerContent">
@@ -39,7 +39,7 @@
 
 
     <div class="footer">
-        <p>© 2020 Recota Board</p>
+        <p>© 2020 Ricotta Board</p>
         <p>508, Eonju-ro, Gangnam-gu, Seoul, 06152 - Republic of Korea</p>
     </div>
 </div>
