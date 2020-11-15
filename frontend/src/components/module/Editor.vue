@@ -96,7 +96,7 @@ export default {
         },
     },
     watch: {
-        text: function() {
+        editor: function() {
             this.textChange()
         }
     },
@@ -104,7 +104,6 @@ export default {
         // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
             this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
-            console.log('test', this.$refs.toastuiEditor.getCurrentModeEditor.offsetLeft);
         },
 
         // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
