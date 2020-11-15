@@ -5,7 +5,6 @@
         class="notMoveBox paperTitle"
         cols="30" rows="1"
         v-model="post.title"
-        @click.prevent.self
         placeholder="title here"
         ></textarea>
 
@@ -14,7 +13,6 @@
         class="notMoveBox paperContent"
         cols="30" rows="5"
         v-model="postit.contents"
-        @keyup.tab="$store.commit('toggleUpdate')"
         placeholder="content here.."
         ></textarea>
     </div>
@@ -35,17 +33,26 @@ export default {
       'post.title': function() {
         this.changePost();
       },
+      'post.contents': function() {
+        this.changePost();
+      },
       'postit.title': function() {
-        this.post.title = this.postit.title;
+        this.recvPost();
+      },
+      'postit.contents': function() {
+        this.recvPost();
       },
     },
     methods: {
       changePost() {
         this.$emit('changePost', this.post);
       },
+      recvPost() {
+        this.post = this.postit;
+      }
     },
     created() {
-      this.post = this.postit
+        this.recvPost();      
     },
 
 }
