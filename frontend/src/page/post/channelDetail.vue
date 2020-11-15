@@ -219,6 +219,7 @@
             :id="pi.frontPostitId"
             :postit="pi"
             :style="{ left: pi.left, top: pi.top }"
+            @changePost="changePost"
           />
         </div>
 
@@ -602,6 +603,14 @@ export default {
       this.sendMessage();
       // snackbar
       this.createSnackbar("포스트잇이 생성되었습니다!", 1500, "success");
+    },
+    changePost(changePostValue) {
+      for (let pi=0; pi<this.board.postitList.length; pi++) {
+        if (this.board.postitList[pi].frontPostitId == changePostValue.frontPostitId) {
+          this.board.postitList[pi] = changePostValue
+          this.sendMessage();
+        }
+      }
     },
 
     createKanban(left = "500px", top = "170px") {
