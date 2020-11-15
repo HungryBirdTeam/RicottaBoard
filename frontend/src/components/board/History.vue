@@ -39,7 +39,7 @@ export default {
         this.fetchHistory();
     },
     fetchHistory() {
-      boardApi.getHistories(
+      boardApi.getHistories( this.$route.params.channelId,
         (response) => {
           console.log("History Response 정보: ", response);
           this.historyList = response.data;
