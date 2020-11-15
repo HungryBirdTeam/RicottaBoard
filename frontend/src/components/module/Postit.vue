@@ -4,9 +4,7 @@
         name=""
         class="notMoveBox paperTitle"
         cols="30" rows="1"
-        v-model="postit.title"
-        @click.prevent.self
-        @keyup.tab="$store.commit('toggleUpdate')"
+        v-model="post.title"
         placeholder="title here"
         ></textarea>
 
@@ -15,7 +13,6 @@
         class="notMoveBox paperContent"
         cols="30" rows="5"
         v-model="postit.contents"
-        @keyup.tab="$store.commit('toggleUpdate')"
         placeholder="content here.."
         ></textarea>
     </div>
@@ -25,17 +22,37 @@
 import image from '../../assets/img/postIt.png'
 export default {
     data() {
-      return {}
+      return {
+        post: Object,
+      }
     },
     props: {
       postit: Object,
     },
-    // mounted() {
-    //   this.title = 'title!!'
-    //   this.content = postit.contents 
-    //   // console.log(postit)
-    // },
+    watch: {
+      'post.title': function() {
+        this.changePost();
+      },
+      'post.contents': function() {
+        this.changePost();
+      },
+      'postit.title': function() {
+        this.recvPost();
+      },
+      'postit.contents': function() {
+        this.recvPost();
+      },
+    },
     methods: {
+      changePost() {
+        this.$emit('changePost', this.post);
+      },
+      recvPost() {
+        this.post = this.postit;
+      }
+    },
+    created() {
+        this.recvPost();      
     },
 
 }
