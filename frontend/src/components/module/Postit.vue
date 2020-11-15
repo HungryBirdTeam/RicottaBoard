@@ -21,7 +21,7 @@
 <script>
 import image from '../../assets/img/postIt.png'
 
-var postSet = null;
+var postSet = 0;
 export default {
     data() {
       return {
@@ -39,28 +39,20 @@ export default {
         this.changePost();
       },
       'postit.title': function() {
-        console.log('before', postSet);
-        if (!postSet) {
-          this.recvPost();
-        }        
+        this.recvPost();
       },
       'postit.contents': function() {
-        console.log('before', postSet);
-        if (!postSet) {
-          this.recvPost();
-        }  
+        this.recvPost();
       },
     },
     methods: {
       changePost() {
-        console.log('start', postSet);
         if (postSet) {
           clearTimeout(postSet);
         }
         postSet = setTimeout(() => {
           this.$emit('changePost', this.post);
-          clearTimeout(postSet);
-        }, 300);        
+        }, 500);        
       },
       recvPost() {
         this.post = this.postit;
