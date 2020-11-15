@@ -46,6 +46,15 @@
     margin: 0% 0% 10% 0%;
 }
 
+.mainText {
+    font-size: 15px;
+    margin-bottom: 10%;
+}
+
+.buttonHere {
+    margin-bottom: 10%;
+}
+
 .temp_body {
     font-weight: 200;
     padding: 5%;
@@ -56,6 +65,16 @@
 }
 
 
+.footer {
+    color: #2b3549;
+    text-align: center;
+    /* font-style: ; */
+    padding: 0% 0%;
+}
+
+
+.footer p {
+    margin: 0;
     font-size: 15px;
     color: rgb(36, 36, 36);
 }
