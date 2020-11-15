@@ -96,7 +96,7 @@ export default {
         },
     },
     watch: {
-        editor: function() {
+        'editor.text': function() {
             this.textChange()
         }
     },
@@ -104,12 +104,13 @@ export default {
         // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
             this.editor.text = this.$refs.toastuiEditor.invoke("getMarkdown");
+            this.$store.commit('toggleUpdate');
         },
 
         // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
         textChange() {
             if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
-                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
+                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text);
             }
         },
 
@@ -130,6 +131,7 @@ export default {
         changeHidden() {
             this.editor.isHidden = !this.editor.isHidden
             console.log(this.editor.isHidden)
+            this.$store.commit('toggleUpdate');
         }
     },
 }

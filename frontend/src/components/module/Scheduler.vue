@@ -170,5 +170,8 @@ export default {
 .v-event {
   z-index: 0 !important;
 }
+.v-event-more {
+  z-index: 0 !important;
+}
 </style>
 

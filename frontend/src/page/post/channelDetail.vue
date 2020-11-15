@@ -171,7 +171,7 @@
           justify="center"
         >
             <div class="px-3 py-2 bg-white rounded">
-              <span><strong>멤버</strong> ({{ userCount }}) | </span>
+              <span><strong>멤버</strong> | </span>
                 <span
                   v-for="(member, idx) in board.memberList"
                   :key="idx"
@@ -285,7 +285,7 @@
         <WithdrawalModal v-model="$store.state.withdrawalModal" />
       </div>
     </div>
-    <Chat />
+    <Chat :channelId="board.channelId"/>
   </div>
 </template>
 
@@ -452,7 +452,7 @@ export default {
         (response) => {
           if(response.data.valid === false) {
             alert('채널에 속하지 않은 사용자는 접속 할 수 없습니다!')
-            // this.$router.push("/main");
+            this.$router.push("/");
           }
         },
         (err) => {
@@ -467,18 +467,17 @@ export default {
       this.ws = ws;
       this.board.channelId = this.$route.params.channelId;
       this.channelName = this.$route.params.channelName;
-      // this.board.channelId = localStorage.getItem("wsboard.channelId");
-      // this.channelName = localStorage.getItem("wsboard.channelName");
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 
       var _this = this;
-      console.log("채널 구독하기" + _this.board.channelId);
+      var subUrl =  "/sub/board/channel/" + _this.board.channelId;
+      console.log("채널 구독하기" + subUrl);
       ws.connect(
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
           ws.subscribe(
-            "/sub/board/channel/" + _this.board.channelId,
+            subUrl,
             function (message) {
               var recv = JSON.parse(message.body);
               _this.recvMessage(recv);
