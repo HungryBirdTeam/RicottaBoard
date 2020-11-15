@@ -74,6 +74,8 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/vue-editor';
 import { saveAs } from 'file-saver';
 
+var editSet;
+
 export default {
     data() {
         return {
@@ -108,14 +110,14 @@ export default {
             this.edit.isHidden = this.editor.isHidden
         },
         'edit.title': function() {
-            this.$emit('changeEditor', this.edit);
+            this.editChange();
         },
     },
     methods: {
         // 글 입력시 Editor에 입력된 값을 소켓에 전송
         onEditorChange() {
             this.edit.text = this.$refs.toastuiEditor.invoke("getMarkdown");
-            this.$emit('changeEditor', this.edit);
+            this.editChange();
         },
 
         // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
@@ -141,8 +143,18 @@ export default {
         // 에디터 숨기기/펼치기
         changeHidden() {
             this.edit.isHidden = !this.edit.isHidden;
-            this.$emit('changeEditor', this.edit);
-        }
+            this.editChange();
+        },
+
+        // 변경된 값을 받고 emit하기 전 debounce를 줌
+        editChange() {
+            if (editSet) {
+                clearTimeout(editSet);
+            }
+            editSet = setTimeout(() => {
+                this.$emit('changeEditor', this.edit);
+            }, 500);
+        },
     },
     created() {
         this.edit = this.editor;
