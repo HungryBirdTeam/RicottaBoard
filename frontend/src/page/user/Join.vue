@@ -1,6 +1,6 @@
 <template>
   <div class="user" id="join" style="background-color:#f5f5ec">
-    <div class="wrapC table" ref="needToRescale" style="transform-origin: top;">
+    <div class="wrapC table" ref="needToRescale" style="transform-origin: top; width: 10vw;">
 
       <div style="text-align: center;">
         <router-link
@@ -9,17 +9,17 @@
       >
         <img
           src="../../assets/img/Logo3.png"
-          style="margin-top:20px; margin-right:5px;   width:100%; height:auto; margin-bottom: 30px;"
+          style="width:20vw; height:auto; margin: 1vw 0 1.5vw 0;"
         /></router-link>
       </div>
 
-      <div class="form-wrap" style="width:90%; padding-top:20px; margin:auto">
+      <div class="form-wrap" style="width: 20vw; padding-top:20px; margin:auto; font-size: 0.83vw;">
         <div class="input-wrap">
           <p style="text-align: left; margin-bottom:4px">이름</p>
           <input
             id="realName"
             v-model="realName"
-            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            style="border:solid 1px #dadada;height: 2.5vw; background-color:white;"
             placeholder="이름을 입력해주세요"
             type="text"
             @keypress.enter="createUserRequest()"
@@ -31,7 +31,7 @@
             v-model.lazy="email"
             id="email"
             placeholder="이메일을 입력해주세요"
-            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            style="border:solid 1px #dadada;height: 2.5vw; background-color:white;"
             type="text"
             @change="emailCheck"
             @keypress.enter="createUserRequest()"
@@ -44,7 +44,7 @@
           <input
             v-model="nickName"
             id="nickName"
-            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            style="border:solid 1px #dadada;height: 2.5vw; background-color:white;"
             placeholder="닉네임을 입력해주세요"
             type="text"            
             @change="nicknameCheck"
@@ -61,7 +61,7 @@
             id="password"
             :type="passwordType"
             placeholder="최소 8자 이상으로 입력해주세요"
-            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            style="border:solid 1px #dadada;height: 2.5vw; background-color:white;"
             @keypress.enter="createUserRequest()"
           />
           <span :class="{active : passwordType==='text'}">
@@ -74,7 +74,7 @@
           <input
             v-model="passwordConfirm"
             id="passwordConfirm"
-            style="border:solid 1px #dadada;height:50px; background-color:white;"
+            style="border:solid 1px #dadada;height: 2.5vw; background-color:white;"
             :type="passwordConfirmType"
             placeholder="비밀번호를 다시 한 번 입력해주세요"
             @keypress.enter="createUserRequest()"
@@ -139,11 +139,11 @@
           
         </div>
         <button
-          style="margin-top:40px; background-color:#0d875C; border:solid 0px;"
+          style="margin-top:40px; background-color:#0d875C; border:solid 0px; height: 2vw; padding: 0.5vh; font-size: 0.7vw"
           @click="createUserRequest()"
           class="btn"
         >
-          <span>확인</span>
+        확인
         </button>
         
       </div>
@@ -174,10 +174,6 @@ export default {
   watch: {},
   created() {
     this.$store.commit("toggleModal");
-  },
-  mounted(){
-    var scale = 2.25 - window.devicePixelRatio;
-    this.$refs.needToRescale.style.transform = "scale(" + scale + ")";
   },
   methods: {
     createUserRequest: function () {
@@ -271,5 +267,6 @@ export default {
     color:#000000;
     background:#f5f5ec;
     margin-bottom: 0;
+    font-size: 0.85vw;
 }
 </style>

@@ -21,20 +21,21 @@
     </transition>
     <transition name="starter">
       <div v-show="isStarting" class="mainEnter">
-        <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1);" >
+        <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1);     min-width: 800px;" >
           <div class="row">
-            <h4 style="font-size: 30px; line-height: 150%; padding-left: 40px">
+            <h4 style="font-size: 1.55vw; line-height: 150%; padding-left: 40px">
               리코타보드는 온라인 및 오프라인 모임을 지원하는 협업 툴
               플랫폼입니다
             </h4>
           </div>
-          <div class="row justify-content-between">
+          <div class="row justify-content-between" style="width: 72.9vw">
             <div class="col-4 card">
               <div class="card-inner">
                 <img
                   class="card-img-top"
                   src="../../assets/img/enter2.svg"
                   alt=""
+                  style="width: 18vw;"
                 />
                 <div class="card-body">
                   <h4 class="card-title">다양한 기능</h4>
@@ -45,7 +46,7 @@
                   </p>
                 </div>
                 <router-link to="/guide">
-                  <v-btn>Learn More</v-btn>
+                  <v-btn class="vutton"  style="font-size: 0.74vw; height: 1.9vw;">Learn More</v-btn>
                 </router-link>
               </div>
             </div>
@@ -65,7 +66,7 @@
                   </p>
                 </div>
                 <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial">
-                  <v-btn>Try It!</v-btn>
+                  <v-btn class="vutton" style="font-size: 0.74vw; height: 1.9vw">Try It!</v-btn>
                 </router-link>
               </div>
             </div>
@@ -81,7 +82,7 @@
                   <p class="card-text">
                     리코타보드는 메일을 통한 인증을 통해 회원과 모임 채널의
                     가입이 가능합니다. 복잡한 인증 절차 없이 이메일 확인을 통해
-                    쉽게 즐겨보세요!
+                    쉽게 사용해보세요!
                   </p>
                 </div>
                 <div class="button-user">
@@ -89,24 +90,26 @@
 										<v-dialog width="350px ">
 											<template v-slot:activator="{ on, attrs }">
 												<v-btn
-													class="allbtn px-5 py-2"
+													class="vutton allbtn px-5 py-2"
 													v-bind="attrs"
 													v-on="on"
 													color="#0d875C"
 													v-if="$store.getters.accessToken == ''"
+                          style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
 												>
 													LOGIN
 												</v-btn>
 												<v-btn
-													class="allbtn px-5 py-2"
+													class="vutton allbtn px-5 py-2"
 													color="#0d875C"
 													v-if="$store.getters.accessToken !== ''"
 													@click="checkLogin"
+                          style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
 												>
 													Main
 												</v-btn>
 											</template>
-											<v-card style="width: 350px; height: 280px">
+											<v-card class="vutton" style="width: 350px; height: 280px">
 												<v-card-title>LOGIN</v-card-title>
 												<v-card-text
 													style="
@@ -119,7 +122,7 @@
 											</v-card>
 										</v-dialog>
 										<router-link to="user/signup">
-											<v-btn>Sign up</v-btn>
+											<v-btn class="vutton" style="font-size: 0.84vw; height: 1.9vw">Sign up</v-btn>
 										</router-link>
 									</div>
                 </div>
@@ -173,17 +176,9 @@ export default {
   },
   created() {
     this.isStarting = false;
-    console.log("before", this.isStarting);
     setTimeout(() => (this.isStarting = true), 1000);
   },
   
-  mounted() {
-    console.log("ratio is : " + window.devicePixelRatio);
-
-    var scale = 2 - window.devicePixelRatio;
-
-    this.$refs.needToRescale.style.transform = "scale(" + scale + ")";
-  }
 };
 </script>
 
@@ -191,21 +186,23 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 .enter-page {
   /* min-height: 1200px; */
   background-color: #F5F5EC !important;
 }
 .container {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 13.55vw;
+  margin-right: 13.55vw;
   max-width: 1400px;
 }
 .cards .card-inner {
-  margin: 25px;
-  padding: 25px;
+  margin: 1.22vw;
+  padding: 1.22vw;
   background-color: #F5F5EC;
   box-shadow: 0.25rem 0.5rem 1rem rgba(0, 0, 0, 0.35) !important;
   border-radius: 8px;
+  width: 20.3vw;
 }
 .cards .card {
   background-color: transparent;
@@ -213,7 +210,8 @@ export default {
 }
 .cards .card-text {
   padding-top: 10px;
-  min-height: 100px;
+  /* min-height: 100px; */
+  font-size: 0.84vw;
 }
 .cards .img {
   /* margin-top: 20px; */
@@ -248,7 +246,7 @@ export default {
   background-image: url("../../assets/img/EnterBack.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  padding-top: 150px;
+  padding-top: 15vh;
 }
 
 .comment {
@@ -265,6 +263,9 @@ export default {
 button {
   color: white !important;
   background-color: #FC776B !important;
+  
+  height: 2.3vw;
+  font-size: 0.84vw;
 }
 
 .loader-leave,
@@ -288,5 +289,17 @@ button {
 .footerText {
   text-decoration: none;
   color: #000000;
+  font-size: 0.85vw;
 }
+
+
+h4 {
+  font-size: 1.2vw
+}
+
+.card-body{
+  padding: 2vh;
+}
+
+
 </style>
