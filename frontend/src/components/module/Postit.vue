@@ -39,23 +39,19 @@ export default {
         this.changePost();
       },
       'postit.title': function() {
-        console.log('before', postSet);
         this.recvPost();
       },
       'postit.contents': function() {
-        console.log('before', postSet);
         this.recvPost();
       },
     },
     methods: {
       changePost() {
-        console.log('start', postSet);
         if (postSet) {
           clearTimeout(postSet);
         }
         postSet = setTimeout(() => {
           this.$emit('changePost', this.post);
-          console.log('what?', postSet);
         }, 500);        
       },
       recvPost() {
