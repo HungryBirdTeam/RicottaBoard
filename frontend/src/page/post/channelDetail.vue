@@ -397,9 +397,9 @@ export default {
     };
   },
   created() {
-    this.channelId = this.$route.params.channelId;
-    // localStorage.setItem("wsboard.channelId", this.channelId);
-    if (this.$route.params.channelId === "earlyBird10TeamTestChannel1") {
+    this.board.channelId = this.$route.params.channelId;
+    this.channelName = this.$route.params.channelName;
+    if (this.board.channelId === "earlyBird10TeamTestChannel1") {
       this.testPage = true;
     }
     else {
@@ -447,7 +447,7 @@ export default {
   methods: {
     validateUser() {
       const validation = {
-        channelId: this.$route.params.channelId,
+        channelId: this.board.channelId,
         email: this.$store.state.userData.email
       }
       channelApi.validateUserWithChannel(validation, 
@@ -467,8 +467,6 @@ export default {
       var sock = new SockJS(boardApi.API_BASE_URL + "/ws-stomp");
       var ws = Stomp.over(sock);
       this.ws = ws;
-      this.board.channelId = this.$route.params.channelId;
-      this.channelName = this.$route.params.channelName;
       
       loadChannelInfo(this.board.channelId, this.userEmail, this.$faceChatSocket);
 
@@ -496,7 +494,7 @@ export default {
       // 접속시 처음 값을 받아오도록 하기
       // 테스트 페이지인 경우와 아닌 경우로 분기
       console.log('init RECV start')
-      boardApi.initialRecv(this.testPage, this.$store.getters.accessToken,
+      boardApi.initialRecv(this.board.channelId, this.testPage, this.$store.getters.accessToken,
         (response) => {
           console.log("initRecv@@@@");
           console.log(this.testPage);
