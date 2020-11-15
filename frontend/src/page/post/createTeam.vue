@@ -6,7 +6,7 @@
         >
             <h2>TEAM<br />Hungry Bird</h2>
         </div>
-        <div style="width:60%; margin-left:10vw; padding:60px; padding-top:5vh;">
+        <div class="mx-auto" style="width:60%; padding:5vw; padding-top:5vh;">
             열정적인 리코타보드!
             <p />
             <h4 style=" font-size:30px;">리코타보드는 열정적인 개발자들과 함께 하고 있습니다</h4>
