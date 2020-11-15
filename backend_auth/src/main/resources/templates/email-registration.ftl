@@ -37,7 +37,7 @@
 
 
     <div class="footer">
-        <p>© 2020 Recota Board</p>
+        <p>© 2020 Ricotta Board</p>
         <p>508, Eonju-ro, Gangnam-gu, Seoul, 06152 - Republic of Korea</p>
     </div>
 </div>
