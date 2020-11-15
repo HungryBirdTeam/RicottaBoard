@@ -701,12 +701,9 @@ export default {
       }
     },
     changeEditor(changeEditValue) {
-      console.log('real', changeEditValue);
       for (let ei=0; ei<this.board.editorList.length; ei++) {
-        console.log('wow!!!!',ei, this.board.editorList[ei]);
         if (this.board.editorList[ei].mdId == changeEditValue.mdId) {
           this.board.editorList[ei] = changeEditValue
-          console.log('i got it!');
           this.sendMessage();
         }
       }
