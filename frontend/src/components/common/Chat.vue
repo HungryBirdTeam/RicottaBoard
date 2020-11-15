@@ -99,8 +99,8 @@ export default {
     var textbox = document.getElementById("textBox");
     var $msgForm = $("#msgForm").val();
     this.naname = myname;
-    console.log('chat : chatting ID')
     this.Channel = this.channelId;
+    console.log('chat : ' + this.Channel)
 
     // console.log('name is: ' + this.naname);
     // console.log('channel is: ' + this.Channel);
