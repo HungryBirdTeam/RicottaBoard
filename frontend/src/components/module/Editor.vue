@@ -99,14 +99,16 @@ export default {
     },
     watch: {
         'editor.text': function() {
-            console.log('watch it!')
             this.textChange()
         },
         'editor.title': function() {
-            console.log('watch it!')
+            this.edit.title = this.editor.title;
         },
-        'editor.hidden': function() {
-            console.log('watch it!')
+        'editor.isHidden': function() {
+            this.edit.isHidden = this.editor.isHidden
+        },
+        'edit.title': function() {
+            this.$emit('changeEditor', this.edit);
         },
     },
     methods: {
@@ -138,17 +140,12 @@ export default {
 
         // 에디터 숨기기/펼치기
         changeHidden() {
-            this.edit.isHidden = !this.edit.isHidden
-            console.log(this.edit.isHidden)
+            this.edit.isHidden = !this.edit.isHidden;
             this.$emit('changeEditor', this.edit);
-
         }
     },
     created() {
         this.edit = this.editor;
-        this.test = this.$store.getters.test;
-        this.test = 3;
-        console.log('test!!!',this.$store.state.test)
     },
 }
 </script>
