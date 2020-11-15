@@ -1,5 +1,6 @@
 <template>
-    <div ref="guide" style=" padding:0px; margin:0px; background:#f5f5ec;" @wheel="check">
+    
+    <div class="guideBody" ref="guide" style=" padding:0px; margin:0px; background:#f5f5ec;" @wheel="check">
         <div class="intro row">
             <div class="introText" style="text-align:left ">
                 <h3>Welcome to <br><strong> Ricotta Board! </strong></h3>
@@ -19,13 +20,14 @@
             <div class="guideText">
                 <h4 style=" font-size: 1.6vw;">{{ explain }}</h4>
             </div>
-        </div>
-        <footer
-            style="width:100vw; text-align:center; bottom:10px;"
-        >
+
+            <footer
+            style="width:100vw; text-align:center; bottom:10px;">
             <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
             
-        </footer>
+            </footer>
+        </div>
+        
     </div>
 </template>
 
@@ -100,6 +102,7 @@ export default {
     width: 100vw;
     height: 100vh;
     background:#f5f5ec;
+    /* background: blue; */
 }
 
 .introText{
@@ -123,25 +126,26 @@ export default {
     width: 100vw;
     height:100vh;
     background: #f5f5ec;
+    /* background: red; */
 }
 
 .guideCarousel {
     width: 50vw;
     padding: 3rem;
-    margin: auto 0 auto auto;
+    margin: 20vh 0 auto auto
 }
 
 .guideText {
     width: 28vw;
     text-align: center;
-    margin: auto;
+    margin: auto auto 27vh 0;
     margin-left: 2vw;
     padding: 2rem;
     padding-left: 0;
 }
 
 .footerText {
-    height:40px;
+    height:5vh;
     text-decoration: none;
     color:#000000;
     background:#f5f5ec;
@@ -162,4 +166,23 @@ h4 {
     line-height: 150%;
     width: 24vw;
 }
+
+.guideBody{
+    /* scroll-snap-type: mandatory; */
+    height: 200vh;
+    width: 110vw;
+    overflow: scroll;
+    /* scroll-snap-points-y: repeat(300px); */
+    scroll-snap-type: y mandatory;
+
+}
+
+.row {
+    scroll-snap-align: center;
+}
+
+footer {
+    margin-top: auto
+}
+
 </style>
