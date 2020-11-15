@@ -131,6 +131,7 @@ export default {
         changeHidden() {
             this.editor.isHidden = !this.editor.isHidden
             console.log(this.editor.isHidden)
+            this.$store.commit('toggleUpdate');
         }
     },
 }
