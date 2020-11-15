@@ -96,7 +96,7 @@ export default {
         },
     },
     watch: {
-        editor: function() {
+        'editor.text': function() {
             this.textChange()
         }
     },
@@ -109,7 +109,7 @@ export default {
         // 다른 사람이 입력하여 내용 변동시 Editor에 변동한 값 적용
         textChange() {
             if (this.editor.text != this.$refs.toastuiEditor.invoke("getMarkdown")) {
-                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text)
+                this.$refs.toastuiEditor.invoke("setMarkdown", this.editor.text);
             }
         },
 
