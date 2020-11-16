@@ -232,7 +232,7 @@ export default {
     },
     addAssigner(assigners) {
       this.newTask.assigners = assigners
-      console.log(assigners)
+      //console.log(assigners)
       this.isMemberModal = false
     },
     addDates(dates) {

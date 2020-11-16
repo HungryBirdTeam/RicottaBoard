@@ -41,11 +41,11 @@ export default {
     fetchHistory() {
       boardApi.getHistories( this.$route.params.channelId,
         (response) => {
-          console.log("History Response 정보: ", response);
+          //console.log("History Response 정보: ", response);
           this.historyList = response.data;
         },
         (err) => {
-          console.log("History 불러오기 에러: ", err);
+          //console.log("History 불러오기 에러: ", err);
         }
       );
     },

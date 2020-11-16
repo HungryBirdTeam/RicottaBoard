@@ -68,7 +68,7 @@ export default {
       setTimeout(() => {
         http.delete("/board/channel/withdrawal", mydata)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.success = true;
           setTimeout(() => {
             this.$store.state.withdrawalModal = false;

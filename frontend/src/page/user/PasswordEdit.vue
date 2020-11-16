@@ -106,7 +106,7 @@ export default {
         } else if (!this.isChange.confirm) {
           this.createSnackbar("비밀번호가 일치하지 않습니다.", 2000, "error");
         } else {
-          console.log('good?')
+          //console.log('good?')
           const updatePasswordRequest = {
             "oldPassword":this.password.origin,
             "newPassword":this.password.new,
@@ -118,11 +118,11 @@ export default {
           }
           userApi.updatePassword(updatePasswordRequest, config,
             res => {
-              console.log('good');
+              //console.log('good');
               this.createSnackbar("비밀번호가 변경되었습니다.", 2000, "green");                    
             },
             err => {
-              console.log('error', err);
+              //console.log('error', err);
               this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
             });
             this.password.origin = '';
@@ -145,7 +145,7 @@ export default {
     },
     watch: {
       'password.origin': function() {
-        console.log(this.password.origin);
+        //console.log(this.password.origin);
         this.changeOrigin();
       },
       'password.new': function() {

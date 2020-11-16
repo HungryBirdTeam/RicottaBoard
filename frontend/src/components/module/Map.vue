@@ -67,7 +67,7 @@ export default {
       var initLatLng = new kakao.maps.LatLng(this.map.coord.y, this.map.coord.x);
       this.kakaoMap.panTo(initLatLng);
       this.kakaoMap.setLevel(2);
-      console.log(this.map.coord);
+      //console.log(this.map.coord);
       var initMarker = new kakao.maps.Marker({
         map: this.kakaoMap,
         position: initLatLng,
@@ -137,7 +137,7 @@ export default {
     saveEvent() {
       this.$store.state.map.coord = this.coord
       // 서버에 coord 값 보내기
-      console.log('저장@');
+      //console.log('저장@');
     }
   },
 };

@@ -40,7 +40,7 @@ export default {
       AccessToken: "",
     };
     arr.forEach((element) => {
-      console.log("In App, element is : ", element);
+      //console.log("In App, element is : ", element);
       if (element.split("=")[0].trim() == "AccessToken") {
         // logInfo.AccessToken = element.split('=')[1];
         logInfo.AccessToken = element.split("=")[1];
@@ -56,7 +56,7 @@ export default {
       }
     });
 
-    console.log("In App, logInfo is : ", logInfo);
+    //console.log("In App, logInfo is : ", logInfo);
 
     if (logInfo.AccessData != "" && logInfo.AccessData != "") {
       this.$store.commit("setDataAgain", logInfo);

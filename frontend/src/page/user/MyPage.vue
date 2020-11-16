@@ -97,7 +97,7 @@ export default {
     },
     methods: {   
       changeIt() {
-        console.log(this.$store.getters.userData.nickname)
+        //console.log(this.$store.getters.userData.nickname)
         if (this.userData.name.length > 0 && this.userData.nickname.length > 0 && this.passwordCheck.length >= 8) {
           this.isChange = true
         } else {
@@ -119,18 +119,18 @@ export default {
           }
           userApi.userInfo(newUser, config,
             res => {
-              console.log('good',res.status);
+              //console.log('good',res.status);
               this.$store.commit(constants.METHODS.USER_INFO, {
                   newUser
               });
               this.createSnackbar("프로필이 수정되었습니다.", 2000, "green");
-              console.log(this.$store.getters.userData);                    
+              //console.log(this.$store.getters.userData);                    
             },
             err => {
-              console.log('error', err);
+              //console.log('error', err);
               this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
             });
-            console.log(real)
+            //console.log(real)
           this.passwordCheck = "";
         } else {
           this.createSnackbar("값이 모두 입력되지 않았습니다.", 2000, "error")

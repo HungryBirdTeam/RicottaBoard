@@ -166,7 +166,7 @@ export default {
       this.poll[this.idx].setAll = true;
       this.$store.state.updateOccur = true;
       this.$store.commit('toggleUpdate');
-      console.log(this.poll[this.idx].setAll);
+      //console.log(this.poll[this.idx].setAll);
 
     },
     vote() {
@@ -177,7 +177,7 @@ export default {
       }
       this.poll[this.idx].answers[this.voted].voted++;
       this.poll[this.idx].userVoted.push(this.$store.state.userData.email);
-      console.log(this.$store.state.userData.email)
+      //console.log(this.$store.state.userData.email)
       this.didYou = true;
       this.$store.commit('toggleUpdate');
     },

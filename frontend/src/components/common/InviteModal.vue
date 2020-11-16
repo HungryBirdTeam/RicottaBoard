@@ -77,14 +77,14 @@ export default {
   },
   methods: {
     submit() {
-      console.log('auth에 보내기')
+      //console.log('auth에 보내기')
       const mydata = {
           "channelId": this.$route.params.channelId,
           "channelName": this.$route.params.channelName,
           "email": this.memberList,
           "from":  this.$store.getters.userData.nickname
       }
-      console.log(mydata);
+      //console.log(mydata);
       
       authApi.inviteUser(mydata,
           res => {
@@ -93,7 +93,7 @@ export default {
           },
           err => {
               alert("문제가 발생하였습니다. 잠시후 다시 시도해주세요.");
-              console.log(err);
+              //console.log(err);
           }    
       );
 

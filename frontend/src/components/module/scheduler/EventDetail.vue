@@ -70,7 +70,7 @@ export default {
     },
     modify() {
       if (this.isModify) {
-        console.log(this.$store.state.scheduler.events);
+        //console.log(this.$store.state.scheduler.events);
         for (var i = 0; i < this.$store.state.scheduler.events.length; i++) {
           if (this.$store.state.scheduler.events[i].id == 1) {
             this.$store.state.scheduler.events[

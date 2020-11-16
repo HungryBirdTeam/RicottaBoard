@@ -14,7 +14,7 @@ import * as API from '../src/api/index.js'
 
 // const socket = io(API.CHAT_BASE_URL);
 const socket = io("https://k3a204.p.ssafy.io:3030");
-console.log(socket);
+//console.log(socket);
 
 
 const successFaceSocket = io('https://k3a204.p.ssafy.io:3031');

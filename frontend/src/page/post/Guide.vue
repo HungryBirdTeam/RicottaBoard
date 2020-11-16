@@ -74,8 +74,8 @@ export default {
             } else if (page == 6){
                 this.explain = "chat으로 실시간으로 의견을 주고 받을 수 있습니다."
             }
-            console.log('change!')
-            console.log('test', dataset)
+            //console.log('change!')
+            //console.log('test', dataset)
         },
         teamPage() {
             this.$router.push('/@hungrybird')
@@ -83,10 +83,10 @@ export default {
         check(e) {
 
             // if(e.deltaY > 0) {
-            //     console.log("down!");
+            //     //console.log("down!");
 
             // } else if(e.deltaY < 0) {
-            //     console.log("up!");
+            //     //console.log("up!");
             // }
 
         }

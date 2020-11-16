@@ -166,7 +166,7 @@ export default {
   methods: {
     changeScreen() {
       this.isStarting = true;
-      console.log("after", this.isStarting);
+      //console.log("after", this.isStarting);
     },
     teamPage() {
       this.$router.push("/@hungrybird");

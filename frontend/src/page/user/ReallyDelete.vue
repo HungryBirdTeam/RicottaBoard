@@ -99,7 +99,7 @@ export default {
           err => {
             this.createSnackbar("비밀번호가 일치하지 않습니다.", 2000, "error");
           })
-        console.log(data);
+        //console.log(data);
       }
     },
     teamPage() {

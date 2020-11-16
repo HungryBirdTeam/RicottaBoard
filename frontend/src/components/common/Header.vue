@@ -88,11 +88,11 @@ export default {
       try {
         await this.$router.push("/");
       } catch (error) {
-        console.log("route same path!");
+        //console.log("route same path!");
       }
     },
     check() {
-      console.log(this.$store.state);
+      //console.log(this.$store.state);
     },
   },
   data: function () {

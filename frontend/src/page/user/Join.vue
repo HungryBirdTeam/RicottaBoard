@@ -208,13 +208,13 @@ export default {
           "username": this.realName,
           "nickname": this.nickName,
         };
-        console.log(data)
+        //console.log(data)
         userApi.createUser(data,
           () => {
-            console.log("create req success")
+            //console.log("create req success")
           },
           err => {
-            console.log('error', err);
+            //console.log('error', err);
             this.createSnackbar("비밀번호가 틀렸습니다.", 2000, "error");
           });
         this.$router.push(constants.URL_TYPE.USER.JOINDONE);

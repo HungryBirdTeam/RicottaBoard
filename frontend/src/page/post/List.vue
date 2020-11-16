@@ -169,7 +169,7 @@ export default {
       }
       channelApi.findAllChannel(data, config, 
         (response) => {
-          console.log(response);
+          //console.log(response);
           // prevent html, allow json array
           if (
             Object.prototype.toString.call(response.data) === "[object Array]"
@@ -177,7 +177,7 @@ export default {
             this.channels = response.data;
         },
         (err) => {
-          console.log(err)
+          //console.log(err)
         }
       );
     },
@@ -193,7 +193,7 @@ export default {
           channelName: this.channel_name,
           email: this.$store.state.userData.email,
         };
-        console.log(params);
+        //console.log(params);
         const config = {
           headers: {
             Authorization: "Bearer " + this.$store.getters.accessToken,
@@ -222,7 +222,7 @@ export default {
     openModal() { // 모임생성 모달
         // 로그인 되어있지 않은 사용자 -> 로그인 모달띄우기 
       if(this.$cookie.get('AccessToken') === null){
-        console.log('openMODAL');
+        //console.log('openMODAL');
         this.$store.commit("toggleModal");
         return
       } else { // 로그인 되어있는 사용자 -> 모임 생성 모달 띄우기
