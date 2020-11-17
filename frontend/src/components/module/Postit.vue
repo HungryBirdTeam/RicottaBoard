@@ -21,7 +21,7 @@
 <script>
 import image from '../../assets/img/postIt.png'
 
-var postSet = 0;
+var postSet;
 export default {
     data() {
       return {

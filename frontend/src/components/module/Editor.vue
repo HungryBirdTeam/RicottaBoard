@@ -1,16 +1,14 @@
 <template>
     <div id="EditorMain" class="MoveableBox editor">
         <div v-if="edit.isHidden">
-            <div class="row m-0 subtitle">
+            <div class="row m-0 subtitle" style="background-color: #f5f5ec;">
                 <v-btn
-                    color="blue-grey lighten-4"
+                    color="#0d875C"
                     @click="changeHidden"
                     class="my-auto mx-1"
-                    >
-                    <v-icon
-                        center
-                        light
-                    >
+                    style="opacity: 0.8;"
+                >
+                    <v-icon color="white">
                         mdi-arrow-down-drop-circle-outline
                     </v-icon>
                 </v-btn>
@@ -19,36 +17,31 @@
             </div>
         </div>
         <div v-if="!edit.isHidden">
-            <div class="title row m-0">
+            <div class="title row m-0" style="background-color: #f5f5ec;">
                 <div class="col-10 p-0 m-0">
                     <div class="semititle row m-0">
                         <v-btn
-                        color="blue-grey lighten-4"
+                        color="#0d875C"
                         @click="changeHidden"
                         class="my-auto mx-1"
+                        style="opacity: 0.8;"
                         >
-                            <v-icon
-                                center
-                                dark
-                            >
+                            <v-icon color="white">
                                 mdi-arrow-up-drop-circle
                             </v-icon>
                         </v-btn>
-                        <input type="text" placeholder="제목" v-model="edit.title" class="ml-1">
+                        <input type="text" placeholder="제목" v-model="edit.title" class="ml-1" style="width:590px; background-color: #f5f5ec;">
                     </div>
                 </div>
                 <v-btn
                     :loading="isLoading"
                     :disabled="isLoading"
-                    color="blue-grey"
+                    color="#0d875C"
                     class="m-auto  white--text"
                     @click="saveEditor"
                     >
                     저장하기
-                    <v-icon
-                        right
-                        dark
-                    >
+                    <v-icon dark class="ml-1">
                         mdi-cloud-download
                     </v-icon>
                 </v-btn>
@@ -179,6 +172,7 @@ html, body, #EditorMain {
     width: 800px;
     height: 50px;
     border: 1px solid #ccc;
+    border-bottom: 0px;
     border-radius: 5px 5px 0 0;
     background-color: #f6f6f6;
 }
