@@ -100,13 +100,6 @@ export default {
     var $msgForm = $("#msgForm").val();
     this.naname = myname;
     this.Channel = this.channelId;
-    //console.log('chat : ' + this.Channel)
-
-    // //console.log('name is: ' + this.naname);
-    // //console.log('channel is: ' + this.Channel);
-
-    // //console.log("SOCKET IS @@@@@@: ");
-    // //console.log(this.$socket);
     this.$socket._callbacks.$clientList = undefined;
     this.$socket._callbacks.$enter = undefined;
     this.$socket._callbacks.$out = undefined;
@@ -152,7 +145,7 @@ export default {
         //console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
-          '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + '<span class="chat-time">' + time + "</span>" + "</div>"
+          '<div class="friend-bubble bubble"><span>' + name + '</span><br><div class="msg-body"><div class="chat-msg">' + msg + '</div><span class="chat-time">' + time + "</span>" + "</div></div>"
         );
 
       if (!this.chattingBox) {
@@ -176,7 +169,7 @@ export default {
       var name = data.from.name;
       var msg = data.msg;
       var time = data.time;
-      $(".chatbox").append('<div class="my-bubble bubble">' + msg + '<span class="chat-time">' + time + "</span>" + "</div>");
+      $(".chatbox").append('<div class="my-bubble bubble"><div class="msg-body"><div class="chat-msg">' + msg + '<span class="chat-time">' + time + "</span>" + "</div></div>");
 
       setTimeout(function () {
         $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
@@ -394,34 +387,43 @@ export default {
 }
 
 .inout-bubble {
+  display: inline-block;
   background-color: #D3D3CA;
   border-radius: 14px 14px 14px 14px;
   padding: 7px 50px 7px 50px;
-  float: left;
+  /* float: left; */
   clear: both;
   color: rgba(0,0,0,0.87);
-  margin: 5px 0;
-  max-width: 300px;
+  margin: 5px auto 5px auto;
+  width: inherit;
   font-size: 14px;
   text-align: center;
   position: relative;
 }
-
-.friend-bubble {
-  background-color: #d7e4f2;
-  border-radius: 14px 14px 14px 0;
+.chat-msg{
   padding: 7px 15px 7px 15px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  max-width: 270px;
+}
+.friend-bubble {
   float: left;
   clear: both;
 }
-
+.friend-bubble .chat-msg {
+  background-color: #d7e4f2; 
+  border-radius: 14px 14px 14px 0;
+}
+.friend-bubble .msg-body {
+  display: flex;
+}
 .friend-bubble span{
   font-size: 0.2rem;
-  float: left;
-  clear: both;
 }
 .friend-bubble .chat-time{
-  margin-left: 20px;
+  margin-left: 2px;
+  display: flex;
+  align-items: flex-end;
 }
 .goodchat-bubble {
   background-color: lightpink;
@@ -432,20 +434,22 @@ export default {
 }
 
 .my-bubble {
-  background-color: #fff46d;
-  border-radius: 14px 14px 0px 14px;
-  padding: 7px 15px 7px 15px;
   float: right;
   clear: both;
 }
 
+.my-bubble .chat-msg {
+  background-color: #fff46d;
+  border-radius: 14px 14px 0 14px;
+
+}
 .my-bubble .chat-time{
+  position: absolute;
+  bottom: 0px;
   left: -32px;
 }
 
 .chat-time {
-  position: absolute;
-  bottom: 0px;
   font-size: 0.7rem !important;
 }
 /* text box */
