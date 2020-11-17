@@ -88,13 +88,13 @@ export default {
   width: 100%;
 }
 .paperContent{
-  height: 90%;
+  height: 80%;
   resize: none;
-  /* padding: 20px; */
   padding: 10px;
-  font-size: 20px;
+  font-size: 18px;
   overflow: hidden;
   word-wrap: break-word;
+  width: 100%;
 }
 .MoveableBox {
   padding: 30px;
