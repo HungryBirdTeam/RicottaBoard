@@ -378,6 +378,7 @@ export default {
         isPresent: false,
         text: "",
         timeout: 1000,
+        color: "error",
       },
       boardLengthX: 6000,
       boardLengthY: 4000,

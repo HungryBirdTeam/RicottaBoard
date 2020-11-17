@@ -119,7 +119,15 @@
           </h3>
         </div>
       </div>
-    </div> 
+    </div>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar
+    >
   </div>
 </template>
 
@@ -143,12 +151,18 @@ export default {
       didYou: false,
       result: [],
       showResult: false,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
     };
   },
   methods: {
     createNewInput() {
       if (this.poll[this.idx].answers.length > 10) {
-        alert('투표 문항은 10개까지 생성 가능합니다.')
+        this.createSnackbar("투표 문항은 10개까지 생성 가능합니다.", 2000, "error");
       } else this.poll[this.idx].answers.push({answer: "", voted: 0});
     },
     deleteInput(index) {
@@ -172,7 +186,7 @@ export default {
     vote() {
       if(this.didYou) {return;}
       if(this.poll[this.idx].userVoted.includes(this.$store.state.userData.email)) {
-        alert('이미 투표를 하셨습니다')
+        this.createSnackbar("이미 투표를 하셨습니다.", 2000, "error");
         return;
       }
       this.poll[this.idx].answers[this.voted].voted++;
@@ -208,7 +222,13 @@ export default {
     showVote() {
       event.stopPropagation();
       this.showResult = false;
-    }
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
 };
 </script>

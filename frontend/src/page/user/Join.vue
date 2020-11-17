@@ -253,6 +253,7 @@ export default {
         isPresent: false,
         text: "",
         timeout: 2000,
+        color: "error",
       },
     };
   },
