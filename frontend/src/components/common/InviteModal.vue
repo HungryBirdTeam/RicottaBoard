@@ -46,6 +46,14 @@
         </div>
       </v-card-text>
     </v-card>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar
+    >
   </v-dialog>
 </template>
 
@@ -68,6 +76,11 @@ export default {
         },
       },
       colors: ['#fffacc', '#ffebba', '#ffd0b5', '#ffb2b2', '#6dc9c9', '#a5d8d8'],
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+      },
     };
   },
   computed: {
@@ -88,17 +101,13 @@ export default {
       
       authApi.inviteUser(mydata,
           res => {
-            // httpAuth.post(url, mydata)
             this.$store.state.inviteModal = false; 
           },
           err => {
-              alert("문제가 발생하였습니다. 잠시후 다시 시도해주세요.");
-              console.log(err);
+            this.createSnackbar("문제가 발생하였습니다. 잠시후 다시 시도해주세요.", 2000, "error");
+            console.log(err);
           }    
       );
-
-      
-      
     },
     append(valid) {
       if(!valid){ 
@@ -118,6 +127,12 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
     },
   }
 };
