@@ -38,20 +38,20 @@ export default {
       if(!this.videoStream) {
         onVideo(this.videoInfo.vdId);
         this.videoStream = true;
-        this.onVideoBtnText = "off";
+        this.onVideoBtnText = "OFF";
       } else {
         offVideo();
         this.videoStream = false;
-        this.onVideoBtnText = "on";
+        this.onVideoBtnText = "ON";
       }
     },
     muteVideo() {
       if(!this.mute) {
         this.mute = true;
-        this.muteBtnText = "soundOn";
+        this.muteBtnText = "SOUND ON";
       } else {
         this.mute = false;
-        this.muteBtnText = "mute";
+        this.muteBtnText = "MUTE";
       }
     }
   },
@@ -95,7 +95,7 @@ export default {
 }
 .video_btn {
   float: right;
-  background-color: #1976D2;
+  background-color: #0D875C;
   border-radius: 2px;
   padding: 5px 10px;
   color: white;

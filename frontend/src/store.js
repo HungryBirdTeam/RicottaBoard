@@ -92,11 +92,11 @@ export const store = new Vuex.Store({
     actions: {
         async REQUEST_ADD_EVENT(context, event) {
             try {
-                console.log(event);
+                //console.log(event);
                 const addedEvent = makeEvent(event);
                 context.commit('ADD_EVENT', addedEvent);
             } catch (e) {
-                console.log('일정 추가 에러' + e);
+                //console.log('일정 추가 에러' + e);
             }
 
             function makeEvent(event) {
@@ -146,7 +146,7 @@ export const store = new Vuex.Store({
                     })
                 // authConnect.get(url)
                 //     .then(res => {
-                //         console.log(res.data.data);
+                //         //console.log(res.data.data);
                 //         store.commit(constants.METHODS.EMAILCHECK, res.data.data);
                 //     })
                 //     .catch(exp => {
@@ -159,14 +159,14 @@ export const store = new Vuex.Store({
          */
         [constants.METHODS.NICKNAMECHECK]: (store, payload) => {
             const checkNickname = payload;
-            console.log('first', checkNickname)
+            //console.log('first', checkNickname)
             if (checkNickname == "") {
-                console.log('nothing')
+                //console.log('nothing')
                 store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
                 return;
             }
 
-            console.log('second', checkNickname.length)
+            //console.log('second', checkNickname.length)
             if (checkNickname.length == 0) {
                 store.commit(constants.METHODS.NICKNAMECHECK, "nothing");
                 return;
@@ -174,11 +174,11 @@ export const store = new Vuex.Store({
 
             userApi.nicknameCheck(checkNickname,
                 res => {
-                    console.log('res', res.data.data)
+                    //console.log('res', res.data.data)
                     store.commit(constants.METHODS.NICKNAMECHECK, res.data.data);
                 },
                 err => {
-                    console.log('err')
+                    //console.log('err')
                     store.dispatch("throwError", err);
                     store.commit(constants.METHODS.NICKNAMECHECK, 0);
                 })
@@ -208,8 +208,8 @@ export const store = new Vuex.Store({
                 //         "email": data,
                 //     })
                 //     .then(res => {
-                //         console.log(res);
-                //         console.log(res.data.success);
+                //         //console.log(res);
+                //         //console.log(res.data.success);
                 //         if (res.data.success) {
                 //             store.commit(constants.METHODS.RESETMYPASSWORDREQ, "비밀번호 재설정 메일이 발송되었습니다.\n 3초뒤 되돌아갑니다.")
                 //             setTimeout(() => {
@@ -268,7 +268,7 @@ export const store = new Vuex.Store({
         throwError: (store, exp) => {
             router.push('/error');
             store.commit(constants.METHODS.ERROR, exp)
-            console.log(exp);
+            //console.log(exp);
         },
 
     },
@@ -280,11 +280,11 @@ export const store = new Vuex.Store({
             state.scheduler.dialog = true;
         },
         CLOSE_SCHEDULER_DIALOG(state) {
-            console.log("CLOSE_DIALOG");
+            //console.log("CLOSE_DIALOG");
             state.scheduler.dialog = false;
         },
         ADD_EVENT(state, getEvent) {
-            console.log("ADD_EVENT");
+            //console.log("ADD_EVENT");
             state.scheduler.events.push(getEvent);
             state.scheduler.dialog = false;
             state.scheduler.event = {
@@ -321,7 +321,7 @@ export const store = new Vuex.Store({
         },
         [constants.METHODS.LOGIN_USER]: (state, payload) => {
             // state.password = payload.password;
-            console.log("In Store, payload is : ", payload);
+            //console.log("In Store, payload is : ", payload);
             state.userData.email = payload[0].email;
             state.accessData = {
                 email: state.userData.email,
@@ -342,7 +342,7 @@ export const store = new Vuex.Store({
             cookies.delete('AccessData');
         },
         [constants.METHODS.GET_USER]: (state, payload) => {
-            console.log(payload.dataWhatINeed);
+            //console.log(payload.dataWhatINeed);
             state.userData.email = payload.dataWhatINeed.email;
             state.userData.password = payload.dataWhatINeed.password;
             state.userData.nickname = payload.dataWhatINeed.nickname;
@@ -352,7 +352,7 @@ export const store = new Vuex.Store({
             state.userData.email = payload.newUser.email
             state.userData.nickname = payload.newUser.nickname
             state.userData.name = payload.newUser.username
-            console.log(state.userData);
+            //console.log(state.userData);
         },
         [constants.METHODS.DELETE_USER]: (state) => {
             state.userData.email = "";
@@ -364,7 +364,7 @@ export const store = new Vuex.Store({
             state.errorcode = exp;
         },
         [constants.METHODS.EMAILCHECK]: (state, result) => {
-            // console.log("In store, result is : ", result);
+            // //console.log("In store, result is : ", result);
             switch (result) {
                 case "true":
                     state.joining.canIUseIt = "이미 사용 중인 이메일입니다.";
@@ -427,7 +427,7 @@ export const store = new Vuex.Store({
             state.modal = !state.modal;
         },
         toggleUpdate: (state) => {
-            console.log('update Occured')
+            //console.log('update Occured')
             state.updateOccur = !state.updateOccur;
         },
     },
@@ -437,7 +437,7 @@ export const store = new Vuex.Store({
         },
         userDataStr: function(state) {
             const dataStr = `email:${state.userData.email},name:${state.userData.name},nickname:${state.userData.nickname}`
-                //   console.log("In store, userDataStr is : ",
+                //   //console.log("In store, userDataStr is : ",
                 //   dataStr);
             return dataStr;
         },

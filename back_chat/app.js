@@ -110,26 +110,19 @@ io.on('connection', function(socket) {
         console.log('Message from %s, 내용 : %s', socket.name, data.msg);
       
         var date = new Date();
-        var hours = date.getHours().toString()
-        if(hours.length() === 1){
-          hours = '0' + hours
-        }
-        var minuates = date.getMinuates().toString()
-        if(minuates.length() === 1){
-          minuates = '0' + minuates
-        }
         var msg = {
-            to: {
-                name: '',
-            },
-            from: {
-                name: socket.name, // 내 소켓 네임
-                userid: socket.userid
-            },
-            msg: data.msg,
-            id: '',
-            time: hours + ':' + minuates
-        };
+          to: {
+              name: '',
+          },
+          from: {
+              name: socket.name, // 내 소켓 네임
+              userid: socket.userid
+          },
+          msg: data.msg,
+          id: '',
+          time: ("00" + date.getHours()).slice(-2) + ':' + ("00" + date.getMinutes()).slice(-2)
+      };
+
 
         io.to(room).emit('s2c_chat', msg);
         console.log("상대한테 메시지 보내기 : "+data.msg);

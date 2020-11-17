@@ -99,14 +99,14 @@ export default {
     var textbox = document.getElementById("textBox");
     var $msgForm = $("#msgForm").val();
     this.naname = myname;
-    console.log('chat : chatting ID')
     this.Channel = this.channelId;
+    //console.log('chat : ' + this.Channel)
 
-    // console.log('name is: ' + this.naname);
-    // console.log('channel is: ' + this.Channel);
+    // //console.log('name is: ' + this.naname);
+    // //console.log('channel is: ' + this.Channel);
 
-    // console.log("SOCKET IS @@@@@@: ");
-    // console.log(this.$socket);
+    // //console.log("SOCKET IS @@@@@@: ");
+    // //console.log(this.$socket);
     this.$socket._callbacks.$clientList = undefined;
     this.$socket._callbacks.$enter = undefined;
     this.$socket._callbacks.$out = undefined;
@@ -149,7 +149,7 @@ export default {
       var time = data.time;
       if (name === this.naname) {
         // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
-        console.log("지금 내 이름 : " + this.naname);
+        //console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
           '<div class="friend-bubble bubble"><span>' + name + "</span><br>" + msg + '<span class="chat-time">' + time + "</span>" + "</div>"
@@ -157,7 +157,7 @@ export default {
 
       if (!this.chattingBox) {
         this.notread += 1;
-        console.log("안읽은 메시지 수 : " + this.notread);
+        //console.log("안읽은 메시지 수 : " + this.notread);
       }
 
       setTimeout(function () {
@@ -244,8 +244,8 @@ export default {
     sendChat() {
       event.preventDefault(); // 줄바꿈 방지?
       event.stopPropagation();
-      console.log("msgForm : " + this.chatlog.message);
-      console.log("channel : " + this.Channel);
+      //console.log("msgForm : " + this.chatlog.message);
+      //console.log("channel : " + this.Channel);
 
       if (this.chatlog.message === "") pass;
       else {

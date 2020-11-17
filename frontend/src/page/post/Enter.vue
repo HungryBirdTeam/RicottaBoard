@@ -153,6 +153,7 @@
 
 <script>
 import Login from "@/page/user/Login";
+import bus from '../../utils/bus';
 export default {
   components: {
     Login,
@@ -165,7 +166,7 @@ export default {
   methods: {
     changeScreen() {
       this.isStarting = true;
-      console.log("after", this.isStarting);
+      //console.log("after", this.isStarting);
     },
     teamPage() {
       this.$router.push("/@hungrybird");
@@ -184,6 +185,9 @@ export default {
     this.isStarting = false;
     setTimeout(() => (this.isStarting = true), 1000);
   },
+  mounted() {
+    bus.$emit('end:Loading');
+  }
   
 };
 </script>

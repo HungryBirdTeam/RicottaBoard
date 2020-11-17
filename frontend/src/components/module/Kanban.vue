@@ -232,7 +232,7 @@ export default {
     },
     addAssigner(assigners) {
       this.newTask.assigners = assigners
-      console.log(assigners)
+      //console.log(assigners)
       this.isMemberModal = false
     },
     addDates(dates) {
@@ -293,7 +293,7 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
 }
 
 .add-member{
-  background: #ddddee;
+  background: #D3D3CA;
   border-radius: 16px;
   padding: 4px;
   margin-left: 8px;
