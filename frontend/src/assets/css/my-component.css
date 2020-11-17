@@ -17,11 +17,11 @@
 
 
 .pressDownButton {
-  background-color: hsl(222, 100%, 95%);
+  background-color: #F5F5EC;
   padding: 6px 12px;
-  color: hsl(243, 80%, 62%);
+  color: #0D875C;
   border-radius: 6px;
-  border-bottom: 4px solid hsl(221, 89%, 85%);
+  border-bottom: 4px solid #D3D3CA;
   transition: all 0.1s ease-in-out;
 }
 
@@ -33,8 +33,8 @@
 
 .circleScaleBtn {
   padding: 6px 18px;
-  background-color: #BDBDBD;
-  color: #424242;
+  background-color: #0D875C;
+  color: #F5F5EC;
   position: relative;
   border-radius: 6px;
   overflow: hidden;
@@ -56,12 +56,12 @@
   border-radius: 50%;
   transform: translate3d(-50%,-50%,0) scale3d(0,0,0);
   transition: opacity .4s cubic-bezier(.19,1,.22,1),transform .75s cubic-bezier(.19,1,.22,1);
-  background-color: #757575;
+  background-color: #0A5429;
   opacity: 0;
 }
 
 .circleScaleBtn:hover span {
-  color: #F5F5F5;
+  color: #F5F5EC;
 }
 
 .circleScaleBtn:hover::before {

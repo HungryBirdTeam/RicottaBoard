@@ -35,7 +35,7 @@
         </div>
         <div class="poll-footer">
           <button class="circleScaleBtn" @click="reset"><span>리셋</span></button>
-          <button class="circleScaleBtn" @click="save"><span>저장</span></button>
+          <button class="circleScaleBtn" @click="save"><span>투표 시작</span></button>
         </div>
       </div>
     </div>
@@ -249,7 +249,7 @@ export default {
 }
 .poll-content:hover {
   transform: scale(1.05);
-  border: 1px solid hsl(243, 80%, 62%);
+  border: 1px solid #0A5429;
 }
 .poll-footer {
   text-align: center;
@@ -272,42 +272,6 @@ h3{
   margin-bottom: 5px;
 }
 
-.circleScaleBtn {
-    padding: 12px 24px;
-    background-color: hsl(222, 100%, 95%);
-    color: hsl(243, 80%, 62%);
-    position: relative;
-    border-radius: 6px;
-    overflow: hidden;
-    z-index: 0;
-}
 
-.circleScaleBtn span {
-    position: relative;
-}
-
-.circleScaleBtn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    transform: translate3d(-50%,-50%,0) scale3d(0,0,0);
-    transition: opacity .4s cubic-bezier(.19,1,.22,1),transform .75s cubic-bezier(.19,1,.22,1);
-    background-color: hsl(243, 80%, 62%);
-    opacity: 0;
-}
-
-.circleScaleBtn:hover span {
-    color: hsl(222, 100%, 95%);
-}
-
-.circleScaleBtn:hover::before {
-    opacity: 1;
-    transition-duration: .85s;
-    transform: translate3d(-50%,-50%,0) scale3d(1,1,1)
-}
 
 </style>
