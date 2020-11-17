@@ -1,14 +1,6 @@
 <template>
   <v-dialog max-width="600px" persistent v-model="dialog">
     <v-card>
-      
-      <v-snackbar
-        app
-        top
-        v-model="snackbar"
-        timeout="2000"
-        color="success"
-      >성공적으로 전송 되었습니다</v-snackbar>
       <v-card-title>
         <h3>멤버 초대</h3>
       </v-card-title>
@@ -87,6 +79,9 @@ export default {
     dialog() {
       return this.$store.state.inviteModal;
     },
+  },
+  destroyed() {
+    createSnackbar("성공적으로 초대 메일이 전송되었습니다", 2000, "success");
   },
   methods: {
     submit() {
