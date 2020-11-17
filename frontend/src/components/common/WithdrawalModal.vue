@@ -42,8 +42,7 @@
       v-model="snackbar.isPresent"
       :timeout="snackbar.timeout"
       :color="snackbar.color"
-      >{{ snackbar.text }}</v-snackbar
-    >
+    >{{ snackbar.text }}</v-snackbar>
   </v-dialog>
 </template>
 

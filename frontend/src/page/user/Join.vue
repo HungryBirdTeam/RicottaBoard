@@ -147,12 +147,13 @@
         </button>
         
       </div>
-      <v-snackbar
+      <v-snackbar 
+        app
         bottom
         v-model="snackbar.isPresent"
         :timeout="snackbar.timeout"
         :color="snackbar.color"
-      >{{ snackbar.text }}</v-snackbar> 
+      >{{ snackbar.text }}</v-snackbar>
     </div>
     <footer
       class="mx-auto wrap"
@@ -187,8 +188,7 @@ export default {
         this.createSnackbar("닉네임을 입력해주세요.", 2000, "error");
       } else if (exptext.test(email.value) == false) {
         //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
-        this.createSnackbar("닉네임을 입력해주세요.", 2000, "error");
-        alert("이메일형식이 올바르지 않습니다.");
+        this.createSnackbar("이메일형식이 올바르지 않습니다.", 2000, "error");
       } else if (realName.value == "") {
         this.createSnackbar("이름을 입력해주세요.", 2000, "error");
       } else if (password.value == "") {

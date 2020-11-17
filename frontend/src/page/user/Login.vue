@@ -48,12 +48,13 @@
 
         <v-btn dark depressed block class="allbtn mt-3" color="#0d875C" @click="login(email, password)">로그인 하기</v-btn>
       </div>
-      <v-snackbar
+      <v-snackbar 
+        app
         bottom
         v-model="snackbar.isPresent"
         :timeout="snackbar.timeout"
         :color="snackbar.color"
-      >{{ snackbar.text }}</v-snackbar> 
+      >{{ snackbar.text }}</v-snackbar>
     </div>
   </div>
 </template>

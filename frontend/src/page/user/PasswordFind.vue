@@ -30,6 +30,13 @@
     >
       <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
     </footer>
+    <v-snackbar 
+        app
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar>
   </div>
 </template>
 

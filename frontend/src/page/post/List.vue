@@ -101,29 +101,36 @@
 
     <v-dialog max-width="600px" persistent v-model="modal">
       <v-card>
-      <v-card-title>
-        <h3>모임 생성</h3>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form" v-model="valid" @submit.prevent>
-          <div class="mail-form">
-            <v-text-field
-              label="모임 이름"
-              v-model="channel_name"
-              prepend-icon="mdi-account-supervisor"
-              :rules="rules"
-              counter="20"
-               @keyup.enter="createChannel(valid)"
-            ></v-text-field>
+        <v-card-title>
+          <h3>모임 생성</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" v-model="valid" @submit.prevent>
+            <div class="mail-form">
+              <v-text-field
+                label="모임 이름"
+                v-model="channel_name"
+                prepend-icon="mdi-account-supervisor"
+                :rules="rules"
+                counter="20"
+                @keyup.enter="createChannel(valid)"
+              ></v-text-field>
+            </div>
+          </v-form>
+          <div class="text-center">
+            <v-btn text class="primary white--text mx-2 mt-3" @click="createChannel(valid)">생성</v-btn>
+            <v-btn text class="primary white--text mx-2 mt-3" @click="close">닫기</v-btn>
           </div>
-        </v-form>
-        <div class="text-center">
-          <v-btn text class="primary white--text mx-2 mt-3" @click="createChannel(valid)">생성</v-btn>
-          <v-btn text class="primary white--text mx-2 mt-3" @click="close">닫기</v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+    >{{ snackbar.text }}</v-snackbar>
   </div>
 </template>
 
@@ -146,6 +153,12 @@ export default {
     modal: false,
     rules: [v => ((4 <= v.length) && (v.length<= 20 ))|| '모임 이름은 4-20자여야 합니다!'],
     valid: false,
+    snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 2000,
+        color: "error",
+      },
   }),
   created() {
     this.findAllChannel();
@@ -186,7 +199,7 @@ export default {
         return
       }
       if (!valid) {
-        alert("모임 이름을 입력해 주십시오.");
+        this.createSnackbar("모임 이름을 입력해 주십시오.", 2000, "error");
         return;
       } else {
         const params = {
@@ -201,12 +214,12 @@ export default {
         };
         channelApi.createChannel(params, config,
           (response) => {
-            alert(response.data.channelName + "채널 개설에 성공하였습니다.");
+            this.createSnackbar("채널 개설에 성공하였습니다.", 2000, "success");
             this.channel_name = "";
             this.findAllChannel();
           },
           (err) => {
-            alert("채널 개설에 실패하였습니다.");
+            this.createSnackbar("채널 개설에 실패하였습니다.", 2000, "error");
           }
         );
       }
@@ -231,6 +244,12 @@ export default {
     },
     close() {
       this.modal = false;
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
     },
   },
   computed: {
