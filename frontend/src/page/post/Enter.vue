@@ -87,7 +87,7 @@
                 <div class="card-body" v-if="!$store.getters.accessToken == ''">
                   <h4 class="card-title">모임 관리</h4>
                   <p class="card-text">
-                    리코타보드의 모임 관리 페이지는 만든 모임을 확인하고 모임에 들어갈 수 있습니다. 이제 리코타보드를 활용해보세요!
+                    리코타보드의 모임 관리 페이지는 만든 모임을 확인하고 모임에 들어갈 수 있습니다. 이제 리코타보드를 활용해보세요!<br>
                   </p>
                 </div>
                 <div class="button-user">
