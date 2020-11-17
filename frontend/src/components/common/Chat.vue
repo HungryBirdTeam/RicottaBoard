@@ -387,11 +387,10 @@ export default {
 }
 
 .inout-bubble {
-  display: inline-block;
   background-color: #D3D3CA;
   border-radius: 14px 14px 14px 14px;
   padding: 7px 50px 7px 50px;
-  /* float: left; */
+  float: left;
   clear: both;
   color: rgba(0,0,0,0.87);
   margin: 5px auto 5px auto;
