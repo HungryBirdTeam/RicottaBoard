@@ -2,14 +2,14 @@
   <div id="header">
     <button @click="goWhere()">
       <img
-        style="position:absolute ;top:0px;  margin: 10px 20px; width:auto;height:50px;"
+        style="position:absolute ;top:0px;  margin: 10px 20px; width:auto; height: 50px"
         src="../../assets/img/Logo.png"
       />
     </button>
 
-    <div class="right">
+    <!-- <div class="right"> -->
       <template v-if="this.$store.getters.accessToken != ''">
-        <div class="headBox mt-1">
+        <div class="headBox">
           <router-link style="margin-left: 20px; padding-top:5px"
             :to="{name:constants.URL_TYPE.USER.MYPAGE}"
             class="btn--text"
@@ -17,15 +17,15 @@
           {{(this.$store.getters.userData.nickname)}}
           </router-link>
           님 환영합니다!
-          <v-btn dark class="allbtn" outlined color="white" @click="logout">Logout</v-btn>
+          <v-btn dark class="allbtn" style="height: 100%;  " outlined color="white" @click="logout">Logout</v-btn>
         </div>
       </template>
       <template v-if="this.$store.getters.accessToken == ''">
-        <div class="headBox mt-1">
+        <div class="headBox">
           <router-link style="margin-left: 20px; padding-top:5px"
             :to="{name:constants.URL_TYPE.USER.JOIN}"
           >
-            <v-btn dark class="allbtn px-5 py-2" outlined color="white">Sign up</v-btn>
+            <v-btn style="height: 100%;  " dark class="allbtn px-5 py-2" outlined color="white">Sign up</v-btn>
           </router-link>
 
           <v-dialog  width="350px ">
@@ -37,12 +37,13 @@
                 v-on="on"
                 outlined
                 color="white"
+                style="height: 100%;  "
                 v-if="$store.getters.accessToken == ''"
               >
               LOGIN
               </v-btn>
             </template>
-            <v-card style="width:350px; height:280px">
+            <v-card style="width:350px; height: 280px">
               <v-card-title>LOGIN</v-card-title>
               <v-card-text style=" background-color:white; height:90px; padding-bottom:0"><Login style="height:120px;padding-bottom:0"/></v-card-text>
             </v-card>
@@ -53,6 +54,76 @@
       <!-- <button @click="check">
                         스토어 체크
       </button>-->
+    <!-- </div> -->
+    <div class="menuBox">
+      <v-menu>
+
+        <template v-slot:activator="{ on, attrs }" 
+            justify="space-around"> 
+          <v-btn
+            color="primary"
+            v-bind="attrs"
+            v-on="on"
+            style="height:100%;"  
+          >
+            <v-icon color="secondary">mdi-menu</v-icon>
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-list>
+            <v-list-item>
+              <v-list-item-content  v-if="this.$store.getters.accessToken != ''">
+                <router-link style="margin-left: 20px; padding-top:5px"
+                  :to="{name:constants.URL_TYPE.USER.MYPAGE}"
+                  class="btn--text"
+                >
+                {{(this.$store.getters.userData.nickname)}}
+                </router-link>
+                님 환영합니다!
+              </v-list-item-content>
+
+              <v-list-item-content v-else>
+                로그인을 먼저 해주세요.
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+
+
+          <v-divider></v-divider>
+            
+
+          <v-list>
+            <v-list-item v-if="this.$store.getters.accessToken != ''">
+              <div>
+                <v-btn dark class="allbtn" style="height: 100%;  " outlined color="black" @click="logout">Logout</v-btn>
+              </div>
+            </v-list-item>
+            <v-list-item v-else>
+              <div style="margin: auto;">
+                <v-dialog  width="350px ">
+                  <template  v-slot:activator="{ on, attrs }">
+                    <a color="primary" v-on="on" v-bind="attrs" style="margin:auto;"> 
+                    LOGIN</a>
+                  </template>
+                  <v-card style="width:350px; height: 280px">
+                    <v-card-title>LOGIN</v-card-title>
+                    <v-card-text style=" background-color:white; height:90px; padding-bottom:0"><Login style="height:120px;padding-bottom:0"/></v-card-text>
+                  </v-card>
+                </v-dialog>          
+              </div>
+            </v-list-item>
+            <v-list-item>
+                <router-link style="margin: auto;"
+                  :to="{name:constants.URL_TYPE.USER.JOIN}"
+                >
+                Sign up
+                  </router-link>
+            </v-list-item>
+          </v-list>
+        </v-card>
+
+      </v-menu>
     </div>
   </div>
 </template>   
@@ -101,6 +172,11 @@ export default {
       userinfo: "",
       email: "",
       password: "",
+
+      fav: true,
+      menu: false,
+      message: false,
+      hints: true,
     };
   },
 };
@@ -110,7 +186,7 @@ export default {
   background:#0d875C;
   border:solid 0px;
   height: 70px;
-  padding: 12px 40px 12px 0px;
+  padding: 1.5vh 4.5vh 1.5vh 0px;
 }
 
 #header a{
@@ -123,13 +199,36 @@ export default {
 
 .allbtn {
   text-align: center;
-  color: white;
+  /* color: red !important; */
+  height: 3.8vh
 }
 
 .headBox{
-  color:rgba(255, 255, 255, 0.75);
-  line-height: 25px;
+    color:rgba(255, 255, 255, 0.75);
+    line-height: 25px;
+    height: 100%;
+    float:right;
 }
+
+@media screen and (min-width: 701px){
+  .headBox{
+  }
+  .menuBox {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .headBox {
+    display: none;
+  }
+  .menuBox {
+    display: block;
+    float: right;
+    height: 100%;
+  }
+}
+
+
 </style>
 
 
