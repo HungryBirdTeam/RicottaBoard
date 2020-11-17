@@ -398,6 +398,7 @@ export default {
     };
   },
   created() {
+    bus.$emit('start:Loading'); 
     this.board.channelId = this.$route.params.channelId;
     this.channelName = this.$route.params.channelName;
     if (this.board.channelId === "earlyBird10TeamTestChannel1") {
