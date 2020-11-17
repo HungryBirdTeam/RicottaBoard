@@ -52,15 +52,15 @@
 
         <div class="row px-2 py-1 justify-content-between">
           <p class="lead text-left m-2 my-0">비밀번호를 변경하시겠습니까?</p>
-          <router-link to="/user/PasswordEdit">
-            <p class="lead passwordButton text-right m-2 my-0">비밀번호 변경</p>
+          <router-link class="passwordButton" to="/user/PasswordEdit">
+            <p class="lead text-right m-2 my-0">비밀번호 변경</p>
           </router-link>
         </div>
         
         <div class="row px-2 py-1 justify-content-between">
           <p class="lead text-left m-2 my-0">탈퇴하시겠습니까?</p>
-          <router-link :to="{name:constants.URL_TYPE.USER.DELETEUSER}">
-            <p class="lead outButton text-right m-2 my-0">회원 탈퇴</p>
+          <router-link class="outButton" :to="{name:constants.URL_TYPE.USER.DELETEUSER}">
+            <p class="lead text-right m-2 my-0">회원 탈퇴</p>
           </router-link>
         </div>
       </div>
