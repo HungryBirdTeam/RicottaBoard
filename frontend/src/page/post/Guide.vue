@@ -1,29 +1,33 @@
 <template>
-    <div style=" padding:0px; margin:0px; background:#f5f5ec;">
+    
+    <div class="guideBody" ref="guide" style=" padding:0px; margin:0px; background:#f5f5ec;" @wheel="check">
         <div class="intro row">
-            <div class="introText m-auto">
-                <h4 style=" font-size:30px;  line-height:150%;">리코타보드는 다양한 기술을 탐구하고 적용하여 사용자들이 최상의 서비스를 경험할 수 있도록 노력하고 있습니다</h4>
+            <div class="introText" style="text-align:left ">
+                <h3>Welcome to <br><strong> Ricotta Board! </strong></h3>
+                <h4>리코타보드는 다양한 기술을 탐구하고 적용하여 사용자들이 최상의 서비스를 경험할 수 있도록 노력하고 있습니다</h4>
+                <h4>아래로 스크롤하여 리코타보드에서 사용할 수 있는 모듈들에 대해 알아보세요!</h4>
             </div>
-            <div class="introImg m-auto">
-                <img style="width:100% " src="../../assets/img/Used.png" />
+            <div class="introImg">
+                <img src="../../assets/img/Used.png" />
             </div>
         </div>
         <div class="guide row">
             <div class="guideCarousel">
                 <v-carousel  style="width:90%; height:100% " hide-delimiters @change="changePage">
-                    <v-carousel-item v-for="(item, idx) in items" :key="idx" :src="item.src"></v-carousel-item>
+                    <v-carousel-item style="height: 55vh;" v-for="(item, idx) in items" :key="idx" :src="item.src" lg3></v-carousel-item>
                 </v-carousel>
             </div>
             <div class="guideText">
-                <h4 style=" font-size:30px; line-height:150%;">{{ explain }}</h4>
+                <h4 style=" font-size: 1.6vw;">{{ explain }}</h4>
             </div>
-        </div>
-        <footer
-            style="width:100vw; text-align:center; bottom:10px;"
-        >
+
+            <footer
+            style="width:100vw; text-align:center; bottom:10px;">
             <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
             
-        </footer>
+            </footer>
+        </div>
+        
     </div>
 </template>
 
@@ -35,6 +39,7 @@ import guide4 from "../../assets/img/guide4.gif";
 import guide5 from "../../assets/img/guide5.gif";
 import guide6 from "../../assets/img/guide6.gif";
 import guide7 from "../../assets/img/guide7.gif";
+import bus from '../../utils/bus';
 
 export default {
     data() {
@@ -69,13 +74,26 @@ export default {
             } else if (page == 6){
                 this.explain = "chat으로 실시간으로 의견을 주고 받을 수 있습니다."
             }
-            console.log('change!')
-            console.log('test', dataset)
+            //console.log('change!')
+            //console.log('test', dataset)
         },
         teamPage() {
             this.$router.push('/@hungrybird')
         },
+        check(e) {
+
+            // if(e.deltaY > 0) {
+            //     //console.log("down!");
+
+            // } else if(e.deltaY < 0) {
+            //     //console.log("up!");
+            // }
+
+        }
     },
+    mounted() {
+        bus.$emit('end:Loading');
+    }
 }
 </script>
 
@@ -84,43 +102,87 @@ export default {
     width: 100vw;
     height: 100vh;
     background:#f5f5ec;
+    /* background: blue; */
 }
 
 .introText{
-    width:50%;
-    text-align: center;
-    padding:3rem;
+    margin: auto;
+    text-align: left;
+    width: 31vw;
+    margin-left: 19vw;
+    margin-right: 2vw;
 }
 
 .introImg{
-    width:50%;
-    padding:3rem;
+    width:35vw;
+    margin:auto auto auto 0;
+}
+
+.introImg img {
+    width:35vw;
 }
 
 .guide {
-    width:100vw;
-    height: 80vh;
+    width: 100vw;
+    height:100vh;
     background: #f5f5ec;
+    /* background: red; */
 }
 
 .guideCarousel {
-    width:60%;
-    padding:3rem;
+    width: 50vw;
+    padding: 3rem;
+    margin: 20vh 0 auto auto
 }
 
 .guideText {
-    width:40%;
+    width: 28vw;
     text-align: center;
-    margin: auto;
-    padding:2rem;
+    margin: auto auto 27vh 0;
+    margin-left: 2vw;
+    padding: 2rem;
     padding-left: 0;
 }
 
 .footerText {
-    height:40px;
+    height:5vh;
     text-decoration: none;
     color:#000000;
     background:#f5f5ec;
     margin-bottom: 0;
+    font-size: 0.85vw;
 }
+
+
+h3 {
+    font-size: 2vw;
+    margin-bottom: 3vh;
+    line-height: 130%;
+    width: 24vw;
+}
+
+h4 {
+    font-size: 1.2vw;
+    line-height: 150%;
+    width: 24vw;
+}
+
+.guideBody{
+    /* scroll-snap-type: mandatory; */
+    height: 200vh;
+    width: 110vw;
+    overflow: scroll;
+    /* scroll-snap-points-y: repeat(300px); */
+    scroll-snap-type: y mandatory;
+
+}
+
+.row {
+    scroll-snap-align: center;
+}
+
+footer {
+    margin-top: auto
+}
+
 </style>

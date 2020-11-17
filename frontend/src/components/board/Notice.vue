@@ -175,7 +175,7 @@ export default {
   },
   mounted() {
     this.channelId = this.$route.params.channelId
-    console.log("NOTICE 생성");
+    //console.log("NOTICE 생성");
     this.fetchNotice();
   },
   methods: {
@@ -185,7 +185,7 @@ export default {
           this.articleList = response.data;
         },
         (err) => {
-          console.log("NOTICE 데이터 전송실패", err);
+          //console.log("NOTICE 데이터 전송실패", err);
         }
       );
     },
@@ -217,7 +217,7 @@ export default {
             this.article = response.data;
           },
           (err) => {
-            console.log("notice 생성 err", err);
+            //console.log("notice 생성 err", err);
           }
         );
       }
@@ -233,7 +233,7 @@ export default {
         this.isDetail = false;
       }),
       (err) => {
-        console.log(err);
+        //console.log(err);
       }
     },
     post() {

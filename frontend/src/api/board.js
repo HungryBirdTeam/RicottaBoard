@@ -7,7 +7,7 @@ const instance = createInstance(API_BASE_URL);
 
 function initialRecv(channelId, isTestPage, accessToken, success, fail) {
   var url = `/${channelId}`;
-  console.log('initRecv URL : ' + url);
+  //console.log('initRecv URL : ' + url);
   if (isTestPage) {url = "/tutorial/earlyBird10TeamTestChannel1";}
   instance
     .get(url, {
@@ -39,7 +39,7 @@ function getAllNotice(channelId, isTestPage, accessToken, success, fail) {
 }
 
 function createNotice(channelId, notice, isTestPage, accessToken, success, fail) {
-  console.log
+  //console.log
   var url = `/${channelId}/notice`;
   if (isTestPage) {url = "/tutorial/earlyBird10TeamTestChannel1/notice";}
   instance

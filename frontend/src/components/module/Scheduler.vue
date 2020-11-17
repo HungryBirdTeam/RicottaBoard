@@ -173,5 +173,13 @@ export default {
 .v-event-more {
   z-index: 0 !important;
 }
+.v-application .accent--text {
+    color: #0D875C !important;
+    caret-color: #0D875C !important;
+}
+.v-application .accent {
+    background-color: #0D875C !important;
+    border-color: #0D875C !important;
+}
 </style>
 

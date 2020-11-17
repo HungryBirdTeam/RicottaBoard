@@ -312,6 +312,7 @@ import * as boardApi from "../../api/board.js";
 import * as channelApi from "../../api/channel.js";
 import { loadChannelInfo, offVideo } from "../../services/FaceChatClientSocket.js"
 import io from 'socket.io-client';
+import bus from '../../utils/bus.js';
 
 
 export default {
@@ -443,6 +444,8 @@ export default {
         y: event.pageY,
       });
     });
+
+    
   },
   methods: {
     validateUser() {
@@ -458,7 +461,7 @@ export default {
           }
         },
         (err) => {
-          console.log('채널 Validation 연결 실패!\n' + err);
+          //console.log('채널 Validation 연결 실패!\n' + err);
         }
       )
 
@@ -472,7 +475,7 @@ export default {
 
       var _this = this;
       var subUrl =  "/sub/board/channel/" + _this.board.channelId;
-      console.log("채널 구독하기" + subUrl);
+      //console.log("채널 구독하기" + subUrl);
       ws.connect(
         {userNickname:this.$store.state.userData.nickname},
         function (frame) {
@@ -493,12 +496,12 @@ export default {
     initRecv() {
       // 접속시 처음 값을 받아오도록 하기
       // 테스트 페이지인 경우와 아닌 경우로 분기
-      console.log('init RECV start')
+      //console.log('init RECV start')
       boardApi.initialRecv(this.board.channelId, this.testPage, this.$store.getters.accessToken,
         (response) => {
-          console.log("initRecv@@@@");
-          console.log(this.testPage);
-          console.log(response.data);
+          //console.log("initRecv@@@@");
+          //console.log(this.testPage);
+          //console.log(response.data);
           // this.board.postitList = response.data.postitList;
           this.board.idCount = response.data.idCount;
           if (!!response.data) {
@@ -533,6 +536,10 @@ export default {
           }
           this.$store.state.memberList = response.data.memberList;
           // this.$store.state.scheduler.events = response.data.scheduler.events;
+
+
+          bus.$emit('end:Loading');
+
           this.createSnackbar(
             `'${this.channelName}' 채널에 입장하였습니다!`,
             3000,
@@ -540,9 +547,9 @@ export default {
           );
         },
         err => {
-          console.log("initRecv 실패");
-          console.log(err);
-          console.log("this.board", this.board)
+          //console.log("initRecv 실패");
+          //console.log(err);
+          //console.log("this.board", this.board)
         }
       )
     },
@@ -700,7 +707,7 @@ export default {
           text: "",
           isHidden: false,
         };
-        console.log('그렇군', newEditor);
+        //console.log('그렇군', newEditor);
         this.board.editorList.push(newEditor);
         this.sendMessage();
         // snackbar
@@ -731,7 +738,7 @@ export default {
       }
 
       if (this.board.videoOn || exitMyVideo) {
-        console.log("already loaded video component");
+        //console.log("already loaded video component");
         this.createSnackbar("비디오 컴포넌트가 이미 생성 중입니다!", 3000, "error");
       } else {
         const idc = this.board.idCount++;

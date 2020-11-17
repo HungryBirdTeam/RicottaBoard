@@ -71,7 +71,7 @@ export default {
   watch: {},
   methods: {
     login(email, password) {
-      console.log(email, password);
+      //console.log(email, password);
 
       var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
       if (exptext.test(email) == false) {
@@ -98,14 +98,14 @@ export default {
             }
           },
           err => {
-              console.log(err.message);
+              //console.log(err.message);
               this.createSnackbar("로그인 정보가 잘못되었습니다.", 2000, "error");
           })
         // const result = this.$store.dispatch(constants.METHODS.LOGIN_USER, {
         //   email,
         //   password,
         // });
-        // console.log(this.userData);
+        // //console.log(this.userData);
         this.modal = !this.modal;
       }
     },

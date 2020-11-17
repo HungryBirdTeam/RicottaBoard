@@ -91,7 +91,7 @@ function loadChannelInfo(channelId, email, _socket) {
         if (connect.sender != myInfo && connect.receiver == myInfo) {
             var sdp = connect.sdp;
             var sender = connect.sender;
-            console.log(myInfo, "peer connect to remote", sender);
+            //console.log(myInfo, "peer connect to remote", sender);
             channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
             console.dir(new RTCSessionDescription(sdp));
             ///////////////////////////////////////////////
@@ -102,7 +102,7 @@ function loadChannelInfo(channelId, email, _socket) {
             if (videoComponent != undefined) {
                 videoComponent.srcObject = streamMap.get(sender);
             } else {
-                console.log("no component");
+                //console.log("no component");
             }
             ///////////////////////////////////////////////
             doAnswer(sender);
@@ -112,11 +112,11 @@ function loadChannelInfo(channelId, email, _socket) {
 
     socket.on('receiver info', function(connect) {
         if (connect.sender != myInfo && connect.receiver == myInfo) {
-            console.log("receiver info", connect);
+            //console.log("receiver info", connect);
             var sdp = connect.sdp;
             var sender = connect.sender;
 
-            console.log(myInfo, "peer connect to remote", sender);
+            //console.log(myInfo, "peer connect to remote", sender);
             channelPeerConnectionsMap.get(sender).setRemoteDescription(new RTCSessionDescription(sdp));
             console.dir(new RTCSessionDescription(sdp));
             console.dir(channelPeerConnectionsMap.get(sender))
@@ -244,7 +244,7 @@ function createPeerConnection(member) {
 
         if (!channelPeerConnectionsMap.has(member)) {
             streamMap.set(member, new MediaStream());
-            console.log(member, "와의 커넥션 객체 생성");
+            //console.log(member, "와의 커넥션 객체 생성");
             var pc = new RTCPeerConnection(pcConfig);
             pc.onicecandidate = (event) => {
                 handleIceCandidate(event, member);
@@ -263,7 +263,7 @@ function createPeerConnection(member) {
         }
 
     } catch (e) {
-        console.log('Failed to create PeerConnection, exception: ' + e.message);
+        //console.log('Failed to create PeerConnection, exception: ' + e.message);
         // alert('Cannot create RTCPeerConnection object.');
         return;
     }
@@ -282,7 +282,7 @@ function handleTrack(event, member) {
 
 //peer listener//
 function handleIceCandidate(event, member) {
-    console.log('icecandidate event: ', event, new Date().getTime());
+    //console.log('icecandidate event: ', event, new Date().getTime());
     if (event.candidate) {
         var connect = {
             sender: myInfo,
@@ -292,7 +292,7 @@ function handleIceCandidate(event, member) {
         };
         socket.emit('add candidate', connect);
     } else {
-        console.log('End of candidates.');
+        //console.log('End of candidates.');
     }
 }
 
@@ -302,13 +302,13 @@ function handleIceCandidate(event, member) {
 // peer connection result//
 
 function setLocalAndSendMessage(sessionDescription, user) {
-    console.log("set local", channelPeerConnectionsMap.get(user).connectionState)
-    console.log(myInfo, "set local peer to??", user);
+    //console.log("set local", channelPeerConnectionsMap.get(user).connectionState)
+    //console.log(myInfo, "set local peer to??", user);
     channelPeerConnectionsMap.get(user).setLocalDescription(sessionDescription);
-    console.log('setLocalAndSendMessage sending message', sessionDescription);
+    //console.log('setLocalAndSendMessage sending message', sessionDescription);
 
     if (sessionDescription.type == "offer") {
-        console.log(myInfo, "offer to", user)
+        //console.log(myInfo, "offer to", user)
         var connect = {};
         connect.channel = channel;
         connect.sdp = sessionDescription;
@@ -317,7 +317,7 @@ function setLocalAndSendMessage(sessionDescription, user) {
 
         socket.emit('offer connect', connect);
     } else if (sessionDescription.type == "answer") {
-        console.log(myInfo, "answer to", user);
+        //console.log(myInfo, "answer to", user);
         var connect = {};
         connect.channel = channel;
         connect.sdp = sessionDescription;
@@ -336,7 +336,7 @@ function onCreateSessionDescriptionError(error) {
 
 
 function gotStream(stream) {
-    console.log('Adding local stream.', localVideo);
+    //console.log('Adding local stream.', localVideo);
     localStream = stream;
     localVideo.srcObject = stream;
 
@@ -353,13 +353,13 @@ function requestTurn(turnURL) {
         }
     }
     if (!turnExists) {
-        console.log('Getting TURN server from ', turnURL);
+        //console.log('Getting TURN server from ', turnURL);
         // No TURN server. Get one from computeengineondemand.appspot.com:
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var turnServer = JSON.parse(xhr.responseText);
-                console.log('Got TURN server: ', turnServer);
+                //console.log('Got TURN server: ', turnServer);
                 pcConfig.iceServers.push({
                     'urls': 'turn:' + turnServer.username + '@' + turnServer.turn,
                     'credential': turnServer.password
