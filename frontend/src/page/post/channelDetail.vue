@@ -13,8 +13,7 @@
         v-model="snackbar.isPresent"
         :timeout="snackbar.timeout"
         :color="snackbar.color"
-        >{{ snackbar.text }}</v-snackbar
-      >
+      >{{ snackbar.text }}</v-snackbar>
       <div class="toolBox">
         <v-tooltip right>
           <template v-slot:activator="{ on }">
@@ -457,7 +456,7 @@ export default {
       channelApi.validateUserWithChannel(validation, 
         (response) => {
           if(response.data.valid === false) {
-            alert('채널에 속하지 않은 사용자는 접속 할 수 없습니다!')
+            this.createSnackbar("채널에 속하지 않은 사용자는 접속 할 수 없습니다!", 2000, "error");
             this.$router.push("/");
           }
         },
@@ -489,7 +488,7 @@ export default {
           );
         },
         function (error) {
-          alert("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.");
+          this.createSnackbar("서버 연결에 실패 하였습니다. 다시 접속해 주십시요.", 2000, "error");
           _this.$router.push('/');
         }
       );
@@ -717,7 +716,7 @@ export default {
     createVideo() {
       let exitMyVideo = false;
       if(this.userEmail == "") {
-        alert("로그인 후 이용 가능합니다.");
+        this.createSnackbar("로그인 후 이용 가능합니다.", 2000, "error");
         return;
       }
 

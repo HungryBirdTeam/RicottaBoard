@@ -35,12 +35,13 @@
           >계정 탈퇴</button>
         </div>
       </div> 
-      <v-snackbar
+      <v-snackbar 
+        app
         bottom
         v-model="snackbar.isPresent"
         :timeout="snackbar.timeout"
         :color="snackbar.color"
-      >{{ snackbar.text }}</v-snackbar>     
+      >{{ snackbar.text }}</v-snackbar>   
     </div>
     <div class="form-wrap" v-else>{{this.$store.getters.status}}</div>
     <footer

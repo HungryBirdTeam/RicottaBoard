@@ -48,11 +48,12 @@
           <span>변 경</span>
         </button>
       </div>
-      <v-snackbar
-          bottom
-          v-model="snackbar.isPresent"
-          :timeout="snackbar.timeout"
-          :color="snackbar.color"
+      <v-snackbar 
+        app
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
       >{{ snackbar.text }}</v-snackbar>
     </div>
 
