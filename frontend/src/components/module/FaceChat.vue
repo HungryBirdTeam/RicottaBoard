@@ -83,7 +83,9 @@ export default {
 .video_component {
   width: 500px;
   height: 500px;
-  background-color: white;
+  background-color: black;
+  background-image: url("@/assets/img/white-people.png");
+  background-position: center;
 
   transform:rotate(90deg);
   -moz-transform: scaleX(-1); 
