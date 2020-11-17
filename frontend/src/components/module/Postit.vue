@@ -1,12 +1,12 @@
 <template>
     <div class="MoveableBox paper">
-        <textarea 
+        <input 
         name=""
         class="notMoveBox paperTitle"
-        cols="30" rows="1"
+        maxlength="15"
         v-model="post.title"
         placeholder="title here"
-        ></textarea>
+        >
 
         <textarea
         name=""
@@ -85,9 +85,7 @@ export default {
   height: auto;
   padding: 10px 10px 1px 10px;
   overflow-x: hidden;
-  word-wrap: break-word;
   width: 100%;
-  overflow-y: hidden;
 }
 .paperContent{
   height: 90%;
