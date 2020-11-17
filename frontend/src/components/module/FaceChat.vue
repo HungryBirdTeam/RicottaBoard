@@ -84,7 +84,7 @@ export default {
   width: 500px;
   height: 500px;
   background-color: black;
-  background-image: url("../../assets/img/white-people-100.png");
+  background-image: url("../../assets/img/video-off.png");
   background-position: center;
 
   transform:rotate(90deg);
