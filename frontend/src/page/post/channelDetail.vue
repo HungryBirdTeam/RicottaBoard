@@ -613,7 +613,8 @@ export default {
     changePost(changePostValue) {
       for (let pi=0; pi<this.board.postitList.length; pi++) {
         if (this.board.postitList[pi].frontPostitId == changePostValue.frontPostitId) {
-          this.board.postitList[pi] = changePostValue
+          this.board.postitList[pi].title = changePostValue.title;
+          this.board.postitList[pi].contents = changePostValue.contents;
           this.sendMessage();
         }
       }
@@ -708,7 +709,9 @@ export default {
     changeEditor(changeEditValue) {
       for (let ei=0; ei<this.board.editorList.length; ei++) {
         if (this.board.editorList[ei].mdId == changeEditValue.mdId) {
-          this.board.editorList[ei] = changeEditValue
+          this.board.editorList[ei].title = changeEditValue.title;
+          this.board.editorList[ei].isHidden = changeEditValue.isHidden;
+          this.board.editorList[ei].text = changeEditValue.text;
           this.sendMessage();
         }
       }
