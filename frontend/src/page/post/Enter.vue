@@ -45,8 +45,8 @@
                     모듈의 사용법을 알아보아요!
                   </p>
                 </div>
-                <router-link to="/guide">
-                  <v-btn class="vutton"  style="font-size: 0.74vw; height: 1.9vw;">Learn More</v-btn>
+                <router-link to="/guide" class="router">
+                  <v-btn class="vutton" style="font-size: 0.74vw; height: 1.9vw;">Learn More</v-btn>
                 </router-link>
               </div>
             </div>
@@ -65,7 +65,7 @@
                     이동됩니다.
                   </p>
                 </div>
-                <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial">
+                <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial" class="router">
                   <v-btn class="vutton" style="font-size: 0.74vw; height: 1.9vw">Try It!</v-btn>
                 </router-link>
               </div>
@@ -127,7 +127,7 @@
                                 /></v-card-text>
                             </v-card>
                         </v-dialog>
-                        <router-link to="user/signup" v-if="$store.getters.accessToken == ''">
+                        <router-link to="user/signup" v-if="$store.getters.accessToken == ''" class="router">
                             <v-btn class="vutton" style="font-size: 0.84vw; height: 1.9vw">Sign up</v-btn>
                         </router-link>
                     </div>
@@ -231,7 +231,6 @@ export default {
 .button-user button {
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #FC776B !important;
   color: white;
 }
 
@@ -254,6 +253,7 @@ export default {
   text-align: center;
   z-index: 0;
   background-image: url("../../assets/img/EnterBack.jpg");
+  background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 15vh;
@@ -311,5 +311,13 @@ h4 {
   padding: 2vh;
 }
 
-
+.router:hover {
+  text-decoration: none;
+}
+.v-btn:not(.v-btn--text):not(.v-btn--outlined):hover:before {
+  opacity: 0.14;
+}
+.v-btn:hover:before {
+  background-color: #000000 !important;
+}
 </style>

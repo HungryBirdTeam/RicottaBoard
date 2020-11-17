@@ -1,12 +1,12 @@
 <template>
     <div class="MoveableBox paper">
-        <textarea 
+        <input 
         name=""
         class="notMoveBox paperTitle"
-        cols="30" rows="1"
+        maxlength="15"
         v-model="post.title"
         placeholder="title here"
-        ></textarea>
+        >
 
         <textarea
         name=""
@@ -21,7 +21,7 @@
 <script>
 import image from '../../assets/img/postIt.png'
 
-var postSet = 0;
+var postSet;
 export default {
     data() {
       return {
@@ -82,18 +82,19 @@ export default {
 .paperTitle{
   font-size: 30px;
   min-height: 50px;
-  /* height: 10%; */
   height: auto;
-  resize:none;
-  /* padding: 20px 20px 1px 20px; */
   padding: 10px 10px 1px 10px;
+  overflow-x: hidden;
+  width: 100%;
 }
 .paperContent{
   height: 90%;
   resize: none;
   /* padding: 20px; */
   padding: 10px;
+  font-size: 20px;
   overflow: hidden;
+  word-wrap: break-word;
 }
 .MoveableBox {
   padding: 30px;
