@@ -23,19 +23,18 @@
       <div v-show="isStarting" class="mainEnter">
         <div class="container cards" ref="needToRescale" style="transform-origin: top; transform: scale(1); min-width: 800px;" >
           <div class="row">
-            <h4 style="font-size: 1.55vw; line-height: 150%; padding-left: 40px">
+            <h4 style="font-size: 24px; line-height: 150%; padding-left: 40px">
               리코타보드는 온라인 및 오프라인 모임을 지원하는 협업 툴
               플랫폼입니다
             </h4>
           </div>
-          <div class="row justify-content-between" style="width: 72.9vw">
-            <div class="col-4 card">
+          <div class="row justify-content-center" style="width: 72.9vw">
+            <div class="col-12 col-sm-8 col-mg-6 col-lg-4 card">
               <div class="card-inner">
                 <img
                   class="card-img-top"
                   src="../../assets/img/enter2.svg"
                   alt=""
-                  style="width: 18vw;"
                 />
                 <div class="card-body">
                   <h4 class="card-title">다양한 기능</h4>
@@ -46,11 +45,11 @@
                   </p>
                 </div>
                 <router-link to="/guide" class="router">
-                  <v-btn class="vutton" style="font-size: 0.74vw; height: 1.9vw;">Learn More</v-btn>
+                  <v-btn class="vutton main-btns" style="height: 32px;">Learn More</v-btn>
                 </router-link>
               </div>
             </div>
-            <div class="col-4 card">
+            <div class="col-12 col-sm-8 col-mg-6 col-lg-4 card">
               <div class="card-inner">
                 <img
                   class="card-img-top"
@@ -66,11 +65,11 @@
                   </p>
                 </div>
                 <router-link to="channel/earlyBird10TeamTestChannel1/Tutorial" class="router">
-                  <v-btn class="vutton" style="font-size: 0.74vw; height: 1.9vw">Try It!</v-btn>
+                  <v-btn class="vutton main-btns" style="height: 32px;">Try It!</v-btn>
                 </router-link>
               </div>
             </div>
-            <div class="col-4 card">
+            <div class="col-12 col-sm-8 col-mg-6 col-lg-4 card">
               <div class="card-inner">
                 <img
                   class="card-img-top"
@@ -96,27 +95,27 @@
                         <v-dialog width="350px ">
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                    class="vutton allbtn px-5 py-2"
+                                    class="vutton allbtn px-5 py-2 main-btns"
                                     v-bind="attrs"
                                     v-on="on"
                                     color="#0d875C"
                                     v-if="$store.getters.accessToken == ''"
-                                    style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
+                                    style="height: 32px; margin-top: auto;"
                                 >
                                     LOGIN
                                 </v-btn>
                                 <v-btn
-                                    class="vutton allbtn px-5 py-2"
+                                    class="vutton allbtn px-5 py-2 main-btns"
                                     color="#0d875C"
                                     v-if="$store.getters.accessToken !== ''"
-                                    style="font-size: 0.74vw; height: 1.9vw; margin-top: auto;"
+                                    style="height: 32px; margin-top: auto;"
                                     @click="checkLogin"
                                 >
                                     Main
                                 </v-btn>
                             </template>
                             <v-card class="vutton" style="width: 350px; height: 280px">
-                                <v-card-title>LOGIN</v-card-title>
+                                <v-card-title class=" main-btns">LOGIN</v-card-title>
                                 <v-card-text
                                     style="
                                         background-color: white;
@@ -128,7 +127,7 @@
                             </v-card>
                         </v-dialog>
                         <router-link to="user/signup" v-if="$store.getters.accessToken == ''" class="router">
-                            <v-btn class="vutton" style="font-size: 0.84vw; height: 1.9vw">Sign up</v-btn>
+                            <v-btn class="vutton main-btns" style="height: 32px;">Sign up</v-btn>
                         </router-link>
                     </div>
                 </div>
@@ -206,13 +205,18 @@ export default {
   margin-right: 13.55vw;
   max-width: 1400px;
 }
+
+.card-inner {
+  height: 100%;
+  widows: 100%;
+}
 .cards .card-inner {
   margin: 1.22vw;
   padding: 1.22vw;
   background-color: #F5F5EC;
   box-shadow: 0.25rem 0.5rem 1rem rgba(0, 0, 0, 0.35) !important;
   border-radius: 8px;
-  width: 20.3vw;
+  /* width: 20.3vw; */
 }
 .cards .card {
   background-color: transparent;
@@ -221,7 +225,8 @@ export default {
 .cards .card-text {
   padding-top: 10px;
   /* min-height: 100px; */
-  font-size: 0.84vw;
+  /* font-size: 0.84vw; */
+  font-size:13px;
 }
 .cards .img {
   /* margin-top: 20px; */
@@ -232,6 +237,11 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
   color: white;
+}
+
+.main-btns {
+  font-size: 11px;
+  height: 1.9vw;
 }
 
 .Loading {
@@ -303,8 +313,8 @@ button {
 }
 
 
-h4 {
-  font-size: 1.2vw
+.card-title {
+  font-size: 18px;
 }
 
 .card-body{
