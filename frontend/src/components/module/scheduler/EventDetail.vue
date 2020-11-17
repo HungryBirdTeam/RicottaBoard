@@ -4,18 +4,17 @@
       <v-card>
         <v-card-title
           class="headline"
-          style="color: white; background-color: #007bff"
+          style="color: white; background-color: #0D875C"
         >
           <div v-if="!isModify">{{ event.name }}</div>
-          <v-text-field v-if="isModify" v-model="event.name"> </v-text-field>
+          <v-text-field color="white" v-if="isModify" v-model="event.name"> </v-text-field>
           <v-spacer></v-spacer>
           <v-icon color="white" @click="close()">mdi-close</v-icon>
         </v-card-title>
         <v-card-text
-          style="font-size: 1rem; min-height: 300px; padding: 16px 16px;"
-          class="font-weight-bold"
-        >
-          <div v-if="!isModify">{{ event.content }}</div>
+          style="font-size: 1rem; min-height: 150px; padding: 16px 16px;"
+        > <strong>일정 상세 내용</strong>
+          <div v-if="!isModify" class="mt-3">{{ event.content }}</div>
           <v-text-field v-if="isModify" v-model="event.content"> </v-text-field>
         </v-card-text>
 
