@@ -50,7 +50,7 @@ export default {
   methods: {
     findMyPassword() {
         if(this.userEmail == ""){
-            alert("이메일을 입력해주세요.");
+            this.createSnackbar("이메일을 입력해주세요.", 2000, "error");
             return;
         }
 
@@ -62,11 +62,23 @@ export default {
     teamPage() {
       this.$router.push('/@hungrybird')
     },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
   data: () => {
     return {
       userEmail: "",
       constants,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
     };
   },
   created() {
