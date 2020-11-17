@@ -189,6 +189,7 @@ export default {
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
       this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      console.log("태스크 확인용: ", this.newTask.taskDates[0])
       if(this.newTask.taskDates[0] === undefined) {
         var event = {
           "name": this.newTask.taskTitle, 
@@ -205,8 +206,8 @@ export default {
         if(this.newTask.taskDates[1] !== undefined) {
           event['end'] = this.newTask.taskDates[1]+'T:00';
         }
+        this.$store.state.scheduler.events.push(event)
       }
-      this.$store.state.scheduler.events.push(event)
       this.dialog = false;
       this.newTask = {
         taskTitle : "",

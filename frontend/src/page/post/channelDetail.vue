@@ -623,33 +623,23 @@ export default {
         this.createSnackbar("보드가 이미 생성되어 있습니다", 3000, "error");
         return;
       }
-      this.board.kanban.states = this.$store.state.kanban.states;
+      this.board.kanban.states = [{
+          columnTitle: 'TO DO',
+          tasks: [],
+        },
+        {
+          columnTitle: "IN PROGRESS",
+          tasks: [],
+        },
+        {
+          columnTitle: "DONE",
+          tasks: [],
+        },
+      ],
       this.board.kanban.left = this.moduleXP + "px";
       this.board.kanban.top = this.moduleYP + "px";
       this.sendMessage();
       this.createSnackbar("보드가 생성되었습니다", 1500, "success");
-    },
-
-    deleteKanban({ target }) {
-      if (confirm("요소를 삭제하시겠습니까?") === true) {
-        target.remove();
-        this.cloakMoveable();
-        this.$store.state.kanban.states = [
-          {
-            columnTitle: "TO DO",
-            tasks: [],
-          },
-          {
-            columnTitle: "IN PROGRESS",
-            tasks: [],
-          },
-          {
-            columnTitle: "DONE",
-            tasks: [],
-          },
-        ];
-        this.sendMessage();
-      }
     },
 
     createScheduler(left = "600px", top = "270px") {
@@ -958,20 +948,7 @@ export default {
         if (moduleName == "scheduler") {
           this.board.scheduler = { id: null, left: null, top: null };
         } else if (moduleName == "kanban") {
-          this.$store.state.kanban.states = [
-            {
-              columnTitle: "TO DO",
-              tasks: [],
-            },
-            {
-              columnTitle: "IN PROGRESS",
-              tasks: [],
-            },
-            {
-              columnTitle: "DONE",
-              tasks: [],
-            },
-          ];
+          this.board.kanban = {id: null, left: null, top: null};
         }
       }
       this.sendMessage();
