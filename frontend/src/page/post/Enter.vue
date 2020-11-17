@@ -115,7 +115,7 @@
                                 </v-btn>
                             </template>
                             <v-card class="vutton" style="width: 350px; height: 280px">
-                                <v-card-title class=" main-btns">LOGIN</v-card-title>
+                                <v-card-title>LOGIN</v-card-title>
                                 <v-card-text
                                     style="
                                         background-color: white;
