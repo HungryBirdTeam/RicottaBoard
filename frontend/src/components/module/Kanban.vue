@@ -95,6 +95,8 @@
               label="내용"
               prepend-icon="mdi-pencil"
               v-model="newTask.taskContents"
+              auto-grow
+              rows="1"
             ></v-textarea>
             <div class="text-center">
               <v-btn text class="primary white--text mx-2 mt-3" @click="submit" v-if="isAdd">추가</v-btn>
