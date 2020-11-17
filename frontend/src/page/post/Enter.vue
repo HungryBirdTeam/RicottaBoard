@@ -231,7 +231,6 @@ export default {
 .button-user button {
   margin-left: 10px;
   margin-right: 10px;
-  background-color: #FC776B !important;
   color: white;
 }
 
@@ -254,6 +253,7 @@ export default {
   text-align: center;
   z-index: 0;
   background-image: url("../../assets/img/EnterBack.jpg");
+  background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 15vh;
@@ -312,6 +312,12 @@ h4 {
 }
 
 .router:hover {
-    text-decoration: none;
+  text-decoration: none;
+}
+.v-btn:not(.v-btn--text):not(.v-btn--outlined):hover:before {
+  opacity: 0.14;
+}
+.v-btn:hover:before {
+  background-color: #000000 !important;
 }
 </style>
