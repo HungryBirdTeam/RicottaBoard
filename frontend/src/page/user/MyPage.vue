@@ -172,6 +172,7 @@ export default {
               isPresent: false,
               text: "",
               timeout: 1000,
+              color: "error",
             },
             isCheck: false,
             isChange: false,

@@ -66,7 +66,6 @@ export default {
     return {
       memberList: [],
       member : '',
-      snackbar: false,
       valid: true,
       rules : {
         // required: value => !!value || 'Required.',

@@ -166,6 +166,7 @@ export default {
               isPresent: false,
               text: "",
               timeout: 1000,
+              color: "error",
             },
             isChange: {
               origin: false,

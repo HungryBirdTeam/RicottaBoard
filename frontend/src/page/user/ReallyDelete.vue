@@ -65,6 +65,7 @@ export default {
         isPresent: false,
         text: "",
         timeout: 1000,
+        color: "error",
       },
       password: "",
       passwordConfirm: "",
