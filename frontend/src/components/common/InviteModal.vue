@@ -105,10 +105,6 @@ export default {
           },
           err => {
             this.createSnackbar("문제가 발생하였습니다. 잠시후 다시 시도해주세요.", 2000, "error");
-<<<<<<< HEAD
-=======
-            console.log(err);
->>>>>>> 20842d8a8f18d65bb390631e2a40c7f0538d68c6
           }    
       );
     },
