@@ -26,6 +26,7 @@ export default {
     data() {
       return {
         post: Object,
+        isChange: false,
       }
     },
     props: {
@@ -39,20 +40,26 @@ export default {
         this.changePost();
       },
       'postit.title': function() {
+        this.isChange = true;
         this.recvPost();
       },
       'postit.contents': function() {
+        this.isChange = true;
         this.recvPost();
       },
     },
     methods: {
       changePost() {
-        if (postSet) {
-          clearTimeout(postSet);
+        if (this.isChange) {
+          this.isChange = false
+        } else {
+          if (postSet) {
+            clearTimeout(postSet);
+          }
+          postSet = setTimeout(() => {
+            this.$emit('changePost', this.post);
+          }, 500);
         }
-        postSet = setTimeout(() => {
-          this.$emit('changePost', this.post);
-        }, 500);        
       },
       recvPost() {
         this.post = this.postit;
