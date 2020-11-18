@@ -75,6 +75,7 @@ export default {
             isLoading: false,
             edit: Object,
             test: 1,
+            isChange: false,
         }
     },
     components: {
@@ -94,12 +95,15 @@ export default {
     },
     watch: {
         'editor.text': function() {
+            this.isChange = true;
             this.textChange()
         },
         'editor.title': function() {
+            this.isChange = true;
             this.edit.title = this.editor.title;
         },
         'editor.isHidden': function() {
+            this.isChange = true;
             this.edit.isHidden = this.editor.isHidden
         },
         'edit.title': function() {
@@ -141,12 +145,16 @@ export default {
 
         // 변경된 값을 받고 emit하기 전 debounce를 줌
         editChange() {
-            if (editSet) {
-                clearTimeout(editSet);
+            if (this.isChange) {
+                this.isChange = false;
+            } else {
+                if (editSet) {
+                    clearTimeout(editSet);
+                }
+                editSet = setTimeout(() => {
+                    this.$emit('changeEditor', this.edit);
+                }, 500);
             }
-            editSet = setTimeout(() => {
-                this.$emit('changeEditor', this.edit);
-            }, 500);
         },
     },
     created() {
