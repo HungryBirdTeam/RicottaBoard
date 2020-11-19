@@ -310,6 +310,9 @@ button {
   text-decoration: none;
   color: #000000;
   font-size: 0.85vw;
+  display: block;
+  margin: auto;
+  width: fit-content
 }
 
 

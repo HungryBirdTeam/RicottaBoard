@@ -151,6 +151,9 @@ export default {
     background:#f5f5ec;
     margin-bottom: 0;
     font-size: 0.85vw;
+    display: block;
+    margin: auto;
+    width: fit-content
 }
 
 

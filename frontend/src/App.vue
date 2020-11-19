@@ -135,4 +135,13 @@ export default {
   /* text-align: center; */
   color: #2c3e50;
 }
+
+.footerText{
+  text-decoration: none;
+  color: #000000;
+  font-size: 0.85vw;
+  display: block;
+  margin: auto;
+  width: fit-content
+}
 </style>
