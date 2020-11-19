@@ -85,7 +85,7 @@ export default {
         text: "빼꼼",
       },
       {
-        name: "Jo Hyeondong",
+        name: "Jo Hyundong",
         src: img6,
         text: "Special Thanks!!! \n 숨겨진 제6의 멤버!",
       },
@@ -95,7 +95,10 @@ export default {
     mounted() {
         bus.$emit('end:Loading');
         this.slide.text.split('\n').join('<br />');
-    }
+    },
+    method() {
+        
+    },
 }
 </script>
 
@@ -104,11 +107,15 @@ export default {
     div.row :nth-child(6){
        opacity: 0;
        transition: 0.5s;
+       transition-delay: 0.5s;
     }
 
     
     div.row :hover:nth-child(6) {
        opacity: 1;
+       
+       transition: 0.5s;
+       transition-delay: 5s;
     }
 
     p {
