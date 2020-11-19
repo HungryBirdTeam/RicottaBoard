@@ -22,7 +22,7 @@
                     >
                     <v-expand-transition>
                         <div
-                        v-if="hover"
+                        v-show="hover"
                         flex
                         class="transition-fast-in-fast-out text-center black white--text darken-3 v-card--reveal"
                         style="font-size:15px; padding:10px ;height: 100%; align-items: center; bottom: 0; justify-content: center; opacity:.5; position: absolute; width: 100%;"
@@ -48,6 +48,7 @@ import img2 from "../../assets/img/ProDeveloper2.jpg";
 import img3 from "../../assets/img/ProDeveloper3.gif";
 import img4 from "../../assets/img/ProDeveloper4.jpg";
 import img5 from "../../assets/img/ProDeveloper5.jpg";
+import img6 from "../../assets/img/ProDeveloper6.png";
 import bus from '../../utils/bus';
 
 export default {
@@ -81,15 +82,34 @@ export default {
         src: img5,
         text: "빼꼼",
       },
+      {
+        name: "Jo Hyeondong",
+        src: img6,
+        text: "Special Thanks!!! \n 숨겨진 제6의 멤버!",
+      },
     ],
         }
     },
     mounted() {
         bus.$emit('end:Loading');
+        this.slide.text.split('\n').join('<br />');
     }
 }
 </script>
 
-<style scoped>
 
+<style scoped>
+    div.row :nth-child(6){
+       opacity: 0;
+       transition: 0.5s;
+    }
+
+    
+    div.row :hover:nth-child(6) {
+       opacity: 1;
+    }
+
+    p {
+        white-space: pre;
+    }
 </style>
