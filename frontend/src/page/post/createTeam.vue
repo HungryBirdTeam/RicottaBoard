@@ -1,23 +1,24 @@
 <template>
-    <div class="box3 d-flex black--text" style="width: 100vw; height: 100vh; background:#f5f5ec;">
+    <div id="teamBody" class="box3 d-flex black--text" style="width: 100vw; height: 100vh; background:#f5f5ec; padding:0;">
         <div
-            class="white--text"
-            style="width:40%; padding:10vw; padding-top: 35vh; background:#0d875C; "
+            class="white--text teamBox"
+            style="background:#0d875C; "
         >
             <h2>TEAM<br />Hungry Bird</h2>
         </div>
-        <div class="mx-auto" style="width:60%; padding:5vw; padding-top:5vh;">
-            열정적인 리코타보드!
-            <p />
-            <h4 style=" font-size:30px;">리코타보드는 열정적인 개발자들과 함께 하고 있습니다</h4>
+        <div class="mx-auto" style="width:60%; padding:10vh 5vw 5vw;">
+            <div class="introduceHead">
+                <h4>열정적인 리코타보드!</h4>
+                <h4 style=" font-size:30px;">리코타보드는 열정적인 개발자들과 함께 하고 있습니다</h4>
+            </div>
             <v-row>
             <v-col v-for="(slide, i) in slides" :key="i" cols="6" md="4">
                 <v-hover v-slot:default="{ hover }">
-                <v-card style="width:210px; height:250px;">
+                <v-card style="">
                     <v-img
                     :src="slide.src"
                     class="white--text align-end"
-                    style="width:210px; height:250px; object-fit: cover;"
+                    style="width:100%; height:100%; object-fit: cover;"
                     gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                     >
                     <v-expand-transition>
@@ -39,6 +40,7 @@
             </v-col>
             </v-row>
         </div>
+        <h1 class="tooSmall">너무 작아유 :)</h1>
     </div>
 </template>
 
@@ -111,5 +113,47 @@ export default {
 
     p {
         white-space: pre;
+    }
+
+    .teamBox {
+       width:40%; 
+       padding: 6vw 4vw;
+       padding-top: 35vh; 
+       max-width: 450px;
+    }
+
+    @media screen and (max-height: 700px){
+        .introduceHead{
+            display: none;
+        }
+        .v-card{
+            height: 40vh;
+        }
+    }
+    @media screen and (min-height: 701px){
+        .introduceHead{
+            display: block;
+        }
+        .v-card {
+            width:210px; height:250px;
+        }
+    }
+
+    @media screen and (max-width: 800px){
+        .mx-auto {
+            display: none;
+        }
+        .tooSmall {
+            display: block; margin: auto;
+        }
+    }
+
+    @media screen and (min-width: 801px){
+        .mx-auto {
+            display: block;
+        }
+        .tooSmall {
+            display: none;
+        }
     }
 </style>
