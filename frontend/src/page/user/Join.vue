@@ -3,14 +3,12 @@
     <div class="wrapC table" ref="needToRescale" style="transform-origin: top; width: 10vw;">
 
       <div style="text-align: center;">
-        <router-link
-       
-        v-bind:to="{name:constants.URL_TYPE.POST.ENTER}"
-      >
-        <img
-          src="../../assets/img/Logo3.png"
-          style="width:20vw; height:auto; margin: 1vw 0 1.5vw 0;"
-        /></router-link>
+        <button @click="goWhere()" class="splashLogo">
+          <img class="logoIcon"
+          src="../../assets/img/LogoIcon.png"
+          />
+          <span class="logoTitle">Ricotta Board</span>
+        </button>
       </div>
 
       <div class="form-wrap" style="width: 20vw; padding-top:20px; margin:auto; font-size: 0.83vw;">
@@ -236,6 +234,9 @@ export default {
       this.snackbar.timeout = timeout;
       this.snackbar.color = color;
     },
+    goWhere(){
+        this.$router.push({ name: constants.URL_TYPE.POST.ENTER })
+    }
   },
   watch: {},
   data: () => {
@@ -272,5 +273,25 @@ export default {
     background:#f5f5ec;
     margin-bottom: 0;
     font-size: 0.85vw;
+}
+
+.logoIcon {
+  margin: auto;
+  height: 50px;
+}
+.logoTitle {
+  font-family: "Candara";
+  font-size: 40px;
+  color: black;
+  margin-left: 10px;
+  margin-right: 25px;
+}
+.splashLogo{
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  height: 100%;
+  margin-top: 20px;
+  text-decoration: none;
 }
 </style>
