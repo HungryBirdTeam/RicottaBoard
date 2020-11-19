@@ -187,7 +187,7 @@ export default {
   background:#0d875C;
   border:solid 0px;
   height: 50px;
-  padding: 1.5vh 0px 1.5vh 0px;
+  padding: 10px 0px 10px 0px;
 }
 .headLogoIcon {
   position: absolute;
