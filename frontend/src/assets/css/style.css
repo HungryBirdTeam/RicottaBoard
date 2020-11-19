@@ -40,7 +40,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
-
+footer {
+  z-index: -1;
+}
 /* ol, ul {
   list-style: none;
 } */

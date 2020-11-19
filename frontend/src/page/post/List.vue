@@ -16,12 +16,13 @@
         <v-icon>mdi-view-list</v-icon>
       </v-btn>
 
-      <v-row style="width:80%;" v-if="howto">
+      <v-row v-if="howto">
         <v-col
           v-for="card in listChannels"
           :key="card.channelId"
-          cols="4"
+          cols="6"
           md="4"
+          lg="3"
           @click="enterRoom(card.channelId, card.channelName)"
         >
           <v-hover v-slot:default="{ hover }">
