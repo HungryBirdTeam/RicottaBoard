@@ -211,6 +211,8 @@ export default {
 .card-inner {
   height: 100%;
   widows: 100%;
+  display: flex;
+  flex-flow: column;
 }
 .cards .card-inner {
   margin: 1.22vw;
