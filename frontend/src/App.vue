@@ -1,10 +1,9 @@
 <template>
   <v-app>
+    <no-mobile v-show="isMobile"/>
     <Loading :loading="LoadingStatus" :num="LoadingIcon"></Loading>
-    <v-main id="bg">
+    <v-main id="bg" v-if="!isMobile">
       <Header v-if="!isBoard"/>
-        <!-- <Sidebar :isSidebar="isSidebar"/> -->
-        <!-- <Sidebar> </Sidebar> -->
       <router-view id="container" />
     </v-main>
   </v-app>
@@ -17,12 +16,14 @@ import constants from './lib/constants'
 import axios from 'axios'
 import Loading from './page/etc/loading.vue'
 import bus from "./utils/bus.js"
+import NoMobile from './page/etc/noMobile.vue'
 
 export default {
   name: "App",
   components: {
     Header,
     Loading,
+    NoMobile,
     
   },
   created() {
@@ -101,7 +102,22 @@ export default {
       constants,
       LoadingStatus: false,
       LoadingIcon: 0,
+      isMobile: false,
     };
+  },
+  mounted(){
+    
+
+    var device = "win16|win32|win64|mac|macintel";
+
+    if ( navigator.platform ) {
+      if ( device.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+          this.isMobile = false;
+      } else {
+          this.isMobile = true;
+      }
+      this.isMobile = !this.isMobile
+    }
   },
   beforeDestroy() {
     bus.$off('start:Loading');
