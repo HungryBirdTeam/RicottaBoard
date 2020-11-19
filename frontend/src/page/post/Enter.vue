@@ -165,10 +165,6 @@ export default {
     };
   },
   methods: {
-    changeScreen() {
-      this.isStarting = true;
-      //console.log("after", this.isStarting);
-    },
     teamPage() {
       this.$router.push("/@hungrybird");
     },
@@ -183,8 +179,11 @@ export default {
     },
   },
   created() {
-    this.isStarting = false;
-    setTimeout(() => (this.isStarting = true), 1000);
+    this.isStarting=this.$store.isStarting
+    if (!this.$store.isStarting) {
+        this.$store.isStarting = true;
+        setTimeout(() => (this.isStarting = true), 1000);
+    }
   },
   mounted() {
     bus.$emit('end:Loading');
