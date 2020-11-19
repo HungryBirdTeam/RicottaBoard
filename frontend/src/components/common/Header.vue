@@ -1,10 +1,11 @@
 <template>
   <div id="header">
     <button @click="goWhere()">
-      <img
-        style="position:absolute ;top:0px;  margin: 10px 20px; width:auto; height: 50px"
-        src="../../assets/img/Logo.png"
+      <img class="logoIcon"
+        style=""
+        src="../../assets/img/LogoIcon.png"
       />
+      <span class="logoTitle">Ricotta Board</span>
     </button>
 
     <!-- <div class="right"> -->
@@ -185,13 +186,34 @@ export default {
 #header {
   background:#0d875C;
   border:solid 0px;
-  height: 70px;
-  padding: 1.5vh 4.5vh 1.5vh 0px;
+  height: 50px;
+  padding: 1.5vh 0px 1.5vh 0px;
+}
+.logoIcon {
+  position: absolute;
+  top: 0px;
+  padding: 14px;
+  padding: 9px;
+  margin: 0px 10px;
+  width: auto;
+  height: 50px;
+
+}
+.logoTitle {
+  left: 64px;
+  top: 5px;
+  font-family: "Candara";
+  font-size: 27px;
+  position: absolute;
+  color: #F5F5EC;
 }
 
 #header a{
   color: white;
+  text-decoration: none;
+
 }
+
 .toolbar {
   background:#0d875C;
   width: 100vw;
@@ -225,6 +247,7 @@ export default {
     display: block;
     float: right;
     height: 100%;
+    margin: 0px 16px;
   }
 }
 
