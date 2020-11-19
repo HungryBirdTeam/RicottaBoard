@@ -1,11 +1,11 @@
 <template>
   <div id="header">
     <button @click="goWhere()">
-      <img class="logoIcon"
+      <img class="headLogoIcon"
         style=""
         src="../../assets/img/LogoIcon.png"
       />
-      <span class="logoTitle">Ricotta Board</span>
+      <span class="headLogoTitle">Ricotta Board</span>
     </button>
 
     <!-- <div class="right"> -->
@@ -189,7 +189,7 @@ export default {
   height: 50px;
   padding: 1.5vh 0px 1.5vh 0px;
 }
-.logoIcon {
+.headLogoIcon {
   position: absolute;
   top: 0px;
   padding: 14px;
@@ -199,7 +199,7 @@ export default {
   height: 50px;
 
 }
-.logoTitle {
+.headLogoTitle {
   left: 64px;
   top: 5px;
   font-family: "Candara";

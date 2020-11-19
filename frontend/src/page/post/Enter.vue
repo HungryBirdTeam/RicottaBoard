@@ -1,11 +1,13 @@
 <template>
-  <div class="enter-page" style="padding: 0px; margin: 0px">
+  <div class="enter-page" style="padding: 0px; margin: 0px; width: 100vw;">
     <transition name="loader">
       <div class="Loading" v-if="!isStarting">
-        <img
-          src="../../assets/img/Logo.png"
-          style="margin: 20vw; margin-top: 40vh; width: 30%; height: auto"
-        />
+        <div class="splashLogo">
+          <img class="logoIcon"
+          src="../../assets/img/LogoIcon.png"
+          />
+          <span class="logoTitle">Ricotta Board</span>
+        </div>
         <footer
           class="text-white"
           style="
@@ -314,5 +316,32 @@ h4 {
   padding: 2vh;
 }
 
+.router:hover {
+  text-decoration: none;
+}
+.v-btn:not(.v-btn--text):not(.v-btn--outlined):hover:before {
+  opacity: 0.14;
+}
+.v-btn:hover:before {
+  background-color: #000000 !important;
+}
 
+.logoIcon {
+  height: 80px;
+}
+.logoTitle {
+  font-family: "Candara";
+  font-size: 50px;
+  color: #F5F5EC;
+}
+.splashLogo{
+  display: flex;
+  width: fit-content;
+  margin: auto;
+  height: 100%;
+}
+
+.splashLogo :nth-child(n){
+  margin: auto;
+}
 </style>

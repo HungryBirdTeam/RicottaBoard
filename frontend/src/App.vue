@@ -144,4 +144,9 @@ export default {
   margin: auto;
   width: fit-content
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 </style>
