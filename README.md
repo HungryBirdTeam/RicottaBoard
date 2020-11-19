@@ -19,6 +19,25 @@
     Back : 이정훈, 최문경
  
     Full Stack : 김강현, 정용우
+    
+- **기술스택**
+
+    `Backend` - Java + Spring Boot + Gradle, JPA, Node.js + Express
+    
+    `Frontend` - JS + Vue.js, HTML, CSS
+    
+    `DB` - Redis, MariaDB, MongoDB
+    
+    `CI/CD` - Jenkins
+    
+    `웹 서버` - NGINX
+    
+    `배포 서버` - AWS EC2
+    
+    `협업 도구` - GitLab, Jira, Notion
+    
+    `아키텍처` - MSA, Spring MVC
+
 
 
 ## Preview
