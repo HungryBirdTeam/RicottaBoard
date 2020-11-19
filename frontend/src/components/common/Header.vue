@@ -232,6 +232,10 @@ export default {
     float:right;
 }
 
+.headBox :nth-child(n+2) {
+    margin: 0px 16px;
+}
+
 @media screen and (min-width: 701px){
   .headBox{
   }
