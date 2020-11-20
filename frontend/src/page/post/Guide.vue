@@ -1,14 +1,21 @@
 <template>
     
-    <div class="guideBody" ref="guide" style=" padding:0px; margin:0px; background:#f5f5ec;" @wheel="check">
-        <div class="intro row">
-            <div class="introText" style="text-align:left ">
-                <h3>Welcome to <br><strong> Ricotta Board! </strong></h3>
-                <h4>리코타보드는 다양한 기술을 탐구하고 적용하여 사용자들이 최상의 서비스를 경험할 수 있도록 노력하고 있습니다</h4>
-                <h4>아래로 스크롤하여 리코타보드에서 사용할 수 있는 모듈들에 대해 알아보세요!</h4>
+    <div class="guideBody" ref="guide" style=" padding:0px; margin:0px; background:#f5f5ec;">
+        <div>
+            <div class="intro row">
+                <div class="introText" style="text-align:left ">
+                    <h3>Welcome to <br><strong> Ricotta Board! </strong></h3>
+                    <h4>리코타보드는 다양한 기술을 탐구하고 적용하여 사용자들이 최상의 서비스를 경험할 수 있도록 노력하고 있습니다</h4>
+                    <h4>아래로 스크롤하여 리코타보드에서 사용할 수 있는 모듈들에 대해 알아보세요!</h4>
+                </div>
+                <div class="introImg">
+                    <img src="../../assets/img/Used.png" />
+                </div>
             </div>
-            <div class="introImg">
-                <img src="../../assets/img/Used.png" />
+            <div style="padding-left: 48vw">
+                <v-btn icon class="downBtn" @click="downBtn()">
+                    <v-icon x-large>mdi-chevron-double-down</v-icon>
+                </v-btn>
             </div>
         </div>
         <div class="guide row">
@@ -74,33 +81,45 @@ export default {
             } else if (page == 6){
                 this.explain = "chat으로 실시간으로 의견을 주고 받을 수 있습니다."
             }
-            //console.log('change!')
-            //console.log('test', dataset)
         },
         teamPage() {
             this.$router.push('/@hungrybird')
         },
-        check(e) {
-
-            // if(e.deltaY > 0) {
-            //     //console.log("down!");
-
-            // } else if(e.deltaY < 0) {
-            //     //console.log("up!");
-            // }
-
-        }
+        downBtn() {
+            $('html, .guideBody').animate({scrollTop : ($(".guide").offset().top)}, 500);
+            console.log('clear');
+        },
     },
     mounted() {
         bus.$emit('end:Loading');
+        // $(".downBtn").click(function() {
+        //     console.log($(".guide").offset())
+        //     console.log($(".guideCarousel").offset())
+        //     console.log($(".footerText").offset())
+        //     $('html, body').animate({scrollTop : ($(".footerText").offset().top)}, 600);
+        //     console.log('what');
+        // });
+        // $(".downBtn").click(function() {
+        //     console.log($(".guide").offset())
+        //     console.log($(".guideCarousel").offset())
+        //     console.log($(".footerText").offset())
+        //     $('html, body, .guideBody').animate({scrollTop : ($(".guide").offset().top)}, 1000);
+        //     console.log('what');
+        // });
+        // $(".downBtn").click(function(){
+        //     $("html").animate({ scrollTop: $(document).height() }, 500);
+        //     console.log('what');
+        // });
     }
 }
+
+
 </script>
 
 <style scoped>
 .intro {
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     background:#f5f5ec;
     /* background: blue; */
 }
@@ -175,6 +194,7 @@ h4 {
     height: 200vh;
     width: 110vw;
     overflow: scroll;
+    overflow-y: auto;
     /* scroll-snap-points-y: repeat(300px); */
     scroll-snap-type: y mandatory;
 
