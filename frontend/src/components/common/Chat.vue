@@ -1,13 +1,13 @@
 <template>
   <div class="chat">
-    <v-alert 
-      border="top"
-      outlined
+    <audio id="chat-alarm" src="../../assets/chat-alarm.mp3"></audio>
+    <v-snackbar 
+      app
       top
       v-model="snackbar.isPresent"
       :timeout="snackbar.timeout"
       :color="snackbar.color"
-    >{{ snackbar.text }}</v-alert>
+    >{{ snackbar.text }}</v-snackbar>
     <v-responsive>
       <v-btn
         class="chat-button justify-center ma-3"
@@ -44,7 +44,11 @@
           <div class="chat-header" id="chatHeader">
             <div class="header-top">
               <span id="username">{{ this.naname }}</span><br>
-              <v-icon @click="chattingBox = false" >mdi-close</v-icon>
+              <div>
+                <v-icon v-if="alarmSound" @click="toggleAlarm">mdi-bell</v-icon>
+                <v-icon v-if="!alarmSound" @click="toggleAlarm">mdi-bell-off</v-icon>
+                <v-icon class="ml-1" @click="chattingBox = false" >mdi-close</v-icon>
+              </div>
             </div>
             <div id="clientList" class="client-list">
               <span id="user" v-for="(user, index) in clientList" :key="index">
@@ -112,8 +116,6 @@ export default {
     this.$socket._callbacks.$out = undefined;
     this.$socket._callbacks.$s2c_chat = undefined;
     this.$socket._callbacks.$s2c_chat_me = undefined;
-    this.$socket._callbacks.$s2c_text = undefined;
-
     this.$socket.emit("login", {
       name: this.naname,
       userid: this.naname,
@@ -150,18 +152,22 @@ export default {
       var time = data.time;
       if (name === this.naname) {
         // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
-      } else
+      } else {
         $(".chatbox").append(
           '<div class="friend-bubble bubble"><span>' + name + '</span><br><div class="msg-body"><div class="chat-msg">' + msg + '</div><span class="chat-time">' + time + "</span>" + "</div></div>"
         );
 
-      if (!this.chattingBox) {
-        this.notread += 1;
-      }
+        if (!this.chattingBox) {
+          if (this.alarmSound) {
+            document.getElementById("chat-alarm").play();
+          }
+          this.notread += 1;
+        }
 
-      setTimeout(function () {
-        $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
-      }, 50);
+        setTimeout(function () {
+          $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
+        }, 50);
+      }
     });
 
     this.$socket.on("s2c_text", (data) => {
@@ -229,6 +235,8 @@ export default {
         timeout: 1000,
         color: "error",
       },
+      alarmSound: true,
+      audio: null,
     };
   },
   methods: {
@@ -313,6 +321,13 @@ export default {
       this.snackbar.timeout = timeout;
       this.snackbar.color = color;
     },
+    toggleAlarm() {
+      this.alarmSound = !this.alarmSound;
+      if (this.alarmSound) {
+        this.createSnackbar("알람이 설정되었습니다", 1000, "warning");
+      }
+      else {this.createSnackbar("알람이 해제되었습니다", 1000, "warning");}
+    }
   },
 };
 </script>
