@@ -103,7 +103,6 @@ export default {
             this.edit.title = this.editor.title;
         },
         'editor.isHidden': function() {
-            this.isChange = true;
             this.edit.isHidden = this.editor.isHidden
         },
         'edit.title': function() {
@@ -164,7 +163,7 @@ export default {
 </script>
 
 <style scoped>
-html, body, #EditorMain {
+#EditorMain {
     margin: 0;
     width: 860px;
     height: 610px;
