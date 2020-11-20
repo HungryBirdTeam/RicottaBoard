@@ -1,12 +1,13 @@
 <template>
   <div class="chat">
-    <v-snackbar 
-      app
+    <v-alert 
+      border="top"
+      outlined
       top
       v-model="snackbar.isPresent"
       :timeout="snackbar.timeout"
       :color="snackbar.color"
-    >{{ snackbar.text }}</v-snackbar>
+    >{{ snackbar.text }}</v-alert>
     <v-responsive>
       <v-btn
         class="chat-button justify-center ma-3"
@@ -331,7 +332,7 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   transition: width 0.3s ease;
   position: absolute;
-  top: 70px;
+  top: 50px;
   height: 100%;
   width: 100%;
 }
@@ -389,7 +390,7 @@ export default {
 /* chat box */
 
 .chatbox {
-  height: calc(100vh - 220px);
+  height: calc(100vh - 200px);
   background-color: white;
   padding: 10px;
   overflow-y: scroll;
