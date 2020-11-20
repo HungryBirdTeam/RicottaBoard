@@ -12,10 +12,10 @@ var isVideoOn = false;
 var pcConfig = {
     'iceServers': [
         { 'urls': 'stun:stun.l.google.com:19302' },
-        { 'url': 'stun:stun1.l.google.com:19302' },
-        { 'url': 'stun:stun2.l.google.com:19302' },
-        { 'url': 'stun:stun3.l.google.com:19302' },
-        { 'url': 'stun:stun4.l.google.com:19302' },
+        { 'urls': 'stun:stun1.l.google.com:19302' },
+        { 'urls': 'stun:stun2.l.google.com:19302' },
+        { 'urls': 'stun:stun3.l.google.com:19302' },
+        { 'urls': 'stun:stun4.l.google.com:19302' },
         { "urls": "turn:13.250.13.83:3478?transport=udp", "username": "YzYNCouZM1mhqhmseWk6", "credential": "YzYNCouZM1mhqhmseWk6" },
         { "urls": "turn:numb.viagenie.ca", "username": "webrtc@live.com", "credential": "muazkh" }
     ]
