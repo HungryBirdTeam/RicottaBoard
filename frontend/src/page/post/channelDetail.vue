@@ -1164,7 +1164,7 @@ export default {
 .channel-name {
   position: fixed;
   z-index: 50000;
-  top: 85px;
+  top: 65px;
   left: 12px;
   margin-left: 12px;
   font-size: 1.2rem;

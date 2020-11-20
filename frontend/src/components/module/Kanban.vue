@@ -9,7 +9,7 @@
           @click="kanbanClickEvent"
           class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded ml-2"
         >
-          <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.columnTitle}}</p>
+          <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.columnTitle}} | {{column.tasks.length }}</p>
           
           <draggable
             :list="column.tasks"
