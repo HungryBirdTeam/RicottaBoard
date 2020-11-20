@@ -270,7 +270,7 @@ export default {
   width: 80%;
   min-width: 350px;
   padding: 32px;
-  margin-left: 10vw;
+  margin-left: 18vw;
   margin-right: 30vw;
   margin-top: 5vh;
   margin-bottom: 30vh;
