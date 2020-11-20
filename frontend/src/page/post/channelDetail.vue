@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-cloak @click="cloakMoveable">
+  <div id="app" v-cloak @click="cloakMoveable" style="padding-top:50px">
     
     <div class="toolbar" style="height: 0px">
       <div class="float">
