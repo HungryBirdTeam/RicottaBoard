@@ -50,7 +50,7 @@ import img2 from "../../assets/img/ProDeveloper2.jpg";
 import img3 from "../../assets/img/ProDeveloper3.gif";
 import img4 from "../../assets/img/ProDeveloper4.jpg";
 import img5 from "../../assets/img/ProDeveloper5.jpg";
-import img6 from "../../assets/img/ProDeveloper6.png";
+import img6 from "../../assets/img/ProDeveloper6.gif";
 import bus from '../../utils/bus';
 
 export default {
@@ -109,6 +109,7 @@ export default {
     
     div.row :hover:nth-child(6) {
        opacity: 1;
+       transition-delay: 5s;
     }
 
     p {
