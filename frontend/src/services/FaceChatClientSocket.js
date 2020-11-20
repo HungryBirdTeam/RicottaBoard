@@ -10,9 +10,13 @@ var users = new Set();
 var isVideoOn = false;
 
 var pcConfig = {
-    'iceServers': [{
-            'urls': 'stun:stun.l.google.com:19302'
-        },
+    'iceServers': [
+        { 'urls': 'stun:stun.l.google.com:19302' },
+        { 'url': 'stun:stun1.l.google.com:19302' },
+        { 'url': 'stun:stun2.l.google.com:19302' },
+        { 'url': 'stun:stun3.l.google.com:19302' },
+        { 'url': 'stun:stun4.l.google.com:19302' },
+        { "urls": ["turn:13.250.13.83:3478?transport=udp"], "username": "YzYNCouZM1mhqhmseWk6", "credential": "YzYNCouZM1mhqhmseWk6" },
         { "urls": "turn:numb.viagenie.ca", "username": "webrtc@live.com", "credential": "muazkh" }
     ]
 };
@@ -255,9 +259,9 @@ function createPeerConnection(member) {
             pc.ontrack = event => {
                 handleTrack(event, member);
             };
-            // pc.oniceconnectionstatechange = event => {
-            //     handleConnectionEvent(event, member);
-            // }
+            pc.oniceconnectionstatechange = event => {
+                handleConnectionEvent(event, member);
+            }
 
             channelPeerConnectionsMap.set(member, pc);
         }
@@ -277,6 +281,16 @@ function handleTrack(event, member) {
         });
     } else {
         streamMap.get(member).addTrack(event.track, streamMap.get(member));
+    }
+}
+
+function handleConnectionEvent(event, member) {
+    const pc = channelPeerConnectionsMap.get(member);
+
+    if (pc.iceConnectionState === "failed") {
+        /* possibly reconfigure the connection in some way here */
+        /* then request ICE restart */
+        channelPeerConnectionsMap.get(member).restartIce();
     }
 }
 
