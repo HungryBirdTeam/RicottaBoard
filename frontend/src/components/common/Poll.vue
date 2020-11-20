@@ -103,7 +103,11 @@
           </div>
         </div><hr>
         <div class="poll-footer">
-          <h3 v-if="result.length == 0">No Result</h3>
+          <h3 v-if="result.length == 0">No Result
+            <div @click="showVote" class="float-right" style="cursor:pointer; padding-right:20px; line-height:25px">
+              <v-icon>mdi-refresh</v-icon>
+            </div>
+          </h3>
 
           <h3 v-else> 
             <strong>A. </strong> 
