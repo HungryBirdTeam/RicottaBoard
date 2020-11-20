@@ -92,24 +92,6 @@ export default {
     },
     mounted() {
         bus.$emit('end:Loading');
-        // $(".downBtn").click(function() {
-        //     console.log($(".guide").offset())
-        //     console.log($(".guideCarousel").offset())
-        //     console.log($(".footerText").offset())
-        //     $('html, body').animate({scrollTop : ($(".footerText").offset().top)}, 600);
-        //     console.log('what');
-        // });
-        // $(".downBtn").click(function() {
-        //     console.log($(".guide").offset())
-        //     console.log($(".guideCarousel").offset())
-        //     console.log($(".footerText").offset())
-        //     $('html, body, .guideBody').animate({scrollTop : ($(".guide").offset().top)}, 1000);
-        //     console.log('what');
-        // });
-        // $(".downBtn").click(function(){
-        //     $("html").animate({ scrollTop: $(document).height() }, 500);
-        //     console.log('what');
-        // });
     }
 }
 
@@ -145,7 +127,6 @@ export default {
     width: 100vw;
     height:100vh;
     background: #f5f5ec;
-    /* background: red; */
 }
 
 .guideCarousel {
@@ -194,9 +175,9 @@ h4 {
     height: 200vh;
     width: 110vw;
     overflow: scroll;
-    overflow-y: auto;
     /* scroll-snap-points-y: repeat(300px); */
     scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
 
 }
 
