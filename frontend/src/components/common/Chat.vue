@@ -1,5 +1,12 @@
 <template>
   <div class="chat">
+    <v-snackbar 
+      app
+      top
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+    >{{ snackbar.text }}</v-snackbar>
     <v-responsive>
       <v-btn
         class="chat-button justify-center ma-3"
@@ -74,7 +81,6 @@
         </div>
       </div>
     </v-navigation-drawer>
-
   </div>
 </template>
 
@@ -122,6 +128,7 @@ export default {
       setTimeout(function () {
         $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
       }, 50);
+      this.createSnackbar(data+"님이 채널에 입장하셨습니다.", 1000, "success");
     });
 
     this.$socket.on("clientList", (data) => {
@@ -142,7 +149,6 @@ export default {
       var time = data.time;
       if (name === this.naname) {
         // 내 이름하고 같을 경우 채팅창에 띄워주지 않는다.
-        //console.log("지금 내 이름 : " + this.naname);
       } else
         $(".chatbox").append(
           '<div class="friend-bubble bubble"><span>' + name + '</span><br><div class="msg-body"><div class="chat-msg">' + msg + '</div><span class="chat-time">' + time + "</span>" + "</div></div>"
@@ -150,7 +156,6 @@ export default {
 
       if (!this.chattingBox) {
         this.notread += 1;
-        //console.log("안읽은 메시지 수 : " + this.notread);
       }
 
       setTimeout(function () {
@@ -186,10 +191,11 @@ export default {
       setTimeout(function () {
         $(".chatbox").scrollTop($(".chatbox").prop("scrollHeight"));
       }, 50);
+      this.createSnackbar(data.from.name+"님이 채널에서 나가셨습니다.", 1000, "error");
     });
   },
 
-  destroyed() {
+  beforedestroyed() {
     this.$socket.emit("disconnect2", {});
   },
 
@@ -216,6 +222,12 @@ export default {
         roomid: "",
       },
       chatDrawer: false,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
     };
   },
   methods: {
@@ -293,7 +305,13 @@ export default {
         return "#08543A"
       }
       return "#0d875c"
-    }
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
 };
 </script>
@@ -497,8 +515,6 @@ export default {
   bottom: 157px;
 }
 
-
-
 #sendToBoard {
   background-color: skyblue;
   width: 60px;
@@ -510,8 +526,6 @@ export default {
   margin-left: 10px;
   float: left;
 }
-
-
 
 h3 {
   /* margin: 20px; */
