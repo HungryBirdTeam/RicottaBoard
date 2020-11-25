@@ -36,6 +36,13 @@
         </div>
       </v-card-text>
     </v-card>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+    >{{ snackbar.text }}</v-snackbar>
   </v-dialog>
 </template>
 
@@ -46,7 +53,12 @@ export default {
   data() {
     return {
       loading: false,
-      snackbar: false,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
       success: false,
     };
   },
@@ -58,7 +70,7 @@ export default {
   methods: {
     withdrawal() {       
       this.loading = true;
-      const url = "/api/auth/login";
+      const url = "/login";
       const mydata = {
         data: {
           "channelId": localStorage.getItem("wsboard.channelId"),
@@ -66,16 +78,16 @@ export default {
         }
       }
       setTimeout(() => {
-        http.delete("/board/channel/withdrawal", mydata)
+        http.delete("/channel/withdrawal", mydata)
         .then((response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.success = true;
           setTimeout(() => {
             this.$store.state.withdrawalModal = false;
             this.$router.go(-1);
           },1000)
         }).catch((err) => {
-          alert(err);
+          this.createSnackbar(err, 2000, "error");
         }) 
         
         this.loading = false;
@@ -83,7 +95,13 @@ export default {
     },
     close() {
       this.$store.state.withdrawalModal = false;
-    }
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   }
 };
 </script>

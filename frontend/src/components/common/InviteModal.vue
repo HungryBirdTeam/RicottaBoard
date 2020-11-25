@@ -1,14 +1,6 @@
 <template>
   <v-dialog max-width="600px" persistent v-model="dialog">
     <v-card>
-      
-      <v-snackbar
-        app
-        top
-        v-model="snackbar"
-        timeout="2000"
-        color="success"
-      >성공적으로 전송 되었습니다</v-snackbar>
       <v-card-title>
         <h3>멤버 초대</h3>
       </v-card-title>
@@ -46,18 +38,26 @@
         </div>
       </v-card-text>
     </v-card>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar
+    >
   </v-dialog>
 </template>
 
 <script>
 import httpAuth from '../../http-common-auth';
+import * as authApi from '../../api/auth.js';
 
 export default {
   data() {
     return {
       memberList: [],
       member : '',
-      snackbar: false,
       valid: true,
       rules : {
         // required: value => !!value || 'Required.',
@@ -67,6 +67,12 @@ export default {
         },
       },
       colors: ['#fffacc', '#ffebba', '#ffd0b5', '#ffb2b2', '#6dc9c9', '#a5d8d8'],
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
     };
   },
   computed: {
@@ -74,17 +80,28 @@ export default {
       return this.$store.state.inviteModal;
     },
   },
+  destroyed() {
+    createSnackbar("성공적으로 초대 메일이 전송되었습니다", 2000, "success");
+  },
   methods: {
     submit() {
-      console.log('auth에 보내기')
-      const url = "/api/auth/invite";
+      //console.log('auth에 보내기')
       const mydata = {
-          "channelId": localStorage.getItem("wsboard.channelId"),
+          "channelId": this.$route.params.channelId,
+          "channelName": this.$route.params.channelName,
           "email": this.memberList,
+          "from":  this.$store.getters.userData.nickname
       }
-      console.log(mydata);
-      httpAuth.post(url, mydata)
-      this.$store.state.inviteModal = false;
+      //console.log(mydata);
+      
+      authApi.inviteUser(mydata,
+          res => {
+            this.$store.state.inviteModal = false; 
+          },
+          err => {
+            this.createSnackbar("문제가 발생하였습니다. 잠시후 다시 시도해주세요.", 2000, "error");
+          }    
+      );
     },
     append(valid) {
       if(!valid){ 
@@ -104,6 +121,12 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
     },
   }
 };

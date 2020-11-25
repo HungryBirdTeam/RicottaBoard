@@ -1,50 +1,52 @@
 <template>
   <v-app>
-    <v-main id="bg">
-        <Header v-if="!isBoard"/>
-      <!-- <Sidebar :isSidebar="isSidebar"/> -->
-      <!-- <Sidebar> </Sidebar> -->
+    <no-mobile v-show="isMobile"/>
+    <Loading :loading="LoadingStatus" :num="LoadingIcon"></Loading>
+    <v-main id="bg" v-if="!isMobile">
+      <Header v-if="!isBoard"/>
       <router-view id="container" />
     </v-main>
   </v-app>
 </template>
-<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>  
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script>
 import './assets/css/style.scss' 
 import Header from './components/common/Header.vue'
 import constants from './lib/constants' 
 import axios from 'axios'
+import Loading from './page/etc/loading.vue'
+import bus from "./utils/bus.js"
+import NoMobile from './page/etc/noMobile.vue'
 
 export default {
   name: "App",
   components: {
     Header,
+    Loading,
+    NoMobile,
     
   },
   created() {
+    bus.$on('start:Loading', this.startLoad);
+    bus.$on('end:Loading', this.stopLoad);
+
     let url = this.$route.name;
-    console.log(url);
     this.checkBoard(url);
    
     
 
-    
-    console.log("refresh!");
-    console.log(this.$store);
     const arr = document.cookie.split(";");
-    console.log(this.$store.getters.userData);
     const logInfo = {
       AccessData: "",
       AccessToken: "",
     };
     arr.forEach((element) => {
-      console.log("In App, element is : ", element);
+      //console.log("In App, element is : ", element);
       if (element.split("=")[0].trim() == "AccessToken") {
         // logInfo.AccessToken = element.split('=')[1];
         logInfo.AccessToken = element.split("=")[1];
       }
       if (element.split("=")[0].trim() == "AccessData") {
-        console.log("AccessData@");
         const a = element.split("=")[1].split("%2C");
         logInfo.AccessData = {
           email: unescape(a[0].split("%3A")[1]),
@@ -55,7 +57,7 @@ export default {
       }
     });
 
-    console.log("In App, logInfo is : ", logInfo);
+    //console.log("In App, logInfo is : ", logInfo);
 
     if (logInfo.AccessData != "" && logInfo.AccessData != "") {
       this.$store.commit("setDataAgain", logInfo);
@@ -71,7 +73,6 @@ export default {
 
     checkBoard(url) {
       let array = ["enter","join"];
-      console.log(url);
       let isBoard = false;
       array.map((path) => {
      
@@ -81,14 +82,47 @@ export default {
       });
       this.isBoard = isBoard;
     },
+
+    startLoad(){
+      
+      var rVar = Math.floor(Math.random() * 4);
+      this.LoadingIcon = rVar;
+
+      this.LoadingStatus = true;
+      
+    },
+    stopLoad(){
+      this.LoadingStatus = false;
+    }
   },
   data: function () {
     return {
       isHeader: true,
       isBoard: false,
       constants,
+      LoadingStatus: false,
+      LoadingIcon: 0,
+      isMobile: false,
     };
   },
+  mounted(){
+    
+
+    var device = "win16|win32|win64|mac|macintel";
+
+    if ( navigator.platform ) {
+      if ( device.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+          this.isMobile = false;
+      } else {
+          this.isMobile = true;
+      }
+      this.isMobile = !this.isMobile
+    }
+  },
+  beforeDestroy() {
+    bus.$off('start:Loading');
+    bus.$off('end:Loading');
+  }
 };
 </script>
 
@@ -117,4 +151,18 @@ export default {
   /* text-align: center; */
   color: #2c3e50;
 }
+
+.footerText{
+  text-decoration: none;
+  color: #000000;
+  font-size: 0.85vw;
+  display: block;
+  margin: auto;
+  width: fit-content
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 </style>

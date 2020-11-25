@@ -15,6 +15,8 @@
             label="상세설명"
             v-model="scheduler.event.content"
             prepend-icon="mdi-pencil"
+            auto-grow
+            rows="1"
           ></v-textarea>
           <v-row>
             <v-col cols="6" class="pb-0">
@@ -102,7 +104,7 @@ export default {
     return {
       startTimer: false,
       endTimer: false
-    };F
+    }
   },
   computed: {
     dialog() {

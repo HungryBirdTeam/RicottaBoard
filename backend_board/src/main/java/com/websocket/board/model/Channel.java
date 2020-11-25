@@ -7,6 +7,7 @@ import com.websocket.board.model.kanban.Kanban;
 import com.websocket.board.model.postit.Postit;
 import com.websocket.board.model.user.UserChannel;
 import lombok.*;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,38 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@DiffIgnore
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@JsonIgnoreProperties({"postitList", "scheduler", "kanban", "userList"})
+@JsonIgnoreProperties("userList")
 public class Channel implements Serializable {
 
-    //private static final long serialVersionUID = 6494678977089006639L;
-
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
-//    @Column(length = 36)
     @Id
     private String channelId;
     private String channelName;
-    private Long userCount; // 채팅방 인원수
-    private Long idCount;
-
-    @OneToMany(mappedBy = "channel")
-    @JsonManagedReference
-    @Builder.Default
-    private List<Postit> postitList = new ArrayList<>();
-
-    @OneToOne(mappedBy = "channel")
-    @JsonManagedReference
-    private Scheduler scheduler;
-
-    @OneToOne(mappedBy = "channel")
-    @JsonManagedReference
-    private Kanban kanban;
 
     @OneToMany(mappedBy = "channel")
     @JsonManagedReference
@@ -60,13 +42,6 @@ public class Channel implements Serializable {
 
     public Channel(String channelName) {
         this.channelName = channelName;
-    }
-
-    public Channel(String channelId, long idCount, String channelName, List<Postit> postitList) {
-        this.channelId = channelId;
-        this.idCount = idCount;
-        this.channelName = channelName;
-        this.postitList = postitList;
     }
 
 }

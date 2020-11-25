@@ -9,23 +9,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 public class Event implements Serializable {
 
-    @Id
-    @Column(nullable = false, name = "event_id")
+//    @Id
     private String id;
     private String name;
     private String content;
     private String start;
     private String end;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scheduler_id")
-    @JsonBackReference
-    private Scheduler scheduler;
 }

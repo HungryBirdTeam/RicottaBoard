@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 public class UserController {
 
     private final BoardClientService boardClientService;
     private final UserService userService;
 
-    @PostMapping("/auth/login")
+    @PostMapping("/user/login")
     @ResponseBody
     public LoginResponse createChannel(@RequestBody LoginRequest request) {
         // auth 서버로 로그인 요청 후 토큰과 사용자 정보 받기

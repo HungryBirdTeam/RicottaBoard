@@ -4,12 +4,12 @@
       <div class="d-flex">
 
         <div
-          v-for="column in this.$store.state.Kanban.states"
+          v-for="column in this.$store.state.kanban.states"
           :key="column.columnTitle"
           @click="kanbanClickEvent"
-          class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded mr-4"
+          class="kanban-column bg-gray-100 rounded-lg px-3 py-3 column-width rounded ml-2"
         >
-          <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.columnTitle}}</p>
+          <p class="text-gray-700 font-semibold font-sans tracking-wide text-sm">{{column.columnTitle}} | {{column.tasks.length }}</p>
           
           <draggable
             :list="column.tasks"
@@ -34,7 +34,7 @@
                     style="word-break:keep-all; "
                     
                   >
-                  {{task.taskTitle}}
+                  {{ task.taskTitle }}
                   </p>
                  
 
@@ -51,6 +51,7 @@
       </div>
     </div>
     
+    <!-- 클릭시 나오는 dialog -->
     <v-dialog max-width="600px" persistent v-model="dialog">
       <v-card>
         <v-card-title>
@@ -63,10 +64,39 @@
               prepend-icon="mdi-subtitles"
               v-model="newTask.taskTitle"
             ></v-text-field>
+            <v-row>
+              <!-- assign 멤버 -->
+              <v-col cols="6" class="member-modal py-0">
+                <div>
+                  <v-icon>mdi-account</v-icon>
+                  <span>멤버</span><br>
+                  <div  
+                    v-for="(member, idx) in newTask.taskAssigner" 
+                    :key="idx"
+                    class="assigner">
+                    {{ member }}
+                  </div>
+                  <v-icon class="add-member" @click="showMember()">mdi-plus</v-icon>
+                </div>
+                <memberModal 
+                  v-if="isMemberModal"
+                  :assigners="newTask.taskAssigner"
+                  @add-member="addAssigner"
+                  @close-member="isMemberModal=false"/>
+              </v-col>
+              <!-- Due date 설정 -->
+              <v-col cols="6" class="date-modal py-0">
+                <dateModal
+                @add-dates="addDates"
+                />
+              </v-col>
+            </v-row>
             <v-textarea
               label="내용"
               prepend-icon="mdi-pencil"
               v-model="newTask.taskContents"
+              auto-grow
+              rows="1"
             ></v-textarea>
             <div class="text-center">
               <v-btn text class="primary white--text mx-2 mt-3" @click="submit" v-if="isAdd">추가</v-btn>
@@ -81,20 +111,23 @@
 
 <script>
 import draggable from "vuedraggable";
+import memberModal from "./kanban/memberModal";
+import dateModal from "./kanban/dateModal";
 
 export default {
   name: "App",
   components: {
     draggable,
+    memberModal,
+    dateModal,
   },
-  props:{kanban:Object}
-  ,
+  props:{kanban:Object},
   data() {
     return {
       task: {
         taskTitle:"",
         taskContents:"",
-        taskAssigner:"",
+        taskAssigner:[],
       },
       states: [
         {
@@ -115,9 +148,11 @@ export default {
       newTask: {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
+        taskDates : [],
       },
       newColumnTitle: '',
+      isMemberModal: false,
     };
   },
   methods: {
@@ -137,13 +172,13 @@ export default {
       this.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.splice(index, 1);
-      this.$store.state.Kanban.states
+      this.$store.state.kanban.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.splice(index, 1);
       this.$store.commit('toggleUpdate');
     },
     showTask(columnTitle, task) {
-       var index = this.states
+      var index = this.states
         .find((column) => column.columnTitle === columnTitle)
         .tasks.indexOf(task);
         this.newColumnTitle = columnTitle
@@ -153,12 +188,32 @@ export default {
     },
     submit() {
       this.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
-      this.$store.state.Kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      this.$store.state.kanban.states.find((column) => column.columnTitle === this.newColumnTitle).tasks.push(this.newTask);
+      console.log("태스크 확인용: ", this.newTask.taskDates[0])
+      if(this.newTask.taskDates[0] === undefined) {
+        var event = {
+          "name": this.newTask.taskTitle, 
+          "content": this.newTask.taskContents, 
+        }
+      }
+      else {
+        var event = {
+          "name": this.newTask.taskTitle, 
+          "content": this.newTask.taskContents, 
+          "start": this.newTask.taskDates[0]+'T:00', 
+          "end": this.newTask.taskDates[0]+'T:00',
+        }
+        if(this.newTask.taskDates[1] !== undefined) {
+          event['end'] = this.newTask.taskDates[1]+'T:00';
+        }
+        this.$store.state.scheduler.events.push(event)
+      }
       this.dialog = false;
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
+        taskDates: [],
       }
       this.$store.commit('toggleUpdate');
     },
@@ -167,12 +222,24 @@ export default {
       this.newTask = {
         taskTitle : "",
         taskContents : "",
-        taskAssigner : "",
+        taskAssigner : [],
+        taskDates: [],
       }
+      this.$store.commit('toggleUpdate');
     },
     kanbanClickEvent({target}){
-      console.log(target);
       target.focus();
+    },
+    showMember() {
+      this.isMemberModal = true 
+    },
+    addAssigner(assigners) {
+      this.newTask.assigners = assigners
+      //console.log(assigners)
+      this.isMemberModal = false
+    },
+    addDates(dates) {
+      this.newTask.taskDates = dates
     },
   },
 };
@@ -193,14 +260,8 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
 }
 .kanban 
 {
-  /* background-color: #F5F5F5; */
-  /* background-color: white; */
-  
   padding: 15px;    
-  /* box-shadow: .5rem 1rem 2rem rgba(0,0,0,.4)!important; */
   border-radius: 5px;
-  /* width: 810px; */
-
 }
 .kanban-column {
   background-color: #F5F5F5;
@@ -225,4 +286,20 @@ but you'd use "@apply border opacity-50 border-blue-500 bg-gray-200" here */
   min-height: 50px;
   border: dashed 2px #d6d6d6;
 }
+
+.assigner {
+  display: inline-block;
+  background: #eeeeee;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+
+.add-member{
+  background: #D3D3CA;
+  border-radius: 16px;
+  padding: 4px;
+  margin-left: 8px;
+}
+
 </style>

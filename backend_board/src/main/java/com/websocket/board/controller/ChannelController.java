@@ -1,41 +1,46 @@
 package com.websocket.board.controller;
 
-import com.websocket.board.config.JwtTokenProvider;
 import com.websocket.board.model.Channel;
-import com.websocket.board.model.LoginInfo;
 import com.websocket.board.payload.*;
 import com.websocket.board.repo.ChannelRedisRepository;
+import com.websocket.board.repo.ChannelRepository;
 import com.websocket.board.service.BoardClientService;
 import com.websocket.board.service.ChannelService;
 import com.websocket.board.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/board")
+//@RequestMapping("/api/board") // 로컬
 public class ChannelController {
 
     private final ChannelRedisRepository channelRedisRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final ChannelRepository channelRepository;
     private final ChannelService channelService;
     private final UserService userService;
     private final BoardClientService boardClientService;
 
-//    @GetMapping("/channels")
-//    @ResponseBody
-//    public List<Channel> channel() {
-//        List<Channel> channels = channelRedisRepository.findAllChannel();
-//        channels.stream().forEach(channel -> channel.setUserCount(channelRedisRepository.getUserCount(channel.getChannelId())));
-//        return channels;
-//    }
+    @GetMapping("/channels")
+    public List<Channel> findAllChannels() {
+        List<Channel> channels = channelRepository.findAll();
+        return channels;
+    }
+
+    @PostMapping("/channel/validation")
+    public ValidUserWithChannelResponse validUserWithChannel(
+            @RequestBody ValidUserWithChannelRequest validUserWithChannelRequest) {
+
+        if(channelService.validUserWithChannel(validUserWithChannelRequest)) {
+            return new ValidUserWithChannelResponse().builder().isValid(true).build();
+        } else {
+            return new ValidUserWithChannelResponse().builder().isValid(false).build();
+        }
+    }
+
     @PostMapping("/channels")
-    @ResponseBody
     public List<Channel> myChannel(
             @RequestHeader(name = "Authorization") String Authorization,
             @RequestBody UserInfoRequest userInfoRequest) {
@@ -51,7 +56,6 @@ public class ChannelController {
     }
 
     @PostMapping("/channel")
-    @ResponseBody
     public Channel createChannel(
             @RequestHeader(name = "Authorization") String Authorization,
             @RequestBody CreateChannelRequest createChannelRequest) {
@@ -70,7 +74,6 @@ public class ChannelController {
     }
 
     @PostMapping("/channel/invitation")
-    @ResponseBody
     public InviteChannelResponse enterInvitedChannel(@RequestBody InviteChannelRequest inviteChannelRequest) {
         String channelId = inviteChannelRequest.getChannelId();
         // save channel in mariadb
@@ -85,7 +88,6 @@ public class ChannelController {
     }
 
     @DeleteMapping("/channel/withdrawal")
-    @ResponseBody
     public WithdrawalResponse channelInfo(@RequestBody WithdrawalRequest request) {
         //channelRedisRepository.removeUserEnterInfo(request.getChannelId());
 
@@ -95,16 +97,5 @@ public class ChannelController {
         }
         channelService.withdrawalChannel(request);
         return new WithdrawalResponse().builder().message("Success Withdrawal Channel").success(true).build();
-    }
-
-    @GetMapping("/user")
-    @ResponseBody
-    public LoginInfo getUserInfo() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        return LoginInfo.builder()
-                .name(name)
-                .token(jwtTokenProvider.generateToken(name))
-                .build();
     }
 }

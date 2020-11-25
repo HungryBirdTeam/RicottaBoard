@@ -40,10 +40,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
 }
-
-ol, ul {
-  list-style: none;
+footer {
+  z-index: -1;
 }
+/* ol, ul {
+  list-style: none;
+} */
 
 blockquote, q {
   quotes: none;
@@ -210,7 +212,7 @@ body {
   /* overflow-x: auto; */
   line-height: 1;
   /* overflow-y: auto; */
-  min-width: 1024px;
+  /* min-width: 1024px; */
 }
 
 .wrap {
@@ -406,7 +408,7 @@ h2 {
 }
 
 #header + div {
-  padding-top: 60px;
+  padding-top: 50px;
 }
 
 /* media query */

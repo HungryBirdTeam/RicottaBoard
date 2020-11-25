@@ -1,144 +1,261 @@
 <template>
-  <div id="header" style="background: rgb(0,0,0); border:solid 0px;
-">
-    <h1>
-      <router-link 
-        class="white--text"
-        style="color:rgb(0,0,0);"
-        v-if="this.$store.getters.accessToken != ''"
-        v-bind:to="{name:constants.URL_TYPE.POST.MAIN}"
-      >
-        <img
-          style="position:absolute;top:0px;  margin-top:7px; width:auto;height:50px;"
-          src="../../assets/img/Logo.png"
-        />
-      </router-link>
-      <router-link
-        class="white--text"
-        style="color:rgb(0,0,0);"
-        v-if="this.$store.getters.accessToken == ''"
-        v-bind:to="{name:constants.URL_TYPE.POST.ENTER}"
-      >
-        <img
-          style="position:absolute;top:0px;  margin-top:7px; width:auto;height:50px;"
-          src="../../assets/img/Logo.png"
-        />
-      </router-link>
-    </h1>
-    <div class="right">
-      <template v-if="this.$store.getters.accessToken != ''">
-        <div class="headBox mt-1">
-          환영합니다!
-          <router-link style="margin-left: 20px; padding-top:5px"
-            v-bind:to="{name:constants.URL_TYPE.USER.MYPAGE}"
-            class="btn--text"
-          >{{(this.$store.getters.userData.nickname)}}</router-link>
+  <div id="header">
+    <button @click="goWhere()">
+      <img class="headLogoIcon"
+        style=""
+        src="../../assets/img/LogoIcon.png"
+      />
+      <span class="headLogoTitle">Ricotta Board</span>
+    </button>
 
-          <button @click="logout">로그아웃</button>
+    <!-- <div class="right"> -->
+      <template v-if="this.$store.getters.accessToken != ''">
+        <div class="headBox">
+          <router-link style="margin-left: 20px; padding-top:5px"
+            :to="{name:constants.URL_TYPE.USER.MYPAGE}"
+            class="btn--text"
+          >
+          {{(this.$store.getters.userData.nickname)}}
+          </router-link>
+          님 환영합니다!
+          <v-btn dark class="allbtn" style="height: 100%;  " outlined color="white" @click="logout">Logout</v-btn>
+        </div>
+      </template>
+      <template v-if="this.$store.getters.accessToken == ''">
+        <div class="headBox">
+          <router-link style="margin-left: 20px; padding-top:5px"
+            :to="{name:constants.URL_TYPE.USER.JOIN}"
+          >
+            <v-btn style="height: 100%;  " dark class="allbtn px-5 py-2" outlined color="white">Sign up</v-btn>
+          </router-link>
+
+          <v-dialog  width="350px ">
+            <template v-slot:activator="{ on, attrs }">                                    
+              <v-btn
+                dark 
+                class="allbtn px-5 py-2"
+                v-bind="attrs"
+                v-on="on"
+                outlined
+                color="white"
+                style="height: 100%;  "
+                v-if="$store.getters.accessToken == ''"
+              >
+              LOGIN
+              </v-btn>
+            </template>
+            <v-card style="width:350px; height: 280px">
+              <v-card-title>LOGIN</v-card-title>
+              <v-card-text style=" background-color:white; height:90px; padding-bottom:0"><Login style="height:120px;padding-bottom:0"/></v-card-text>
+            </v-card>
+          </v-dialog>          
         </div>
       </template>
 
       <!-- <button @click="check">
                         스토어 체크
       </button>-->
+    <!-- </div> -->
+    <div class="menuBox">
+      <v-menu>
+
+        <template v-slot:activator="{ on, attrs }" 
+            justify="space-around"> 
+          <v-btn
+            color="primary"
+            v-bind="attrs"
+            v-on="on"
+            style="height:100%;"  
+          >
+            <v-icon color="secondary">mdi-menu</v-icon>
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-list>
+            <v-list-item>
+              <v-list-item-content  v-if="this.$store.getters.accessToken != ''">
+                <router-link style="margin-left: 20px; padding-top:5px"
+                  :to="{name:constants.URL_TYPE.USER.MYPAGE}"
+                  class="btn--text"
+                >
+                {{(this.$store.getters.userData.nickname)}}
+                </router-link>
+                님 환영합니다!
+              </v-list-item-content>
+
+              <v-list-item-content v-else>
+                로그인을 먼저 해주세요.
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+
+
+          <v-divider></v-divider>
+            
+
+          <v-list>
+            <v-list-item v-if="this.$store.getters.accessToken != ''">
+              <div>
+                <v-btn dark class="allbtn" style="height: 100%;  " outlined color="black" @click="logout">Logout</v-btn>
+              </div>
+            </v-list-item>
+            <v-list-item v-else>
+              <div style="margin: auto;">
+                <v-dialog  width="350px ">
+                  <template  v-slot:activator="{ on, attrs }">
+                    <a color="primary" v-on="on" v-bind="attrs" style="margin:auto;"> 
+                    LOGIN</a>
+                  </template>
+                  <v-card style="width:350px; height: 280px">
+                    <v-card-title>LOGIN</v-card-title>
+                    <v-card-text style=" background-color:white; height:90px; padding-bottom:0"><Login style="height:120px;padding-bottom:0"/></v-card-text>
+                  </v-card>
+                </v-dialog>          
+              </div>
+            </v-list-item>
+            <v-list-item>
+                <router-link style="margin: auto;"
+                  :to="{name:constants.URL_TYPE.USER.JOIN}"
+                >
+                Sign up
+                  </router-link>
+            </v-list-item>
+          </v-list>
+        </v-card>
+
+      </v-menu>
     </div>
   </div>
 </template>   
 
 <script>
-import LoginModal from "./LoginModal";
 import constants from "../../lib/constants";
 import cookies from "vue-cookie";
 import logo from "../../assets/img/Logo.png";
+import Login from '@/page/user/Login'
+
 export default {
   name: "Header",
   components: {
-    LoginModal,
+    Login,
   },
   props: ["isHeader"],
   watch: {
-    // modal: function (val) {
-    //   console.log(val);
-    // },
   },
   created() {
     const arr = document.cookie.split(";");
-    // console.log("nickname is : ",
-    // decodeURI(this.$store.getters.userData.nickname));
-    // console.log("arr is ");
-    // console.log("arr is : ",arr);
-    // arr.forEach((element) => {
-    //   if (element.split("=")[0] == "AccessData") {
-    //     this.userinfo = element.split("=")[1];
-    //     console.log(this.userinfo);  
-    //   }
-    // });
-
-    // if(document.cookie.split(";")[0].split('=')[0])
   },
   computed: {},
   methods: {
-    // openModal(){
-    //     this.modal = true;
-    //     this.$store.commit("toggleModal");
-    // },
-    closeModal() {
-      this.modal = false;
-      this.$store.commit("toggleModal");
+    goWhere() {
+      if (this.$store.getters.accessToken == '') {
+        this.$router.push({ name: constants.URL_TYPE.POST.ENTER })
+      } else {
+        this.$router.push({ name: constants.URL_TYPE.POST.MAIN })
+      }
     },
     async logout() {
       this.$store.commit(constants.METHODS.LOGOUT_USER);
       try {
         await this.$router.push("/");
       } catch (error) {
-        console.log("route same path!");
+        //console.log("route same path!");
       }
     },
     check() {
-      console.log(this.$store.state);
-    },
-    toggle() {
-      this.t = !this.t;
-    },
-    testMethod(email, password) {
-      console.log(email, password);
-
-      var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-      if (exptext.test(email) == false) {
-        //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
-        alert("이메일형식이 올바르지 않습니다.");
-      } else if (password == "") {
-        alert("비밀번호를 입력해주세요");
-      } else {
-        const result = this.$store.dispatch(constants.METHODS.LOGIN_USER, {
-          email,
-          password,
-        });
-        console.log(this.userData);
-        this.modal = !this.modal;
-        this.email = "";
-      }
-
-      this.password = "";
+      //console.log(this.$store.state);
     },
   },
   data: function () {
     return {
       constants,
-      keyword: "",
-      modal: this.$store.getters.modal,
       userinfo: "",
       email: "",
       password: "",
+
+      fav: true,
+      menu: false,
+      message: false,
+      hints: true,
     };
   },
 };
 </script>
 <style>
-.headBox{
-  color:rgba(255, 255, 255, 0.75);
-  line-height: 25px;
+#header {
+  background:#0d875C;
+  border:solid 0px;
+  height: 50px;
+  padding: 10px 0px 10px 0px;
 }
+.headLogoIcon {
+  position: absolute;
+  top: 0px;
+  padding: 14px;
+  padding: 9px;
+  margin: 0px 10px;
+  width: auto;
+  height: 50px;
+
+}
+.headLogoTitle {
+  left: 64px;
+  top: 5px;
+  font-family: "Candara";
+  font-size: 27px;
+  position: absolute;
+  color: #F5F5EC;
+}
+
+#header a{
+  color: white;
+  text-decoration: none;
+
+}
+
+.toolbar {
+  background:#0d875C;
+  width: 100vw;
+}
+
+.allbtn {
+  text-align: center;
+  /* color: red !important; */
+  height: 3.8vh
+}
+
+.headBox{
+    color:rgba(255, 255, 255, 0.75);
+    line-height: 25px;
+    height: 100%;
+    float:right;
+}
+
+.headBox :nth-child(n+2) {
+    margin: 0px 16px;
+}
+
+@media screen and (min-width: 701px){
+  .headBox{
+  }
+  .menuBox {
+    display: none;
+  }
+}
+@media screen and (max-width: 700px) {
+  .headBox {
+    display: none;
+  }
+  .menuBox {
+    display: block;
+    float: right;
+    height: 100%;
+    margin: 0px 16px;
+  }
+}
+
+
 </style>
 
 

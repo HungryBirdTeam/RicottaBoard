@@ -1,5 +1,5 @@
 <template>
-  <div class="user" id="passwordFind" style="background-color:#f2f2f2">
+  <div class="user" id="passwordFind" style="background-color:#f5f5ec">
     <div class="wrapC table">
       <div class="myBox">
         <div class="middle">
@@ -17,26 +17,40 @@
             </div>
 
             <div class="input-wrap">
-              <button class="btn" v-on:click="findMyPassword">비밀번호 재설정</button>
+              <button class="btn" v-on:click="findMyPassword" style="background-color:#0d875C;">비밀번호 재설정</button>
             </div>
           </div>
           <div class="form-wrap" v-else>{{this.$store.getters.status}}</div>
         </div>
       </div>
     </div>
+    <footer
+      class="mx-auto wrap"
+      style="text-align:center; position:absolute; bottom:10px;"
+    >
+      <p class="footerText" @click="teamPage()">ⓒHungrybird</p>
+    </footer>
+    <v-snackbar 
+        app
+        bottom
+        v-model="snackbar.isPresent"
+        :timeout="snackbar.timeout"
+        :color="snackbar.color"
+      >{{ snackbar.text }}</v-snackbar>
   </div>
 </template>
 
 <script>
 import "../../assets/css/user.scss";
 import constants from "../../lib/constants";
+import bus from '../../utils/bus';
 
 export default {
   components: {},
   methods: {
     findMyPassword() {
         if(this.userEmail == ""){
-            alert("이메일을 입력해주세요.");
+            this.createSnackbar("이메일을 입력해주세요.", 2000, "error");
             return;
         }
 
@@ -45,16 +59,34 @@ export default {
         this.userEmail
       );
     },
+    teamPage() {
+      this.$router.push('/@hungrybird')
+    },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
   data: () => {
     return {
       userEmail: "",
       constants,
+      snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 1000,
+        color: "error",
+      },
     };
   },
   created() {
     this.$store.commit("toggleModal");
   },
+  mounted() {
+    bus.$emit('end:Loading');
+  }
 };
 </script>
 

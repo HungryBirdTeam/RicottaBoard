@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color:#f5f5ec">
     <v-container fluid>
       <div class="d-flex justify-space-between head">
         <div class="head-title">나의 모임목록 </div>
@@ -16,12 +16,13 @@
         <v-icon>mdi-view-list</v-icon>
       </v-btn>
 
-      <v-row style="width:80%; margin:auto;" v-if="howto">
+      <v-row v-if="howto">
         <v-col
           v-for="card in listChannels"
           :key="card.channelId"
-          cols="4"
+          cols="6"
           md="4"
+          lg="3"
           @click="enterRoom(card.channelId, card.channelName)"
         >
           <v-hover v-slot:default="{ hover }">
@@ -46,7 +47,7 @@
                   >
                     <br />
                     <br />
-                    <div class="btn">입장하기</div>
+                    <div class="channel-hover">입장하기</div>
                   </div>
                 </v-expand-transition>
                 <v-card-title v-text="card.channelName"></v-card-title>
@@ -75,7 +76,7 @@
                     style="height: 100%; align-items: center; bottom: 0; justify-content: center; opacity: .5; position: absolute; width: 100%; ">
                     <br />
                     <br />
-                    <span class="hover">생성하기</span>
+                    <span class="channel-hover">생성하기</span>
                   </div>
                 </v-expand-transition>
                 <v-card-title >
@@ -101,29 +102,36 @@
 
     <v-dialog max-width="600px" persistent v-model="modal">
       <v-card>
-      <v-card-title>
-        <h3>모임 생성</h3>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form" v-model="valid" @submit.prevent>
-          <div class="mail-form">
-            <v-text-field
-              label="모임 이름"
-              v-model="channel_name"
-              prepend-icon="mdi-account-supervisor"
-              :rules="rules"
-              counter="20"
-               @keyup.enter="createChannel(valid)"
-            ></v-text-field>
+        <v-card-title>
+          <h3>모임 생성</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form" v-model="valid" @submit.prevent>
+            <div class="mail-form">
+              <v-text-field
+                label="모임 이름"
+                v-model="channel_name"
+                prepend-icon="mdi-account-supervisor"
+                :rules="rules"
+                counter="20"
+                @keyup.enter="createChannel(valid)"
+              ></v-text-field>
+            </div>
+          </v-form>
+          <div class="text-center">
+            <v-btn text class="primary white--text mx-2 mt-3" @click="createChannel(valid)">생성</v-btn>
+            <v-btn text class="primary white--text mx-2 mt-3" @click="close">닫기</v-btn>
           </div>
-        </v-form>
-        <div class="text-center">
-          <v-btn text class="primary white--text mx-2 mt-3" @click="createChannel(valid)">생성</v-btn>
-          <v-btn text class="primary white--text mx-2 mt-3" @click="close">닫기</v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-snackbar 
+      app
+      bottom
+      v-model="snackbar.isPresent"
+      :timeout="snackbar.timeout"
+      :color="snackbar.color"
+    >{{ snackbar.text }}</v-snackbar>
   </div>
 </template>
 
@@ -135,6 +143,8 @@ import Stomp from "stomp-websocket";
 import axios from "axios";
 import http from "../../http-common.js";
 import lodash from "lodash";
+import * as channelApi from "../../api/channel";
+import bus from '../../utils/bus';
 
 export default {
   data: () => ({
@@ -144,6 +154,12 @@ export default {
     modal: false,
     rules: [v => ((4 <= v.length) && (v.length<= 20 ))|| '모임 이름은 4-20자여야 합니다!'],
     valid: false,
+    snackbar: {
+        isPresent: false,
+        text: "",
+        timeout: 2000,
+        color: "error",
+      },
   }),
   created() {
     this.findAllChannel();
@@ -158,68 +174,69 @@ export default {
     getRandomImage(idString) {
       return `https://picsum.photos/seed/${idString}/200/300`;
     },
-   findAllChannel: function () {
-      // if(this.$cookie.get('AccessToken') === null){
-      //   return
-      // }
-      http.post("/board/channels", {email: this.$store.state.userData.email}, {
-          headers: {
-            "Authorization" : "Bearer " + this.$store.getters.accessToken
-          }
-      })
-        .then((response) => {
-          console.log(response);
+    findAllChannel() {
+      let data = {email: this.$store.state.userData.email}
+      let config = {
+        headers: {
+          "Authorization" : "Bearer " + this.$store.getters.accessToken
+        }
+      }
+      channelApi.findAllChannel(data, config, 
+        (response) => {
+          //console.log(response);
           // prevent html, allow json array
           if (
             Object.prototype.toString.call(response.data) === "[object Array]"
           )
             this.channels = response.data;
-        });
+        },
+        (err) => {
+          //console.log(err)
+        }
+      );
     },
     createChannel: function (valid) {
       if(this.$cookie.get('AccessToken') === null){
         return
       }
       if (!valid) {
-        alert("모임 이름을 입력해 주십시오.");
+        this.createSnackbar("모임 이름을 입력해 주십시오.", 2000, "error");
         return;
       } else {
-        // var params = new URLSearchParams();
-        // params.append("channelName", this.channel_name);
         const params = {
           channelName: this.channel_name,
           email: this.$store.state.userData.email,
         };
-        console.log(params);
-        // params.append("token", this.$store.getters.accessToken)
+        //console.log(params);
         const config = {
           headers: {
             Authorization: "Bearer " + this.$store.getters.accessToken,
           },
         };
-        http
-          .post("/board/channel", params, config)
-          .then((response) => {
-            alert(response.data.channelName + "채널 개설에 성공하였습니다.");
+        channelApi.createChannel(params, config,
+          (response) => {
+            this.createSnackbar("채널 개설에 성공하였습니다.", 2000, "success");
             this.channel_name = "";
             this.findAllChannel();
-          })
-          .catch((response) => {
-            alert("채널 개설에 실패하였습니다.");
-          });
+          },
+          (err) => {
+            this.createSnackbar("채널 개설에 실패하였습니다.", 2000, "error");
+          }
+        );
       }
       this.modal=false;
     },
     enterRoom: function (channelId, channelName) {
-      localStorage.setItem("wsboard.channelId", channelId);
-      localStorage.setItem("wsboard.channelName", channelName);
-      location.href = "/channel/" + channelId;
+      // localStorage.setItem("wsboard.channelId", channelId);
+      // localStorage.setItem("wsboard.channelName", channelName);
+      // location.href = "/channel/" + channelId;
+      this.$router.push(`/channel/${channelId}/${channelName}`)
     },
     
     openModal() { // 모임생성 모달
         // 로그인 되어있지 않은 사용자 -> 로그인 모달띄우기 
       if(this.$cookie.get('AccessToken') === null){
-        console.log('openMODAL');
+        //console.log('openMODAL');
         this.$store.commit("toggleModal");
         return
       } else { // 로그인 되어있는 사용자 -> 모임 생성 모달 띄우기
@@ -229,11 +246,20 @@ export default {
     close() {
       this.modal = false;
     },
+    createSnackbar(text, timeout, color) {
+      this.snackbar.isPresent = true;
+      this.snackbar.text = text;
+      this.snackbar.timeout = timeout;
+      this.snackbar.color = color;
+    },
   },
   computed: {
     listChannels() {
       return _.orderBy(this.channels, "channelName", "asc");
     },
+  },
+  mounted() {
+    bus.$emit('end:Loading');
   },
 };
 </script>
@@ -251,7 +277,7 @@ export default {
   font-size: 1.875em;
   font-weight: 600;
 }
-.hover {
+.channel-hover {
   font-size: 1.5rem;
   color: white;
 }

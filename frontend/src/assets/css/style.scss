@@ -22,7 +22,7 @@ time, mark, audio, video {margin: 0;padding: 0;border: 0;font-size: 100%;vertica
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {display: block;}
 
-ol, ul {list-style: none;}
+// ol, ul {list-style: none;}
 blockquote, q {quotes: none;}
 blockquote:before, blockquote:after,
 q:before, q:after {content: '';content: none;}  
@@ -100,7 +100,7 @@ body {
     // overflow-x: auto;
     line-height: 1;
     // overflow-y: auto;
-    min-width:1024px;
+    // min-width:1024px;
     text-align: left; 
 }
 

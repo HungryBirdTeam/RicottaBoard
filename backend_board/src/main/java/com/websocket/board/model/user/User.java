@@ -2,11 +2,13 @@ package com.websocket.board.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@DiffIgnore
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

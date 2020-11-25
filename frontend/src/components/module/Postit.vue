@@ -1,21 +1,18 @@
 <template>
     <div class="MoveableBox paper">
-        <textarea 
+        <input 
         name=""
         class="notMoveBox paperTitle"
-        cols="30" rows="1"
-        v-model="postit.title"
-        @click.prevent.self
-        @keyup.tab="$store.commit('toggleUpdate')"
+        maxlength="15"
+        v-model="post.title"
         placeholder="title here"
-        ></textarea>
+        >
 
         <textarea
         name=""
         class="notMoveBox paperContent"
         cols="30" rows="5"
         v-model="postit.contents"
-        @keyup.tab="$store.commit('toggleUpdate')"
         placeholder="content here.."
         ></textarea>
     </div>
@@ -23,19 +20,53 @@
 
 <script>
 import image from '../../assets/img/postIt.png'
+
+var postSet;
 export default {
     data() {
-      return {}
+      return {
+        post: Object,
+        isChange: false,
+      }
     },
     props: {
       postit: Object,
     },
-    // mounted() {
-    //   this.title = 'title!!'
-    //   this.content = postit.contents 
-    //   // console.log(postit)
-    // },
+    watch: {
+      'post.title': function() {
+        this.changePost();
+      },
+      'post.contents': function() {
+        this.changePost();
+      },
+      'postit.title': function() {
+        this.isChange = true;
+        this.recvPost();
+      },
+      'postit.contents': function() {
+        this.isChange = true;
+        this.recvPost();
+      },
+    },
     methods: {
+      changePost() {
+        if (this.isChange) {
+          this.isChange = false
+        } else {
+          if (postSet) {
+            clearTimeout(postSet);
+          }
+          postSet = setTimeout(() => {
+            this.$emit('changePost', this.post);
+          }, 500);
+        }
+      },
+      recvPost() {
+        this.post = this.postit;
+      }
+    },
+    created() {
+        this.recvPost();      
     },
 
 }
@@ -43,9 +74,8 @@ export default {
 
 <style>
 .paper{  
-  /* background-color: yellow; */
-  background-image: url('../../assets/img/postIt.png');
-  background-size: 100% 100%;
+  background-image: url('../../assets/img/postIt.png') !important; 
+  background-size: 100% 100% !important;
   width: 300px;
   height: 300px;
   position: absolute;
@@ -59,21 +89,30 @@ export default {
 .paperTitle{
   font-size: 30px;
   min-height: 50px;
-  /* height: 10%; */
   height: auto;
-  resize:none;
-  /* padding: 20px 20px 1px 20px; */
   padding: 10px 10px 1px 10px;
+  overflow-x: hidden;
+  width: 100%;
 }
 .paperContent{
-  height: 90%;
+  height: 80%;
   resize: none;
-  /* padding: 20px; */
   padding: 10px;
+  font-size: 18px;
   overflow: hidden;
+  word-wrap: break-word;
+  width: 100%;
 }
 .MoveableBox {
   padding: 30px;
   position: absolute;
+  background: linear-gradient(-135deg,  #FC887C 20px, transparent 20px);
+}
+
+a :hover{
+  text-decoration: none !important;
+}
+.rCS53a2i7 {
+  z-index: 0 !important;
 }
 </style>
